@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.report.dao.ResourceReportMapper">
+    <resultMap type="com.qftx.tsm.report.bean.ResourceReportBean" id="BaseMap">
+		<result column="ID" property="id" jdbcType="VARCHAR"/>
+		<result column="RES_CUST_ID" property="resCustId" jdbcType="VARCHAR"/>
+		<result column="ORG_ID" property="orgId" jdbcType="TIMESTAMP"/>
+		<result column="INFORMATION_ERROR" property="informationError" jdbcType="DECIMAL"/><!-- 信息错误(放入公海):1为放入信息错误公海 -->
+		<result column="CALLED" property="called" jdbcType="DECIMAL"/><!-- 接通数，1为已经有效接通过 -->
+		<result column="CALL_LENGTH" property="callLength" jdbcType="DECIMAL"/><!-- 通话时长：保存所有通话中最长通话时长 -->
+    </resultMap>   
+    	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="resCustId != null" >
+			    RES_CUST_ID,
+			</if>
+			<if test="informationError != null" >
+			    INFORMATION_ERROR,
+			</if>
+			<if test="called != null" >
+			    CALLED,
+			</if>
+			<if test="callLength != null" >
+			    CALL_LENGTH,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="resCustId != null">
+			    #{resCustId,jdbcType=VARCHAR},
+			</if>
+			<if test="informationError != null">
+			    #{informationError,jdbcType=DECIMAL},
+			</if>
+			<if test="called != null" >
+			    #{called,jdbcType=DECIMAL},
+			</if>
+			<if test="callLength != null" >
+			    #{callLength,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	    </sql>
+
+
+	    <!-- 实体表名 -->
+	    <sql id="table_name">tsm_report_resource</sql>
+	
+		<select id="insertTsmReportResource" parameterType="com.qftx.tsm.report.bean.ResourceReportBean">
+        INSERT INTO tsm_report_resource
+		<include refid="insert_into_field" />
+	    </select>
+	    
+	    
+	     <select id="updateResource" parameterType="com.qftx.tsm.report.bean.ResourceReportBean">
+          UPDATE 
+	      tsm_report_resource 
+	      <trim prefix="set" suffixOverrides=",">
+	      <if test="informationError != null">
+	       INFORMATION_ERROR=1,
+		  </if>
+		  <if test="called != null">
+	       CALLED=1,
+		  </if>
+		   <if test="callLength != null">
+	       CALL_LENGTH= #{callLength,jdbcType=DECIMAL},
+		  </if>
+		  </trim>
+          WHERE
+	      org_id =#{orgId}
+          AND RES_CUST_ID =#{resCustId}
+	      </select>
+	      
+	      <select id="selectResource" parameterType="com.qftx.tsm.report.bean.ResourceReportBean" resultMap="BaseMap">
+          SELECT
+			t.ID,
+			t.ORG_ID,
+			t.RES_CUST_ID,
+			t.INFORMATION_ERROR,
+			t.CALLED,
+			t.CALL_LENGTH
+		  FROM
+	      tsm_report_resource t
+          WHERE
+	      t.org_id =#{orgId}
+          AND t.RES_CUST_ID =#{resCustId}
+	      </select>
+
+	</mapper>

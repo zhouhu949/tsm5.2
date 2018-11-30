@@ -1,0 +1,16 @@
+.shows-radio-boxs{width:100%;height:10px;}
+.shows-allorme-boxs{width:100%;height:30px;}
+.shows-allorme-boxs li{float:left;width:49%;height:100%;line-height:30px;}
+.shows-allorme-boxs li .iradio_minimal-green{margin:0px 5px 0 10px;}
+.shows-allorme-boxs1{width:100%;height:30px;}
+.shows-allorme-boxs1 li{float:left;width:49%;height:100%;line-height:30px;}
+.shows-allorme-boxs1 li .iradio_minimal-green{margin:0px 5px 0 30px;}
+
+/* 查看历史/返回按钮 */
+.ex-button{display:inline-block;width:96px;height:37px;line-height:38px;text-align:center;border:1px solid #ccc;color:#3777ff;background-color:#fff;border-radius:2px;font-size:14px;cursor:pointer;position:absolute;right:-98px;top:0;}
+/* 底部提示信息 */
+.reminder{font-size: 14px; }
+/* 历史滚动样式 */
+.hyx-history-box{margin-bottom:20px;}
+.hyx-history-scroll-tablebox{overflow-y:auto;height:341px;}/* 高度 = 10行数据+表头 */
+.hyx-history-loading-mask{z-index:9;background-color:rgba(255,255,255,0.3)}

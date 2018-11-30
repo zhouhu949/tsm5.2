@@ -1,0 +1,13 @@
+/* CSS Document */
+*{ margin:0; padding:0;}
+img{ border:0;}
+li{ list-style-type:none;}
+body{ background:url(../images/bj1.jpg) repeat-x;}
+.login_bj{background:url(../images/bj.jpg) no-repeat center top;/* min-height:799px; */}
+.login_logo{ width:708px; margin:0px auto;}
+.login_logo img{ margin-top:100px;}
+#login{ background:url(../images/login_kk.png) no-repeat; width:381px; height:291px; margin:35px auto; padding-top:70px; font-size:12px; color:#333; letter-spacing:2px;}
+.login_txt{ height:23px; width:182px; border:solid 1px #68B2E3;}
+.login_txt1{ height:23px; width:98px; border:solid 1px #68B2E3;}
+.dl_btn{ background:url(../images/dl.jpg) no-repeat; width:57px; height:23px; border:none 0; cursor:pointer;}
+.login_wz{ text-align:center; margin-top:60px; color:#e7f7ff; font-family:"Microsoft YaHei",微软雅黑,"Microsoft JhengHei",华文细黑,STHeiti,MingLiu; font-size:14px;}

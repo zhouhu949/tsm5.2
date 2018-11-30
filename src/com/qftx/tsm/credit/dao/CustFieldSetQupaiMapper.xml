@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.credit.dao.CustFieldSetQupaiMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.CustFieldSet" >
+    <id column="FIELD_ID" property="fieldId" jdbcType="VARCHAR" />
+    <result column="ENABLE" property="enable" jdbcType="DECIMAL" />
+    <result column="FIELD_NAME" property="fieldName" jdbcType="VARCHAR" />
+    <result column="IS_QUERY" property="isQuery" jdbcType="DECIMAL" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP"/>
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="FIELD_CODE" property="fieldCode" jdbcType="VARCHAR" />
+    <result column="FIELD_LENGTH" property="fieldLength" jdbcType="VARCHAR" />
+    <result column="FIELD_VALUE" property="fieldValue" jdbcType="VARCHAR" />
+    <result column="IS_REQUIRED" property="isRequired" jdbcType="DECIMAL" />
+    <result column="state" property="state" jdbcType="DECIMAL" />
+   	<result column="is_read" property="isRead" jdbcType="DECIMAL" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="DECIMAL" />
+  </resultMap>
+  	
+  	<!-- 实体表名 -->
+	<sql id="table_name">TSM_CUST_FIELD_SET_QUPAI</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		  <if test="fieldId != null" >
+	        AND FIELD_ID = #{fieldId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="enable != null" >
+	        AND ENABLE = #{enable,jdbcType=DECIMAL}
+	      </if>
+	      <if test="fieldName != null" >
+	        AND FIELD_NAME = #{fieldName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="isQuery != null" >
+	        AND IS_QUERY = #{isQuery,jdbcType=DECIMAL}
+	      </if>
+	      <if test="sort != null" >
+	        AND SORT = #{sort,jdbcType=DECIMAL}
+	      </if>
+	      <if test="inputerAcc != null" >
+	        AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="inputdate != null" >
+	        AND INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="modifierAcc != null" >
+	        AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="modifydate != null" >
+	        AND MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="fieldCode != null" >
+	        AND FIELD_CODE = #{fieldCode,jdbcType=VARCHAR}
+	      </if>	   
+	      <if test="fieldLength != null" >
+	        AND FIELD_LENGTH = #{fieldLength,jdbcType=VARCHAR}
+	      </if>	   	 
+	      <if test="fieldValue != null" >
+	        AND FIELD_VALUE = #{fieldValue,jdbcType=VARCHAR}
+	      </if>	      
+	      <if test="isRequired != null" >
+	        AND IS_REQUIRED = #{isRequired,jdbcType=DECIMAL}
+	      </if>	 
+	      <if test="state != null" >
+	        AND state = #{state,jdbcType=DECIMAL}
+	      </if>  
+	       <if test="isRead != null" >
+	        AND is_read = #{isRead,jdbcType=DECIMAL}
+	      </if>
+	      <if test="dataType!= null" >
+	        AND DATA_TYPE = #{dataType,jdbcType=DECIMAL}
+	      </if> 	      
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		  <if test="fieldId != null" >
+	        FIELD_ID = #{fieldId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="enable != null" >
+	        ENABLE = #{enable,jdbcType=DECIMAL},
+	      </if>
+	      <if test="fieldName != null" >
+	        FIELD_NAME = #{fieldName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isQuery != null" >
+	        IS_QUERY = #{isQuery,jdbcType=DECIMAL},
+	      </if>
+	      <if test="sort != null" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="fieldCode != null" >
+	        FIELD_CODE = #{fieldCode,jdbcType=VARCHAR},
+	      </if>	      
+	      <if test="fieldLength != null" >
+	         FIELD_LENGTH = #{fieldLength,jdbcType=VARCHAR},
+	      </if>		
+	       <if test="fieldValue != null" >
+	         FIELD_VALUE = #{fieldValue,jdbcType=VARCHAR},
+	      </if>      
+	      <if test="isRequired != null" >
+	         IS_REQUIRED = #{isRequired,jdbcType=DECIMAL},
+	      </if>
+	      <if test="state != null" >
+	       	state = #{state,jdbcType=DECIMAL},
+	      </if> 		
+	      <if test="isRead != null" >
+	       	is_read = #{isRead,jdbcType=DECIMAL},
+	      </if> 	
+     	  <if test="dataType!= null" >
+	        DATA_TYPE = #{dataType,jdbcType=DECIMAL},
+	      </if> 
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  <if test="fieldId != null" >
+	        FIELD_ID,
+	      </if>
+	      <if test="enable != null" >
+	        ENABLE,
+	      </if>
+	      <if test="fieldName != null" >
+	        FIELD_NAME,
+	      </if>
+	      <if test="isQuery != null" >
+	        IS_QUERY,
+	      </if>
+	      <if test="sort != null" >
+	        SORT,
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC,
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE,
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC,
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE,
+	      </if>
+	      <if test="orgId != null" >
+	        ORG_ID,
+	      </if>
+	      <if test="fieldCode != null" >
+	        FIELD_CODE,
+	      </if>	      
+	      <if test="fieldLength != null" >
+	         FIELD_LENGTH ,
+	      </if>	
+	      <if test="fieldValue != null" >
+	         FIELD_VALUE,
+	      </if>	
+	      <if test="isRequired != null" >
+	         IS_REQUIRED ,
+	      </if>	
+	      <if test="state != null" >
+	        state,
+	      </if>  	
+	      <if test="isRead != null" >
+	        is_read,
+	      </if>  
+	      <if test="dataType!= null" >
+	         DATA_TYPE,
+	      </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		  <if test="fieldId != null" >
+	        #{fieldId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="enable != null" >
+	        #{enable,jdbcType=DECIMAL},
+	      </if>
+	      <if test="fieldName != null" >
+	        #{fieldName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isQuery != null" >
+	        #{isQuery,jdbcType=DECIMAL},
+	      </if>
+	      <if test="sort != null" >
+	        #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="orgId != null" >
+	        #{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fieldCode != null" >
+	        #{fieldCode,jdbcType=VARCHAR},
+	      </if>	  
+	      <if test="fieldLength != null" >
+	        #{fieldLength,jdbcType=VARCHAR},
+	      </if>		
+	       <if test="fieldValue != null" >
+	         #{fieldValue,jdbcType=VARCHAR},
+	      </if>           
+	      <if test="isRequired != null" >
+	        #{isRequired,jdbcType=DECIMAL},
+	      </if>
+	      <if test="state != null" >
+	       	#{state,jdbcType=DECIMAL},
+	      </if>
+	      <if test="isRead != null" >
+	       	#{isRead,jdbcType=DECIMAL},
+	      </if>		 
+	      <if test="dataType!= null" >
+	        #{dataType,jdbcType=DECIMAL},
+	      </if>    	            
+		</trim>
+	</sql>
+
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  FIELD_ID, ENABLE, FIELD_NAME, IS_QUERY, SORT, INPUTER_ACC, INPUTDATE, MODIFIER_ACC, 
+      MODIFYDATE, ORG_ID,FIELD_CODE,FIELD_LENGTH,FIELD_VALUE,IS_REQUIRED,state,is_read,DATA_TYPE
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			  #{item.fieldId,jdbcType=VARCHAR}, #{item.enable,jdbcType=DECIMAL}, #{item.fieldName,jdbcType=VARCHAR}, 
+		      #{item.isQuery,jdbcType=DECIMAL}, #{item.sort,jdbcType=DECIMAL}, #{item.inputerAcc,jdbcType=VARCHAR}, 
+		      #{item.inputdate,jdbcType=TIMESTAMP}, #{item.modifierAcc,jdbcType=VARCHAR}, #{item.modifydate,jdbcType=TIMESTAMP}, 
+		      #{item.orgId,jdbcType=VARCHAR},#{item.fieldCode,jdbcType=VARCHAR},#{item.fieldLength,jdbcType=VARCHAR},
+		      #{item.fieldValue,jdbcType=VARCHAR},#{item.isRequired,jdbcType=DECIMAL},#{item.state,jdbcType=DECIMAL},
+		      #{item.isRead,jdbcType=DECIMAL},#{item.dataType,jdbcType=DECIMAL}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="findAllWithOrgId" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where org_id is not null
+	</select>	
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+		<!-- 订正数据-->
+	<select id="findDzsj" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		WHERE
+		ORG_ID is null
+	 AND   FIELD_ID IN (
+		'field001',
+		'field002',
+		'field003',
+		'field004',
+		'field005',
+		'field006',
+		'field007',
+		'field008',
+		'field009',
+		'field010',
+		'field011',
+		'field012',
+		'field013',
+		'field014',
+		'field015',
+		'field016',
+        'field017',
+        'field018'
+	)
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where FIELD_ID = #{fieldId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.CustFieldSet">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.CustFieldSet">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and FIELD_ID = #{fieldId}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where FIELD_ID = #{fieldId}
+	</delete>
+	
+	<!-- 根据orgId 删除实体 -->
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatch" parameterType="list">
+		delete from <include refid="table_name"/> where FIELD_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	 <!-- 查询原始自定义字段设置数据 -->
+	 <select id="findOldCustFieldSetList" resultMap="BaseResultMap" parameterType="Map">
+	 	select <include refid="Base_Column_List"/> from TSM_CUST_FIELD_SET_QUPAI WHERE org_id IS NULL
+	 </select>
+	 <!-- 根据机构查询自定义字段设置数据 -->
+	 <select id="getAllWithOrgId" resultMap="BaseResultMap">
+	 	SELECT <include refid="Base_Column_List"/> FROM TSM_CUST_FIELD_SET_QUPAI WHERE ORG_ID=#{orgId}
+	 </select>
+	 
+	 <!-- 查询 自定义字段 个数-->
+	 <select id="findCountByFieldCode" parameterType="Map" resultType="Integer">
+	 	SELECT count(1) FROM TSM_CUST_FIELD_SET_QUPAI WHERE ORG_ID=#{orgId}  and FIELD_CODE like concat('%',#{fieldCode},'%')
+		 <if test="isQuery != null" >
+		  	and IS_QUERY = #{isQuery}
+		 </if>
+		  <if test="dataType != null" >
+		  	<choose>
+		  		<when test="dataType == 2">
+		  			and DATA_TYPE = 2
+		  		</when>
+		  		<otherwise>
+		  			and DATA_TYPE in (1,3,4,5,6,7,8,9,10)
+		  		</otherwise>
+		  	</choose>
+		  	
+		 </if>		 
+	 </select>
+	 
+	  <!-- 查询 排序最大值-->
+	 <select id="findMaxBySort" parameterType="Map" resultType="Integer">
+	 	SELECT max(sort) FROM TSM_CUST_FIELD_SET_QUPAI WHERE ORG_ID=#{orgId} 
+	 </select>
+
+ 	<!-- 查询 字段名称是否存在 -->
+	 <select id="findFieldNameIsExists" parameterType="Map" resultType="Integer">
+	 	SELECT count(1) FROM TSM_CUST_FIELD_SET_QUPAI WHERE ORG_ID=#{orgId}  and FIELD_NAME = #{fieldName}
+	 </select>
+	 
+	 <!-- 获取动态字段名称 -->
+	 <select id="findFieldNameByCode" parameterType="map" resultType="string">
+	    select FIELD_NAME from TSM_CUST_FIELD_SET_QUPAI s where s.org_id=#{orgId} and s.FIELD_CODE=#{fieldCode} 
+	 </select>
+	 
+	 <!-- 查询排序区间的数据 -->
+	 <select id="findAllBySortInterval" resultMap="BaseResultMap" parameterType="map">
+	 	SELECT <include refid="Base_Column_List"/> FROM TSM_CUST_FIELD_SET_QUPAI 
+	 	WHERE ORG_ID=#{orgId}
+	 	<if test="maxSort !=null">
+	 		<![CDATA[
+	 	 		  and sort  <= #{maxSort}
+	 		]]>
+	 	</if>
+	 	<if test="minSort !=null">
+	 		 and  sort >= #{minSort}
+	 	</if>
+	 </select>
+	 
+	 <!-- 根据 字段类型查询数据 -->
+	 <select id="findAllByDataType" resultMap="BaseResultMap" parameterType="map">
+	 	SELECT <include refid="Base_Column_List"/> FROM TSM_CUST_FIELD_SET_QUPAI 
+	 	WHERE 
+	 	ORG_ID=#{orgId} 
+	 	and
+	 	 DATA_TYPE in
+	 	 <foreach collection="list" item="types" open="(" separator="," close=")">
+			#{types}
+		</foreach>
+		and field_code !='isMajor'
+	 </select>
+	 
+	 <select id="findSortsByFieldId" parameterType="Map" resultMap="BaseResultMap">
+		select FIELD_ID,SORT from <include refid="table_name"/> where
+		 org_id = #{orgId}
+		 and FIELD_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</select>
+	 
+	   	 <!-- 批量修改 -->
+	<update id="batchUpdate" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update
+            <include refid="table_name"/>
+            <set>
+            <if test="item.modifydate != null" >
+		        MODIFYDATE = #{item.modifydate,jdbcType=TIMESTAMP}
+		      </if>
+            <if test="item.modifierAcc != null" >
+		        ,MODIFIER_ACC = #{item.modifierAcc,jdbcType=VARCHAR}
+		      </if>		      
+              <if test="item.enable != null" >
+		        ,ENABLE = #{item.enable,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.fieldName != null" >
+		        ,FIELD_NAME = #{item.fieldName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.isQuery != null" >
+		        ,IS_QUERY = #{item.isQuery,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.sort != null" >
+		        ,SORT = #{item.sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.inputerAcc != null" >
+		        ,INPUTER_ACC = #{item.inputerAcc,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.inputdate != null" >
+		        ,INPUTDATE = #{item.inputdate,jdbcType=TIMESTAMP}
+		      </if>    
+		      <if test="item.fieldCode != null" >
+		         ,FIELD_CODE = #{item.fieldCode,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.fieldLength!= null" >
+		         ,FIELD_LENGTH = #{item.fieldLength,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.fieldValue != null" >
+		         ,FIELD_VALUE = #{item.fieldValue,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.isRequired != null" >
+		         ,IS_REQUIRED = #{item.isRequired,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.state != null" >
+		         ,state = #{item.state,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.isRead != null" >
+		         ,is_read = #{item.isRead,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.dataType != null" >
+		         ,DATA_TYPE = #{item.dataType,jdbcType=DECIMAL}
+		      </if>
+            </set>
+            where org_id = #{item.orgId} and FIELD_ID = #{item.fieldId} 
+        </foreach>
+    </update>
+	 
+</mapper>

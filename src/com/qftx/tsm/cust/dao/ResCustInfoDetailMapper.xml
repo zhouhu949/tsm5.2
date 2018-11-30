@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.ResCustInfoDetailMapper">
+    <!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.cust.bean.ResCustInfoDetailBean" id="BaseResultMap">
+		<id column="TSCID_ID" property="tscidId" jdbcType="VARCHAR" />
+		<result column="RCI_ID" property="rciId" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="WORK" property="work" jdbcType="VARCHAR" />
+		<result column="TELPHONE" property="telphone" jdbcType="VARCHAR" />
+		<result column="TELPHONEBAK" property="telphonebak" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" />
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" />
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+		<result column="FAX" property="fax" jdbcType="VARCHAR" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="KEYWORD" property="keyword" jdbcType="VARCHAR" />
+		<result column="GROUPNAME" property="groupname" jdbcType="VARCHAR" />
+		<result column="WANGWANG" property="wangwang" jdbcType="VARCHAR" />
+		<result column="QQ" property="qq" jdbcType="VARCHAR" />
+		<result column="IS_DEFAULT" property="isDefault" jdbcType="DECIMAL" />
+		<result column="CON_DEFINED1" property="conDefined1" jdbcType="VARCHAR" />
+		<result column="CON_DEFINED2" property="conDefined2" jdbcType="VARCHAR" />
+		<result column="call_num" property="callNum" jdbcType="VARCHAR" />
+		<result column="CON_DEFINED3" property="conDefined3" jdbcType="VARCHAR" />
+		<result column="CON_DEFINED4" property="conDefined4" jdbcType="VARCHAR" />
+		<result column="CON_DEFINED5" property="conDefined5" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_RES_CUST_INFO_DETAIL</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="tscidId != null and tscidId !=''">
+		    AND tscid_id = #{tscidId,jdbcType=VARCHAR} 
+		</if>
+		<if test="rciId != null and rciId !=''">
+		    AND rci_id = #{rciId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="sex != null and sex !=''">
+		    AND sex = #{sex,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name !=''">
+		    AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="work != null and work !=''">
+		    AND work = #{work,jdbcType=VARCHAR} 
+		</if>
+		<if test="telphone != null and telphone !=''">
+		    AND telphone = #{telphone,jdbcType=VARCHAR} 
+		</if>
+		<if test="telphonebak != null and telphonebak !=''">
+		    AND telphonebak = #{telphonebak,jdbcType=VARCHAR} 
+		</if>
+		<if test="email != null and email !=''">
+		    AND email = #{email,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null and isDel !=''">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="fax != null and fax !=''">
+		    AND fax = #{fax,jdbcType=VARCHAR} 
+		</if>
+		<if test="birthday != null and birthday !=''">
+		    AND BIRTHDAY = #{birthday,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="keyword != null and keyword !=''">
+		    AND keyword = #{keyword,jdbcType=VARCHAR} 
+		</if>
+		<if test="groupname != null and groupname !=''">
+		    AND groupname = #{groupname,jdbcType=VARCHAR} 
+		</if>
+		<if test="wangwang != null and wangwang != ''">
+			AND WANGWANG = #{wangwang,jdbcType=VARCHAR} 
+		</if>
+		<if test="qq != null and qq !=''">
+		    AND QQ = #{qq,jdbcType=VARCHAR} 
+		</if>
+		<if test="isDefault != null ">
+		    AND IS_DEFAULT = #{isDefault,jdbcType=DECIMAL} 
+		</if>
+		<if test="conDefined1 != null and conDefined1 !=''">
+		    AND CON_DEFINED1 = #{conDefined1,jdbcType=VARCHAR} 
+		</if>
+		<if test="conDefined2 != null and conDefined2 !=''">
+		    AND CON_DEFINED2 = #{conDefined2,jdbcType=VARCHAR} 
+		</if>
+		<if test="conDefined3 != null and conDefined3 !=''">
+		    AND CON_DEFINED3 = #{conDefined3,jdbcType=VARCHAR} 
+		</if>
+		<if test="conDefined4 != null and conDefined4 !=''">
+		    AND CON_DEFINED4 = #{conDefined4,jdbcType=VARCHAR} 
+		</if>
+		<if test="conDefined5 != null">
+		    AND CON_DEFINED5 = #{conDefined5,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="callNum != null and callNum !=''">
+		    AND call_num = #{callNum,jdbcType=VARCHAR} 
+		</if>		
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="tscidId != null">
+			    tscid_id = #{tscidId,jdbcType=VARCHAR},
+			</if>
+			<if test="rciId != null">
+			    rci_id = #{rciId,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+			    sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="work != null">
+			    work = #{work,jdbcType=VARCHAR},
+			</if>
+			<if test="telphone != null">
+			    telphone = #{telphone,jdbcType=VARCHAR},
+			</if>
+			<if test="telphonebak != null">
+			    telphonebak = #{telphonebak,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+			    email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="fax != null">
+			    fax = #{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+			    BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+			</if>
+			<if test="birthday == null">
+			    BIRTHDAY = null,
+			</if>
+			<if test="keyword != null">
+			    keyword = #{keyword,jdbcType=VARCHAR},
+			</if>
+			<if test="groupname != null">
+			    groupname = #{groupname,jdbcType=VARCHAR},
+			</if>
+			<if test="wangwang != null">
+				WANGWANG = #{wangwang,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+			    QQ = #{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+			    IS_DEFAULT = #{isDefault,jdbcType=DECIMAL},
+			</if>
+			<if test="conDefined1 != null and conDefined1!=''">
+		    	CON_DEFINED1 = #{conDefined1,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined2 != null and conDefined2!=''">
+		    	CON_DEFINED2 = #{conDefined2,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined3 != null and conDefined3!=''">
+		    	CON_DEFINED3 = #{conDefined3,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined4 != null and conDefined4!=''">
+		    	CON_DEFINED4 = #{conDefined4,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined5 != null">
+		    	CON_DEFINED5 = #{conDefined5,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="callNum != null and callNum !=''">
+			     call_num = #{callNum,jdbcType=VARCHAR} ,
+			</if>				
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="tscidId != null" >
+			    tscid_id,
+			</if>
+			<if test="rciId != null" >
+			    rci_id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="sex != null" >
+			    sex,
+			</if>
+			<if test="name != null" >
+			    name,
+			</if>
+			<if test="work != null" >
+			    work,
+			</if>
+			<if test="telphone != null" >
+			    telphone,
+			</if>
+			<if test="telphonebak != null" >
+			    telphonebak,
+			</if>
+			<if test="email != null" >
+			    email,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+			<if test="fax != null" >
+			    fax,
+			</if>
+			<if test="birthday != null" >
+			    BIRTHDAY,
+			</if>
+			<if test="keyword != null" >
+			    keyword,
+			</if>
+			<if test="groupname != null" >
+			    groupname,
+			</if>
+			<if test="wangwang != null">
+				WANGWANG,
+			</if>
+			<if test="qq != null" >
+			    QQ,
+			</if>
+			<if test="isDefault != null" >
+			    IS_DEFAULT,
+			</if>
+			<if test="conDefined1 != null">
+		    	CON_DEFINED1, 
+			</if>
+			<if test="conDefined2 != null ">
+		    	CON_DEFINED2, 
+			</if>
+			<if test="conDefined3 != null ">
+		    	CON_DEFINED3, 
+			</if>
+			<if test="conDefined4 != null ">
+		    	CON_DEFINED4, 
+			</if>
+			<if test="conDefined5 != null ">
+		    	CON_DEFINED5, 
+			</if>
+			<if test="callNum != null and callNum !=''">
+			     call_num  ,
+			</if>			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="tscidId != null">
+			    #{tscidId,jdbcType=VARCHAR},
+			</if>
+			<if test="rciId != null">
+			    #{rciId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+			    #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="work != null">
+			    #{work,jdbcType=VARCHAR},
+			</if>
+			<if test="telphone != null">
+			    #{telphone,jdbcType=VARCHAR},
+			</if>
+			<if test="telphonebak != null">
+			    #{telphonebak,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+			    #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="fax != null">
+			    #{fax,jdbcType=VARCHAR},
+			</if>
+			<if test="birthday != null">
+			    #{birthday,jdbcType=TIMESTAMP},
+			</if>
+			<if test="keyword != null">
+			    #{keyword,jdbcType=VARCHAR},
+			</if>
+			<if test="groupname != null">
+			    #{groupname,jdbcType=VARCHAR},
+			</if>
+			<if test="wangwang != null">
+				#{wangwang,jdbcType=VARCHAR},
+			</if>
+			<if test="qq != null">
+			    #{qq,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+			    #{isDefault,jdbcType=DECIMAL},
+			</if>
+			<if test="conDefined1 != null ">
+		    	#{conDefined1,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined2 != null">
+		    	#{conDefined2,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined3 != null">
+		    	#{conDefined3,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined4 != null">
+		    	#{conDefined4,jdbcType=VARCHAR}, 
+			</if>
+			<if test="conDefined5 != null">
+		    	#{conDefined5,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="callNum != null and callNum !=''">
+			     #{callNum,jdbcType=VARCHAR} ,
+			</if>			
+		</trim>
+	</sql>
+	<!-- 表字段 -->
+	<sql id="Base_Column_List">
+		TSCID_ID,RCI_ID,ORG_ID,SEX,NAME,WORK,TELPHONE,TELPHONEBAK,EMAIL,CONTEXT,INPUTTIME,UPDATETIME,IS_DEL,FAX,
+		BIRTHDAY,KEYWORD,GROUPNAME,WANGWANG,QQ,IS_DEFAULT,CON_DEFINED1,CON_DEFINED2,CON_DEFINED3,CON_DEFINED4,CON_DEFINED5,call_num
+	</sql>
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+	
+	<select id="findByIds" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" /> 
+		where org_id = #{orgId} 
+		and tscid_id in 
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id} 
+		</foreach> 
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where TSCID_ID = #{tscidId}
+	</select>
+	
+	<select id="getByPrimaryKeyAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID=#{orgId} AND TSCID_ID = #{tscidId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.ResCustInfoDetailBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="com.qftx.tsm.cust.bean.ResCustInfoDetailBean">
+		insert into TSM_RES_CUST_INFO_DETAIL(
+		tscid_id,rci_id,org_id,sex,name,work,telphone,telphonebak,email,context,inputtime,updatetime,
+		is_del,fax,BIRTHDAY,keyword,groupname,wangwang,qq,IS_DEFAULT,CON_DEFINED1,CON_DEFINED2,CON_DEFINED3,CON_DEFINED4,CON_DEFINED5
+		)values<foreach collection="list" item="bean" separator=",">(
+				#{bean.tscidId,jdbcType=VARCHAR},#{bean.rciId,jdbcType=VARCHAR},#{bean.orgId,jdbcType=VARCHAR},
+				#{bean.sex,jdbcType=VARCHAR},#{bean.name,jdbcType=VARCHAR},#{bean.work,jdbcType=VARCHAR},
+				#{bean.telphone,jdbcType=VARCHAR},#{bean.telphonebak,jdbcType=VARCHAR},#{bean.email,jdbcType=VARCHAR},
+				#{bean.context,jdbcType=VARCHAR},#{bean.inputtime,jdbcType=TIMESTAMP},#{bean.updatetime,jdbcType=TIMESTAMP},
+				#{bean.isDel,jdbcType=DECIMAL},#{bean.fax,jdbcType=VARCHAR},#{bean.birthday,jdbcType=TIMESTAMP},
+				#{bean.keyword,jdbcType=VARCHAR},#{bean.groupname,jdbcType=VARCHAR},#{bean.wangwang,jdbcType=VARCHAR},
+				#{bean.qq,jdbcType=VARCHAR},#{bean.isDefault,jdbcType=VARCHAR},#{bean.conDefined1,jdbcType=VARCHAR},
+				#{bean.conDefined2,jdbcType=VARCHAR},#{bean.conDefined3,jdbcType=VARCHAR},#{bean.conDefined4,jdbcType=VARCHAR},#{bean.conDefined5,jdbcType=TIMESTAMP}			
+		)</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.ResCustInfoDetailBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND TSCID_ID = #{tscidId}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.ResCustInfoDetailBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND TSCID_ID = #{tscidId}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where TSCID_ID = #{tscidId}
+	</delete>
+
+	<!-- 批量删除 -->
+	<update id="deleteBatch" parameterType="map">
+		update
+		<include refid="table_name" />
+		set IS_DEL = 1,updatetime = now() 
+		where
+		TSCID_ID in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="findCustsInfoDetails" parameterType="map" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" /> FROM <include refid="table_name" /> 
+			WHERE ORG_ID = #{orgId} AND RCI_ID = #{custId} AND IS_DEL = 0 ORDER BY IS_DEFAULT DESC,INPUTTIME DESC
+	</select>
+	
+	<update id="deleteDefault" parameterType="com.qftx.tsm.cust.bean.ResCustInfoDetailBean">
+		UPDATE <include refid="table_name" /> 
+			SET IS_DEFAULT = 0 WHERE ORG_ID=#{orgId} AND RCI_ID=#{rciId} AND IS_DEFAULT = 1 
+	</update>
+	
+	<update id="removeComResLinkBatch" parameterType="map">
+		UPDATE <include refid="table_name" /> 
+			SET IS_DEL = 1 WHERE ORG_ID=#{orgId}
+			AND TSCID_ID in
+			<foreach collection="ids" item="id" open="(" separator=","
+				close=")">
+				#{id}
+			</foreach>
+	</update>
+	
+	<select id="findCustDetailListPage" parameterType="com.qftx.tsm.cust.dto.ResCustDto" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" /> FROM <include refid="table_name" /> 
+			WHERE ORG_ID = #{orgId} AND RCI_ID = #{resCustId} AND IS_DEL = 0 ORDER BY IS_DEFAULT DESC,INPUTTIME DESC
+	</select>
+	
+	<!-- ************************************ 导入时 查询是否重复 ************************************ -->
+	<!-- 号码去重 -->
+	<select id="getRepeatByPhone" resultType="Integer" parameterType="com.qftx.tsm.imp.dto.ImportRepeatDto">
+		select count(*) from tsm_res_cust_info trci 
+		left join tsm_res_cust_info_detail trcid
+		on  trci.org_id = #{orgId} and trcid.org_id = #{orgId} and trcid.is_del = 0 and trcid.rci_id = trci.RES_CUST_ID
+		 where trci.org_id = #{orgId} and trci.is_del = 0 
+		<if test="isOpen == 1"> <!-- 资源去重开启 -->
+			<if test="isPhone !=1"> <!-- 号码去重开启 -->
+				<choose>
+					<when test="isPhone == 2"> <!-- 对签约客户 号码去重 -->
+							and (trci.status = 6 or trci.status = 7 or trci.status = 8 )
+					</when>
+					<when test="isPhone == 3"> <!-- 对意向客户 号码去重 -->
+							and trci.TYPE = 2
+					</when>
+				</choose>
+				<if test="mobelPhone != null and mobelPhone !='' and telPhone != null and telPhone !=''">
+					and (trcid.telphone in (#{mobelPhone},#{telPhone}) or trcid.telphonebak in (#{mobelPhone},#{telPhone}))
+				</if>	
+				<if test="mobelPhone != null and mobelPhone !='' and (telPhone == null or telPhone =='' )">
+					and (trcid.telphone = #{mobelPhone} or trcid.telphonebak = #{mobelPhone})
+				</if>
+				<if test="telPhone != null and telPhone !='' and (mobelPhone == null and mobelPhone =='')">
+					and (trcid.telphone = #{telPhone} or trcid.telphonebak = #{telPhone})
+				</if>			
+			</if>
+		</if>
+	</select>
+	<!-- ****************************************************************************************** -->
+	
+	<select id="findCustDetailId" parameterType="map" resultType="string">
+			SELECT
+				d.tscid_id
+			FROM
+				tsm_res_cust_info_detail d
+			WHERE
+				d.rci_id = #{custId}
+			AND d.org_id = #{orgId}
+			AND (
+				d.telphone = #{phone}
+				OR d.telphonebak = #{phone}
+			)
+			LIMIT 0,
+			 1	
+	</select>
+	
+	<select id="findCustDetailName" parameterType="map" resultType="map">
+			SELECT
+				d.name
+			FROM
+				tsm_res_cust_info_detail d
+			WHERE
+				d.rci_id = #{custId}
+			AND d.org_id = #{orgId}
+			<choose>
+				<when test="phone != null and phone != ''">
+					AND (
+						d.telphone = #{phone}
+						OR d.telphonebak = #{phone}
+					)
+				</when>
+				<otherwise>
+					and d.is_default = 1
+				</otherwise>
+			</choose>
+			LIMIT 0,
+			 1	
+	</select>	
+	
+	     <!-- 修改资源拨通次数 -->
+     <update id="updateCallNum" parameterType="com.qftx.tsm.cust.bean.ResCustInfoDetailBean">
+         update  tsm_res_cust_info_detail t set t.call_num= IFNULL(t.call_num,0)+1  where org_id=#{orgId} and t.TSCID_ID=#{tscidId}
+     </update>
+     
+     <update id="cleanCallNum" parameterType="map">
+     	update tsm_res_cust_info_detail t set t.call_num = 0 where org_id = #{orgId} and t.rci_id = #{custId}
+     </update>
+     
+     <select id="findLinkmanIds" parameterType="map" resultType="java.lang.String">
+     	select
+			t.rci_id
+		from 
+			tsm_res_cust_info_detail t 
+		where 
+		 t.org_id = #{orgId} 
+		and t.is_del = 0 
+		and t.name like concat('%',#{queryText},'%') 
+     </select>
+     
+     <select id="findLinkmanIdsByPhone" parameterType="map" resultType="java.lang.String">
+     	select
+			t.rci_id
+		from 
+			tsm_res_cust_info_detail t 
+		where 
+		 t.org_id = #{orgId} 
+		and t.is_del = 0 
+		and t.telphone  = #{queryText} 
+		 union 
+		select
+			t.rci_id
+		from 
+			tsm_res_cust_info_detail t 
+		where 
+		 t.org_id = #{orgId} 
+		and t.is_del = 0 
+		and t.telphonebak  = #{queryText} 
+     </select>
+</mapper>

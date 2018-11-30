@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.KnowlegeGroupMapper">
+	<!-- ################################################################################################# 
+		#########################基础定义配置(需要修改部分)############################################### 
+		################################################################################################ -->
+	<resultMap id="BaseKnowlegeGroupResultMap" type="com.qftx.tsm.sys.bean.KnowlegeGroup">
+		<id column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+		<result column="GROUP_INDEX" property="groupIndex" jdbcType="DECIMAL" />
+		<result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+		<result column="INPUTDATE" property="inputdate" jdbcType="DATE" />
+		<result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+		<result column="MODIFYDATE" property="modifydate" jdbcType="DATE" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="GROUP_SORT" property="groupSort" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 知识库组和組下知识 -->
+	<resultMap id="knowlegeGroupListResultMap" type="com.qftx.tsm.sys.dto.KnowlegeGroupDto">
+		<id column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+		<result column="cont" property="knowlegeNum" jdbcType="VARCHAR" />
+		<result column="GROUP_SORT" property="groupSort" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">sys_knowlege_group</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="groupId != null">
+			AND GROUP_ID = #{groupId,jdbcType=VARCHAR}
+		</if>
+		<if test="groupName != null">
+			AND GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+		</if>
+		<if test="isDel != null">
+			AND IS_DEL = #{isDel,jdbcType=DECIMAL}
+		</if>
+		<if test="groupIndex != null">
+			AND GROUP_INDEX = #{groupIndex,jdbcType=DECIMAL}
+		</if>
+		<if test="inputerAcc != null">
+			AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null">
+			AND INPUTDATE = #{inputdate,jdbcType=DATE}
+		</if>
+		<if test="modifierAcc != null">
+			AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null">
+			AND MODIFYDATE = #{modifydate,jdbcType=DATE}
+		</if>
+		<if test="orgId != null">
+			AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="orderKey != null">
+			ORDER BY ${orderKey}
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="groupId != null">
+				GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null">
+				GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="groupIndex != null">
+				GROUP_INDEX = #{groupIndex,jdbcType=DECIMAL},
+			</if>
+			<if test="inputerAcc != null">
+				INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null">
+				INPUTDATE = #{inputdate,jdbcType=DATE},
+			</if>
+			<if test="modifierAcc != null">
+				MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				MODIFYDATE = #{modifydate,jdbcType=DATE},
+			</if>
+			<if test="groupSort != null">
+				GROUP_SORT = #{groupSort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="groupId != null">
+				GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null">
+				GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="isDel != null">
+				IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="groupIndex != null">
+				GROUP_INDEX = #{groupIndex,jdbcType=DECIMAL},
+			</if>
+			<if test="inputerAcc != null">
+				INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null">
+				INPUTDATE = #{inputdate,jdbcType=DATE},
+			</if>
+			<if test="modifierAcc != null">
+				MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				MODIFYDATE = #{modifydate,jdbcType=DATE},
+			</if>
+			<if test="groupSort != null">
+				GROUP_SORT = #{groupSort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="groupId != null">
+				GROUP_ID,
+			</if>
+			<if test="groupName != null">
+				GROUP_NAME,
+			</if>
+			<if test="isDel != null">
+				IS_DEL,
+			</if>
+			<if test="groupIndex != null">
+				GROUP_INDEX,
+			</if>
+			<if test="inputerAcc != null">
+				INPUTER_ACC,
+			</if>
+			<if test="inputdate != null">
+				INPUTDATE,
+			</if>
+			<if test="modifierAcc != null">
+				MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null">
+				MODIFYDATE,
+			</if>
+			<if test="orgId != null">
+				ORG_ID,
+			</if>
+			<if test="groupSort != null">
+				GROUP_SORT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="groupId != null">
+				#{groupId},
+			</if>
+			<if test="groupName != null">
+				#{groupName},
+			</if>
+			<if test="isDel != null">
+				#{isDel},
+			</if>
+			<if test="groupIndex != null">
+				#{groupIndex},
+			</if>
+			<if test="inputerAcc != null">
+				#{inputerAcc},
+			</if>
+			<if test="inputdate != null">
+				#{inputdate},
+			</if>
+			<if test="modifierAcc != null">
+				#{modifierAcc},
+			</if>
+			<if test="modifydate != null">
+				#{modifydate},
+			</if>
+			<if test="orgId != null">
+				#{orgId},
+			</if>
+			<if test="groupSort != null">
+				#{groupSort},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		GROUP_ID, GROUP_NAME, IS_DEL, GROUP_INDEX, INPUTER_ACC,
+		INPUTDATE,
+		MODIFIER_ACC,
+		MODIFYDATE, ORG_ID
+	</sql>
+	<sql id="batch_insert_into_value">
+		SELECT
+		#{item.groupId},#{item.groupName},#{item.isDel},#{item.groupIndex},#{item.inputerAcc},#{item.inputdate},
+		#{item.modifierAcc},#{item.modifydate},#{item.orgId}
+		FROM DUAL
+	</sql>
+
+	<!-- ############################################################################################ 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ########################################################################################### -->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseKnowlegeGroupResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法 -->
+	<select id="findListPage" resultMap="BaseKnowlegeGroupResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseKnowlegeGroupResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseKnowlegeGroupResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where GROUP_ID = #{groupId}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseKnowlegeGroupResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.KnowlegeGroup">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into
+		<include refid="table_name" />
+		(
+		<include refid="Base_Column_List" />
+		)
+		<foreach collection="list" item="item" index="index"
+			separator="union all">
+			<include refid="batch_insert_into_value" />
+		</foreach>
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.KnowlegeGroup">
+		update
+		<include refid="table_name" />
+		<include refid="update_set_sql" />
+		where GROUP_ID = #{groupId}
+	</update>
+	
+		<!-- 修改实体 -->
+	<update id="update_new" parameterType="com.qftx.tsm.sys.bean.KnowlegeGroup">
+		update
+		<include refid="table_name" />
+		set GROUP_SORT = #{groupSort}
+		where GROUP_ID = #{groupId}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.KnowlegeGroup">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where GROUP_ID = #{groupId}
+	</update>
+
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where GROUP_ID = #{groupId}
+	</delete>
+
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatch" parameterType="list">
+		delete
+		<include refid="table_name" />
+		where GROUP_ID in
+		<foreach collection="list" item="ids" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+	</delete>
+
+	<!-- ############################################################################################ 
+		#########################自定义个性配置 以下添加非基础部分################################## 
+		########################################################################################### -->
+	<!-- 批量伪删除实体 -->
+	<update id="deleteFakeBatch" parameterType="map">
+		update
+		<include refid="table_name" />
+		<if test="isDel != null">
+			set IS_DEL = #{isDel}
+		</if>
+		,modifier_acc =#{modifierAcc},modifydate = now()
+		where GROUP_ID in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+	<!-- 获取知识库组和组下知识 -->
+	<select id="findKnowlegeGroup" resultMap="knowlegeGroupListResultMap"
+		parameterType="map">
+        select g.group_id, g.group_name,  g.GROUP_SORT,
+		    count(c.group_id) cont
+		    from sys_knowlege_group g left join
+		    sys_knowlege c
+		    on g.org_id=#{orgId} and c.org_id=#{orgId} and g.group_id = c.group_id
+		    and c.is_del=0
+		    where g.is_del=0
+		    and g.org_id=#{orgId}
+		    group by c.group_id,
+		    g.group_name,g.group_id
+		    order by g.group_name  
+	</select>
+	
+	<!-- 获取知识库组和组下知识   跟进group_sort排序 -->
+	<select id="findKnowlegeGroup_new" resultMap="knowlegeGroupListResultMap"
+		parameterType="map">
+        select g.group_id, g.group_name,  g.GROUP_SORT,
+		    count(c.group_id) cont
+		    from sys_knowlege_group g left join
+		    sys_knowlege c
+		    on g.org_id=#{orgId} and c.org_id=#{orgId} and g.group_id = c.group_id
+		    and c.is_del=0
+		    where g.is_del=0
+		    and g.org_id=#{orgId}
+		    group by c.group_id,
+		    g.group_name,g.group_id
+		    order by g.GROUP_SORT  asc 
+	</select>
+	
+	<!-- 单位下的所有知识数 -->
+	<select id="findAllKnowleges" parameterType="map" resultType="int">
+	  select count(t.knowlege_id)
+		  from sys_knowlege t
+		 where 
+		   t.is_del = 0
+		   and org_id = #{orgId}	
+	</select>
+
+	<!-- 单位下的所有未分组知识数 -->
+	<select id="findKnowlegeUnGroup" parameterType="map" resultType="int">
+	  select count(t.knowlege_id)
+		  from sys_knowlege t
+		 where t.group_id is null
+		   and t.is_del = 0
+		   and org_id = #{orgId}
+	
+	</select>	
+	
+	<!-- 查找知识库 -->
+	<select id="findKnowlegeByGroupId" parameterType="map" resultMap="BaseKnowlegeGroupResultMap">
+	  select *
+	  from sys_knowlege_group g
+	 where g.is_del = 0
+	   and g.org_id = #{orgId}
+	   and g.group_id = #{groupId}
+
+	</select>
+	
+	<delete id="updateKnowlegeGroup" parameterType="map" >
+	  update  sys_knowlege_group g set g.is_del=1 , g.MODIFIER_ACC=#{inputAcc} , g.MODIFYDATE=now()  where g.GROUP_ID=#{groupId}
+	</delete>
+
+	<delete id="updateKnowleges" parameterType="map" >
+			update sys_knowlege t
+			   set t.group_id = null, t.modifier_acc = #{inputAcc}, t.modifydate = now()
+			 where t.group_id = #{groupId}
+	</delete>
+		
+	<!-- 判断是否重名 -->
+	<select id="findGrpListByGrpName" parameterType="com.qftx.tsm.sys.bean.KnowlegeGroup" resultMap="BaseKnowlegeGroupResultMap">
+	   select *
+		  from sys_knowlege_group t
+		 where t.is_del = 0
+		    and t.org_id = #{orgId}
+		<if test="groupName!=null and groupName!=''">
+			AND t.group_name = #{groupName}
+		</if>		 
+	</select>
+</mapper>

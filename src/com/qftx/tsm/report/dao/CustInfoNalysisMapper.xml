@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.CustInfoNalysisMapper">
+    <resultMap type="com.qftx.tsm.report.dto.CustInfoNalysisDto" id="custInfoNalysisMap">
+    	<result column="resGroupId" property="resGroupId" jdbcType="VARCHAR"/>
+		<result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+		<result column="res_id" property="resId" jdbcType="VARCHAR"/>		
+		<result column="res_Total" property="resTotal" jdbcType="NUMERIC"/>
+		<result column="will_Total" property="willTotal" jdbcType="NUMERIC"/>
+		<result column="sign_Total" property="signTotal" jdbcType="NUMERIC"/>
+		<result column="will_Rate" property="willRate" jdbcType="NUMERIC"/>
+		<result column="sign_Rate" property="signRate" jdbcType="NUMERIC"/>
+		<result column="called_num" property="calledTotal" jdbcType="NUMERIC"/>
+		<result column="called_rate" property="calledRate" jdbcType="NUMERIC"/>
+		<result column="valid_num" property="effectCallTotal" jdbcType="NUMERIC"/>
+		<result column="valid_rate" property="effectCallRate" jdbcType="NUMERIC"/>
+		<result column="call_total" property="callTotal" jdbcType="NUMERIC"/>	
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>				
+    </resultMap>
+
+  	<!-- 实体表名 -->
+	<sql id="table_name">tsm_report_res_analy</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="willTotal != null">
+		    AND will_Total = #{willTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="signTotal != null">
+		    AND sign_Total = #{signTotal,jdbcType=DECIMAL} 
+		</if>		
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="resId != null and resId !=''">
+		    AND res_Id = #{resId,jdbcType=VARCHAR} 
+		</if>
+		<if test="effectCallTotal != null">
+		    AND valid_num = #{effectCallTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="calledTotal != null">
+		    AND called_num = #{calledTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="callTotal != null">
+		    AND call_total = #{callTotal,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="willTotal != null">
+			     will_Total = #{willTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="signTotal != null">
+			     sign_Total = #{signTotal,jdbcType=DECIMAL} ,
+			</if>		
+			<if test="resId != null and resId !=''">
+			     res_Id = #{resId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="effectCallTotal != null">
+			     valid_num = #{effectCallTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="calledTotal != null">
+			     called_num = #{calledTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="callTotal != null">
+			     call_total = #{callTotal,jdbcType=DECIMAL} ,
+			</if>
+		</trim>
+	</sql>
+	 
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+
+			<if test="willTotal != null">
+			     will_Total  ,
+			</if>
+			<if test="signTotal != null">
+			     sign_Total  ,
+			</if>		
+			<if test="orgId != null and orgId !=''">
+			     ORG_ID ,
+			</if>
+			<if test="resId != null and resId !=''">
+			     res_Id  ,
+			</if>
+			<if test="effectCallTotal != null">
+			     valid_num  ,
+			</if>
+			<if test="calledTotal != null">
+			     called_num  ,
+			</if>
+			<if test="callTotal != null">
+			     call_total ,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="willTotal != null">
+			    #{willTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="signTotal != null">
+			      #{signTotal,jdbcType=DECIMAL} ,
+			</if>		
+			<if test="orgId != null and orgId !=''">
+			     #{orgId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="resId != null and resId !=''">
+			    #{resId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="effectCallTotal != null">
+			     #{effectCallTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="calledTotal != null">
+			     #{calledTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="callTotal != null">
+			    #{callTotal,jdbcType=DECIMAL} ,
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.dto.CustInfoNalysisDto">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.report.dto.CustInfoNalysisDto">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND res_id = #{resId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		org_id,res_id,valid_num,called_num,call_total,will_total,sign_total
+	</sql>
+				    
+    <select id="findTotalCustInfoNalysis" resultMap="custInfoNalysisMap" parameterType="map">
+			SELECT
+				g.GROUP_NAME,
+				count(t.RES_CUST_ID) res_total,
+				sum(IFNULL(a.called_num, 0)) called_num,
+				SUM(IFNULL(a.valid_num, 0)) valid_num,
+				sum(IFNULL(a.will_total, 0)) AS will_total,
+				sum(IFNULL(a.sign_total, 0)) AS sign_total,
+			
+			IF (
+				count(t.RES_CUST_ID)  <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(IFNULL(a.called_num, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) called_rate,
+			
+			IF (
+				count(t.RES_CUST_ID)  <![CDATA[ <>  ]]> 0,
+				ROUND(
+					(
+						SUM(IFNULL(a.valid_num, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) valid_rate,
+			
+			IF (
+				IFNULL(count(t.RES_CUST_ID),0)  <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(IFNULL(a.will_total, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) will_Rate,
+			
+			IF (
+				IFNULL(count(t.RES_CUST_ID),0)  <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(IFNULL(a.sign_total, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) sign_Rate
+			FROM
+				tsm_res_group g
+			LEFT JOIN (select t.RES_GROUP_ID,t.RES_CUST_ID from tsm_res_cust_info  t where t.ORG_ID=#{orgId} and t.IS_DEL=0) t ON 
+			 g.RES_GROUP_ID = t.RES_GROUP_ID
+			LEFT JOIN tsm_report_res_analy a ON g.ORG_ID = #{orgId}
+			AND a.org_id = #{orgId}
+			AND t.RES_CUST_ID =  a.res_id
+			WHERE
+				g.IS_DEL = 0
+			AND g.ORG_ID = #{orgId}
+			<if test="groupId !=null and groupId!=''">
+			   and g.RES_GROUP_ID = #{groupId}
+			</if>			
+    </select>
+    <select id="findCustInfoNalysisList" resultMap="custInfoNalysisMap" parameterType="map">
+			SELECT
+				g.GROUP_NAME,
+				count(t.RES_CUST_ID) res_total,
+				sum(IFNULL(a.called_num, 0)) called_num,
+				SUM(IFNULL(a.valid_num, 0)) valid_num,
+				sum(IFNULL(a.will_total, 0)) AS will_total,
+				sum(IFNULL(a.sign_total, 0)) AS sign_total,
+			
+			IF (
+				count(t.RES_CUST_ID)  <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(IFNULL(a.called_num, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) called_rate,
+			
+			IF (
+				count(t.RES_CUST_ID)  <![CDATA[ <>  ]]> 0,
+				ROUND(
+					(
+						SUM(IFNULL(a.valid_num, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) valid_rate,
+			
+			IF (
+				IFNULL(count(t.RES_CUST_ID),0)  <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(IFNULL(a.will_total, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) will_Rate,
+			
+			IF (
+				IFNULL(count(t.RES_CUST_ID),0)  <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(IFNULL(a.sign_total, 0)) / count(t.RES_CUST_ID)
+					) * 100,
+					2
+				),
+				0
+			) sign_Rate
+			FROM
+				tsm_res_group g
+			LEFT JOIN (select t.RES_GROUP_ID,t.RES_CUST_ID from tsm_res_cust_info  t where t.ORG_ID=#{orgId} and t.IS_DEL=0) t ON 
+			 g.RES_GROUP_ID = t.RES_GROUP_ID
+			LEFT JOIN tsm_report_res_analy a ON g.ORG_ID = #{orgId}
+			AND a.org_id = #{orgId}
+			AND t.RES_CUST_ID =  a.res_id
+			WHERE
+				g.IS_DEL = 0
+			AND g.ORG_ID = #{orgId}
+			<if test="groupId !=null and groupId!=''">
+			   and g.RES_GROUP_ID = #{groupId}
+			</if>			
+			GROUP BY
+				g.RES_GROUP_ID,
+				g.GROUP_NAME
+
+			</select>
+			
+			<select id="findLastRecord" resultMap="custInfoNalysisMap" parameterType="map">
+               select * from tsm_report_res_analy a where a.org_id=#{orgId} and a.res_id=#{resId}
+			</select>
+</mapper>

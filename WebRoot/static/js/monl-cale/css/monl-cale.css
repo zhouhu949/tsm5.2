@@ -1,0 +1,94 @@
+
+
+
+/*-----------------閺堝牐顓搁崚锟�--------*/
+/*-----------------閺堝牐顓搁崚锟�----闁劑妫�---------*/
+.base{position: relative;width:1000px;border: 1px solid #e6e6e6;left:50%;height: 625px;margin-left: -500px;}
+	.base_left{position: absolute;width:70px;height:595px;text-align: center;cursor: pointer;}
+	.jiantou_left{position: absolute;padding:0px;top: 50%;margin-top: -40px;left:9px;width:50px;height:80px;display: block;
+							background: url("../slider/slider.png") no-repeat 0 0;
+							background-position: 4px -82px;}
+	.base_right{position: absolute;width:68px;height:595px;text-align: center;right:0px;cursor: pointer;}
+	.jiantou_right{position: absolute;left:0px;top: 50%;margin-top: -40px;left:9px;width:50px;height:80px;display: block;
+						background: url("../slider/slider.png") no-repeat 0 0;
+							background-position: 5px 5px;}
+	.content{  height: 595px; width: 860px;position: absolute;border:1px solid #e6e6e6;left:70px;
+			background: url(../photos_file/3.jpg) no-repeat;background-position: 50%;background-size: contain;}
+	.toggle{position: absolute;top: 596px;width: 100%;height: 30px;background: #fafafa;line-height: 30px;border-top: 1px solid #e6e6e6;}
+	.toggle .list{font-size: 14px;color: #666;width: 98px;cursor: pointer;background: white;}
+	.toggle .list span{display: block;position: absolute;
+			left: 66px;top: 3px;width: 19px;height: 19px;
+			background: url("../slider/list.png") no-repeat 0 0;
+							background-position: -16px -58px;}
+	.bottle{position:relative;width:1110px;height:200px;margin:0 auto ;}
+	.bottle ul{margin: 0px;position: absolute;height:187px;padding:0px;display:flex;width:10000px;}
+	#list_shot{height:187px;width:985px;position: absolute;left: 59px;overflow: hidden;}
+	.bottle .l{display: block;position: absolute;
+			left: 13px;top: 45px;width:21px;height:90px;
+			background: url("../slider/up-down-raww.png") no-repeat 0 0;
+							background-position: 0 0;cursor: pointer;}
+	.bottle .r{display: block;position: absolute;
+			right: 20px;top: 45px;width:21px;height:90px;
+			background: url("../slider/up-down-raww.png") no-repeat -26px 0;
+							background-position: -26px 0;cursor: pointer;}
+	.bottle ul li {text-decoration: none;float: left;margin: 0px 5px;position: relative;left:0px;transition: left 0.5s;border:none;cursor: pointer;}
+	.canl-first{width:131px;height:91px;margin-top:45px;background:url(../slider/calen-page-min.png) no-repeat;}
+	.canl-first01{width:131px;height:91px;margin-top:45px;background:url(../slider/calen-page-min.png) no-repeat;}
+	.canl-second{width:271px;height:187px;background:url(../slider/calen-page-max.png) no-repeat;}
+	.canl-third{width:271px;height:187px;background:url(../slider/calen-page-gray.png) no-repeat;}
+	
+	.icon-gold{margin:40px 3px 0 5px;width:23px;float:left;}
+	.canl-icon-right{float:left;width:100px !important;margin:7px 0 0 0;}
+	.canl-jan{margin:5px 0 0 0;}
+	.play-sum-ten,.play-fina{margin-top:0px;}
+	.canl-jan label{font-size:28px;}
+	.canl-jan span{font-size:18px;}
+	.up-arrow{display:inline-block;float:left;width:10px;height:12px;margin:0 0 0 0px;background:url(../slider/fina-play.png) no-repeat -20px 0;}
+	.down-arrow{display:inline-block;float:left;width:10px;height:12px;margin:0 0 0 0px;background:url(../slider/fina-play.png) no-repeat 0px 0;}
+	.canl-mon-scroll{margin-top:15px;}
+	.canl-mon-max{padding-top:30px;}
+	.canl-mon-max label{margin:0 5px 0 30px;font-size:36px;}
+	.canl-mon-max span{margin:0 40px 0 0;font-size:18px;}
+	.canl-look{color:blue;text-decoration:underline;margin-right:15px;}
+	.canl-analyse{color:#777;margin-right:15px;}
+	.canl-norepo{font-size:12px !important;color:#777;margin-right:15px !important;}
+	.canl-mon-noexec{margin-top:15px;}
+	.canl-mon-noexec p{margin-bottom:10px;}
+	.canl-mon-noexec p label{float:left;display:inline-block;width:90px;margin:0 0 10px 0px;text-align:center;}
+	.canl-mon-noexec p span{float:left;display:inline-block;width:90px;margin:5px 0 0 0px;font-size:18px;color:#015f9f;text-align:center;}
+	.plann-not-prep{display:inline-block;font-size:32px;margin:70px 0 0 55px;}
+
+	/* votebox */
+	.canl-mon-scroll .votebox{width:170px;margin:10px 0 8px 30px;text-align:left;position:relative;z-index:66;}
+	.canl-mon-scroll .votebox .sp{display:inline-block;overflow:hidden;position:absolute;left:0;top:-22px;color:#000;width:240px;height:20px;line-height:20px;font-size:14px;}
+	.canl-mon-scroll .votebox .p{position:absolute;left:180px;top:-9px;height:20px;line-height:20px;}
+	/* barbox */
+	.canl-mon-scroll .barbox{height:12px;line-height:12px;overflow:hidden;}
+	.canl-mon-scroll .barbox dt a{color:#0048CC;}
+	.canl-mon-scroll .barbox dd{float:left;}
+	.canl-mon-scroll .barbox dd.last{color:#999;}
+	.canl-mon-scroll .barbox dd.barline{width:166px;height:2px;background-color:#d7d7d7;border:solid #d7d7d7 1px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;overflow:hidden;display:inline;}
+	.canl-mon-scroll .barbox dd.barline span{display:inline-block;float:left;overflow:hidden;height:2px;background-color:#1979ca;border:solid #1979ca 1px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+	.will-cust{display:inline-block; width:43px; text-align:right;}
+	/*-----------------閺堝牐顓搁崚锟�----闁劑妫紒鎾存将----------*/
+
+	/*-----------------閺堝牐顓搁崚鎺旂波閺夛拷---------*/
+
+
+
+.canvas{
+width:100%;
+height:100%;
+position:relative;
+background:url(../slider/gold-coins.png) no-repeat bottom center;
+*margin-top:-30px;
+*background:url(../slider/gold-coins.png) no-repeat top top;
+}
+.canvas img{position:absolute;}
+.canvas .img1{top:30px;left:-80px;}
+.canvas .img2{top:5px;left:-50px;}
+.canvas .img3{top:-20px;left:-35px;}
+.canvas .img4{top:-10px;left:-5px;}
+.canvas .img5{top:15px;left:30px;}
+.canvas .img6{top:8px;left:58px;}
+.canvas .img7{top:-25px;left:75px;}

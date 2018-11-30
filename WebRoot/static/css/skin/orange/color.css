@@ -1,0 +1,21 @@
+/*头部菜单颜色 */
+#nav li:hover{border:1px solid #cb8e13;background:#f2deb5;}
+#nav li ul li:hover{background:#f2deb5;}
+
+
+
+
+
+
+
+.sty-bgcolor-a{background-color:#eaa638;}
+.sty-bgcolor-b{background-color:#f5f6f7;}
+
+.sty-color-a{color:#fff;}
+
+.sty-borcolor-a{border-color:#eaa638;}
+.sty-borcolor-b,.sty-borcolor-c td{border-color:#dadbdc;}
+.sty-borcolor-d{border-color:#eaa638;}
+
+.sty-btna{background-color:#eaa638;color:#fff;}
+

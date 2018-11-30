@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.credit.dao.ImportLeadResultMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.LEAD_ID,t.FILE_ID,t.TOTAL_NUM,t.SUCCESS_NUM,t.FAIL_NUM,t.PHONE_REPEAT,
+	t.PHONE_FORMART,t.LEADCODE_REPEAT,t.status,t.start_time,t.end_time,
+	t.updatetime,t.inputtime,t.is_del,t.DEFECT_REQUIRED,t.OWN_ILLEGAL_CHAR,
+	t.FORMART_ERROR,t.input_acc,t.CUST_NAME_NOTEXIST,t.is_detail
+	</sql>
+
+	<resultMap type="com.qftx.tsm.credit.bean.ImportLeadResultBean" id="ImportLeadResultMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="LEAD_ID" property="leadId"/>
+		<result column="FILE_ID" property="fileId"/>
+		<result column="TOTAL_NUM" property="totalNum"/>
+		<result column="SUCCESS_NUM" property="successNum"/>
+		<result column="FAIL_NUM" property="failNum"/>
+		<result column="PHONE_REPEAT" property="phoneRepeat"/>
+		<result column="PHONE_FORMART" property="phoneFormart"/>
+		<result column="LEADCODE_REPEAT" property="leadCodeRepeat"/>
+		<result column="status" property="status"/>
+		<result column="start_time" property="startTime"/>
+		<result column="end_time" property="endTime"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="DEFECT_REQUIRED" property="defectRequired"/>
+		<result column="OWN_ILLEGAL_CHAR" property="ownIllegalChar"/>
+		<result column="FORMART_ERROR" property="formartError"/>
+		<result column="input_acc" property="inputAcc"/>
+		<result column="CUST_NAME_NOTEXIST" property="custNameNotExist"/>
+		<result column="is_detail" property="isDetail"/>	
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.credit.dto.ImportLeadResultDto" id="DtoResultMap" extends="ImportLeadResultMap">
+	</resultMap>
+	<!-- 查询-->
+	<select id="query" resultMap="DtoResultMap" parameterType ="com.qftx.tsm.credit.dto.ImportLeadResultDto">
+		select * from (
+		select
+		<include refid="cols" />
+		from import_lead_result t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.is_del = 0	
+		<if test="inputtime!=null and inputtime!=''">
+			<![CDATA[
+			   and t.inputtime ${symbol} str_to_date(#{inputtime}, '%Y-%m-%d %H:%i:%s')
+			 ]]>
+		</if>
+		<if test="inputAcc != null and inputAcc != ''">
+			and t.input_acc = #{inputAcc}
+		</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+		limit 10 ) tt
+		order by tt.inputtime desc
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="ImportLeadResultMap">
+		select
+		<include refid="cols" />
+		from import_lead_result t
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="leadId != null">and LEAD_ID = #{leadId}</if>
+		<if test="fileId != null">and FILE_ID = #{fileId}</if>
+		<if test="totalNum != null">and TOTAL_NUM = #{totalNum}</if>
+		<if test="successNum != null">and SUCCESS_NUM = #{successNum}</if>
+		<if test="failNum != null">and FAIL_NUM = #{failNum}</if>
+		<if test="phoneRepeat != null">and PHONE_REPEAT = #{phoneRepeat}</if>
+		<if test="phoneFormart != null">and PHONE_FORMART = #{phoneFormart}</if>
+		<if test="leadCodeRepeat != null">and LEADCODE_REPEAT = #{leadCodeRepeat}</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="startTime != null">and start_time = #{startTime}</if>
+		<if test="endTime != null">and end_time = #{endTime}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+		<if test="inputAcc != null">and input_acc = #{inputAcc}</if>
+		<if test="custNameNotExist != null">and CUST_NAME_NOTEXIST = #{custNameNotExist}</if>
+		<if test="isDetail != null">and is_detail = #{isDetail}</if>
+	</select>
+
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update import_lead_result
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="leadId != null">LEAD_ID = #{leadId},</if>
+		<if test="fileId != null">FILE_ID = #{fileId},</if>
+		<if test="totalNum != null">TOTAL_NUM = #{totalNum},</if>
+		<if test="successNum != null">SUCCESS_NUM = #{successNum},</if>
+		<if test="failNum != null">FAIL_NUM = #{failNum},</if>
+		<if test="phoneRepeat != null">PHONE_REPEAT = #{phoneRepeat},</if>
+		<if test="phoneFormart != null">PHONE_FORMART = #{phoneFormart},</if>
+		<if test="leadCodeRepeat != null">LEADCODE_REPEAT = #{leadCodeRepeat},</if>
+		<if test="defectRequired != null">DEFECT_REQUIRED = #{defectRequired},</if>
+		<if test="ownIllegalChar != null">OWN_ILLEGAL_CHAR = #{ownIllegalChar},</if>
+		<if test="formartError != null">FORMART_ERROR = #{formartError},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="startTime != null">start_time = #{startTime},</if>
+		<if test="endTime != null">end_time = #{endTime},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="isDetail != null">is_detail = #{isDetail},</if>
+		<if test="custNameNotExist != null">CUST_NAME_NOTEXIST = #{custNameNotExist},</if>
+		</set>
+		where org_id = #{orgId} and id=#{id}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.credit.bean.ImportLeadResultBean">
+		insert into import_lead_result(id,org_id,LEAD_ID,FILE_ID,TOTAL_NUM,SUCCESS_NUM,FAIL_NUM,PHONE_REPEAT,PHONE_FORMART,LEADCODE_REPEAT,status,start_time,end_time,updatetime,inputtime,is_del,DEFECT_REQUIRED,OWN_ILLEGAL_CHAR,FORMART_ERROR,input_acc,CUST_NAME_NOTEXIST,is_detail)
+		values(#{id},#{orgId},#{leadId},#{fileId},#{totalNum},#{successNum},#{failNum},#{phoneRepeat},#{phoneFormart},#{leadCodeRepeat},#{status},#{startTime},#{endTime},#{updatetime},#{inputtime},#{isDel},#{defectRequired},#{ownIllegalChar},#{formartError},#{inputAcc},#{custNameNotExist},#{isDetail})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+	    insert into import_lead_result(id,org_id,LEAD_ID,FILE_ID,TOTAL_NUM,SUCCESS_NUM,FAIL_NUM,PHONE_REPEAT,PHONE_FORMART,LEADCODE_REPEAT,PHONE_SPACE,PHONE_STOP,COMPANY_URL_REPEAT,PHONE_NEVER_ANSWER,CALL_TIME_AVERAGE_SHORT,status,start_time,end_time,updatetime,inputtime,is_del,DEFECT_REQUIRED,OWN_ILLEGAL_CHAR,FORMART_ERROR,input_acc,CUST_NAME_NOTEXIST,is_detail)
+	    values
+	    <foreach collection="list" item="bean" separator=",">
+	    	(#{bean.id},#{bean.orgId},#{bean.leadId},#{bean.fileId},#{bean.totalNum},#{bean.successNum},#{bean.failNum},#{bean.phoneRepeat},#{bean.phoneFormart},#{bean.leadCodeRepeat},#{bean.status},#{bean.startTime},#{bean.endTime},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.defectRequired},#{bean.ownIllegalChar},#{bean.formartError},#{bean.inputAcc},#{bean.custNameNotExist},#{bean.isDetail})
+	    </foreach>
+    </insert>
+    
+	<!-- 根据fileId 修改 -->
+	<update id="updateByFileId"  parameterType="com.qftx.tsm.credit.bean.ImportLeadResultBean">
+		update import_lead_result
+		<set>
+		<if test="totalNum != null">TOTAL_NUM = #{totalNum},</if>
+		<if test="successNum != null">SUCCESS_NUM = #{successNum},</if>
+		<if test="failNum != null">FAIL_NUM = #{failNum},</if>
+		<if test="phoneRepeat != null">PHONE_REPEAT = #{phoneRepeat},</if>
+		<if test="phoneFormart != null">PHONE_FORMART = #{phoneFormart},</if>
+		<if test="leadCodeRepeat != null">LEADCODE_REPEAT = #{leadCodeRepeat},</if>
+		<if test="defectRequired != null">DEFECT_REQUIRED = #{defectRequired},</if>
+		<if test="ownIllegalChar != null">OWN_ILLEGAL_CHAR = #{ownIllegalChar},</if>
+		<if test="formartError != null">FORMART_ERROR = #{formartError},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="startTime != null">start_time = #{startTime},</if>
+		<if test="endTime != null">end_time = #{endTime},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="isDetail != null">is_detail = #{isDetail},</if>
+		<if test="custNameNotExist != null">CUST_NAME_NOTEXIST = #{custNameNotExist},</if>
+		</set>
+		where org_id = #{orgId} and FILE_ID = #{fileId}
+	</update>
+</mapper>

@@ -1,0 +1,706 @@
+
+body{font-family:"Microsoft YaHei","Arial";color:#000;font-size:12px;/* background-color:#fff !important; */}
+.barrage-container{
+	 position: absolute;
+	 left:0px;
+	 top:0px;
+   width: 300px;
+	 height:580px;
+	 border: 1px solid #bfbfbf;
+	 background:rgb(240,245,251);
+}
+   .barrage-header{
+	 position: absolute;
+	 left:0px;
+	 top:0px;
+	 right:0px;
+	 height:200px;
+	 color:#333;
+   overflow: hidden;
+   background:url("/static/js/barrage/header_bg.png") no-repeat;
+   }
+    .barrage-header-sider{
+      position: absolute;
+      bottom: 0;
+      left:0;
+      right: 0;
+			padding:4px 0;
+			overflow: hidden;
+      height:56px;
+    }
+    .barrage-header-avatar img{
+      width:40px;
+      height:40px;
+      border-radius: 40px;
+      border:3px solid #fff;
+    }
+
+   .barrage-header .barrage-header-card1 .barrage-header-avatar.pos0{
+     position: absolute;
+     top:100px;
+     left:123px;
+   }
+   .barrage-header .barrage-header-card1 .barrage-header-avatar.pos1{
+     position: absolute;
+     top:90px;
+     left:170px;
+   }
+   .barrage-header .barrage-header-card1 .barrage-header-avatar.pos2{
+     position: absolute;
+     top:88px;
+     left:220px;
+   }
+   .barrage-header .barrage-header-card1 .barrage-header-avatar.pos3{
+     position: absolute;
+     top:25px;
+     left:10px;
+   }
+   .barrage-header .barrage-header-card1 .barrage-header-avatar.pos4{
+     position: absolute;
+     top:10px;
+     left:60px;
+   }
+
+   .barrage-header .barrage-header-card2 .barrage-header-avatar.pos0{
+     position: absolute;
+		 top: 77px;
+	   left: 136px;
+	 }
+   .barrage-header .barrage-header-card2 .barrage-header-avatar.pos1{
+     position: absolute;
+		 top: 39px;
+		 left: 190px;
+   }
+   .barrage-header .barrage-header-card2 .barrage-header-avatar.pos2{
+     position: absolute;
+		 top: 40px;
+     left: 61px;
+   }
+   .barrage-header .barrage-header-card2 .barrage-header-avatar.pos3{
+     position: absolute;
+		 top: 80px;
+	 	 left: 253px;
+    }
+   .barrage-header .barrage-header-card2 .barrage-header-avatar.pos4{
+     position: absolute;
+		 top: 55px;
+     left: 12px;
+   }
+   .barrage-header .barrage-header-card3 .barrage-header-avatar.pos0{
+     position: absolute;
+		 top: 80px;
+     left: 140px;
+   }
+   .barrage-header .barrage-header-card3 .barrage-header-avatar.pos1{
+     position: absolute;
+		 top: 53px;
+ 		 left: 64px;
+   }
+   .barrage-header .barrage-header-card3 .barrage-header-avatar.pos2{
+     position: absolute;
+		 top: 47px;
+ 		 left: 258px;
+   }
+   .barrage-header .barrage-header-card3 .barrage-header-avatar.pos3{
+     position: absolute;
+		 top: 45px;
+ 		 left: 10px;
+   }
+   .barrage-header .barrage-header-card3 .barrage-header-avatar.pos4{
+     position: absolute;
+		 top: 1px;
+     left: 243px;
+   }
+   .barrage-header .barrage-header-card4 .barrage-header-avatar.pos0{
+     position: absolute;
+		 top: 80px;
+ 		 left: 141px;
+   }
+   .barrage-header .barrage-header-card4 .barrage-header-avatar.pos1{
+     position: absolute;
+		 top: 43px;
+ 			left: 59px;
+   }
+   .barrage-header .barrage-header-card4 .barrage-header-avatar.pos2{
+     position: absolute;
+		 top: 43px;
+     left: 257px;
+   }
+   .barrage-header .barrage-header-card4 .barrage-header-avatar.pos3{
+     position: absolute;
+		 top: 39px;
+		 left: 5px;
+   }
+   .barrage-header .barrage-header-card4 .barrage-header-avatar.pos4{
+     position: absolute;
+		 top: 2px;
+     left: 236px;
+   }
+	 .icon_face:hover,.icon_cost:hover,.icon_gift:hover,.icon_text:hover{
+			background-color: rgb(222,225,231);
+	 }
+   .icon_face,.icon_cost,.icon_close,.icon_gift{
+		width:26px;
+		height:26px;
+		display:inline-block;
+		background-repeat:no-repeat;
+		background-position:center center;
+		margin:5px 5px 0 5px;
+		cursor:pointer;
+   }
+   .icon_face{
+		background-image:url("/static/js/barrage/face.png")
+   }
+
+   .icon_cost{
+		background-image:url("/static/js/barrage/cost.png")
+   }
+   .icon_gift{
+		background-image:url("/static/js/barrage/gift.png")
+   }
+   .icon_close{
+		background-image:url("./close.png");
+		position:absolute;
+		right:10px;
+		top:10px;
+   }
+	 .icon_text:hover{
+		 background:
+	 }
+	 .icon_text{
+		 margin:2px;
+		 padding:3px 15px 3px 3px;
+		 background:url("/static/js/barrage/text.png") no-repeat;
+		 background-position: 58px center;
+		 font-style: normal;
+		 cursor: pointer;
+	 }
+   .barrage-header .barrage-header-card{
+		text-align:center;
+    font-size: 14px;
+    padding: 5px 0;
+    position: relative;
+		height:20px;
+   }
+
+   .barrage-header .barrage-header-card .card-text{
+      background:url("/static/js/barrage/sound.png") no-repeat 10px center;
+  	  padding: 0 40px;
+      text-align: left;
+  		overflow: hidden;
+			font-size: 12px;
+      color:#333333;
+  		white-space: nowrap;
+  		text-overflow: ellipsis;
+
+   }
+   .passage-card{
+		width:60px;
+		height:60px;
+		display:inline-block;
+		position:relative;
+		margin:5px;
+   }
+
+   .passage-card-text{
+		position:absolute;
+		bottom:0;
+		height:18px;
+		line-height:18px;
+		left:0;
+		right:0;
+		text-align:center;
+		color:#000;
+		font-size:12px;
+		background-color:#fff;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		border-radius: 0 0 7px 7px ;
+   }
+   .logo-nl{
+	 width:60px;
+	 height:60px;
+	 border-radius:9px;
+
+   }
+   .barrage-header .logo-lg{
+	 width:200px;
+	 height:200px;
+	 border-radius:200px;
+   border:10px #f1b948 solid;
+	 margin:0 auto;
+   }
+   .barrage-body{
+	 position: absolute;
+	 left:0px;
+	 top:200px;
+	 bottom:0px;
+	 right:0px;
+	 color:#333;
+   overflow:hidden;
+   }
+   .barrage-passage-hold{
+		height:70px;
+   }
+   .passage-card{
+	   animation:scrollLeft 9s linear 1s forwards;
+   }
+   .passage-card-descript{
+		position:absolute;
+		left:80px;
+		top:25%;
+		width:560px;
+	   font-size:24px;
+   }
+  .passage-card-end .passage-card-descript{
+		display:none;
+   }
+   @keyframes scrollLeft
+	{
+		100%   { transform: translateX(0px);}
+	}
+   @keyframes myfirst
+	{
+		/*0%   { left:90%;}
+		100% { left:-50%; display:none}*/
+		0%   { transform: translateX(1400px);}
+		100% { transform: translateX(-500px);display:none}
+	}
+	.barrage-passage{
+		position: absolute;
+		right:5px;
+		bottom: 5px;
+		left:5px;
+	}
+	.barrage-passage-box{
+		height:300px;
+		padding:0 10px;
+		overflow:hidden;
+		position:relative;
+		border-bottom:1px solid #bfbfbf;
+		font-size:12px;
+		line-height:1.3em;
+		vertical-align: top;
+	}
+	.barrage-passage img{
+		width:30px;
+		height:30px;
+	}
+  .barrage-passage .chat-item{
+    padding:25px 0 0 60px;
+    position:relative;
+  }
+	.chat-gift-box{
+		position: fixed;
+		left:30px;
+		top:220px;
+		height:230px;
+		width:230px;
+		z-index: 999;
+		display: none;
+	}
+	.chat-gift-box img{
+		width:230px;
+		height: 230px;
+	}
+	.chat-redpack-box{
+		position: fixed;
+		left:10px;
+		right:0px;
+		top:190px;
+		padding:5px 60px 5px 5px;
+		height:70px;
+		line-height: 60px;
+		overflow:hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width:280px;
+		color: #fff;
+		z-index: 1000;
+		display: none;
+		background: url("/static/js/barrage/redpack_bg.png") no-repeat;gif
+	}
+	.chat-redpack-box img{
+		width: 40px;
+		height: 40px;
+		margin-right: 5px;
+		vertical-align: middle;
+		border-radius: 40px;
+	}
+
+  .barrage-passage .chat-item>img{
+    width:40px;
+    height:40px;
+    position: absolute;
+    left:5px;
+	border-radius: 40px;
+    top:10px;
+  }
+  .barrage-passage .chat-item .userAvatar{
+    position: absolute;
+    left:60px;
+    top:5px;
+    color:#808080;
+    font-size: 14px;
+  }
+
+	.barrage-passage .chat-item .userAvatar .userAvatarType1,.barrage-passage .chat-item .userAvatar .userAvatarType2{
+		background: url("/static/js/barrage/bri.png");
+		width:18px;
+		height: 18px;
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.barrage-passage .chat-item .userAvatar .userAvatarType1{
+		background: url("/static/js/barrage/bri.png");
+		/*vertical-align: bottom;*/
+	}
+	.barrage-passage .chat-item .userAvatar .userAvatarType2{
+		background: url("/static/js/barrage/top.png");
+		/*vertical-align: top;*/
+	}
+
+  .barrage-passage .chat-item .norMsg{
+    background-color: rgb(195,227,250);
+    display: inline-block;
+    padding:8px;
+    font-size: 12px;
+    font-style: normal;
+    border-radius: 7px;
+
+  }
+
+  .barrage-passage .chat-item .sysMsg{
+    background-color: #4471b4;
+    color:#b9d5f0;
+    display: inline-block;
+    padding:8px;
+    font-size: 12px;
+    font-style: normal;
+    border-radius: 7px;
+  }
+	.barrage-passage .chat-item .sysType{
+		color: #0772ef;
+	}
+	.barrage-reply{
+		height:82px;
+	}
+	.barrage-reply-toolbar i{
+		position:relative;
+	}
+	.barrage-reply-content{
+		width:100%;
+		height:50px;
+		position:relative;
+		font-size: 12px;
+		padding-right:80px;
+	}
+	.barrage-reply-textarea{
+		padding:0 5px;
+		width:100%;
+		height:100%;
+		overflow:auto;
+		line-height:20px;
+		color:#333;
+    outline:none;
+	}
+  .barrage-reply-textarea img{
+    width:30px;
+    height:30px;
+  }
+	.barrage-reply-btn{
+		position:absolute;
+		right:10px;
+		top:5px;
+		background-color:rgb(34,148,252);
+		border:0;
+		border-radius: 5px;
+		color:#fff;
+		width:60px;
+		height:30px;
+	}
+   .barrage-reply-btn[disabled]{
+	   opacity: 0.5;
+   }
+	#facebox{
+    width: 225px;
+    position: absolute;
+    top: -112px;
+    z-index: 9009;
+    background: #fafafa;
+    border: 1px solid #bfbfbf;
+    cursor: pointer;
+    padding:5px;
+    border-radius: 3px;
+	}
+
+	#facebox img{
+		width:30px;
+		height:30px;
+	}
+	.giftFace{
+    width: 278px;
+		position:absolute;
+    left: -64px;
+    top: -154px;
+		z-index:9009;
+    border-radius: 3px;
+		background: #fafafa;
+		border: 1px solid #bfbfbf;
+		padding: 0px;
+		cursor:pointer;
+	}
+  .giftFace img{
+    width:70px;
+    height:70px;
+    float:left;
+    border-left: 1px solid #dedede;
+    border-top: 1px solid #dedede;
+    margin-left: -1px;
+    margin-top: -1px;
+  }
+  .textFace{
+    width:200px;
+		position:absolute;
+		top: -129px;
+		right: -6px;
+		z-index:9009;
+		background: #fafafa;
+		border: 1px solid #bfbfbf;
+		padding: 5px;
+		margin:3px;
+		border-radius:3px;
+		cursor:pointer;
+  }
+  .textFace ul{
+    list-style: decimal;
+		list-style-position: inside;
+    margin:0;
+    padding:0;
+  }
+  .textFace li:hover{
+    background-color: rgb(222,225,231);
+  }
+  .icon_text{
+    float:right;
+  }
+.editor-charcount{
+   position: absolute;
+   right: 85px;
+	 font-size:12px;
+	 line-height: 1.5em;
+   bottom: 10px;
+}
+.fullscreen-box{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99999;
+}
+.fullscreen-mask{
+	opacity: 0.25;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background:#000;
+  z-index: 99999;
+}
+.fullscreen-box .fullscreen-slider{
+  width:800px;
+  height: 500px;
+  position: absolute;
+  left:50%;
+  top:50%;
+  margin-top:-250px;
+  margin-left:-400px;
+  z-index: 99999;
+}
+.fullscreen-slider-type1 {
+	background: url("/static/js/barrage/fullscreen_bg1.png") no-repeat;
+}
+.fullscreen-slider-type2 {
+	background: url("/static/js/barrage/fullscreen_bg2.png") no-repeat;
+}
+.fullscreen-slider-type3 {
+	background : url("/static/js/barrage/fullscreen_bg3.png") no-repeat;
+}
+.fullscreen-slider-type4 {
+	background: url("/static/js/barrage/fullscreen_bg4.png") no-repeat;
+}
+.fullscreen-slider-type1 .fullscreen-slider-text{
+	position: absolute;
+	bottom: 20px;
+	height: 30px;
+	line-height: 30px;
+	left: 165px;
+  	right: 140px;
+	text-align: center;
+	font-size: 18px;
+	text-shadow: 0px 0 4px;
+	color:#ff6000;
+	border-radius: 7px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.fullscreen-slider-type1 .fullscreen-slider-text .fullscreen-text-item{
+	border-radius: 7px;
+	background: #fff;
+	display: inline;
+	padding:5px 10px;
+	margin-left: -10px;
+}
+.fullscreen-slider-type3 .fullscreen-slider-text{
+	position: absolute;
+	top: 230px;
+	height: 30px;
+	left: 165px;
+	font-size: 18px;
+	padding: 0 90px;
+	color:#fff;
+  right: 165px;
+	text-shadow: 0px 0 4px;
+	text-align: center;
+}
+.fullscreen-slider-type2 .fullscreen-slider-text{
+	position: absolute;
+	top: 150px;
+	height: 240px;
+	left: 165px;
+	font-size: 18px;
+	color:#fff;
+  right: 165px;
+	text-shadow: 0px 0 4px;
+	text-align: center;
+}
+
+.fullscreen-text-total{
+	 position: absolute;
+   left: 180px;
+   width: 120px;
+   height: 100px;
+   top: 41px;
+	 font-size:18px;
+   line-height: 100px;
+   font-weight: bold;
+   color: #ef3131;
+	 text-align: center;
+}
+
+.fullscreen-slider-type2 .fullscreen-slider-text{
+	line-height: 28px;
+}
+.fullscreen-slider-type4 .fullscreen-slider-text{
+	position: absolute;
+	top: 240px;
+	height: 40px;
+	left: 165px;
+	font-size: 18px;
+	color:#fff;
+  right: 165px;
+	text-shadow: 0px 0 4px;
+	text-align: center;
+}
+/*
+.fullscreen-slider-type1 .fullscreen-slider-text{
+	background: url("/static/js/barrage/type1_bg.png") no-repeat;
+}
+*/
+
+.barrage-header-content .barrage-header-card1{
+  background: url("/static/js/barrage/type1_bg.png") no-repeat;
+  height: 140px;
+}
+.barrage-header-content .barrage-header-card2{
+  background: url("/static/js/barrage/type2_bg.png") no-repeat;
+  height: 140px;
+}
+.barrage-header-content .barrage-header-card3{
+  background: url("/static/js/barrage/type3_bg.png") no-repeat;
+  height: 140px;
+}
+.barrage-header-content .barrage-header-card4{
+  background: url("/static/js/barrage/type4_bg.png") no-repeat;
+  height: 140px;
+}
+.barrage-header-content .barrage-header-card5{
+  background: url("/static/js/barrage/type5_bg.png") no-repeat;
+  height: 140px;
+}
+
+@keyframes appearBox {
+ 0%{
+ transform: scale(0.0);
+ opacity:0.0;
+ display: none;
+ }
+ 5%{
+ transform: scale(0.5);
+ opacity:0,5;
+ display: block;
+ }
+ 10%{
+ 	transform: scale(1);
+ 	opacity:1;
+ }
+ 90%{
+ transform: scale(1);
+ opacity:1;
+ }
+ 95%{
+ transform: scale(0.5);
+ opacity:0.5;
+ }
+ 100%{
+ transform: scale(0.0);
+ opacity:0.0;
+ display: none;
+ }
+}
+
+@keyframes scrollTop{
+ 0%{
+	transform: translateY(10px);
+ }
+ 10%{
+	transform: translateY(0px);
+ }
+ 90%{
+	transform: translateY(0px);
+ }
+ 100%{
+	transform: translateY(-10px);
+ }
+}
+
+.notice-scroll-appear{
+	animation: scrollTop 3.5s linear both;
+}
+
+.notice-scroll-appear,.notice-scroll-appear-active{
+
+}
+
+
+.gift-appear.gift-appear-active{
+	animation: appearBox 3.5s linear backwards;
+	display: block;
+}
+.redpack-appear.redpack-appear-active{
+	animation: appearBox 3.5s linear backwards;
+	display: block;
+}
+
+.fullscreen-box{
+	animation: appearBox 6s linear forwards;
+}
+/*.gift-enter {
+	 z-index: 1;
+}*/
+/*.gift-enter.gift-enter-active {
+	animation: appearBox 1s linear;
+}*/

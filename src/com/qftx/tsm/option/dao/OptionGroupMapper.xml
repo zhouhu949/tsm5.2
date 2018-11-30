@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.option.dao.OptionGroupMapper" >
+
+	<!-- 
+	#################################################################################################
+	#########################基础定义配置(需要修改部分)###############################################
+	################################################################################################
+	-->
+	<!-- 基础结果集 -->
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.option.bean.OptionGroupBean" >
+	  <id column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+	  <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
+	  <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+	  <result column="SORT" property="sort" jdbcType="DECIMAL" />
+	  <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+	  <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+	  <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+	  <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+	  <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	  <result column="IS_DEFAULT" property="isDefault" jdbcType="DECIMAL" />
+	</resultMap>
+	
+  	<!-- 实体表名 -->
+	<sql id="table_name">TSM_DATA_OPTIONLIST_GROUP</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="groupId != null" >
+		  AND GROUP_ID = #{groupId,jdbcType=VARCHAR}
+		</if>
+		<if test="itemCode != null" >
+		  AND ITEM_CODE = #{itemCode,jdbcType=VARCHAR}
+		</if>
+		<if test="groupName != null" >
+		  AND GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+		</if>
+		<if test="sort != null" >
+		  AND SORT = #{sort,jdbcType=DECIMAL}
+		</if>
+		<if test="inputerAcc != null" >
+		  AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null" >
+		  AND INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifierAcc != null" >
+		  AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null" >
+		  AND MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDefault != null" >
+		  AND IS_DEFAULT = #{isDefault,jdbcType=DECIMAL}
+		</if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+  	
+  	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="groupId != null" >
+			  GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="itemCode != null" >
+			  ITEM_CODE = #{itemCode,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null" >
+			  GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null" >
+			  SORT = #{sort,jdbcType=DECIMAL},
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDefault != null">
+			 IS_DEFAULT = #{isDefault,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="groupId != null" >
+			  GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="itemCode != null" >
+			  ITEM_CODE = #{itemCode,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null" >
+			  GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null" >
+			  SORT = #{sort,jdbcType=DECIMAL},
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDefault != null">
+			 IS_DEFAULT = #{isDefault,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="groupId != null" >
+			  GROUP_ID,
+			</if>
+			<if test="itemCode != null" >
+			  ITEM_CODE,
+			</if>
+			<if test="groupName != null" >
+			  GROUP_NAME,
+			</if>
+			<if test="sort != null" >
+			  SORT,
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC,
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE,
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE,
+			</if>
+			<if test="orgId != null" >
+			  ORG_ID,
+			</if>
+			<if test="isDefault != null">
+			 IS_DEFAULT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="groupId != null" >
+			  #{groupId},
+			</if>
+			<if test="itemCode != null" >
+			  #{itemCode},
+			</if>
+			<if test="groupName != null" >
+			  #{groupName},
+			</if>
+			<if test="sort != null" >
+			  #{sort},
+			</if>
+			<if test="inputerAcc != null" >
+			  #{inputerAcc},
+			</if>
+			<if test="inputdate != null" >
+			  #{inputdate},
+			</if>
+			<if test="modifierAcc != null" >
+			  #{modifierAcc},
+			</if>
+			<if test="modifydate != null" >
+			  #{modifydate},
+			</if>
+			<if test="orgId != null" >
+			  #{orgId},
+			</if>
+			<if test="isDefault != null">
+			 #{isDefault},
+			</if>
+		</trim>
+	</sql>
+  	
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  GROUP_ID, ITEM_CODE, GROUP_NAME, SORT, INPUTER_ACC, INPUTDATE, MODIFIER_ACC, 
+	  MODIFYDATE, ORG_ID,IS_DEFAULT
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			#{item.groupId,jdbcType=VARCHAR},#{item.itemCode,jdbcType=VARCHAR},#{item.groupName,jdbcType=VARCHAR},
+			#{item.sort,jdbcType=DECIMAL},#{item.inputerAcc,jdbcType=VARCHAR},#{item.inputdate,jdbcType=TIMESTAMP},#{item.modifierAcc,jdbcType=VARCHAR},
+			#{item.modifydate,jdbcType=TIMESTAMP},#{item.orgId,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+	</select>
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKeyAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		  where org_id=#{orgId} and GROUP_ID = #{groupId} 
+	</select>
+		
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.option.bean.OptionGroupBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.option.bean.OptionGroupBean">
+		update <include refid="table_name"/> 
+		<include refid="update_set_sql"/>
+		where ORG_ID = #{orgId} and GROUP_ID = #{groupId}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.option.bean.OptionGroupBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and GROUP_ID = #{groupId}
+	</update>
+	
+	<!-- 根据orgId 删除实体 -->
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where ORG_ID=#{orgId}
+	</delete>
+	
+	<!-- 根据groupId 删除实体 -->
+	<delete id="deleteByGroupId" parameterType="map">
+		delete from <include refid="table_name"/> where ORG_ID=#{orgId} AND GROUP_ID = #{groupId}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteByBatch" parameterType="Map">
+		delete from <include refid="table_name"/> where ORG_ID=#{orgId} AND GROUP_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<select id="findOptionGroupNames" parameterType="Map" resultType ="String">
+		select GROUP_NAME from <include refid="table_name"/> 
+		 where ORG_ID = #{orgId} and GROUP_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>	
+	</select>
+	
+	<!-- 判断排序是否唯一 -->
+	<select id="findSortByExists" resultType="Integer" parameterType="com.qftx.tsm.option.bean.OptionGroupBean">
+		select count(1) from <include refid="table_name"/> t where t.org_id = #{orgId} 
+		and t.sort = #{sort} and t.ITEM_CODE = #{itemCode}
+		<if test="groupId !=null and groupId !=''">
+			and t.GROUP_ID != #{groupId}
+		</if>		
+	</select>
+	
+	<!-- 判断排序是否唯一 -->
+	<select id="findByExists" resultType="map" parameterType="com.qftx.tsm.option.bean.OptionGroupBean">
+		select GROUP_NAME as groupName,SORT as sort from <include refid="table_name"/> t where t.org_id = #{orgId} 
+		and t.ITEM_CODE = #{itemCode}
+		<if test="groupId !=null and groupId !=''">
+			and t.GROUP_ID != #{groupId}
+		</if>		
+	</select>
+</mapper>

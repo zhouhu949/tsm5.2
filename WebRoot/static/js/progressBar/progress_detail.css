@@ -1,0 +1,21 @@
+.shows_my_tables{
+	width: 90%;text-align: center;margin:20px auto;font-size:12px;
+}
+.shows_my_tables tr{
+	height: 30px;
+}
+.shows_prograss_detail{
+	width: 70%;height: 20px;float:left;margin-left:10%;position: relative;
+}
+.shows_prograss_value{
+	background-color: #0f9eff;height: 50%;margin-top:3%;border-radius: 5px;
+}
+.shows_prograss_num{
+	width:10%;height:20px;float:left;line-height:20px;
+}
+.progress_bar{
+	width:500px;height:300px;position:absolute;top:140px;left:403px;z-index:1;background:#fff;overflow-y:scroll;border:1px solid #e5e5e5;display:none;
+}
+.shows_prograss_line{
+	background-color: #0f9eff;width: 100%;height: 1px;overflow: hidden;position: absolute;top: 50%;
+}

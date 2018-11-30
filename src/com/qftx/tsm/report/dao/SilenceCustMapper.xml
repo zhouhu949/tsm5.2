@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.SilenceCustMapper">
+    <resultMap type="com.qftx.tsm.report.dto.SilenceCustDto" id="BaseResultMap">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+    	<result column="curr_date" property="currDate" jdbcType="VARCHAR" />
+		<result column="sign_total" property="signTotal" jdbcType="DECIMAL"/>
+		<result column="silent_total" property="silentTotal" jdbcType="DECIMAL"/>
+		<result column="expire_cust_total" property="expireCustTotal" jdbcType="DECIMAL"/>
+		<result column="account" property="account" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="wake_total" property="wakeTotal" jdbcType="DECIMAL"/>
+		<result column="loss_total" property="lossTotal" jdbcType="DECIMAL"/>
+		<result column="add_silent_total" property="addSilentTotal" jdbcType="DECIMAL"/>
+		<result column="add_wake_total" property="addWakeTotal" jdbcType="DECIMAL"/>
+		<result column="add_loss_total" property="addLossTotal" jdbcType="DECIMAL"/>
+		<result column="silent_rate" property="silentRate" jdbcType="DECIMAL"/>
+		<result column="wake_rate" property="wakeRate" jdbcType="DECIMAL"/>
+   		<result column="dept_id" property="deptId" jdbcType="VARCHAR"/>
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR"/>	
+		<result column="loss_rate" property="lossRate" jdbcType="DECIMAL"/>		
+    </resultMap>
+        
+	<!-- 实体表名 -->
+	<sql id="table_name">tsm_report_silent_loss</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+			<if test="id != null and id !=''">
+			     and id=#{id,jdbcType=VARCHAR} 
+			</if>	
+		<if test="currDate != null and currDate!=''">
+		    AND curr_Date = #{currDate}
+		</if>	
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND ACCOUNT = #{account,jdbcType=VARCHAR} 
+		</if>				
+		<if test="signTotal != null">
+		    AND sign_Total = #{signTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="silentTotal != null">
+		    AND silent_Total = #{silentTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="expireCustTotal != null">
+		    AND expire_Cust_Total = #{expireCustTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="wakeTotal != null">
+		    AND wake_Total = #{wakeTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="lossTotal != null">
+		    AND loss_Total = #{lossTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="addLossTotal != null">
+		    AND add_Loss_Total = #{addLossTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="addSilentTotal != null">
+		    AND add_Silent_Total = #{addSilentTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="addWakeTotal != null">
+		    AND add_Wake_Total = #{addWakeTotal,jdbcType=DECIMAL} 
+		</if>						
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null and id !=''">
+			     id=#{id,jdbcType=VARCHAR} ,
+			</if>			
+			<if test="currDate != null and currDate !=''">
+			        curr_Date = #{currDate,jdbcType=VARCHAR},
+			</if>	
+			<if test="account != null and account !=''">
+			     ACCOUNT = #{account,jdbcType=VARCHAR} ,
+			</if>				
+			<if test="signTotal != null">
+			     sign_Total = #{signTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="silentTotal != null">
+			     silent_Total = #{silentTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="expireCustTotal != null">
+			     expire_Cust_Total = #{expireCustTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="wakeTotal != null">
+			     wake_Total = #{wakeTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="lossTotal != null">
+			     loss_Total = #{lossTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="addLossTotal != null">
+			     add_Loss_Total = #{addLossTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="addSilentTotal != null">
+			     add_Silent_Total = #{addSilentTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="addWakeTotal != null">
+			     add_Wake_Total=#{addWakeTotal,jdbcType=DECIMAL} ,
+			</if>									
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null and id !=''">
+			    id ,
+			</if>	
+					
+			<if test="currDate != null and currDate !=''">
+			     curr_Date ,
+			</if>	
+			<if test="orgId != null">
+			     ORG_ID ,
+			</if>
+			<if test="account != null">
+			     ACCOUNT ,
+			</if>				
+			<if test="signTotal != null">
+			     sign_Total ,
+			</if>
+			<if test="silentTotal != null">
+			     silent_Total  ,
+			</if>
+			<if test="expireCustTotal != null">
+			     expire_Cust_Total,
+			</if>
+			<if test="wakeTotal != null">
+			     wake_Total ,
+			</if>
+			<if test="lossTotal != null">
+			     loss_Total ,
+			</if>
+			<if test="addLossTotal != null">
+			     add_Loss_Total  ,
+			</if>
+			<if test="addSilentTotal != null">
+			     add_Silent_Total ,
+			</if>
+			<if test="addWakeTotal != null">
+			     add_Wake_Total,
+			</if>			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null and id !=''">
+			     #{id,jdbcType=VARCHAR} ,
+			</if>		
+			
+			<if test="currDate != null and currDate !=''">
+			         #{currDate,jdbcType=VARCHAR},
+			</if>	
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="account != null and account !=''">
+			   #{account,jdbcType=VARCHAR} ,
+			</if>				
+			<if test="signTotal != null">
+			   #{signTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="silentTotal != null">
+			     #{silentTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="expireCustTotal != null">
+			     #{expireCustTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="wakeTotal != null">
+			     #{wakeTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="lossTotal != null">
+			   #{lossTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="addLossTotal != null">
+			     #{addLossTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="addSilentTotal != null">
+			     #{addSilentTotal,jdbcType=DECIMAL} ,
+			</if>
+			<if test="addWakeTotal != null">
+			    #{addWakeTotal,jdbcType=DECIMAL} ,
+			</if>			
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    id,curr_Date,ORG_ID,sign_Total,silent_total,expire_Cust_Total,account,wake_Total,loss_Total,add_Loss_Total,add_Silent_Total,add_Wake_Total
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.dto.SilenceCustDto">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.report.dto.SilenceCustDto">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where  org_id = #{orgId} and ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.report.dto.SilenceCustDto">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where  org_id = #{orgId} and ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from 
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>    
+	
+	<select id="findLastSilentCust" parameterType="map" resultMap="BaseResultMap">
+			SELECT
+				*
+			FROM
+				tsm_report_silent_loss t
+			WHERE
+				t.account = #{account}
+			AND t.org_id = #{orgId}
+			ORDER BY
+				t.curr_Date DESC
+			LIMIT 0,
+			 1	
+	</select>
+	<!-- 统计沉默客户 率-->
+	<select id="findSilentCustList" parameterType="map" resultMap="BaseResultMap">
+			SELECT
+				SUM(IFNULL(r.sign_total, 0)) sign_total,
+				SUM(
+					IFNULL(r.expire_cust_total, 0)
+				) expire_cust_total,
+				SUM(
+					IFNULL(r.add_silent_total, 0)
+				) add_silent_total,
+				SUM(IFNULL(r.silent_total, 0)) silent_total,
+				SUM(IFNULL(r.add_loss_total, 0)) add_loss_total,
+				r.curr_Date,
+			   SUM(IFNULL(r.loss_total, 0)) loss_total,
+			IF (
+				SUM(IFNULL(r.silent_total, 0)) <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(
+							IFNULL(r.silent_total, 0)
+						) / SUM(IFNULL(r.sign_total, 0))
+					) * 100,
+					2
+				),
+				0
+			) silent_rate,
+			IF (
+				SUM(IFNULL(r.loss_total, 0)) <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						SUM(
+							IFNULL(r.loss_total, 0)
+						) / SUM(IFNULL(r.sign_total, 0))
+					) * 100,
+					2
+				),
+				0
+			) loss_rate			
+	
+		FROM
+			tsm_report_silent_loss r,
+			tsm_team_group g,
+			tsm_team_group_member m
+		WHERE
+			r.org_id = #{orgId}
+		AND g.ORG_ID = #{orgId}
+		AND m.org_id = #{orgId}
+		AND m.GROUP_ID = g.GROUP_ID
+		AND m.MEMBER_ACC = r.account
+		<if test="startTime!=null and startTime!='' ">
+	       <![CDATA[
+            AND str_to_date(r.curr_Date,'%Y-%m')>=str_to_date(#{startTime}, '%Y-%m') 	       				   	       
+		   ]]>
+		</if>
+		<if test="endTime!=null and endTime!=''">
+		   <![CDATA[
+           AND str_to_date(r.curr_Date,'%Y-%m')<=str_to_date(#{endTime}, '%Y-%m') 	       				   
+		   ]]>
+		</if>		
+		AND g.GROUP_ID IN (
+			SELECT
+				s.GROUP_ID
+			FROM
+				tsm_group_shareinfo s
+			WHERE s.org_id=#{orgId} and
+				s.SHARE_ACC = #{account}
+		)	
+		group by r.curr_Date
+	</select>
+	
+	<!-- 沉默明细率 -->
+	<select id="findSilentDetailList" parameterType="map" resultMap="BaseResultMap">
+			SELECT
+				c.GROUP_ID as dept_Id,
+				c.GROUP_NAME as dept_name,
+			IFNULL (
+				u.USER_NAME,
+				c.MEMBER_ACC
+			) as account,
+			 IFNULL(c.sign_total,0) as sign_total,
+			 IFNULL(c.silent_total,0) as silent_total,
+			 IFNULL(c.wake_total,0) as wake_total,
+			 IFNULL(c.loss_total,0) as loss_total,
+			 IFNULL(c.expire_cust_total,0) as expire_cust_total,
+			 IFNULL(c.add_silent_total,0) as add_silent_total,
+			 IFNULL(c.add_wake_total,0) as add_wake_total,
+			 IFNULL(c.add_loss_total,0) as add_loss_total,
+			 IFNULL(c.silent_rate,0) as silent_rate,
+			 IFNULL(c.wake_rate,0) as wake_rate	,
+			 IFNULL(c.loss_rate,0) as loss_rate				 	 
+			FROM
+			(	
+			SELECT
+				a.GROUP_ID,
+				a.GROUP_NAME,
+				a.MEMBER_ACC,
+				b.sign_total,
+				b.silent_total,
+				b.wake_total,
+				b.add_silent_total,
+				b.add_wake_total,
+				b.add_loss_total,
+				b.loss_total,
+				b.expire_cust_total,
+			IF (
+				(b.silent_total) <![CDATA[ <>  ]]> 0,
+				ROUND(
+					(
+						b.silent_total / (b.sign_total)
+					) * 100,
+					2
+				),
+				0
+			) silent_rate,
+			
+			IF (
+				(b.wake_total) <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						b.wake_total / (b.silent_total)
+					) * 100,
+					2
+				),
+				0
+			) wake_rate,
+			IF (
+				 (b.loss_total) <![CDATA[ <>  ]]>  0,
+				ROUND(
+					(
+						b.loss_total / (b.sign_total)
+					) * 100,
+					2
+				),
+				0
+			) loss_rate			
+			FROM
+				(
+					SELECT
+						g.GROUP_ID,
+						g.GROUP_NAME,
+						m.MEMBER_ACC
+					FROM
+						tsm_team_group g,
+						tsm_team_group_member m
+					WHERE
+						g.ORG_ID = #{orgId}
+						<if test="deptId!='' and deptId!=null ">
+						   and g.group_id = #{deptId}
+						</if>
+					AND m.org_id = #{orgId}
+					AND g.GROUP_ID = m.GROUP_ID
+					AND g.GROUP_ID IN (
+						SELECT
+							s.GROUP_ID
+						FROM
+							tsm_group_shareinfo s
+						WHERE
+							s.SHARE_ACC = #{account}
+						AND s.org_id = #{orgId}
+					)
+				) a
+			LEFT JOIN (
+				SELECT
+					*
+				FROM
+					tsm_report_silent_loss l
+				WHERE
+					l.org_id =#{orgId}
+				AND l.curr_Date = #{currDate}
+			) b ON a.MEMBER_ACC = b.account
+			GROUP BY
+				a.group_id,
+				a.group_name,
+				a.MEMBER_ACC
+			) c
+			LEFT JOIN auth_user u ON u.ORG_ID = #{orgId}
+			AND u.USER_ACCOUNT = c.MEMBER_ACC
+			order by c.GROUP_NAME desc	
+	</select>
+</mapper>

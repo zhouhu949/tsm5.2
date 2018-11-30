@@ -1,0 +1,155 @@
+.swfupload{margin:5px 0 0 100px;display:inline-block;float:left;width:150px;height:18px;line-height:18px;border:solid #d6d6d6 1px;border-radius:3px;}
+#logList {
+	margin-top: 25px;
+	padding: 0;
+	width: 80%;
+}
+#logList li {
+	list-style-position: inside;
+	margin:0 0 0 100px;
+	/* border: 1px solid #ccc; */
+	/* padding: 10px;  */
+	color: #7d7e7c;
+	font-size: 12px;
+	background: #FFF;
+	position: relative;
+}
+#logList li .progressBar {
+	border:1px solid #abaca9;
+	height:5px;
+	background:#fff;
+}  
+#logList li .progressValue {
+	color: red;
+	margin-left: 5px
+}  
+#logList li .progress {
+	background:#05b441;
+	width:0%;
+	height:5px;
+}  
+#logList li p {
+	margin:0;
+	line-height:18px;
+}  
+#logList li.success {
+	border-bottom:2px solid #fff;
+	background:#eff5fb;
+}
+#logList li span.min-dele {
+	/* background:url('../images/delete.gif') no-repeat; */
+	position:absolute;
+	top:1px;
+	right:1px;
+	width:16px;
+	height:16px;
+	cursor:pointer
+}
+
+.progressBar{width:120px;display:inline-block;}
+.status{display:inline-block;}
+
+#importList {
+	margin-top: 25px;
+	padding: 0;
+	width: 80%;
+}
+#importList li {
+	list-style-position: inside;
+	margin:0 0 0 100px;
+	/* border: 1px solid #ccc; */
+	/* padding: 10px;  */
+	color: #7d7e7c;
+	font-size: 12px;
+	background: #FFF;
+	position: relative;
+}
+#importList li .progressBar {
+	border:1px solid #abaca9;
+	height:5px;
+	background:#fff;
+}  
+#importList li .progressValue {
+	color: red;
+	margin-left: 5px
+}  
+#importList li .progress {
+	background:#05b441;
+	width:0%;
+	height:5px;
+}  
+#importList li p {
+	margin:0;
+	line-height:18px;
+}  
+#importList li.success {
+	border-bottom:2px solid #fff;
+	background:#eff5fb;
+}
+#importList li span.min-dele {
+	/* background:url('../images/delete.gif') no-repeat; */
+	position:absolute;
+	top:1px;
+	right:1px;
+	width:16px;
+	height:16px;
+	cursor:pointer
+}
+#impQueueStatus{
+	margin-left:100px;
+}
+/* h5新样式 */
+.chooseFiles{
+	padding: 2px 10px;
+	width:250px;
+    height: 20px;
+    line-height: 20px;
+    position: relative;
+    cursor: pointer;
+    color: #545454;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+.chooseFiles:hover{
+	text-decoration:none;
+}
+#files,#addFujian{
+	position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+#files:hover{
+	color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+#uploadButton{
+	background-color:#fff;
+	outline:none;
+	border-width:1px;
+	border-style: solid;
+	padding:2px 4px;
+	margin-top:5px;
+	cursor:pointer;
+}
+.uploadButton{
+	background-color:#fff;
+	outline:none;
+	border-width:1px;
+	border-style: solid;
+	padding:2px 4px;
+	margin-top:5px;
+	cursor:pointer;
+}
+#selectedFiles{
+	color:#545454;
+}

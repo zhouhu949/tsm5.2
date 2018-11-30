@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.AnnouncementMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.AnnouncementBean" >
+    <id column="ANNOUNCE_ID" property="announceId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SUM" property="sum" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.qftx.tsm.sys.dto.AnnouncementDto" id="ExpandMap" extends="BaseResultMap">
+		<result column="USERNAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="DAY" property="day" jdbcType="DECIMAL"/>
+		<result column="ID" property="announceReadId" jdbcType="VARCHAR"/>
+		<result column="IS_READ" property="isRead" jdbcType="DECIMAL"/>
+		<result column="ROW_SEQ" property="rowSeq" jdbcType="DECIMAL"/> 
+	    <result column="READEUSERS" property="readeUsers" jdbcType="DECIMAL"/> 
+	</resultMap>
+  
+  	<!-- 实体表名 -->
+	<sql id="table_name">sys_announcement</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="announceId != null" >
+	       AND  ANNOUNCE_ID = #{announceId,jdbcType=VARCHAR}
+	      </if>
+	      <if test="title != null" >
+	       AND  TITLE = #{title,jdbcType=VARCHAR}
+	      </if>
+	      <if test="content != null" >
+	       AND  CONTENT = #{content,jdbcType=VARCHAR}
+	      </if>
+	      <if test="type != null" >
+	       AND  TYPE = #{type,jdbcType=DECIMAL}
+	      </if>
+	      <if test="inputerAcc != null" >
+	       AND  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="inputdate != null" >
+	       AND  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="modifierAcc != null" >
+	       AND  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="modifydate != null" >
+	       AND  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="isDel != null" >
+	       AND  IS_DEL = #{isDel,jdbcType=DECIMAL}
+	      </if>
+	      <if test="keyword != null">
+	      	AND (TITLE like '%'||#{keyword}||'%' or CONTENT like '%'||#{keyword}||'%')
+	      </if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+  	
+  	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		  <if test="announceId != null" >
+	       ANNOUNCE_ID = #{announceId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="title != null" >
+	        TITLE = #{title,jdbcType=VARCHAR},
+	      </if>
+	      <if test="content != null" >
+	        CONTENT = #{content,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null" >
+	        TYPE = #{type,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL = #{isDel,jdbcType=DECIMAL},
+	      </if>
+		</trim>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="announceId != null" >
+	        ANNOUNCE_ID = #{announceId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="title != null" >
+	        TITLE = #{title,jdbcType=VARCHAR},
+	      </if>
+	      <if test="content != null" >
+	        CONTENT = #{content,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null" >
+	        TYPE = #{type,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL = #{isDel,jdbcType=DECIMAL},
+	      </if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  <if test="announceId != null" >
+	        ANNOUNCE_ID,
+	      </if>
+	      <if test="title != null" >
+	        TITLE,
+	      </if>
+	      <if test="content != null" >
+	        CONTENT,
+	      </if>
+	      <if test="type != null" >
+	        TYPE,
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC,
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE,
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC,
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE,
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL,
+	      </if>
+	      <if test="orgId != null" >
+	        ORG_ID,
+	      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		  <if test="announceId != null" >
+	        #{announceId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="title != null" >
+	        #{title,jdbcType=VARCHAR},
+	      </if>
+	      <if test="content != null" >
+	        #{content,jdbcType=VARCHAR},
+	      </if>
+	      <if test="type != null" >
+	        #{type,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="isDel != null" >
+	        #{isDel,jdbcType=DECIMAL},
+	      </if>
+	      <if test="orgId != null" >
+	        #{orgId,jdbcType=VARCHAR},
+	      </if>
+		</trim>
+	</sql>
+  	
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  ANNOUNCE_ID, TITLE, CONTENT, TYPE, INPUTER_ACC, INPUTDATE, MODIFIER_ACC, MODIFYDATE, 
+      IS_DEL, ORG_ID
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+		    #{announceId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+	        #{type,jdbcType=DECIMAL}, #{inputerAcc,jdbcType=VARCHAR}, #{inputdate,jdbcType=TIMESTAMP}, 
+	        #{modifierAcc,jdbcType=VARCHAR}, #{modifydate,jdbcType=TIMESTAMP}, #{isDel,jdbcType=DECIMAL}, 
+	        #{orgId,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId,jdbcType=VARCHAR}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId,jdbcType=VARCHAR}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ANNOUNCE_ID = #{announceId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId,jdbcType=VARCHAR}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.AnnouncementBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.AnnouncementBean">
+		update <include refid="table_name"/> 
+		<include refid="update_set_sql"/>
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} and ANNOUNCE_ID = #{announceId}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.AnnouncementBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} and ANNOUNCE_ID = #{announceId}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where ANNOUNCE_ID = #{announceId}
+	</delete>
+	
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	 
+	 <!-- 批量伪删除实体 -->
+	<update id="deleteFakeBatch" parameterType="map">
+		update <include refid="table_name"/>
+		<if test="isDel != null">
+			set IS_DEL = #{isDel}
+		</if>
+		,modifier_acc =#{modifierAcc},modifydate = now()
+		where ORG_ID = #{orgId} and ANNOUNCE_ID in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<!-- 根据ID查询单条通知公告 -->
+	<select id="findNoticeInfoById" parameterType="Map" resultMap="ExpandMap">
+		SELECT t.announce_id,t.title,t.content,t.type,t.INPUTER_ACC,t.inputdate,t.org_id,u.user_name as username
+		FROM <include refid="table_name"/> t left join auth_user u
+		on u.org_id = #{orgId} and  t.inputer_acc = u.user_account
+		WHERE t.org_id = #{orgId} 
+		AND t.announce_id = #{id}
+		ORDER BY t.inputdate DESC
+	</select>
+	
+		<!-- 根据ID查询单条通知公告 -->
+	<select id="findNoticeReaderUserById" parameterType="Map" resultType="String">
+		SELECT u.USER_NAME as READEUSERS  FROM auth_user u 
+             WHERE u.USER_ACCOUNT in (
+        SELECT
+	         t.SEND_TO
+        FROM
+	         tsm_message_send t 
+        WHERE
+	         t.ORG_ID = #{orgId} 
+        AND t.MSG_TYPE = '18'
+        AND t.IS_READ = '1'
+        AND t.BUSSINESS_ID =#{id}
+        )
+	</select>
+	
+<!-- 根据实体条件分页查询通知公告 -->
+	<select id="findNoticeListPage" parameterType="com.qftx.tsm.sys.bean.AnnouncementBean" resultMap="ExpandMap">
+		SELECT t.announce_id,t.title,t.content,t.type,t.INPUTER_ACC,t.inputdate,t.org_id
+		FROM <include refid="table_name"/> t 
+		WHERE
+        t.org_id =#{orgId} 
+        and t.is_del = 0
+        AND t.TYPE='1'
+		<if test="keyword != null and keyword != ''">
+	      	AND (t.title like concat('%',#{keyword},'%') or t.content like concat('%',#{keyword},'%'))
+	    </if>		
+		ORDER BY t.inputdate DESC
+	</select>
+
+<!-- 根据实体条件分页查询通知公告 -->
+	<select id="findNoticeReadersum" parameterType="com.qftx.tsm.sys.dto.AnnouncementDto" resultType="com.qftx.tsm.sys.dto.AnnouncementDto">
+		SELECT
+		      m.BUSSINESS_ID as announceId,
+	          COUNT(m.BUSSINESS_ID) AS sum
+        FROM
+	          tsm_message_send m 
+        where
+              m.ORG_ID=#{orgId} 
+              <if test="IdList !=null">
+			  AND m.BUSSINESS_ID in  
+			<foreach collection="IdList" index="index" open="(" separator="," close=")" item="item">
+				#{item}
+			</foreach>
+		</if>	
+
+              AND m.MSG_TYPE = '18'
+              AND m.IS_READ = '1'
+              GROUP BY
+              m.BUSSINESS_ID
+	</select>
+</mapper>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.export.dao.LogExportInfoMapper">
+    <!-- 基础结果集 -->
+	<resultMap type="com.qftx.export.bean.LogExportInfoBean" id="BaseResultMap">
+		<id column="export_id" property="exportId" jdbcType="VARCHAR" /> <!-- 导出ID -->
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" /> <!-- orgId -->
+		<result column="account" property="account" jdbcType="VARCHAR" /> <!-- 导出人 -->
+		<result column="export_cust_type" property="exportCustType" jdbcType="DECIMAL" /> <!-- 导出客户池 1-资源 2-意向 3-签约 4-沉默 5-流失 -->
+		<result column="export_search_context" property="exportSearchContext" jdbcType="VARCHAR" /> <!-- 导出查询条件 -->
+		<result column="export_num" property="exportNum" jdbcType="DECIMAL" /> <!-- 导出数 -->
+		<result column="export_date" property="exportDate" jdbcType="TIMESTAMP" /> <!-- 导出时间 -->
+		<result column="export_file_path" property="exportFilePath" jdbcType="VARCHAR" /> <!-- 导出文件路径 -->
+		<result column="deleted_file" property="deletedFile" jdbcType="DECIMAL" /> <!-- 是否删除导出文件 0-否 1-是 -->
+	</resultMap>
+	
+	<!-- 实体表名 -->
+	<sql id="table_name">log_export_info</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="exportId != null and exportId !=''">
+		    AND export_id = #{exportId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND account = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="exportCustType != null">
+		    AND export_cust_type = #{exportCustType,jdbcType=DECIMAL} 
+		</if>
+		<if test="exportSearchContext != null and exportSearchContext !=''">
+		    AND export_search_context = #{exportSearchContext,jdbcType=VARCHAR} 
+		</if>
+		<if test="exportNum != null">
+		    AND export_num = #{exportNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="exportDate != null">
+		    AND export_date = #{exportDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="exportFilePath != null and exportFilePath !=''">
+		    AND export_file_path = #{exportFilePath,jdbcType=VARCHAR} 
+		</if>
+		<if test="deletedFile != null">
+		    AND deleted_file = #{deletedFile,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="exportId != null">
+			    export_id = #{exportId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    org_id = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="exportCustType != null">
+			    export_cust_type = #{exportCustType,jdbcType=DECIMAL},
+			</if>
+			<if test="exportSearchContext != null">
+			    export_search_context = #{exportSearchContext,jdbcType=VARCHAR},
+			</if>
+			<if test="exportNum != null">
+			    export_num = #{exportNum,jdbcType=DECIMAL},
+			</if>
+			<if test="exportDate != null">
+			    export_date = #{exportDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="exportFilePath != null">
+			    export_file_path = #{exportFilePath,jdbcType=VARCHAR},
+			</if>
+			<if test="deletedFile != null">
+			    deleted_file = #{deletedFile,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="exportId != null" >
+			    export_id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="account != null" >
+			    account,
+			</if>
+			<if test="exportCustType != null" >
+			    export_cust_type,
+			</if>
+			<if test="exportSearchContext != null" >
+			    export_search_context,
+			</if>
+			<if test="exportNum != null" >
+			    export_num,
+			</if>
+			<if test="exportDate != null" >
+			    export_date,
+			</if>
+			<if test="exportFilePath != null" >
+			    export_file_path,
+			</if>
+			<if test="deletedFile != null" >
+			    deleted_file,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="exportId != null">
+			    #{exportId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="exportCustType != null">
+			    #{exportCustType,jdbcType=DECIMAL},
+			</if>
+			<if test="exportSearchContext != null">
+			    #{exportSearchContext,jdbcType=VARCHAR},
+			</if>
+			<if test="exportNum != null">
+			    #{exportNum,jdbcType=DECIMAL},
+			</if>
+			<if test="exportDate != null">
+			    #{exportDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="exportFilePath != null">
+			    #{exportFilePath,jdbcType=VARCHAR},
+			</if>
+			<if test="deletedFile != null">
+			    #{deletedFile,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	<!-- 表字段 -->
+	<sql id="Base_Column_List">
+       export_id,org_id,account,export_cust_type,export_search_context,export_num,export_date,export_file_path,deleted_file 
+	</sql>
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<select id="findLogListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" /> 
+		where org_id = #{orgId} 
+			<if test="account != null and account != ''">
+				and account = #{account} 
+			</if>
+			<if test="userAccs != null and userAccs.size() > 0">
+				and account in 
+				<foreach collection="userAccs" item="acc" open="(" separator="," close=")">
+					#{acc} 
+				</foreach>
+			</if>
+		 	<if test="startDate != null and startDate != ''">
+	       		and export_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       	</if>
+	       	<if test="endDate != null and endDate != ''">
+	       		and export_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       	</if>
+	       	order by export_date desc 
+	</select>
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where export_id = #{exportId}
+	</select>
+	
+	<select id="getByPrimaryKeyAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID=#{orgId} AND export_id = #{exportId} 
+	</select>
+		
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.export.bean.LogExportInfoBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.export.bean.LogExportInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND export_id = #{exportId}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.export.bean.LogExportInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND  export_id = #{exportId}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteByOrgId" parameterType="map">
+		delete from
+		<include refid="table_name" />
+		where org_id=#{orgId} and  export_id = #{exportId}
+	</delete>
+	
+</mapper>

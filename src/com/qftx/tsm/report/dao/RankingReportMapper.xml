@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.RankingReportMapper">
+    <resultMap type="com.qftx.tsm.report.bean.RankingReportBean" id="BaseResultMap">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" /> <!-- 账号 -->
+		<result column="YEAR" property="year" jdbcType="VARCHAR" /> <!-- 年份 -->
+		<result column="MONTH" property="month" jdbcType="VARCHAR" /> <!-- 月份 -->
+		<result column="SALE_AMOUNTS" property="saleAmounts" jdbcType="DECIMAL" /> <!-- 销售金额 -->
+		<result column="SIGN_NUMS" property="signNums" jdbcType="DECIMAL" /> <!-- 新增签约客户数 -->
+		<result column="INT_NUMS" property="intNums" jdbcType="DECIMAL" /> <!-- 新增意向客户数 -->
+		<result column="INPUT_TIME" property="inputTime" jdbcType="TIMESTAMP" /> <!-- 创建时间 -->
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+    </resultMap>
+  	<!-- 实体表名 -->
+	<sql id="table_name">TSM_RANKING_REPORT</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND ID = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND ACCOUNT = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="year != null and year !=''">
+		    AND YEAR = #{year,jdbcType=VARCHAR} 
+		</if>
+		<if test="month != null and month !=''">
+		    AND MONTH = #{month,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    ID = #{id,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    ORG_ID = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="account != null">
+			    ACCOUNT = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="year != null">
+			    YEAR = #{year,jdbcType=VARCHAR},
+			</if>
+			<if test="month != null">
+			    MONTH = #{month,jdbcType=VARCHAR},
+			</if>
+			<if test="saleAmounts != null">
+			    SALE_AMOUNTS = #{saleAmounts,jdbcType=DECIMAL},
+			</if>
+			<if test="signNums != null">
+			    SIGN_NUMS = #{signNums,jdbcType=DECIMAL},
+			</if>
+			<if test="intNums != null">
+			    INT_NUMS = #{intNums,jdbcType=DECIMAL},
+			</if>
+			<if test="inputTime != null">
+			    INPUT_TIME = #{inputTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			    UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    ID,
+			</if>
+			<if test="orgId != null" >
+			    ORG_ID,
+			</if>
+			<if test="account != null" >
+			    ACCOUNT,
+			</if>
+			<if test="year != null" >
+			    YEAR,
+			</if>
+			<if test="month != null" >
+			    MONTH,
+			</if>
+			<if test="saleAmounts != null" >
+			    SALE_AMOUNTS,
+			</if>
+			<if test="signNums != null" >
+			    SIGN_NUMS,
+			</if>
+			<if test="intNums != null" >
+			    INT_NUMS,
+			</if>
+			<if test="inputTime != null" >
+			    INPUT_TIME,
+			</if>
+			<if test="updateTime != null" >
+			    UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="year != null">
+			    #{year,jdbcType=VARCHAR},
+			</if>
+			<if test="month != null">
+			    #{month,jdbcType=VARCHAR},
+			</if>
+			<if test="saleAmounts != null">
+			    #{saleAmounts,jdbcType=DECIMAL},
+			</if>
+			<if test="signNums != null">
+			    #{signNums,jdbcType=DECIMAL},
+			</if>
+			<if test="intNums != null">
+			    #{intNums,jdbcType=DECIMAL},
+			</if>
+			<if test="inputTime != null">
+			    #{inputTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			    #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,ACCOUNT,YEAR,MONTH,SALE_AMOUNTS,SIGN_NUMS,INT_NUMS,INPUT_TIME,UPDATE_TIME 
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.bean.RankingReportBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.report.bean.RankingReportBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.report.bean.RankingReportBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<resultMap type="com.qftx.tsm.report.dto.RankingReportDto" id="DtoResultMap" extends="BaseResultMap">
+		<result column="user_name" property="userName" jdbcType="VARCHAR"/>	
+		<result column="callout_total" property="calloutTotal" jdbcType="DECIMAL"/>
+		<result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="findRankingList" parameterType="map" resultMap="DtoResultMap">
+		SELECT
+			ttgm.member_acc as account,
+			ifnull(au.user_name,au.user_account) as user_name,
+			au.img_url,
+			ifnull(w.sale_amounts,0) as sale_amounts,
+			ifnull(w.sign_nums,0) as sign_nums,
+			ifnull(w.int_nums,0) as int_nums
+		FROM
+			tsm_team_group_member ttgm
+		LEFT JOIN (
+			SELECT
+				t.account,
+				sum(t.sale_amounts) as sale_amounts,
+				sum(t.sign_nums) as sign_nums,
+				sum(t.int_nums) as int_nums 
+			FROM
+				tsm_ranking_report t
+			WHERE
+				t.org_id = #{orgId} 
+			<if test="year != null and year != ''">
+				AND t.year = #{year} 
+			</if>
+			<if test="month != null and month != ''">
+				AND t.month = #{month} 
+			</if>
+			GROUP BY t.account 
+		) w ON ttgm.org_id = #{orgId} and ttgm.member_acc = w.account
+		left join auth_user au on au.org_id = #{orgId} and ttgm.member_acc = au.user_account
+		WHERE au.user_account is not null  
+			  AND au.user_account NOT LIKE 'admin@%'  
+			<if test="groupIds != null">
+				AND ttgm.group_id IN 
+				<foreach collection="groupIds" item="groupId" open="(" separator="," close=")" index="index">
+					#{groupId} 
+				</foreach> 
+			</if>
+<!-- 			<if test="adminAcc != null and adminAcc != ''"> -->
+<!-- 			 	AND ttgm.group_id in ( -->
+<!-- 					SELECT TGS.GROUP_ID FROM TSM_GROUP_SHAREINFO TGS WHERE TGS.org_id = #{orgId} and TGS.SHARE_ACC = #{adminAcc} -->
+<!-- 				) -->
+<!-- 			</if>  -->
+			order by ttgm.member_acc asc 
+	</select>
+	
+	<select id="findCalloutRankingList" parameterType="map" resultMap="DtoResultMap">
+		SELECT
+			ttgm.member_acc as account,
+			ifnull(au.user_name,au.user_account) as user_name,
+			ifnull(w.callout_total,0) as callout_total 
+		FROM
+			tsm_team_group_member ttgm
+		LEFT JOIN (SELECT
+			account,
+			sum(callout_total) callout_total 
+		FROM
+			tsm_call_report
+		WHERE
+			org_id = #{orgId} 
+		and report_date >= STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%s') 
+		and report_date &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d %H:%i:%s') 
+		group by account
+		) w ON ttgm.org_id = #{orgId} and ttgm.member_acc = w.account
+		left join auth_user au on au.org_id = #{orgId} and ttgm.member_acc = au.user_account
+		WHERE au.user_account is not null  
+			  AND au.issys &lt;&gt; 1 
+			<if test="groupIds != null">
+				AND ttgm.group_id IN 
+				<foreach collection="groupIds" item="groupId" open="(" separator="," close=")" index="index">
+					#{groupId} 
+				</foreach> 
+			</if> 
+			order by ttgm.member_acc asc 
+	</select>
+	
+	<resultMap type="com.qftx.tsm.main.dto.RankReportDto" id="RankDtoMap">
+		<result column="account" property="userAccount" jdbcType="VARCHAR"/>
+		<result column="user_name" property="userName" jdbcType="VARCHAR"/>
+		<result column="img_url" property="imgUrl" jdbcType="VARCHAR"/>
+		<result column="call_num" property="callOutTotal" jdbcType="DECIMAL"/>
+		<result column="call_time" property="callTime" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<select id="findCallRankingList" parameterType="map" resultMap="RankDtoMap">
+		SELECT
+			ttgm.member_acc as account,
+			ifnull(au.user_name,au.user_account) as user_name,
+			au.img_url,
+			ifnull(w.call_num,0) as call_num,
+			ifnull(w.call_time,0) as call_time 
+		FROM
+			tsm_team_group_member ttgm
+		LEFT JOIN (select
+				 t.account,
+				 sum(t.call_out_num) call_num,
+				 sum(t.call_time) call_time 
+				from tsm_report_call_info t 
+					where t.org_id = #{orgId} 
+						and t.inputtime >= str_to_date(#{startDate},'%Y-%m-%d %H:%i:%s') 
+						and t.inputtime &lt;= str_to_date(#{endDate},'%Y-%m-%d %H:%i:%s') 
+						group by t.account 
+				) w 
+		ON ttgm.org_id = #{orgId} and ttgm.member_acc = w.account
+		left join auth_user au  on au.org_id = #{orgId} and ttgm.member_acc = au.user_account
+		WHERE au.user_account is not null  
+			AND au.issys &lt;&gt; 1 
+			<if test="groupIds != null">
+				AND ttgm.group_id IN 
+				<foreach collection="groupIds" item="groupId" open="(" separator="," close=")" index="index">
+					#{groupId} 
+				</foreach> 
+			</if>
+			order by ttgm.member_acc asc 
+	</select>
+</mapper>

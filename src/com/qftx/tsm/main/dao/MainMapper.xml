@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.main.dao.MainMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.sms.bean.TsmMessageSend">
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> 
+		<result column="USER_NAME" property="content" jdbcType="VARCHAR" /> 
+		<result column="USER_ACCOUNT" property="birthDayUserAccount" jdbcType="VARCHAR" /> 
+		<result column="BIRTHDAY" property="birthDay" jdbcType="TIMESTAMP" />
+		<result column="IS_BAR_OPEN" property="isBarOpen" jdbcType="DECIMAL" /> 
+		<result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" /> 
+	</resultMap>
+	
+
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_MAIN_INFO</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND ID = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type !=''">
+		    AND TYPE = #{type,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND ACCOUNT = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="totalNum != null">
+		    AND total_num = #{totalNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="signNum != null">
+		    AND sign_num = #{signNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="custNum != null">
+		    AND cust_num = #{custNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="poolNum != null">
+		    AND pool_num = #{poolNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="noNum != null">
+		    AND no_num = #{noNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="callNum != null">
+		    AND call_num = #{callNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="inputtime != null">
+		    AND DATE_FORMAT(INPUTTIME,'%Y-%m-%d') = DATE_FORMAT(#{inputtime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+		</if>
+		<if test="updateDate != null">
+		    AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isSet != null">
+		    AND IS_SET = #{isSet,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="findAllUserByOrgId" resultMap="BaseResultMap" parameterType="String">
+		SELECT
+	        t.ORG_ID ,
+            t.USER_NAME,
+            t.USER_ACCOUNT,
+            t.BIRTHDAY,
+            t.IS_BAR_OPEN,
+            t.IMG_URL
+        FROM
+	        auth_user t
+        WHERE
+	        t.ORG_ID =#{orgId}
+            AND MONTH (t.BIRTHDAY) = MONTH (CURDATE())
+            AND DAY (t.BIRTHDAY) = DAY (CURDATE());
+	</select>
+
+
+</mapper>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.ResCustEventMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.ResCustEventBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构名 -->
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" /> <!-- 用户名 -->
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" /> <!-- 资源ID -->
+		<result column="TYPE" property="type" jdbcType="VARCHAR" /> <!-- 操作类型(1行动记录、2服务记录、3通话记录、4评论记录、5合同记录、6订单记录) -->
+		<result column="STATE" property="state" jdbcType="VARCHAR" /> <!-- 事件触发节点，与type合用 -->
+		<result column="DATA" property="data" jdbcType="VARCHAR" /> <!-- 资源JSON数据，根据不同的数据触发节点不，数据参数不同 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 描述 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 输入时间 -->
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 册除状态1-删除，0-未删除 -->
+		<result column="LIFE_CODE" property="lifeCode" jdbcType="VARCHAR"/><!-- 资源生命周期编码 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_RES_CUST_EVENT</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId != null and userId !=''">
+		    AND user_id = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="custId != null and custId !=''">
+		    AND cust_id = #{custId,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type !=''">
+		    AND type = #{type,jdbcType=VARCHAR} 
+		</if>
+		<if test="state != null and state !=''">
+		    AND state = #{state,jdbcType=VARCHAR} 
+		</if>
+		<if test="data != null and data !=''">
+		    AND data = #{data,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="lifeCode != null and lifeCode != ''">
+			AND LIFE_CODE = #{lifeCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderKey != null and orderKey != ''">
+			ORDER BY ${orderKey} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<!--<if test="orgId != null">
+			    org_id = #{orgId,jdbcType=VARCHAR},
+			</if>-->
+			<if test="userId != null">
+			    user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    cust_id = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+			    state = #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+			    data = #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="lifeCode != null">
+				LIFE_CODE = #{lifeCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="userId != null" >
+			    user_id,
+			</if>
+			<if test="custId != null" >
+			    cust_id,
+			</if>
+			<if test="type != null" >
+			    type,
+			</if>
+			<if test="state != null" >
+			    state,
+			</if>
+			<if test="data != null" >
+			    data,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+			<if test="lifeCode != null">
+				LIFE_CODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+			    #{state,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+			    #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="lifeCode != null">
+				#{lifeCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,ORG_ID,USER_ID,CUST_ID,TYPE,STATE,DATA,CONTEXT,INPUTTIME,UPDATETIME,IS_DEL,LIFE_CODE 
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.ResCustEventBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.ResCustEventBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.ResCustEventBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="findHistoryListPage" parameterType="com.qftx.tsm.cust.bean.ResCustEventBean" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} 
+			AND CUST_ID = #{custId,jdbcType=VARCHAR}  
+			AND TYPE = #{type,jdbcType=VARCHAR} 
+			AND LIFE_CODE &lt;&gt; #{lifeCode,jdbcType=VARCHAR} 
+			ORDER BY INPUTTIME DESC 
+	</select>
+	
+	<resultMap type="map" id="ResultHashMap">
+		<result column="type" property="type" jdbcType="VARCHAR"/>
+		<result column="num" property="num" jdbcType="DECIMAL"/>
+	</resultMap>
+	<select id="findEventsNums" parameterType="com.qftx.tsm.cust.bean.ResCustEventBean" resultMap="ResultHashMap">
+		SELECT
+			t.type,
+			count(1) num
+		FROM
+			tsm_res_cust_event t 
+		WHERE t.org_id = #{orgId} 
+				AND t.cust_id = #{custId} 
+				<if test="lifeCode != null">
+					AND t.life_code = #{lifeCode}
+				</if> 
+				AND t.is_del = 0 
+		GROUP BY t.type
+	</select>
+	
+	<update id="cleanActionRecords" parameterType="map">
+		UPDATE TSM_RES_CUST_EVENT T 
+			SET T.IS_DEL = 1 
+		WHERE T.ORG_ID = #{orgId} 
+			AND T.TYPE = #{type} 
+			AND T.CUST_ID IN
+			<foreach collection="custIds" item="custId" open="(" separator="," close=")">
+			 #{custId} 
+			</foreach>
+	</update>
+	
+	<resultMap type="com.qftx.tsm.cust.dto.ResCustActionDto" id="ActionMap">
+		<result column="actionType" property="actionType" jdbcType="VARCHAR"/>
+		<result column="followType" property="followType" jdbcType="DECIMAL"/>
+		<result column="inputDate" property="inputDate" jdbcType="TIMESTAMP"/>
+		<result column="remark" property="remark" jdbcType="VARCHAR"/>
+		<result column="nextConcatTime" property="nextConcatTime" jdbcType="TIMESTAMP"/>
+		<result column="labels" property="labels" jdbcType="VARCHAR"/>
+		<result column="custFollowId" property="custFollowId" jdbcType="VARCHAR"/>
+		<result column="saleProcessId" property="saleProcessId" jdbcType="VARCHAR"/>
+		<result column="inputAcc" property="inputAcc" jdbcType="VARCHAR"/>
+		<result column="inputName" property="inputName" jdbcType="VARCHAR"/>
+		<result column="mainLinkman" property="mainLinkman" jdbcType="VARCHAR"/>
+		<result column="telphone" property="telphone" jdbcType="VARCHAR"/>
+		<result column="telphone" property="telphone" jdbcType="VARCHAR"/>
+		<result column="effectiveness" property="effectiveness" jdbcType="DECIMAL"/>
+		<result column="FEEDBACK_IMG" property="feedbackImg" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="findResCustActionsListPage" parameterType="com.qftx.tsm.cust.dto.ResCustActionDto" resultMap="ActionMap">
+		SELECT
+			T.actionType,
+			T.followType,
+			T.inputDate,
+			T.remark,
+			T.nextConcatTime,
+			T.labels,
+			T.custFollowId,
+			T.saleProcessId,
+			T.inputAcc,
+			T.inputName,
+			T.mainLinkman,
+			T.telphone,
+			T.effectiveness ,
+			T.FEEDBACK_IMG
+		FROM
+			(
+				SELECT
+					ACTION_TYPE actionType,
+					FOLLOW_TYPE followType,
+					INPUT_DATE inputDate,
+					FEEDBACK_COMMENT remark,
+					FOLLOW_DATE nextConcatTime,
+					LABEL_NAME labels,
+					CUST_FOLLOW_ID custFollowId,
+					SALE_PROCESS_ID saleProcessId,
+					INPUT_ACC inputAcc,
+					NULL inputName,
+					CUST_DETAIL_NAME mainLinkman,
+					CUST_DETAIL_MOBLIEPHONE telphone,
+					EFFECTIVENESS ,
+					FEEDBACK_IMG
+				FROM
+					tsm_cust_follow
+				WHERE
+					org_id = #{orgId}
+				AND cust_id = #{custId} 
+				UNION
+					SELECT
+						NULL actionType,
+						NULL followType,
+						log.inputtime inputDate,
+						log.context remark,
+						log.next_concat_time nextConcatTime,
+						NULL labels,
+						NULL custFollowId,
+						NULL saleProcessId,
+						au.user_account inputAcc,
+						log.input_name inputName,
+						log.NAME mainLinkman,
+						NULL telphone,
+						NULL EFFECTIVENESS ,
+						NULL FEEDBACK_IMG
+					FROM
+						tsm_res_custinfo_log log
+						left join auth_user au on log.org_id = #{orgId } and au.org_id = #{orgId } and log.user_id = au.user_id 
+					WHERE
+						log.org_id = #{orgId }
+					AND ses_id = #{custId }) T ORDER BY T.inputDate DESC 
+	</select>
+	
+	<select id="findResCustActionsList" parameterType="map" resultMap="ActionMap">
+		SELECT
+			T.actionType,
+			T.followType,
+			T.inputDate,
+			T.remark,
+			T.nextConcatTime,
+			T.labels,
+			T.custFollowId,
+			T.saleProcessId,
+			T.inputAcc,
+			T.inputName,
+			T.mainLinkman,
+			T.telphone,
+			T.effectiveness ,
+			T.FEEDBACK_IMG
+		FROM
+			(
+				SELECT
+					ACTION_TYPE actionType,
+					FOLLOW_TYPE followType,
+					INPUT_DATE inputDate,
+					FEEDBACK_COMMENT remark,
+					FOLLOW_DATE nextConcatTime,
+					LABEL_NAME labels,
+					CUST_FOLLOW_ID custFollowId,
+					SALE_PROCESS_ID saleProcessId,
+					INPUT_ACC inputAcc,
+					NULL inputName,
+					CUST_DETAIL_NAME mainLinkman,
+					CUST_DETAIL_MOBLIEPHONE telphone,
+					EFFECTIVENESS ,
+					FEEDBACK_IMG
+				FROM
+					tsm_cust_follow
+				WHERE
+					org_id = #{orgId}
+				AND cust_id = #{custId} 
+				UNION
+					SELECT
+						NULL actionType,
+						NULL followType,
+						log.inputtime inputDate,
+						log.context remark,
+						log.next_concat_time nextConcatTime,
+						NULL labels,
+						NULL custFollowId,
+						NULL saleProcessId,
+						au.user_account inputAcc,
+						log.input_name inputName,
+						log.NAME mainLinkman,
+						NULL telphone,
+						NULL EFFECTIVENESS ,
+						NULL FEEDBACK_IMG
+					FROM
+						tsm_res_custinfo_log log
+						left join auth_user au on log.org_id = #{orgId } and au.org_id = #{orgId } and log.user_id = au.user_id 
+					WHERE
+						log.org_id = #{orgId }
+					AND ses_id = #{custId }) T ORDER BY T.inputDate DESC 
+	</select>
+</mapper>

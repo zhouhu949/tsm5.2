@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.workSign.dao.WorkSignInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.workSign.bean.WorkSignInfoBean" >
+    <id column="wsi_id" property="wsiId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="lat" property="lat" jdbcType="VARCHAR" />
+    <result column="lon" property="lon" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="toucher_id" property="toucherId" jdbcType="VARCHAR" />
+    <result column="sign_date" property="signDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="input_date" property="inputDate" jdbcType="TIMESTAMP" />
+    <result column="sign_info" property="signInfo" jdbcType="VARCHAR" />
+    <result column="dev_type" property="devType" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="INTEGER" />
+    <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+    <result column="share_num" property="shareNum" jdbcType="INTEGER" />
+    <result column="favour_num" property="favourNum" jdbcType="INTEGER" />
+    <result column="imgs" property="imgs"/>
+    <result column="record" property="record"/>
+	<result column="record_time" property="recordTime"/>
+    
+    <result column="user_account" property="userAccount"/>
+	<result column="user_name" property="userName"/>
+	<result column="IMG_URL" property="imgUrl"/>
+	<result column="name" property="name"/>
+	
+  </resultMap>
+  
+  <sql id="cols">
+	t.wsi_id,t.org_id,t.group_id,t.user_id,t.lat,t.lon,t.address,t.province,t.city,t.district,t.customer_id,t.toucher_id,t.imgs,t.record,t.record_time,t.sign_date,t.update_date,t.input_date,t.sign_info,t.dev_type,t.is_del,t.comment_num,t.share_num,t.favour_num
+	</sql>
+	
+	<!-- 查询-->
+	<select id="getListByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="cols" />
+		 from work_sign_info t
+		where 1=1
+		<if test="wsiId != null">and t.wsi_id = #{wsiId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="lat != null">and t.lat = #{lat}</if>
+		<if test="lon != null">and t.lon = #{lon}</if>
+		<if test="address != null">and t.address = #{address}</if>
+		<if test="province != null">and t.province = #{province}</if>
+		<if test="city != null">and t.city = #{city}</if>
+		<if test="district != null">and t.district = #{district}</if>
+		<if test="customerId != null">and t.customer_id = #{customerId}</if>
+		<if test="toucherId != null">and t.toucher_id = #{toucherId}</if>
+		<if test="signDate != null">and t.sign_date = #{signDate}</if>
+		<if test="updateDate != null">and t.update_date = #{updateDate}</if>
+		<if test="inputDate != null">and t.input_date = #{inputDate}</if>
+		<if test="signInfo != null">and t.sign_info = #{signInfo}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="commentNum != null">and t.comment_num = #{commentNum}</if>
+		<if test="shareNum != null">and t.share_num = #{shareNum}</if>
+		<if test="favourNum != null">and t.favour_num = #{favourNum}</if>
+		
+		<if test="fromDate != null">and t.sign_date <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.sign_date <![CDATA[ <= ]]> #{toDate}</if>
+		
+		<if test="orderKey != null">order by  ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="cols" />
+		 from work_sign_info t
+		where 1=1
+		<if test="wsiId != null">and t.wsi_id = #{wsiId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="inputDate != null">and t.input_date = #{inputDate}</if>
+		<if test="signInfo != null">and t.sign_info = #{signInfo}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update work_sign_info
+		<set>
+		<if test="groupId != null">group_id = #{groupId},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="lat != null">lat = #{lat},</if>
+		<if test="lon != null">lon = #{lon},</if>
+		<if test="address != null">address = #{address},</if>
+		<if test="province != null">province = #{province},</if>
+		<if test="city != null">city = #{city},</if>
+		<if test="district != null">district = #{district},</if>
+		<if test="customerId != null">customer_id = #{customerId},</if>
+		<if test="toucherId != null">toucher_id = #{toucherId},</if>
+		<if test="signDate != null">sign_date = #{signDate},</if>
+		<if test="updateDate != null">update_date = #{updateDate},</if>
+		<if test="inputDate != null">input_date = #{inputDate},</if>
+		<if test="signInfo != null">sign_info = #{signInfo},</if>
+		<if test="devType != null">dev_type = #{devType},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="commentNum != null">comment_num = #{commentNum},</if>
+		<if test="shareNum != null">share_num = #{shareNum},</if>
+		<if test="favourNum != null">favour_num = #{favourNum},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="wsiId != null">and wsi_id = #{wsiId}</if>
+	</update>	
+	
+	<!-- 查询-->
+	<select id="findByPage" resultMap="BaseResultMap">
+		select
+		<include refid="cols" />
+		 from work_sign_info t
+		where 1=1
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+<!-- 		<if test="signDate != null">and t.sign_date ${symbol} #{signDate}</if> -->
+		<if test="inputDate != null">and t.input_date ${symbol} #{inputDate}</if>
+		<if test="shareUserId != null">and t.user_id = #{shareUserId}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="queryText !=null">and (t1.user_account like CONCAT('%',#{queryText},'%') or t1.user_name like CONCAT('%',#{queryText},'%'))</if>
+		<if test="userIds!=null and userIds.length >0">
+			and (
+			<foreach collection="userIds" item="userId" open="t.user_id in (" close=")" separator=",">
+				#{userId}
+			</foreach>
+			
+			<foreach collection="wsiIds" item="wsiId" open="or wsi_id in (" close=")" separator=",">
+				#{wsiId}
+			</foreach>
+			)
+		</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+		limit 10
+	</select>
+	
+	<!-- 更新评论数 -->
+	<update id="updateNum">
+		update work_sign_info set ${colName} = (ifnull(${colName},0)+${num})
+		where 1 = 1 
+		<if test="orgId != null">and org_id=#{orgId}</if>
+		and wsi_id = #{wsiId}
+	</update>
+	
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.workSign.bean.WorkSignInfoBean">
+	insert into work_sign_info(wsi_id,org_id,group_id,user_id,lat,lon,address,province,city,district,customer_id,toucher_id,sign_date,update_date,input_date,sign_info,dev_type,is_del,comment_num,share_num,favour_num,imgs,record,record_time)
+	values(#{wsiId},#{orgId},#{groupId},#{userId},#{lat},#{lon},#{address},#{province},#{city},#{district},#{customerId},#{toucherId},#{signDate},#{updateDate},#{inputDate},#{signInfo},#{devType},#{isDel},#{commentNum},#{shareNum},#{favourNum},#{imgs},#{record},#{recordTime})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into work_sign_info(wsi_id,org_id,group_id,user_id,lat,lon,address,province,city,district,customer_id,toucher_id,sign_date,update_date,input_date,sign_info,dev_type,is_del,comment_num,share_num,favour_num,imgs,record,record_time)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.wsiId},#{bean.orgId},#{bean.groupId},#{bean.userId},#{bean.lat},#{bean.lon},#{bean.address},#{bean.province},#{bean.city},#{bean.district},#{bean.customerId},#{bean.toucherId},#{bean.signDate},#{bean.updateDate},#{bean.inputDate},#{bean.signInfo},#{bean.devType},#{bean.isDel},#{bean.commentNum},#{bean.shareNum},#{bean.favourNum},#{bean.imgs},#{bean.record},#{bean.recordTime})
+    </foreach>
+    </insert>
+    
+    <select id="findWorkSignInfos" parameterType="map" resultMap="BaseResultMap">
+    	select wsi_id,user_id,lat,lon,address,customer_id,toucher_id,sign_date,sign_info,imgs,record,record_time 
+    		from work_sign_info where org_id = #{orgId} and is_del = 0 
+    		<if test="startDate != null and startDate != ''">
+	       		and sign_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	        </if>
+	        <if test="endDate != null and endDate != ''">
+	       		and sign_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	        </if>
+	        <if test="userAcc != null and userAcc != ''">
+	        	and user_id = #{userAcc} 
+	        </if>
+	        <if test="userAccs != null and userAccs.size() > 0">
+	        	and user_id in 
+	        	<foreach collection="userAccs" item="ua" open="(" separator="," close=")">
+	        		#{ua}
+	        	</foreach>
+	        </if>
+	        <if test="lat != null">
+	        	and lat > #{minLat,jdbcType=DECIMAL} 
+				and lat &lt; #{maxLat,jdbcType=DECIMAL} 
+	        </if>
+	        <if test="lon != null">
+				and lon > #{minLng,jdbcType=DECIMAL} 
+				and lon &lt; #{maxLng,jdbcType=DECIMAL} 
+	        </if>
+	        order by sign_date desc
+    </select>
+</mapper>

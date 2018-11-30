@@ -1,0 +1,11 @@
+.tree li {position:relative;}
+.select dd ul{width:99%;max-height:99%;}
+.tree li .tree-node{width:100%;height:25px;}
+.tree-collapsed,.tree-expanded{height:22px;margin-top:3px;}
+.tree-title{height:25px;line-height:25px;}
+.min-edit,.min-dele{position:absolute;display:none;top:3px;}
+.min-edit{right:28px;}
+.min-dele{right:10px;}
+.add-depart{font-size:14px;color:red;cursor:pointer;}
+.tree-node-hover .tree-title .min-edit,.tree-node-hover .tree-title .min-dele{display:block;}
+.memb-edit-tree {overflow-y: auto;margin-bottom: 0;padding-bottom: 0;}

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.main.dao.ContactDayDataMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.main.bean.ContactDayDataBean">
+		<result column="RES_ID" property="resId" jdbcType="VARCHAR" /> <!-- 客户id -->
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" /> <!-- 账号 -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位id -->
+		<result column="CURR_DATE" property="currDate" jdbcType="VARCHAR" /> <!-- 当天日期 -->
+		<result column="TYPE" property="type" jdbcType="DECIMAL" /> <!-- 类型（1-资源；2-客户） -->
+		<result column="STATUS" property="status" jdbcType="DECIMAL" /> <!-- 状态（1-转意向；2-转签约；3-无变化；4-转公海） -->
+		<result column="INIT_PROCESS_ID" property="initProcessId" jdbcType="VARCHAR" /> <!-- 初始销售进程 -->
+		<result column="CURR_PROCESS_ID" property="currProcessId" jdbcType="VARCHAR" /> <!-- 当前销售进程 -->
+		<result column="LAST_STATUS" property="lastStatus" jdbcType="DECIMAL" /> <!-- 上次状态 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_CONTACT_DAY_DATA</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="resId != null and resId !=''">
+		    AND res_id = #{resId,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND account = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="currDate != null and currDate !=''">
+		    AND curr_date = #{currDate,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null">
+		    AND type = #{type,jdbcType=DECIMAL} 
+		</if>
+		<if test="status != null">
+		    AND status = #{status,jdbcType=DECIMAL} 
+		</if>
+		<if test="initProcessId != null and initProcessId !=''">
+		    AND init_process_id = #{initProcessId,jdbcType=VARCHAR} 
+		</if>
+		<if test="currProcessId != null and currProcessId !=''">
+		    AND curr_process_id = #{currProcessId,jdbcType=VARCHAR} 
+		</if>
+		<if test="lastStatus != null">
+		    AND last_status = #{lastStatus,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="resId != null">
+			    res_id = #{resId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    account = #{account,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="currDate != null">
+			    curr_date = #{currDate,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    type = #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+			    status = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="initProcessId != null">
+			    init_process_id = #{initProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="currProcessId != null">
+			    curr_process_id = #{currProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="lastStatus != null">
+			    last_status = #{lastStatus,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				id,
+			</if>
+			<if test="resId != null" >
+			    res_id,
+			</if>
+			<if test="account != null" >
+			    account,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="currDate != null" >
+			    curr_date,
+			</if>
+			<if test="type != null" >
+			    type,
+			</if>
+			<if test="status != null" >
+			    status,
+			</if>
+			<if test="initProcessId != null" >
+			    init_process_id,
+			</if>
+			<if test="currProcessId != null" >
+			    curr_process_id,
+			</if>
+			<if test="lastStatus != null" >
+			    last_status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="resId != null">
+			    #{resId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="currDate != null">
+			    #{currDate,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+			    #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="initProcessId != null">
+			    #{initProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="currProcessId != null">
+			    #{currProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="lastStatus != null">
+			    #{lastStatus,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    RES_ID,ACCOUNT,ORG_ID,CURR_DATE,TYPE,STATUS,INIT_PROCESS_ID,CURR_PROCESS_ID,LAST_STATUS 
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.main.bean.ContactDayDataBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.main.bean.ContactDayDataBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where res_id = #{resId,jdbcType=VARCHAR} 
+			AND account = #{account,jdbcType=VARCHAR} 
+			AND org_id = #{orgId,jdbcType=VARCHAR} 
+			AND curr_date = #{currDate,jdbcType=VARCHAR} 
+			<if test="type != null">
+			   and type = #{type,jdbcType=DECIMAL}
+			</if>
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.main.bean.ContactDayDataBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where res_id = #{resId,jdbcType=VARCHAR} 
+			AND account = #{account,jdbcType=VARCHAR} 
+			AND org_id = #{orgId,jdbcType=VARCHAR} 
+			AND curr_date = #{currDate,jdbcType=VARCHAR} 
+	</update>
+	
+	<resultMap type="map" id="KeyValueResultMap">
+		<result column="cust_num" property="custNum" jdbcType="DECIMAL" javaType="java.lang.Integer" />
+		<result column="sign_num" property="signNum" jdbcType="DECIMAL" javaType="java.lang.Integer" />
+		<result column="no_num" property="noNum" jdbcType="DECIMAL" javaType="java.lang.Integer" />
+		<result column="pool_num" property="poolNum" jdbcType="DECIMAL" javaType="java.lang.Integer" />
+		<result column="total_num" property="totalNum" jdbcType="DECIMAL" javaType="java.lang.Integer" />
+		<result column="add_res_count" property="addResCount" jdbcType="DECIMAL" javaType="java.lang.Integer" />
+	</resultMap>
+	<!-- 查询统计 -->
+	<select id="findContactReport" parameterType="map" resultMap="KeyValueResultMap">
+		<choose>
+			<when test="type == 1">
+				SELECT
+					ifnull(sum((case when t.type=2 and t.status = 3 then 1 else 0 end)),0) cust_num,
+					ifnull(sum((case when t.type=2 and t.status = 6 then 1 else 0 end)),0) sign_num,
+					ifnull(sum((case when t.type=1 and t.status = 2 then 1 else 0 end)),0) no_num,
+					ifnull(sum((case when t.type=4 and t.status = 4 then 1 else 0 end)),0) pool_num,
+					ifnull(sum((case when t.init_type = 0 then 1 else 0 end)),0) add_res_count,
+					ifnull(sum((case when t.type != 0 then 1 else 0 end)),0) total_num 
+				FROM
+					log_contact_day_data t
+				WHERE
+					t.org_id = #{orgId}
+				AND t.owner_acc IN 
+				<foreach collection="accounts" item="account" open="(" separator="," close=")">
+					 #{account} 
+				</foreach>
+				AND t.curr_date = str_to_date(#{curDate},'%Y-%m-%d') 
+				AND t.init_status = 2  
+			</when>
+			<otherwise>
+				SELECT
+					ifnull(sum((case when t.type=2 and t.status = 3 and t.curr_process_id != t.init_process_id then 1 else 0 end)),0) cust_num,
+					ifnull(sum((case when t.type=2 and t.status = 6 then 1 else 0 end)),0) sign_num,
+					ifnull(sum((case when t.type=2 and t.status = 3 and t.curr_process_id = t.init_process_id then 1 else 0 end)),0) no_num,
+					ifnull(sum((case when t.type=4 and t.status = 4 then 1 else 0 end)),0) pool_num,
+					ifnull(sum((case when t.type != 1 then 1 else 0 end)),0) total_num 
+				FROM
+					log_contact_day_data t
+				WHERE
+					t.org_id = #{orgId}
+				AND t.owner_acc IN 
+				<foreach collection="accounts" item="account" open="(" separator="," close=")">
+					 #{account} 
+				</foreach>
+				AND t.curr_date = str_to_date(#{curDate},'%Y-%m-%d') 
+				AND t.init_status = 3 
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

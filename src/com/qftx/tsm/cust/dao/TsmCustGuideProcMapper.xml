@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.TsmCustGuideProcMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.TsmCustGuideProc" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GUIDE_ID" property="guideId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="PROC_ID" property="procId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <!-- 实体表名 -->
+  <sql id="table_name">tsm_cust_guide_proc</sql>
+  
+
+ <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	  <if test="id != null and id != ''" >
+		and ID = #{id,jdbcType=VARCHAR}
+	   </if>
+	  <if test="guideId != null and guideId != ''" >
+        and GUIDE_ID = #{guideId,jdbcType=VARCHAR}
+      </if>
+      <if test="procId != null and custTypeId != ''" >
+        and PROC_ID = #{procId,jdbcType=VARCHAR}
+      </if>
+	</sql>
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			  <if test="id != null" >
+		        ID,
+		      </if>
+		      <if test="guideId != null" >
+		        GUIDE_ID,
+		      </if>
+		      <if test="procId != null" >
+		        PROC_ID,
+		      </if>
+		      <if test="orgId != null" >
+		        ORG_ID,
+		      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="id != null" >
+		        #{id,jdbcType=VARCHAR},
+		      </if>
+		      <if test="guideId != null" >
+		        #{guideId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="procId != null" >
+		        #{procId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orgId != null" >
+		        #{orgId,jdbcType=VARCHAR},
+		      </if>
+		</trim>
+	</sql>
+	
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	    ID,GUIDE_ID, PROC_ID, ORG_ID
+  	</sql>
+  	
+	<sql id="batch_insert_into_value">
+		 select 
+		      #{item.id,jdbcType=VARCHAR}, #{item.guideId,jdbcType=VARCHAR}, #{item.procId,jdbcType=VARCHAR}, 
+		      #{item.orgId,jdbcType=VARCHAR}
+		 from dual
+	</sql>
+	
+	
+ <!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.TsmCustGuide">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator="union all">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+		
+	</insert>
+	
+	<!-- 删除 -->
+	<delete id="deleteBy" parameterType="Map">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId,jdbcType=VARCHAR}
+		 <include refid="entity_condition_orderby"/>
+	</delete>
+	
+	<select id="findProcIdsByCustId" parameterType="map" resultType="string" >
+			SELECT
+				p.PROC_ID
+			FROM
+				tsm_cust_guide_proc p,
+				tsm_cust_guide g
+			WHERE
+				p.ORG_ID = #{orgId}
+			AND g.ORG_ID = #{orgId}
+			AND p.GUIDE_ID = g.CUST_GUIDE_ID
+			AND g.CUST_ID = #{custId}
+	</select>
+</mapper>

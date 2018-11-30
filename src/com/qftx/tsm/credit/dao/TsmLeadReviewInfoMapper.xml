@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.credit.dao.TsmLeadReviewInfoMapper">
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+    <id column="REVIEW_ID" jdbcType="VARCHAR" property="reviewId" />
+    <result column="LEAD_ID" jdbcType="VARCHAR" property="leadId" />
+    <result column="REVIEW_DATE" jdbcType="TIMESTAMP" property="reviewDate" />
+    <result column="REVIEW_ACC" jdbcType="VARCHAR" property="reviewAcc" />
+    <result column="REVIEW_REMARK" jdbcType="VARCHAR" property="reviewRemark" />
+    <result column="REVIEW_RESULT" jdbcType="INTEGER" property="reviewResult" />
+    <result column="REVIEW_NODE" jdbcType="INTEGER" property="reviewNode" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="IS_DEL" jdbcType="TINYINT" property="isDel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    REVIEW_ID, LEAD_ID, REVIEW_DATE, REVIEW_ACC, REVIEW_REMARK, REVIEW_RESULT, REVIEW_NODE, 
+    ORG_ID, IS_DEL
+  </sql>
+  <select id="findReviewsByLeadId" resultMap="BaseResultMap">
+    select 
+	<include refid="Base_Column_List" />
+    from tsm_lead_review_info
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+    and LEAD_ID = #{leadId,jdbcType=VARCHAR}
+    and IS_DEL = 0
+    order by REVIEW_NODE
+  </select>
+  
+  <select id="getAleadyInfo" resultMap="BaseResultMap">
+    select 
+	<include refid="Base_Column_List" />
+    from tsm_lead_review_info
+    where ORG_ID = #{orgId, jdbcType=VARCHAR}
+    and LEAD_ID = #{leadId, jdbcType=VARCHAR}
+    and REVIEW_NODE = #{reviewNode, jdbcType=VARCHAR}
+    and IS_DEL = 0
+    order by REVIEW_NODE
+  </select>
+  
+  <select id="findLeadIdList" resultType="java.lang.String" parameterType="com.qftx.tsm.credit.dto.TsmLoanReviewInfoDto">
+    select LEAD_ID
+    from tsm_lead_review_info
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+    and REVIEW_ACC = #{ownerAcc,jdbcType=VARCHAR}
+    and IS_DEL = 0
+    <!-- 提交时间 -->
+    <if test="auditStartDate != null and auditStartDate != ''">
+    		AND REVIEW_DATE &gt;= STR_TO_DATE(CONCAT(#{auditStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+    </if>
+    <if test="auditEndDate != null and auditEndDate != ''">
+    		AND REVIEW_DATE &lt;= STR_TO_DATE(CONCAT(#{auditEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tsm_lead_review_info
+    where REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tsm_lead_review_info
+    where REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+    insert into tsm_lead_review_info (REVIEW_ID, LEAD_ID, REVIEW_DATE, 
+      REVIEW_ACC, REVIEW_REMARK, REVIEW_RESULT, 
+      REVIEW_NODE, ORG_ID, IS_DEL
+      )
+    values (#{reviewId,jdbcType=VARCHAR}, #{leadId,jdbcType=VARCHAR}, #{reviewDate,jdbcType=TIMESTAMP}, 
+      #{reviewAcc,jdbcType=VARCHAR}, #{reviewRemark,jdbcType=VARCHAR}, #{reviewResult,jdbcType=INTEGER}, 
+      #{reviewNode,jdbcType=INTEGER}, #{orgId,jdbcType=VARCHAR}, #{isDel,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+    insert into tsm_lead_review_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reviewId != null">
+        REVIEW_ID,
+      </if>
+      <if test="leadId != null">
+        LEAD_ID,
+      </if>
+      <if test="reviewDate != null">
+        REVIEW_DATE,
+      </if>
+      <if test="reviewAcc != null">
+        REVIEW_ACC,
+      </if>
+      <if test="reviewRemark != null">
+        REVIEW_REMARK,
+      </if>
+      <if test="reviewResult != null">
+        REVIEW_RESULT,
+      </if>
+      <if test="reviewNode != null">
+        REVIEW_NODE,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="isDel != null">
+        IS_DEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reviewId != null">
+        #{reviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="leadId != null">
+        #{leadId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewAcc != null">
+        #{reviewAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewRemark != null">
+        #{reviewRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewResult != null">
+        #{reviewResult,jdbcType=INTEGER},
+      </if>
+      <if test="reviewNode != null">
+        #{reviewNode,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null">
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+    update tsm_lead_review_info
+    <set>
+      <if test="leadId != null">
+        LEAD_ID = #{leadId,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewDate != null">
+        REVIEW_DATE = #{reviewDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reviewAcc != null">
+        REVIEW_ACC = #{reviewAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewRemark != null">
+        REVIEW_REMARK = #{reviewRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewResult != null">
+        REVIEW_RESULT = #{reviewResult,jdbcType=INTEGER},
+      </if>
+      <if test="reviewNode != null">
+        REVIEW_NODE = #{reviewNode,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null">
+        IS_DEL = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where ORG_ID = #{orgId,jdbcType=VARCHAR} and REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+    update tsm_lead_review_info
+    set LEAD_ID = #{leadId,jdbcType=VARCHAR},
+      REVIEW_DATE = #{reviewDate,jdbcType=TIMESTAMP},
+      REVIEW_ACC = #{reviewAcc,jdbcType=VARCHAR},
+      REVIEW_REMARK = #{reviewRemark,jdbcType=VARCHAR},
+      REVIEW_RESULT = #{reviewResult,jdbcType=INTEGER},
+      REVIEW_NODE = #{reviewNode,jdbcType=INTEGER},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      IS_DEL = #{isDel,jdbcType=TINYINT}
+    where REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="deleteReviewInfo" parameterType="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+     update tsm_lead_review_info
+    <set>
+        IS_DEL = 1,
+    </set>
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+    <if test="leadIds != null and leadIds.size() > 0">
+      	AND LEAD_ID IN
+		<foreach collection="leadIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+     </if>
+  </update>
+  
+  <update id="deleteReviewInfoOne" parameterType="com.qftx.tsm.credit.bean.TsmLeadReviewInfo">
+     update tsm_lead_review_info
+    <set>
+        IS_DEL = 1,
+    </set>
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+    and LEAD_ID = #{leadId}
+  </update>
+</mapper>

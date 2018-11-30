@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.email.dao.TsmEmailSendMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.email.bean.TsmEmailSend" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="context" property="context" jdbcType="VARCHAR" />
+    <result column="email_file_ids" property="fileIds" jdbcType="VARCHAR" />
+    <result column="email_send_user" property="sendUser" jdbcType="VARCHAR" />
+    <result column="inputtime" property="inputTime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="DtoResultMap" type="com.qftx.tsm.email.dto.EmailRecordDto" extends="BaseResultMap">
+  	<result column="email_revice_user" property="emailReviceUser" jdbcType="VARCHAR" />
+  	<result column="send_log_id" property="sendLogId" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 实体表名 -->
+	<sql id="table_name">sys_email_send</sql>
+ 	
+ 	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	      <if test="title != null" >
+	         AND title = #{title,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendUser != null" >
+	         AND email_send_user = #{sendUser,jdbcType=VARCHAR}
+	      </if>
+	      <if test="status != null" >
+	         AND status = #{status,jdbcType=DECIMAL}
+	      </if>
+	      <if test="orderKey != null"> 
+			  ORDER BY ${orderKey}
+		  </if>
+  	</sql>
+  	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		      <if test="title != null and title != ''" >
+		        title = #{title,jdbcType=VARCHAR},
+		      </if>
+		      <if test="isDel != null" >
+		        IS_DEL = #{isDel},
+		      </if>
+		      <if test="status != null " >
+		        status = #{status},
+		      </if>
+		      <if test="context != null and context != ''" >
+		        context = #{context,jdbcType=VARCHAR},
+		      </if>
+		      <if test="updateTime != null" >
+		        updatetime = #{updateTime,jdbcType=TIMESTAMP},
+		      </if>
+		</trim>
+	</sql>
+  
+  <sql id="insert_into_field">
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="context != null" >
+        context,
+      </if>
+      <if test="fileIds != null" >
+        email_file_ids,
+      </if>
+      <if test="sendUser != null" >
+        email_send_user,
+      </if>
+      <if test="inputTime != null" >
+        inputtime,
+      </if>
+      <if test="updateTime != null" >
+        updatetime,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+       <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null" >
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null" >
+        #{fileIds,jdbcType=VARCHAR},
+      </if>
+      <if test="sendUser != null" >
+        #{sendUser,jdbcType=VARCHAR},
+      </if>
+      <if test="inputTime != null" >
+        #{inputTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 批量插入实体对应的字段语句 -->
+  <sql id="Base_Column_List" >
+    id, org_id, user_id, title, context, email_file_ids, email_send_user, inputtime, updatetime, 
+    is_del, status
+  </sql>
+  <sql id="batch_insert_into_value">
+   (
+   		#{item.id,jdbcType=VARCHAR},
+   		#{item.orgId,jdbcType=VARCHAR},
+   		#{item.userId,jdbcType=VARCHAR},
+   		#{item.title,jdbcType=VARCHAR},
+   		#{item.context,jdbcType=VARCHAR},
+   		#{item.fileIds,jdbcType=VARCHAR},
+   		#{item.sendUser,jdbcType=VARCHAR},
+   		#{item.inputTime,jdbcType=TIMESTAMP},
+   		#{item.updateTime,jdbcType=TIMESTAMP},
+   		#{item.isDel,jdbcType=DECIMAL},
+   		#{item.status,jdbcType=DECIMAL}
+   		)
+  </sql>
+  
+  <!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.email.bean.TsmEmailSend">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.email.bean.TsmEmailSend">
+		update <include refid="table_name"/>
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.email.bean.TsmEmailSend">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete <include refid="table_name"/> where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<update id="deleteBatchBy" parameterType="Map">
+		update <include refid="table_name"/> set IS_DEL=1 where  ORG_ID = #{orgId} and id in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+
+	<!-- 邮件发送记录 -->
+	<select id="findSendLogListPage" parameterType="com.qftx.tsm.email.dto.EmailRecordDto"  resultMap="DtoResultMap">
+			select sel.id as send_log_id,sel.email_revice_user,ses.title,ses.id,ses.email_send_user,ses.inputtime,ses.status,ses.email_file_ids from sys_email_log sel,sys_email_send ses where
+			sel.org_id = #{orgId} and ses.org_id = #{orgId} and sel.ses_id = ses.id
+			and ses.is_del = 0 
+			<choose>
+              <when test="roleType!= null and roleType == 1"><!-- 管理者 拥有查看所管理部门资源的权限 -->                   		                   		
+                   		<choose>                 			
+                   			<when test="ownerAccs != null"> <!-- 有选择指定发件者 -->                   			
+                    			and ses.email_send_user in 
+                    			<foreach collection="ownerAccs" index="index" item="item" open="("
+										separator="," close=")">
+								#{item}
+							</foreach>
+			       		</when>
+			     	<otherwise>
+						       AND ses.email_send_user = #{ownerAcc}
+     			</otherwise>
+     			</choose>
+     		</when>
+     		<otherwise>
+     		<!-- 只能查看自己的发送记录 -->
+     			AND ses.email_send_user = #{ownerAcc}
+     		</otherwise>
+     		</choose>
+			 <if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+             AND str_to_date(date_format(ses.inputtime,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		     AND str_to_date(date_format(ses.inputtime,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+		<if test="title != null and title != ''">
+			AND ses.title like concat('%',#{title},'%')
+		</if>
+		order by ses.inputtime desc
+	</select>
+
+	<!-- 邮件记录右侧信息 -->
+	<select id="findSendLogByRight" parameterType="com.qftx.tsm.email.dto.EmailRecordDto"  resultMap="DtoResultMap">
+			select sel.id as send_log_id,sel.email_revice_user,ses.title,ses.id,ses.email_send_user,ses.inputtime,ses.status,ses.email_file_ids,ses.context from sys_email_log sel,sys_email_send ses where
+			sel.org_id = #{orgId} and ses.org_id = #{orgId} and sel.ses_id = ses.id
+			and ses.is_del = 0 and sel.id = #{sendLogId}			
+	</select>
+</mapper>

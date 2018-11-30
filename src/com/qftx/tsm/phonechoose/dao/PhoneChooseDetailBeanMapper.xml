@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.phonechoose.dao.PhoneChooseDetailBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.phonechoose.bean.PhoneChooseDetailBean" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="RCI_ID" property="rciId" jdbcType="VARCHAR" />
+    <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+    <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ACC" property="updateAcc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, TASK_ID, ORG_ID, RCI_ID, MOBILEPHONE, STATUS, INPUT_DATE, INPUT_ACC, UPDATE_DATE, 
+    UPDATE_ACC
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tsm_phone_choose_detail
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tsm_phone_choose_detail
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseDetailBean" >
+    insert into tsm_phone_choose_detail (ID, TASK_ID, ORG_ID, 
+      RCI_ID, MOBILEPHONE, STATUS, 
+      INPUT_DATE, INPUT_ACC, UPDATE_DATE, 
+      UPDATE_ACC)
+    values (#{id,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+      #{rciId,jdbcType=VARCHAR}, #{mobilephone,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{inputDate,jdbcType=TIMESTAMP}, #{inputAcc,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateAcc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseDetailBean" >
+    insert into tsm_phone_choose_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="rciId != null" >
+        RCI_ID,
+      </if>
+      <if test="mobilephone != null" >
+        MOBILEPHONE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="inputDate != null" >
+        INPUT_DATE,
+      </if>
+      <if test="inputAcc != null" >
+        INPUT_ACC,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateAcc != null" >
+        UPDATE_ACC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="rciId != null" >
+        #{rciId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="inputDate != null" >
+        #{inputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputAcc != null" >
+        #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAcc != null" >
+        #{updateAcc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseDetailBean" >
+    update tsm_phone_choose_detail
+    <set >
+      <if test="taskId != null" >
+        TASK_ID = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="rciId != null" >
+        RCI_ID = #{rciId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="inputDate != null" >
+        INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputAcc != null" >
+        INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAcc != null" >
+        UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseDetailBean" >
+    update tsm_phone_choose_detail
+    set TASK_ID = #{taskId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      RCI_ID = #{rciId,jdbcType=VARCHAR},
+      MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+      INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  
+  
+  	<!-- 号码筛查-判断客户是否已经筛查 -->
+	<select id="findCountByResCustId" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(T.ID)  
+		  FROM tsm_phone_choose_detail T
+		 WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		   AND T.RCI_ID = #{rciId,jdbcType=VARCHAR}
+	</select>
+	
+</mapper>

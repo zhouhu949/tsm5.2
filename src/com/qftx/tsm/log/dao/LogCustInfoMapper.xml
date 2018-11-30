@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.log.dao.LogCustInfoMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.log.bean.LogCustInfoBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构名 -->
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" /> <!-- 用户名 -->
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" /> <!-- 资源ID -->
+		<result column="NAME" property="name" jdbcType="VARCHAR" /> <!-- 日志名称 -->
+		<result column="TYPE" property="type" jdbcType="VARCHAR" /> <!-- 操作类型1增2修改(2001转为客户、2002转为意向、2003签约、2010转为沉默客户，2011转为流失客户、2021沉默客户转客户、2022流失转客户)0删除 -->
+		<result column="DATA" property="data" jdbcType="VARCHAR" /> <!-- 资源JSON数据 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 描述 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 输入时间 -->
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 册除状态1-删除，0-未删除 -->
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">LOG_CUST_INFO</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId != null and userId !=''">
+		    AND user_id = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="custId != null and custId !=''">
+		    AND cust_id = #{custId,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name !=''">
+		    AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type !=''">
+		    AND type = #{type,jdbcType=VARCHAR} 
+		</if>
+		<if test="data != null and data !=''">
+		    AND data = #{data,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null and isDel !=''">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="orderKey != null and orderKey != ''">
+			ORDER BY ${orderKey} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    org_id = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    cust_id = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+			    data = #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="userId != null" >
+			    user_id,
+			</if>
+			<if test="custId != null" >
+			    cust_id,
+			</if>
+			<if test="name != null" >
+			    name,
+			</if>
+			<if test="type != null" >
+			    type,
+			</if>
+			<if test="data != null" >
+			    data,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="data != null">
+			    #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,ORG_ID,USER_ID,CUST_ID,NAME,TYPE,DATA,CONTEXT,INPUTTIME,UPDATETIME,IS_DEL
+	</sql>
+	<sql id="batch_insert_into_value">
+		(#{item.id,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.userId,jdbcType=VARCHAR},#{item.custId,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.type,jdbcType=VARCHAR},
+		#{item.data,jdbcType=VARCHAR},#{item.context,jdbcType=VARCHAR},#{item.inputtime,jdbcType=TIMESTAMP},#{item.updatetime,jdbcType=TIMESTAMP},#{item.isDel,jdbcType=DECIMAL})
+	</sql>
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.log.bean.LogCustInfoBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.log.bean.LogCustInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.log.bean.LogCustInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<select id="findCustLogInfosListPage" parameterType="com.qftx.tsm.log.bean.LogCustInfoBean" resultMap="BaseResultMap">
+		select
+			t.id,
+			t.org_id,
+			t.user_id,
+			t.cust_id,
+			t.name,
+			t.type,
+			t.data,
+			t.context,
+			t.inputtime,
+			t.updatetime,
+			t.is_del 
+		from
+			log_cust_info t 
+			where t.org_id=#{orgId} 
+				and t.cust_id=#{custId} 
+				order by t.inputtime desc 
+	</select>
+</mapper>

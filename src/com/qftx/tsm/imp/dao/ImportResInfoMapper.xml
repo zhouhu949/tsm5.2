@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.imp.dao.ImportResInfoMapper">
+	<sql id="cols">
+	t.id,t.file_id,t.org_id,t.json_data,t.status,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.imp.bean.ImportResInfoBean" id="ImportResInfoMap">
+		<result column="id" property="id"/>
+		<result column="file_id" property="fileId"/>
+		<result column="org_id" property="orgId"/>
+		<result column="json_data" property="jsonData"/>
+		<result column="status" property="status"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+	
+	<resultMap id="DtoResultMap" type="com.qftx.tsm.imp.dto.ImportResInfoDto" extends="ImportResInfoMap">
+		<result column="ERROR_MSG" property="errorMsg"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="query" resultMap="ImportResInfoMap">
+		select
+		<include refid="cols" />
+		from import_res_info t
+		where 1=1
+		and t.org_id=#{bean.orgId}
+		and t.is_del = 0
+	</select>
+	
+	<!-- 查询 导入错误资源-->
+	<select id="findErrorResInfos" resultMap="DtoResultMap" parameterType="Map">
+		select
+		t.id,t.file_id,t.org_id,t.json_data,t.status,t.updatetime,t.inputtime,t.is_del,irrd.ERROR_MSG 
+		from import_res_result_details irrd
+		 left join
+		import_res_info t on t.org_id=#{orgId} and irrd.RES_ID = t.id
+		where irrd.org_id=#{orgId}
+		and t.is_del = 0 and irrd.file_id = #{fileId} and irrd.erro_code = #{errorCode} 	
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="ImportResInfoMap">
+		select
+		<include refid="cols" />
+		from import_res_info t
+		where org_id = #{orgId}
+		<if test="id != null">and id = #{id}</if>
+		<if test="fileId != null">and file_id = #{fileId}</if>
+		<if test="jsonData != null">and json_data = #{jsonData}</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update import_res_info
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="fileId != null">file_id = #{fileId},</if>
+		<if test="jsonData != null">json_data = #{jsonData},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where org_id = #{orgId} 
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.imp.bean.ImportResInfoBean">
+	insert into import_res_info(id,file_id,org_id,json_data,status,updatetime,inputtime,is_del)
+	values(#{id},#{fileId},#{orgId},#{jsonData},#{status},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into import_res_info(id,file_id,org_id,json_data,status,updatetime,inputtime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.fileId},#{bean.orgId},#{bean.jsonData},#{bean.status},#{bean.updatetime},#{bean.inputtime},#{bean.isDel})
+    </foreach>
+    </insert>
+	
+	<select id="findErrorResInfos1" parameterType="Map"  resultMap="ImportResInfoMap">
+			select t.* from import_res_result_details iri 
+			left join import_res_info t on t.org_id = #{orgId} and iri.org_id = #{orgId} and iri.FILE_ID = #{fileId} and iri.ERRO_CODE = #{errorCode}
+			and iri.RES_ID = t.id and iri.is_del = 0
+			where iri.org_id = #{orgId} and t.FILE_ID = #{fileId} and t.is_del = 0
+	</select>
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.worklog.dao.WorkLogAttentionMapper">
+	<sql id="cols">
+	t.id,t.user_id,t.user_acc,t.org_id,t.attention_user_id,t.attention_user_acc,t.input_time,t.update_time,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.worklog.bean.WorkLogAttentionBean" id="WorkLogAttentionMap">
+		<result column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="user_acc" property="userAcc"/>
+		<result column="org_id" property="orgId"/>
+		<result column="attention_user_id" property="attentionUserId"/>
+		<result column="attention_user_acc" property="attentionUserAcc"/>
+		<result column="input_time" property="inputTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="is_del" property="isDel"/>
+		
+		<result column="USER_NAME" property="attentionUseName"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="WorkLogAttentionMap">
+		select
+		<include refid="cols" />,t1.USER_NAME 
+		from work_log_attention t
+		left join auth_user t1 on t1.org_id = #{orgId} and t1.USER_ID=t.attention_user_id
+		where 1=1
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="userAcc != null">and t.user_acc = #{userAcc}</if>
+		<if test="attentionUserId != null">and t.attention_user_id = #{attentionUserId}</if>
+		<if test="attentionUserAcc != null">and t.attention_user_acc = #{attentionUserAcc}</if>
+		<if test="inputTime != null">and t.input_time = #{inputTime}</if>
+		<if test="updateTime != null">and t.update_time = #{updateTime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findListPage" resultMap="WorkLogAttentionMap">
+		select
+		<include refid="cols" />
+		from work_log_attention t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="userAcc != null">and t.user_acc = #{userAcc}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="attentionUserId != null">and t.attention_user_id = #{attentionUserId}</if>
+		<if test="attentionUserAcc != null">and t.attention_user_acc = #{attentionUserAcc}</if>
+		<if test="inputTime != null">and t.input_time = #{inputTime}</if>
+		<if test="updateTime != null">and t.update_time = #{updateTime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="WorkLogAttentionMap">
+		select
+		<include refid="cols" />
+		from work_log_attention t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="userAcc != null">and t.user_acc = #{userAcc}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="attentionUserId != null">and t.attention_user_id = #{attentionUserId}</if>
+		<if test="attentionUserAcc != null">and t.attention_user_acc = #{attentionUserAcc}</if>
+		<if test="inputTime != null">and t.input_time = #{inputTime}</if>
+		<if test="updateTime != null">and t.update_time = #{updateTime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update work_log_attention
+		<set>
+		<if test="updateTime != null">update_time = #{updateTime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="id != null">and id = #{id}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.worklog.bean.WorkLogAttentionBean">
+	insert into work_log_attention(id,user_id,user_acc,org_id,attention_user_id,attention_user_acc,input_time,update_time,is_del)
+	values(#{id},#{userId},#{userAcc},#{orgId},#{attentionUserId},#{attentionUserAcc},#{inputTime},#{updateTime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into work_log_attention(id,user_id,user_acc,org_id,attention_user_id,attention_user_acc,input_time,update_time,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.userId},#{bean.userAcc},#{bean.orgId},#{bean.attentionUserId},#{bean.attentionUserAcc},#{bean.inputTime},#{bean.updateTime},#{bean.isDel})
+    </foreach>
+    </insert>
+
+</mapper>

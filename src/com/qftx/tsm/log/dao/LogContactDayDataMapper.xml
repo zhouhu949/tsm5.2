@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.log.dao.LogContactDayDataMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.log.bean.LogContactDayDataBean">
+		<id column="id" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="cust_id" property="custId" jdbcType="VARCHAR" /> <!-- 客户ID -->
+		<result column="owner_acc" property="ownerAcc" jdbcType="VARCHAR" /> <!-- 所有者 -->
+		<result column="init_type" property="initType" jdbcType="DECIMAL" /> <!-- 初始化类型 -->
+		<result column="init_status" property="initStatus" jdbcType="DECIMAL" /> <!-- 初始化状态 -->
+		<result column="init_process_id" property="initProcessId" jdbcType="VARCHAR" /> <!-- 初始化销售进程 -->
+		<result column="type" property="type" jdbcType="DECIMAL" /> <!-- 类型 -->
+		<result column="status" property="status" jdbcType="DECIMAL" /> <!-- 状态 -->
+		<result column="curr_process_id" property="currProcessId" jdbcType="VARCHAR" /> <!-- 销售进程 -->
+		<result column="curr_date" property="currDate" jdbcType="DATE" /> <!-- 日期 -->
+		<result column="contact_time" property="contactTime" jdbcType="TIMESTAMP" /> <!-- 日期 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">LOG_CONTACT_DAY_DATA</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="custId != null and custId !=''">
+		    AND cust_id = #{custId,jdbcType=VARCHAR} 
+		</if>
+		<if test="ownerAcc != null and ownerAcc !=''">
+		    AND owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+		</if>
+		<if test="currDate != null">
+		    AND curr_date = #{currDate,jdbcType=DATE} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    cust_id = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="ownerAcc != null">
+			    owner_acc = #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="initType != null">
+			    init_type = #{initType,jdbcType=DECIMAL},
+			</if>
+			<if test="initStatus != null">
+			    init_status = #{initStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="initProcessId != null">
+			    init_process_id = #{initProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    type = #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+			    status = #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="currProcessId != null">
+			    curr_process_id = #{currProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="contactTime != null">
+			    contact_time = #{contactTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="custId != null" >
+			    cust_id,
+			</if>
+			<if test="ownerAcc != null" >
+			    owner_acc,
+			</if>
+			<if test="initType != null" >
+			    init_type,
+			</if>
+			<if test="initStatus != null" >
+			    init_status,
+			</if>
+			<if test="initProcessId != null" >
+			    init_process_id,
+			</if>
+			<if test="type != null" >
+			    type,
+			</if>
+			<if test="status != null" >
+			    status,
+			</if>
+			<if test="currProcessId != null" >
+			    curr_process_id,
+			</if>
+			<if test="currDate != null" >
+			    curr_date,
+			</if>
+			<if test="contactTime != null" >
+			    contact_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null" >
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null" >
+			    #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="ownerAcc != null" >
+			    #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="initType != null" >
+			    #{initType,jdbcType=DECIMAL},
+			</if>
+			<if test="initStatus != null" >
+			    #{initStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="initProcessId != null" >
+			    #{initProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+			    #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null" >
+			    #{status,jdbcType=DECIMAL},
+			</if>
+			<if test="currProcessId != null" >
+			    #{currProcessId,jdbcType=VARCHAR},
+			</if>
+			<if test="currDate != null" >
+			    #{currDate,jdbcType=DATE},
+			</if>
+			<if test="contactTime != null" >
+			    #{contactTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    id,org_id,cust_id,owner_acc,init_type,init_status,init_process_id,type,status,curr_process_id,curr_date,contact_time 
+	</sql>
+	<sql id="batch_insert_into_value">
+		(#{item.id,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.custId,jdbcType=VARCHAR},#{item.ownerAcc,jdbcType=VARCHAR},#{item.initType,jdbcType=DECIMAL},
+		#{item.initStatus,jdbcType=DECIMAL},#{item.initProcessId,jdbcType=VARCHAR},#{item.type,jdbcType=DECIMAL},#{item.status,jdbcType=DECIMAL},#{item.currProcessId,jdbcType=VARCHAR},#{item.currDate,jdbcType=DATE},#{item.contactTime,jdbcType=TIMESTAMP})
+	</sql>
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.log.bean.LogContactDayDataBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.log.bean.LogContactDayDataBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where org_id = #{orgId,jdbcType=VARCHAR} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.log.bean.LogContactDayDataBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where  org_id = #{orgId,jdbcType=VARCHAR} AND  ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<resultMap type="com.qftx.tsm.log.dto.LogContactDayDataDto" id="DtoMap" extends="BaseResultMap"></resultMap>
+	
+	<select id="findLogDetailInfoListPage" parameterType="com.qftx.tsm.log.dto.LogContactDayDataDto" resultMap="DtoMap">
+		select cust_id,
+			   owner_acc,
+			   init_process_id,
+			   curr_process_id,
+			   curr_date,
+			   contact_time 
+		from log_contact_day_data 
+		where org_id = #{orgId} 
+			<choose>
+			<when test="startDate!=null and endDate!=null and startDate!='' and endDate!=''">
+				and curr_date &gt;= str_to_date(#{startDate},'%Y-%m-%d') and curr_date &lt;= str_to_date(#{endDate},'%Y-%m-%d')
+			</when>
+			<when test="currDate!=null">and curr_date = #{currDate}</when>
+			<otherwise>and curr_date = date(now()) </otherwise>
+			</choose>
+			<if test="ownerAcc != null and ownerAcc != ''">
+				and owner_acc = #{ownerAcc } 
+			</if>
+			<if test="ownerAccs != null and ownerAccs.size() > 0">
+				and owner_acc in 
+					<foreach collection="ownerAccs" item="oa" open="(" separator="," close=")">
+						#{oa }
+					</foreach> 
+			</if>
+			<choose>
+				<when test="custType == 1">
+					and init_status = 2  
+					<choose>
+						<when test="changeType == 1">
+							and type = 2 
+							and status = 3 
+						</when>
+						<otherwise>
+							and type = 2 
+							and status = 6 
+						</otherwise>
+					</choose>
+				</when>
+				<otherwise>
+					and init_status = 3 
+					<choose>
+						<when test="changeType == 1">
+							and type = 2 
+							and status = 3 
+							and curr_process_id != init_process_id
+						</when>
+						<otherwise>
+							and type = 2 
+							and status = 6 
+						</otherwise>
+					</choose>
+				</otherwise>
+			</choose>
+			order by contact_time desc 
+	</select>
+</mapper>

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.CallReportMapper">
+    <resultMap type="com.qftx.tsm.report.bean.CallReportBean" id="BaseResultMap">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" /> <!-- 账号 -->
+		<result column="REPORT_DATE" property="reportDate" jdbcType="DATE" /> <!-- 统计时间 -->
+		<result column="CALLOUT_TOTAL" property="calloutTotal" jdbcType="DECIMAL" /> <!-- 呼出总数 -->
+		<result column="CALLOUT_ANSWER" property="calloutAnswer" jdbcType="DECIMAL" /> <!-- 呼出已接 -->
+		<result column="VALID_CALLS" property="validCalls" jdbcType="DECIMAL" /> <!-- 有效通话 -->
+		<result column="REST_CALLS" property="restCalls" jdbcType="DECIMAL" /> <!-- 呼叫资源数 -->
+		<result column="CUST_CALLS" property="custCalls" jdbcType="DECIMAL" /> <!-- 呼叫意向客户数 -->
+		<result column="CALLOUT_TIME" property="calloutTime" jdbcType="DECIMAL" /> <!-- 呼出时长（秒） -->
+		<result column="CALLIN_TIME" property="callinTime" jdbcType="DECIMAL" /> <!-- 呼入时长（秒） -->
+		<result column="BILLING_TIME" property="billingTime" jdbcType="DECIMAL" /> <!-- 计费时长（分） -->
+		<result column="VISIT_NUM" property="visitNum" jdbcType="DECIMAL"/> <!-- 上门拜访量 -->
+		<result column="INSERT_TIME" property="insertTime" jdbcType="TIMESTAMP" /> <!-- 录入时间 -->
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+    </resultMap>
+  	<!-- 实体表名 -->
+	<sql id="table_name">TSM_CALL_REPORT</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND ID = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND ACCOUNT = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="reportDate != null">
+		    AND DATE_FORMAT(REPORT_DATE,'%Y-%m-%d') = DATE_FORMAT(#{reportDate,jdbcType=DATE},'%Y-%m-%d') 
+		</if>
+		<if test="calloutTotal != null">
+		    AND CALLOUT_TOTAL = #{calloutTotal,jdbcType=DECIMAL} 
+		</if>
+		<if test="calloutAnswer != null">
+		    AND CALLOUT_ANSWER = #{calloutAnswer,jdbcType=DECIMAL} 
+		</if>
+		<if test="validCalls != null">
+		    AND VALID_CALLS = #{validCalls,jdbcType=DECIMAL} 
+		</if>
+		<if test="restCalls != null">
+		    AND REST_CALLS = #{restCalls,jdbcType=DECIMAL} 
+		</if>
+		<if test="custCalls != null">
+		    AND CUST_CALLS = #{custCalls,jdbcType=DECIMAL} 
+		</if>
+		<if test="calloutTime != null">
+		    AND CALLOUT_TIME = #{calloutTime,jdbcType=DECIMAL} 
+		</if>
+		<if test="callinTime != null">
+		    AND CALLIN_TIME = #{callinTime,jdbcType=DECIMAL} 
+		</if>
+		<if test="billingTime != null">
+		    AND BILLING_TIME = #{billingTime,jdbcType=DECIMAL} 
+		</if>
+		<if test="visitNum != null">
+		    AND VISIT_NUM = #{visitNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="insertTime != null">
+		    AND INSERT_TIME = #{insertTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime != null">
+		    AND UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    ID = #{id,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    ORG_ID = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="account != null">
+			    ACCOUNT = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="reportDate != null">
+			    REPORT_DATE = #{reportDate,jdbcType=DATE},
+			</if>
+			<if test="calloutTotal != null">
+			    CALLOUT_TOTAL = #{calloutTotal,jdbcType=DECIMAL},
+			</if>
+			<if test="calloutAnswer != null">
+			    CALLOUT_ANSWER = #{calloutAnswer,jdbcType=DECIMAL},
+			</if>
+			<if test="validCalls != null">
+			    VALID_CALLS = #{validCalls,jdbcType=DECIMAL},
+			</if>
+			<if test="restCalls != null">
+			    REST_CALLS = #{restCalls,jdbcType=DECIMAL},
+			</if>
+			<if test="custCalls != null">
+			    CUST_CALLS = #{custCalls,jdbcType=DECIMAL},
+			</if>
+			<if test="calloutTime != null">
+			    CALLOUT_TIME = #{calloutTime,jdbcType=DECIMAL},
+			</if>
+			<if test="callinTime != null">
+			    CALLIN_TIME = #{callinTime,jdbcType=DECIMAL},
+			</if>
+			<if test="billingTime != null">
+			    BILLING_TIME = #{billingTime,jdbcType=DECIMAL},
+			</if>
+			<if test="visitNum != null">
+			    VISIT_NUM = #{visitNum,jdbcType=DECIMAL},
+			</if>
+			<if test="insertTime != null">
+			    INSERT_TIME = #{insertTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			    UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    ID,
+			</if>
+			<if test="orgId != null" >
+			    ORG_ID,
+			</if>
+			<if test="account != null" >
+			    ACCOUNT,
+			</if>
+			<if test="reportDate != null" >
+			    REPORT_DATE,
+			</if>
+			<if test="calloutTotal != null" >
+			    CALLOUT_TOTAL,
+			</if>
+			<if test="calloutAnswer != null" >
+			    CALLOUT_ANSWER,
+			</if>
+			<if test="validCalls != null" >
+			    VALID_CALLS,
+			</if>
+			<if test="restCalls != null" >
+			    REST_CALLS,
+			</if>
+			<if test="custCalls != null" >
+			    CUST_CALLS,
+			</if>
+			<if test="calloutTime != null" >
+			    CALLOUT_TIME,
+			</if>
+			<if test="callinTime != null" >
+			    CALLIN_TIME,
+			</if>
+			<if test="billingTime != null" >
+			    BILLING_TIME,
+			</if>
+			<if test="visitNum != null">
+			    VISIT_NUM,
+			</if>
+			<if test="insertTime != null" >
+			    INSERT_TIME,
+			</if>
+			<if test="updateTime != null" >
+			    UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="reportDate != null">
+			    #{reportDate,jdbcType=DATE},
+			</if>
+			<if test="calloutTotal != null">
+			    #{calloutTotal,jdbcType=DECIMAL},
+			</if>
+			<if test="calloutAnswer != null">
+			    #{calloutAnswer,jdbcType=DECIMAL},
+			</if>
+			<if test="validCalls != null">
+			    #{validCalls,jdbcType=DECIMAL},
+			</if>
+			<if test="restCalls != null">
+			    #{restCalls,jdbcType=DECIMAL},
+			</if>
+			<if test="custCalls != null">
+			    #{custCalls,jdbcType=DECIMAL},
+			</if>
+			<if test="calloutTime != null">
+			    #{calloutTime,jdbcType=DECIMAL},
+			</if>
+			<if test="callinTime != null">
+			    #{callinTime,jdbcType=DECIMAL},
+			</if>
+			<if test="billingTime != null">
+			    #{billingTime,jdbcType=DECIMAL},
+			</if>
+			<if test="visitNum != null">
+			    #{visitNum,jdbcType=DECIMAL},
+			</if>
+			<if test="insertTime != null">
+			    #{insertTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+			    #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,ACCOUNT,REPORT_DATE,CALLOUT_TOTAL,CALLOUT_ANSWER,VALID_CALLS,REST_CALLS,CUST_CALLS,CALLOUT_TIME,CALLIN_TIME,BILLING_TIME,VISIT_NUM,INSERT_TIME,UPDATE_TIME
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+  	<!-- 个人今日数据 -->
+  	<select id="findUserDayCallReport" parameterType="map" resultMap="BaseResultMap">
+  		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" /> 
+		where ORG_ID = #{orgId} 
+			and ACCOUNT = #{account} 
+			and DATE_FORMAT(REPORT_DATE,'%Y-%m-%d') = #{reportDate}  
+  	</select>
+  	<resultMap type="com.qftx.tsm.report.dto.CallReportDto" id="DtoResultMap" extends="BaseResultMap">
+  		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+  		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+  	</resultMap>
+  	<!-- 团队今日数据 -->
+  	<select id="findTeamDayCallReport" parameterType="map" resultMap="DtoResultMap">
+  		SELECT
+			AU.USER_ACCOUNT ACCOUNT,
+			IFNULL(
+				AU.USER_NAME,
+				AU.USER_ACCOUNT
+			) USER_NAME,
+			TTG.GROUP_ID,
+			TTG.GROUP_NAME 
+		FROM
+			TSM_GROUP_SHAREINFO TGS
+		RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+		LEFT JOIN AUTH_USER AU ON TTGM.MEMBER_ACC = AU.USER_ACCOUNT
+		LEFT JOIN TSM_TEAM_GROUP TTG ON TGS.GROUP_ID = TTG.GROUP_ID
+		WHERE
+			SHARE_ACC = #{account} 
+			<if test="groupIds != null and groupIds.size() > 0">
+				<foreach collection="groupIds" item="gid" open="AND TTGM.GROUP_ID IN (" separator="," close=")">
+					#{gid}
+				</foreach>
+			</if>
+		AND AU.USER_ACCOUNT IS NOT NULL  
+  	</select>
+  	
+  	<select id="findTeamDayCallReportListPage" parameterType="map" resultMap="DtoResultMap">
+				SELECT
+					AU.USER_ACCOUNT ACCOUNT,
+					IFNULL(
+						AU.USER_NAME,
+						AU.USER_ACCOUNT
+					) USER_NAME,
+					TTG.GROUP_ID,
+					TTG.GROUP_NAME 
+				FROM
+					TSM_GROUP_SHAREINFO TGS
+				RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+				LEFT JOIN AUTH_USER AU ON TTGM.MEMBER_ACC = AU.USER_ACCOUNT
+				LEFT JOIN TSM_TEAM_GROUP TTG ON TGS.GROUP_ID = TTG.GROUP_ID
+				WHERE
+					SHARE_ACC = #{account} 
+					<if test="groupIds != null and groupIds.size() > 0">
+						<foreach collection="groupIds" item="gid" open="AND TTGM.GROUP_ID IN (" separator="," close=")">
+							#{gid}
+						</foreach>
+					</if>
+				AND AU.USER_ACCOUNT IS NOT NULL
+  	</select>
+</mapper>

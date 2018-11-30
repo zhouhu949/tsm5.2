@@ -1,0 +1,108 @@
+.clearfix{zoom:1}
+.clearfix:after{content:" ";display:table;clear:both}
+
+.date_box{
+width:299px;
+height:360px;
+background-color:#fff;
+}
+.daytd{width:28px;height:22px;line-height:22px;border:1px solid #fff;cursor:pointer;}
+.all-sub{width:100%;height:7px;background:url(../../../images/all-sub.png) no-repeat; background-position:13px 0; *background-position:21px 0;}
+.date_box td{
+	height:24px;
+	padding-left:6px;*padding-left:0;
+	font-size:14px;
+	text-align: center; 
+	vertical-align:top;
+}
+.daytd:hover{background-color:#469bff;} 
+.date_box .head{
+	height:100px;
+	margin-bottom:0px;
+	padding-top:10px;
+}
+
+.date_box .head .show_day{
+	margin-left:25px;
+	font-size:40px;
+}
+.show_day_long,.show_nongli{margin-left:25px;font-size:14px;}
+.date_box .content{
+	
+}
+
+.date_box .content .title{
+	margin:auto;
+}
+
+.date_box .content .title .lastMonth{
+	float:right;
+}
+
+.date_box .content .title .dateContent{
+	float:left;
+	margin-left:25px;
+	font-size:20px;
+}
+
+.date_box .content .dateBody .dateTable {
+	width:100%;
+}
+
+.date_box .content .dateBody .dateTable th{
+	width:13%;
+	height:30px;
+	font-size:16px;
+}
+.dateBody{width:94%;margin:10px auto 0;}
+
+.allReadyEdit{
+	background-color:green;
+}
+
+.neverEdit{
+	background-color:yellow;
+}
+
+.selectDay{
+	background-color:#469bff;
+}
+
+.lastOrNextMonth{
+	color:#ededed;
+}
+.nextMonth{
+	float:right;
+	margin:0 20px 0 20px;
+}
+
+.today{
+	width:20px;
+	height:20px;
+	line-height:20px;
+	border:1px solid #204e84;
+}
+
+.todayDay{
+	width:28px;
+	height:22px;
+	line-height:22px;
+	border:1px solid #204e84;
+/* 	background-color:#469bff;
+	color:#fff; */
+}
+
+.not-sub{
+	width:25px;
+	height:25px;
+	line-height:25px;
+	border:1px solid #7e6b00;
+	background-color:#f0cc02;
+}
+.up-page{display:inline-block;width:21px;height:11px;background:url(../../../images/up-page.png) no-repeat;}
+.down-page{display:inline-block;width:21px;height:11px;background:url(../../../images/down-page.png) no-repeat;}
+
+.hyx-wlm-cent{height:570px;}
+.hyx-wlm-centa .hyx-wlm-cent-bg,.hyx-wlm-centb .hyx-wlm-cent-bg{height:615px;}
+.hyx-wlm-centa .hyx-wlm-cent-box,.hyx-wlm-centb .hyx-wlm-cent-box{height:615px;}
+.hyx-wlm-cent-timeline {height:500px;}

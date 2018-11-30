@@ -1,0 +1,2490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.credit.dao.CreditLeadInfoMapper">
+    <!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.credit.bean.CreditLeadInfoBean" id="BaseResultMap">
+		<id column="LEAD_ID" jdbcType="VARCHAR" property="leadId" />
+	    <result column="LEAD_CODE" jdbcType="VARCHAR" property="leadCode" />
+	    <result column="CUST_NAME" jdbcType="VARCHAR" property="custName" />
+	    <result column="COMPANY" jdbcType="VARCHAR" property="company" />
+	    <result column="rci_id" jdbcType="VARCHAR" property="rciId" />
+	    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+	    <result column="import_dept_id" jdbcType="VARCHAR" property="importDeptId" />
+	    <result column="IMPORT_DEPT_NAME" jdbcType="VARCHAR" property="importDeptName" />
+	    <result column="CARD_ID" jdbcType="VARCHAR" property="cardId" />
+	    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+	    <result column="BORROW_MONEY" jdbcType="VARCHAR" property="borrowMoney" />
+	    <result column="ACCOUNT_MONEY" jdbcType="VARCHAR" property="accountMoney" />
+	    <result column="SERVICE_MONEY" jdbcType="VARCHAR" property="serviceMoney" />
+	    <result column="BILL_MONEY" jdbcType="VARCHAR" property="billMoney" />
+	    <result column="BORROW_DATE" jdbcType="TIMESTAMP" property="borrowDate" />
+	    <result column="REPAY_DATE" jdbcType="TIMESTAMP" property="repayDate" />
+	    <result column="SERVICE_MONEY2" jdbcType="VARCHAR" property="serviceMoney2" />
+	    <result column="SERVICE_MONEY3" jdbcType="VARCHAR" property="serviceMoney3" />
+	    <result column="BANK_CARD" jdbcType="VARCHAR" property="bankCard" />
+	    <result column="LENDER" jdbcType="VARCHAR" property="lender" />
+	    <result column="OPENING_BANK" jdbcType="VARCHAR" property="openingBank" />
+	    <result column="LOAN_BILL" jdbcType="VARCHAR" property="loanBill" />
+	    <result column="OWNER_ACC" jdbcType="VARCHAR" property="ownerAcc" />
+	    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+	    <result column="IMPORT_DEPT_NAME" jdbcType="VARCHAR" property="importDeptName" />
+	    <result column="FUND_ACCOUNT" jdbcType="VARCHAR" property="fundAccount" />
+	    <result column="INCHARGE_ACC" jdbcType="VARCHAR" property="inchargeAcc" />
+	    <result column="STATUS" jdbcType="TINYINT" property="status" />
+	    <result column="BATCH" jdbcType="INTEGER" property="batch" />
+	    <result column="AUDIT_STATUS" jdbcType="TINYINT" property="auditStatus" />
+	    <result column="SUBMIT_TIME" jdbcType="TIMESTAMP" property="submitTime" />
+	    <result column="AUDIT_TIME" jdbcType="TIMESTAMP" property="auditTime" />
+	    <result column="DEFINED1" jdbcType="VARCHAR" property="defined1" />
+	    <result column="DEFINED2" jdbcType="VARCHAR" property="defined2" />
+	    <result column="DEFINED3" jdbcType="VARCHAR" property="defined3" />
+	    <result column="DEFINED4" jdbcType="VARCHAR" property="defined4" />
+	    <result column="DEFINED5" jdbcType="VARCHAR" property="defined5" />
+	    <result column="DEFINED6" jdbcType="VARCHAR" property="defined6" />
+	    <result column="DEFINED7" jdbcType="VARCHAR" property="defined7" />
+	    <result column="DEFINED8" jdbcType="VARCHAR" property="defined8" />
+	    <result column="DEFINED9" jdbcType="VARCHAR" property="defined9" />
+	    <result column="DEFINED10" jdbcType="VARCHAR" property="defined10" />
+	    <result column="DEFINED11" jdbcType="VARCHAR" property="defined11" />
+	    <result column="DEFINED12" jdbcType="VARCHAR" property="defined12" />
+	    <result column="DEFINED13" jdbcType="VARCHAR" property="defined13" />
+	    <result column="DEFINED14" jdbcType="VARCHAR" property="defined14" />
+	    <result column="DEFINED15" jdbcType="VARCHAR" property="defined15" />
+	    <result column="DEFINED16" jdbcType="TIMESTAMP" property="defined16" />
+	    <result column="DEFINED17" jdbcType="TIMESTAMP" property="defined17" />
+	    <result column="DEFINED18" jdbcType="TIMESTAMP" property="defined18" />
+	    <result column="AUDIT_ACC" jdbcType="VARCHAR" property="auditAcc" />
+	    <result column="AUDIT_NODE" jdbcType="TINYINT" property="auditNode" />
+	    <result column="ALL_NODE" jdbcType="TINYINT" property="allNode" />
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.credit.dto.CreditLeadInfoDto" id="DtoResultMap" extends="BaseResultMap">
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.credit.dto.TsmLoanReviewInfoDto" id="ReviewDtoResultMap" extends="BaseResultMap">
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.credit.dto.StatisticInfoDto" id="StaDtoResultMap" extends="BaseResultMap">
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+	    <result column="COUNT" jdbcType="VARCHAR" property="count" />
+	</resultMap>
+	
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_LEAD_INFO</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+			and ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="leadId != null and leadId!=''">
+			and LEAD_ID = #{leadId,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name !=''">
+			and NAME like '%'||#{name}||'%'
+		</if>
+		<if test="mobilephone != null and mobilephone !=''">
+			and MOBILEPHONE like '%'||#{mobilephone}||'%'
+		</if>
+		<if test="telphone != null and telphone !=''">
+			and TELPHONE like '%'||#{telphone}||'%'
+		</if>
+		<if test="company != null and company !=''">
+			and COMPANY like '%'||#{company}||'%'
+		</if>
+		<if test="duty != null and duty !=''">
+			and DUTY like '%'||#{duty}||'%'
+		</if>
+		<if test="sex != null and sex !=''">
+			and SEX = #{sex,jdbcType=VARCHAR}
+		</if>
+		<if test="companyAddr != null and companyAddr !=''">
+			and COMPANY_ADDR like '%'||#{companyAddr}||'%'
+		</if>
+		<if test="companyOrg != null and companyOrg !=''">
+			and COMPANY_ORG like '%'||#{companyOrg}||'%'
+		</if>
+		<if test="remark != null and remark !=''">
+			and REMARK like '%'||#{remark}||'%'
+		</if>
+		<if test="type != null">
+			and TYPE = #{type,jdbcType=DECIMAL}
+		</if>
+		<if test="isDel != null">
+			and IS_DEL = #{isDel,jdbcType=DECIMAL}
+		</if>
+		<if test="resLastCallDate != null">
+			and RES_LAST_CALL_DATE =
+			#{resLastCallDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="inputDate != null">
+			and INPUT_DATE = #{resLastCallDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="inputAcc != null and inputAcc !=''">
+			and INPUT_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="updateDate != null">
+			and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="updateAcc != null and updateAcc !=''">
+			and UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="isMajor != null">
+			and IS_MAJOR = #{isMajor,jdbcType=DECIMAL}
+		</if>
+		<if test="resGroupId != null and resGroupId !=''">
+			and RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR}
+		</if>
+		<if test="ownerAcc != null and ownerAcc !=''">
+			and OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null">
+			and STATUS = #{status,jdbcType=DECIMAL}
+		</if>
+		<if test="signDate != null">
+			and SIGN_DATE = #{signDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="inputStatus != null">
+			and INPUT_STATUS = #{inputStatus,jdbcType=DECIMAL}
+		</if>
+		<if test="ownerStartDate != null">
+			and OWNER_START_DATE =
+			#{ownerStartDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="filterCount != null">
+			and FILTER_COUNT = #{filterCount,jdbcType=DECIMAL}
+		</if>
+		<if test="filterType != null">
+			and FILTER_TYPE = #{filterType,jdbcType=DECIMAL}
+		</if>
+		<if test="opreateType != null">
+			and OPREATE_TYPE = #{opreateType,jdbcType=DECIMAL}
+		</if>
+		<if test="fax != null and fax !=''">
+			and FAX = #{fax,jdbcType=VARCHAR}
+		</if>
+		<if test="email != null and email !=''">
+			and EMAIL = #{email,jdbcType=VARCHAR}
+		</if>
+		<if test="unithome != null and unithome !=''">
+			and UNITHOME = #{unithome,jdbcType=VARCHAR}
+		</if>
+		<if test="unitintroduction != null and unitintroduction !=''">
+			and UNITINTRODUCTION =
+			#{unitintroduction,jdbcType=VARCHAR}
+		</if>
+		<if test="amoytocustomerDate != null">
+			and AMOYTOCUSTOMER_DATE =
+			#{amoytocustomerDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="qq != null">
+			and QQ = #{qq,jdbcType=VARCHAR}
+		</if>
+		<if test="keyWord != null">
+			and KEYWORD = #{keyWord,jdbcType=VARCHAR}
+		</if>
+		<if test="contractNumber != null and contractNumber !=''">
+			and CONTRACT_NUMBER like '%'||#{contractNumber}||'%'
+		</if>
+		<if test="defined1 != null">
+			and DEFINED1 = #{defined1,jdbcType=VARCHAR}
+		</if>
+		<if test="defined2 != null">
+			and DEFINED2 = #{defined2,jdbcType=VARCHAR}
+		</if>
+		<if test="defined3 != null">
+			and DEFINED3 = #{defined3,jdbcType=VARCHAR}
+		</if>
+		<if test="defined4 != null">
+			and DEFINED4 = #{defined4,jdbcType=VARCHAR}
+		</if>
+		<if test="defined5 != null">
+			and DEFINED5 = #{defined5,jdbcType=VARCHAR}
+		</if>
+		<if test="defined6 != null">
+			and DEFINED6 = #{defined6,jdbcType=VARCHAR}
+		</if>
+		<if test="defined7 != null">
+			and DEFINED7 = #{defined7,jdbcType=VARCHAR}
+		</if>
+		<if test="defined8 != null">
+			and DEFINED8 = #{defined8,jdbcType=VARCHAR}
+		</if>
+		<if test="defined9 != null">
+			and DEFINED9 = #{defined9,jdbcType=VARCHAR}
+		</if>
+		<if test="defined10 != null">
+			and DEFINED10 = #{defined10,jdbcType=VARCHAR}
+		</if>
+		<if test="defined11 != null">
+			and DEFINED11 = #{defined11,jdbcType=VARCHAR}
+		</if>
+		<if test="defined12 != null">
+			and DEFINED12 = #{defined12,jdbcType=VARCHAR}
+		</if>
+		<if test="defined13 != null">
+			and DEFINED13 = #{defined13,jdbcType=VARCHAR}
+		</if>
+		<if test="defined14 != null">
+			and DEFINED14 = #{defined14,jdbcType=VARCHAR}
+		</if>
+		<if test="defined15 != null">
+			and DEFINED15 = #{defined15,jdbcType=VARCHAR}
+		</if>		
+		<if test="alternatePhone2 != null">
+			and ALTERNATE_PHONE2 = #{alternatePhone2,jdbcType=VARCHAR}
+		</if>
+		<if test="signAcc != null">
+			and SIGN_ACC = #{signAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="signName != null">
+			and SIGN_NAME = #{signName,jdbcType=VARCHAR}
+		</if>
+		<if test="nextFollowDate != null">
+			and NEXTFOLLOW_DATE = #{nextFollowDate,jdbcType=VARCHAR}
+		</if>
+		<if test="birthday != null">
+			and BIRTHDAY = #{birthday,jdbcType=VARCHAR}
+		</if>
+		<if test="callDatePostponed != null">
+			and CALL_DATE_POSTPONED =
+			#{callDatePostponed,jdbcType=TIMESTAMP}
+		</if>
+		<if test="reasonForCalldelay != null">
+			and REASON_FOR_CALLDELAY =
+			#{reasonForCalldelay,jdbcType=VARCHAR}
+		</if>
+		<if test="recuclingTypeDetails != null">
+			and RECUCLING_TYPE_DETAILS =
+			#{recuclingTypeDetails,jdbcType=VARCHAR}
+		</if>
+		<if test="againwashCount != null">
+			and AGAINWASH_COUNT = #{againwashCount,jdbcType=DECIMAL}
+		</if>
+		<if test="actionDate != null">
+			and ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="lastCustFollowID != null">
+			and LAST_CUST_FOLLOW_ID =
+			#{lastCustFollowID,jdbcType=VARCHAR}
+		</if>
+		<if test="serviceAcc != null">
+			and SERVICE_ACC = #{serviceAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="serviceName != null">
+			and SERVICE_NAME = #{serviceName,jdbcType=VARCHAR}
+		</if>
+		<if test="serviceLevel != null">
+			and SERVICE_LEVEL = #{serviceLevel,jdbcType=VARCHAR}
+		</if>
+		<if test="serviceName != null">
+			and VISITING_DATE = #{visitingDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="nextVisitingDate != null">
+			and NEXT_VISITING_DATE =
+			#{nextVisitingDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="serviceLabelCode != null">
+			and SERVICE_LABEL_CODE =
+			#{serviceLabelCode,jdbcType=VARCHAR}
+		</if>
+		<if test="serviceLabelName != null">
+			and SERVICE_LABEL_NAME =
+			#{serviceLabelName,jdbcType=VARCHAR}
+		</if>
+		<if test="isPrecedence != null">
+			and IS_PRECEDENCE =
+			#{isPrecedence,jdbcType=DECIMAL}
+		</if>
+		<if test="forTheCustomerTime != null">
+			and FOR_THE_CUSTOMER_TIME =
+			#{forTheCustomerTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="lastVisitAcc != null">
+			and LAST_VISIT_ACC =
+			#{lastVisitAcc,jdbcType=VARCHAR}
+		</if>	
+		<if test="state != null">
+			and STATE = #{state,jdbcType=DECIMAL} 
+		</if>	
+		<if test="planDate != null">
+			and PLAN_DATE = #{planDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="address != null">
+			and ADDRESS = #{address,jdbcType=VARCHAR} 
+		</if>
+		<if test="companyMoney != null">
+			and COMPANY_MONEY = #{companyMoney,jdbcType=VARCHAR} 
+		</if>
+		<if test="companyUser != null">
+			and COMPANY_USER = #{companyUser,jdbcType=VARCHAR} 
+		</if>
+		<if test="companyTrade != null">
+			and COMPANY_TRADE = #{companyTrade,jdbcType=VARCHAR} 
+		</if>
+		<if test="companyFax != null">
+			and COMPANY_FAX = #{companyFax,jdbcType=VARCHAR} 
+		</if>
+		<if test="losingId != null">
+			and LOSING_ID = #{losingId,jdbcType=VARCHAR} 
+		</if>
+		<if test="losingRemark != null">
+			and LOSING_REMARK = #{losingRemark,jdbcType=VARCHAR} 
+		</if>
+		<if test="provinceId != null">
+			and PROVINCE_ID = #{provinceId,jdbcType=DECIMAL} 
+		</if>
+		<if test="cityId != null">
+			and CITY_ID = #{cityId,jdbcType=DECIMAL} 
+		</if>
+		<if test="countyId != null">
+			and COUNTY_ID = #{countyId,jdbcType=DECIMAL} 
+		</if>
+		<if test="lastLogId != null">
+			and LAST_LOG_ID = #{lastLogId,jdbcType=VARCHAR} 
+		</if>
+		<if test="wangwang != null">
+			and WANGWANG = #{wangwang,jdbcType=VARCHAR} 
+		</if>
+		<if test="scope != null">
+			and SCOPE = #{scope,jdbcType=VARCHAR} 
+		</if>
+		<if test="mainLinkman != null">
+			and MAIN_LINKMAN = #{mainLinkman,jdbcType=VARCHAR} 
+		</if>
+		<if test="taoNo != null">
+			and tao_No = #{taoNo,jdbcType=DECIMAL} 
+		</if>
+		<if test="importDeptId != null">
+			and IMPORT_DEPT_ID = #{importDeptId,jdbcType=VARCHAR} 
+		</if>	
+		<if test="lifeCode != null and lifeCode != ''">
+			and LIFE_CODE = #{lifeCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="lastOptionId != null and lastOptionId != ''">
+			and last_Option_Id = #{lastOptionId,jdbcType=VARCHAR} 
+		</if>	
+		<if test="lastLossDate != null">
+			and last_Loss_Date = #{lastLossDate,jdbcType=TIMESTAMP} 
+		</if>		
+		<if test="isConcat != null">
+			and is_Concat = #{isConcat,jdbcType=VARCHAR} 
+		</if>	
+		<if test="lastCustTypeId != null">
+			and last_Cust_Type_Id = #{lastCustTypeId,jdbcType=VARCHAR} 
+		</if>
+		<if test="labelCode != null">
+			and label_Code = #{labelCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="labelName != null">
+			and label_name = #{labelName,jdbcType=VARCHAR} 
+		</if>						
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="leadCode != null">
+				LEAD_CODE = #{leadCode,jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null">
+				CUST_NAME = #{custName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				COMPANY = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="rciId != null">
+				rci_id = #{rciId,jdbcType=VARCHAR},
+			</if>
+			<if test="importDeptId != null">
+				import_dept_id = #{importDeptId,jdbcType=VARCHAR},
+			</if>
+			<if test="cardId != null">
+				CARD_ID = #{cardId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowMoney != null">
+				BORROW_MONEY = #{borrowMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="accountMoney != null">
+				ACCOUNT_MONEY = #{accountMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceMoney != null">
+				SERVICE_MONEY = #{serviceMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="billMoney != null">
+				BILL_MONEY = #{billMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowDate != null">
+				BORROW_DATE = #{borrowDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="repayDate != null">
+				REPAY_DATE = #{repayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="serviceMoney2 != null">
+				SERVICE_MONEY2 = #{serviceMoney2,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceMoney3 != null">
+				SERVICE_MONEY3 = #{serviceMoney3,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCard != null">
+				BANK_CARD = #{bankCard,jdbcType=VARCHAR},
+			</if>
+			<if test="lender != null">
+				LENDER = #{lender,jdbcType=VARCHAR},
+			</if>
+			<if test="openingBank != null">
+				OPENING_BANK = #{openingBank,jdbcType=VARCHAR},
+			</if>
+			<if test="loanBill != null">
+				LOAN_BILL = #{loanBill,jdbcType=VARCHAR},
+			</if>
+			<if test="ownerAcc != null">
+				OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="importDeptName != null">
+				IMPORT_DEPT_NAME = #{importDeptName,jdbcType=VARCHAR},
+			</if>
+			<if test="fundAccount != null">
+				FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="inchargeAcc != null">
+				INCHARGE_ACC = #{inchargeAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="batch != null">
+				BATCH = #{batch,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="auditStatus != null">
+				AUDIT_STATUS = #{auditStatus,jdbcType=TINYINT},
+			</if>
+			<if test="submitTime != null">
+				SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditTime != null">
+				AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="defined1 != null">
+				DEFINED1 = #{defined1,jdbcType=VARCHAR},
+			</if>
+			<if test="defined2 != null">
+				DEFINED2 = #{defined2,jdbcType=VARCHAR},
+			</if>
+			<if test="defined3 != null">
+				DEFINED3 = #{defined3,jdbcType=VARCHAR},
+			</if>
+			<if test="defined4 != null">
+				DEFINED4 = #{defined4,jdbcType=VARCHAR},
+			</if>
+			<if test="defined5 != null">
+				DEFINED5 = #{defined5,jdbcType=VARCHAR},
+			</if>
+			<if test="defined6 != null">
+				DEFINED6 = #{defined6,jdbcType=VARCHAR},
+			</if>
+			<if test="defined7 != null">
+				DEFINED7 = #{defined7,jdbcType=VARCHAR},
+			</if>
+			<if test="defined8 != null">
+				DEFINED8 = #{defined8,jdbcType=VARCHAR},
+			</if>
+			<if test="defined9 != null">
+				DEFINED9 = #{defined9,jdbcType=VARCHAR},
+			</if>
+			<if test="defined10 != null">
+				DEFINED10 = #{defined10,jdbcType=VARCHAR},
+			</if>
+			<if test="defined11 != null">
+				DEFINED11 = #{defined11,jdbcType=VARCHAR},
+			</if>
+			<if test="defined12 != null">
+				DEFINED12 = #{defined12,jdbcType=VARCHAR},
+			</if>
+			<if test="defined13 != null">
+				DEFINED13 = #{defined13,jdbcType=VARCHAR},
+			</if>
+			<if test="defined14 != null">
+				DEFINED14 = #{defined14,jdbcType=VARCHAR},
+			</if>
+			<if test="defined15 != null">
+				DEFINED15 = #{defined15,jdbcType=VARCHAR},
+			</if>
+			<if test="defined16 != null">
+				DEFINED16 = #{defined16,jdbcType=TIMESTAMP},
+			</if>
+			<if test="defined17 != null">
+				DEFINED17 = #{defined17,jdbcType=TIMESTAMP},
+			</if>
+			<if test="defined18 != null">
+				DEFINED18 = #{defined18,jdbcType=TIMESTAMP},
+			</if>		
+			<if test="auditNode != null">
+				AUDIT_NODE = #{auditNode,jdbcType=INTEGER},
+			</if>									
+			<if test="allNode != null">
+				ALL_NODE = #{allNode,jdbcType=INTEGER},
+			</if>									
+			<if test="auditAcc != null">
+				AUDIT_ACC = #{auditAcc,jdbcType=VARCHAR},
+			</if>								
+		</trim>
+	</sql>
+	<!-- bathc update -->
+	<sql id="trents_update_set_sql_batch">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="leadCode != null">
+				LEAD_CODE = #{leadCode,jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null">
+				CUST_NAME = #{custName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				COMPANY = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="rciId != null">
+				rci_id = #{rciId,jdbcType=VARCHAR},
+			</if>
+			<if test="importDeptId != null">
+				import_dept_id = #{importDeptId,jdbcType=VARCHAR},
+			</if>
+			<if test="cardId != null">
+				CARD_ID = #{cardId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				PHONE = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowMoney != null">
+				BORROW_MONEY = #{borrowMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="accountMoney != null">
+				ACCOUNT_MONEY = #{accountMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceMoney != null">
+				SERVICE_MONEY = #{serviceMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="billMoney != null">
+				BILL_MONEY = #{billMoney,jdbcType=VARCHAR},
+			</if>
+			<if test="borrowDate != null">
+				BORROW_DATE = #{borrowDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="repayDate != null">
+				REPAY_DATE = #{repayDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="serviceMoney2 != null">
+				SERVICE_MONEY2 = #{serviceMoney2,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceMoney3 != null">
+				SERVICE_MONEY3 = #{serviceMoney3,jdbcType=VARCHAR},
+			</if>
+			<if test="bankCard != null">
+				BANK_CARD = #{bankCard,jdbcType=VARCHAR},
+			</if>
+			<if test="lender != null">
+				LENDER = #{lender,jdbcType=VARCHAR},
+			</if>
+			<if test="openingBank != null">
+				OPENING_BANK = #{openingBank,jdbcType=VARCHAR},
+			</if>
+			<if test="loanBill != null">
+				LOAN_BILL = #{loanBill,jdbcType=VARCHAR},
+			</if>
+			<if test="ownerAcc != null">
+				OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="importDeptName != null">
+				IMPORT_DEPT_NAME = #{importDeptName,jdbcType=VARCHAR},
+			</if>
+			<if test="fundAccount != null">
+				FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="inchargeAcc != null">
+				INCHARGE_ACC = #{inchargeAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="batch != null">
+				BATCH = #{batch,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="auditStatus != null">
+				AUDIT_STATUS = #{auditStatus,jdbcType=TINYINT},
+			</if>
+			<if test="submitTime != null">
+				SUBMIT_TIME = #{submitTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditTime != null">
+				AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="defined1 != null">
+				DEFINED1 = #{defined1,jdbcType=VARCHAR},
+			</if>
+			<if test="defined2 != null">
+				DEFINED2 = #{defined2,jdbcType=VARCHAR},
+			</if>
+			<if test="defined3 != null">
+				DEFINED3 = #{defined3,jdbcType=VARCHAR},
+			</if>
+			<if test="defined4 != null">
+				DEFINED4 = #{defined4,jdbcType=VARCHAR},
+			</if>
+			<if test="defined5 != null">
+				DEFINED5 = #{defined5,jdbcType=VARCHAR},
+			</if>
+			<if test="defined6 != null">
+				DEFINED6 = #{defined6,jdbcType=VARCHAR},
+			</if>
+			<if test="defined7 != null">
+				DEFINED7 = #{defined7,jdbcType=VARCHAR},
+			</if>
+			<if test="defined8 != null">
+				DEFINED8 = #{defined8,jdbcType=VARCHAR},
+			</if>
+			<if test="defined9 != null">
+				DEFINED9 = #{defined9,jdbcType=VARCHAR},
+			</if>
+			<if test="defined10 != null">
+				DEFINED10 = #{defined10,jdbcType=VARCHAR},
+			</if>
+			<if test="defined11 != null">
+				DEFINED11 = #{defined11,jdbcType=VARCHAR},
+			</if>
+			<if test="defined12 != null">
+				DEFINED12 = #{defined12,jdbcType=VARCHAR},
+			</if>
+			<if test="defined13 != null">
+				DEFINED13 = #{defined13,jdbcType=VARCHAR},
+			</if>
+			<if test="defined14 != null">
+				DEFINED14 = #{defined14,jdbcType=VARCHAR},
+			</if>
+			<if test="defined15 != null">
+				DEFINED15 = #{defined15,jdbcType=VARCHAR},
+			</if>
+			<if test="defined16 != null">
+				DEFINED16 = #{defined16,jdbcType=TIMESTAMP},
+			</if>
+			<if test="defined17 != null">
+				DEFINED17 = #{defined17,jdbcType=TIMESTAMP},
+			</if>
+			<if test="defined18 != null">
+				DEFINED18 = #{defined18,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	      LEAD_ID,
+	      <if test="leadCode != null">
+	        LEAD_CODE,
+	      </if>
+	      <if test="custName != null">
+	        CUST_NAME,
+	      </if>
+	      <if test="company != null">
+				COMPANY,
+		  </if>
+	      <if test="rciId != null">
+	        rci_id,
+	      </if>
+	      <if test="orgId != null">
+	        ORG_ID,
+	      </if>
+	      <if test="importDeptId != null">
+	        import_dept_id,
+	      </if>
+	      <if test="cardId != null">
+	        CARD_ID,
+	      </if>
+	      <if test="phone != null">
+	        PHONE,
+	      </if>
+	      <if test="borrowMoney != null">
+	        BORROW_MONEY,
+	      </if>
+	      <if test="accountMoney != null">
+	        ACCOUNT_MONEY,
+	      </if>
+	      <if test="serviceMoney != null">
+	        SERVICE_MONEY,
+	      </if>
+	      <if test="billMoney != null">
+	        BILL_MONEY,
+	      </if>
+	      <if test="borrowDate != null">
+	        BORROW_DATE,
+	      </if>
+	      <if test="repayDate != null">
+	        REPAY_DATE,
+	      </if>
+	      <if test="serviceMoney2 != null">
+			SERVICE_MONEY2,
+		  </if>
+		  <if test="serviceMoney3 != null">
+			SERVICE_MONEY3,
+		  </if>
+	      <if test="bankCard != null">
+	        BANK_CARD,
+	      </if>
+	      <if test="lender != null">
+	        LENDER,
+	      </if>
+	      <if test="openingBank != null">
+	        OPENING_BANK,
+	      </if>
+	      <if test="loanBill != null">
+	        LOAN_BILL,
+	      </if>
+	      <if test="ownerAcc != null">
+	        OWNER_ACC,
+	      </if>
+	      <if test="createDate != null">
+	        CREATE_DATE,
+	      </if>
+	      <if test="importDeptName != null">
+	        IMPORT_DEPT_NAME,
+	      </if>
+	      <if test="fundAccount != null">
+	        FUND_ACCOUNT,
+	      </if>
+	      <if test="inchargeAcc != null">
+	        INCHARGE_ACC,
+	      </if>
+	      <if test="status != null">
+	        STATUS,
+	      </if>
+	      <if test="auditStatus != null">
+	        AUDIT_STATUS,
+	      </if>
+	      <if test="submitTime != null">
+	        SUBMIT_TIME,
+	      </if>
+	      <if test="auditTime != null">
+	        AUDIT_TIME,
+	      </if>
+	      <if test="batch != null">
+	        BATCH,
+	      </if>
+	      <if test="defined1 != null">
+	        DEFINED1,
+	      </if>
+	      <if test="defined2 != null">
+	        DEFINED2,
+	      </if>
+	      <if test="defined3 != null">
+	        DEFINED3,
+	      </if>
+	      <if test="defined4 != null">
+	        DEFINED4,
+	      </if>
+	      <if test="defined5 != null">
+	        DEFINED5,
+	      </if>
+	      <if test="defined6 != null">
+	        DEFINED6,
+	      </if>
+	      <if test="defined7 != null">
+	        DEFINED7,
+	      </if>
+	      <if test="defined8 != null">
+	        DEFINED8,
+	      </if>
+	      <if test="defined9 != null">
+	        DEFINED9,
+	      </if>
+	      <if test="defined10 != null">
+	        DEFINED10,
+	      </if>
+	      <if test="defined11 != null">
+	        DEFINED11,
+	      </if>
+	      <if test="defined12 != null">
+	        DEFINED12,
+	      </if>
+	      <if test="defined13 != null">
+	        DEFINED13,
+	      </if>
+	      <if test="defined14 != null">
+	        DEFINED14,
+	      </if>
+	      <if test="defined15 != null">
+	        DEFINED15,
+	      </if>
+	      <if test="defined16 != null">
+	        DEFINED16,
+	      </if>
+	      <if test="defined17 != null">
+	        DEFINED17,
+	      </if>
+	      <if test="defined18 != null">
+	        DEFINED18,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      #{leadId,jdbcType=VARCHAR},
+	      <if test="leadCode != null">
+	        #{leadCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="custName != null">
+	        #{custName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="company != null">
+			#{company,jdbcType=VARCHAR},
+		  </if>
+	      <if test="rciId != null">
+	        #{rciId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="orgId != null">
+	        #{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="importDeptId != null">
+	        #{importDeptId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="cardId != null">
+	        #{cardId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="phone != null">
+	        #{phone,jdbcType=VARCHAR},
+	      </if>
+	      <if test="borrowMoney != null">
+	        #{borrowMoney,jdbcType=VARCHAR},
+	      </if>
+	      <if test="accountMoney != null">
+	        #{accountMoney,jdbcType=VARCHAR},
+	      </if>
+	      <if test="serviceMoney != null">
+	        #{serviceMoney,jdbcType=VARCHAR},
+	      </if>
+	      <if test="billMoney != null">
+	        #{billMoney,jdbcType=VARCHAR},
+	      </if>
+	      <if test="borrowDate != null">
+	        #{borrowDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="repayDate != null">
+	        #{repayDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="serviceMoney2 != null">
+	        #{serviceMoney2,jdbcType=VARCHAR},
+	      </if>
+	      <if test="serviceMoney3 != null">
+	        #{serviceMoney3,jdbcType=VARCHAR},
+	      </if>
+	      <if test="bankCard != null">
+	        #{bankCard,jdbcType=VARCHAR},
+	      </if>
+	      <if test="lender != null">
+	        #{lender,jdbcType=VARCHAR},
+	      </if>
+	      <if test="openingBank != null">
+	        #{openingBank,jdbcType=VARCHAR},
+	      </if>
+	      <if test="loanBill != null">
+	        #{loanBill,jdbcType=VARCHAR},
+	      </if>
+	      <if test="ownerAcc != null">
+	        #{ownerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createDate != null">
+	        #{createDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="importDeptName != null">
+	        #{importDeptName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="fundAccount != null">
+	        #{fundAccount,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inchargeAcc != null">
+	        #{inchargeAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null">
+	        #{status,jdbcType=TINYINT},
+	      </if>
+	      <if test="auditStatus != null">
+	        #{auditStatus,jdbcType=TINYINT},
+	      </if>
+	      <if test="submitTime != null">
+	        #{submitTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="auditTime != null">
+	        #{auditTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="batch != null">
+	        #{batch,jdbcType=INTEGER},
+	      </if>
+	      <if test="defined1 != null">
+	        #{defined1,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined2 != null">
+	        #{defined2,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined3 != null">
+	        #{defined3,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined4 != null">
+	        #{defined4,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined5 != null">
+	        #{defined5,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined6 != null">
+	        #{defined6,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined7 != null">
+	        #{defined7,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined8 != null">
+	        #{defined8,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined9 != null">
+	        #{defined9,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined10 != null">
+	        #{defined10,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined11 != null">
+	        #{defined11,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined12 != null">
+	        #{defined12,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined13 != null">
+	        #{defined13,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined14 != null">
+	        #{defined14,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined15 != null">
+	        #{defined15,jdbcType=VARCHAR},
+	      </if>
+	      <if test="defined16 != null">
+	        #{defined16,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="defined17 != null">
+	        #{defined17,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="defined18 != null">
+	        #{defined18,jdbcType=TIMESTAMP},
+	      </if>
+	    </trim>
+	</sql>
+	<!-- 表字段 -->
+	<sql id="Base_Column_List">
+		LEAD_ID, LEAD_CODE, CUST_NAME, COMPANY, rci_id, ORG_ID, import_dept_id, CARD_ID, PHONE, BORROW_MONEY, 
+	    ACCOUNT_MONEY, SERVICE_MONEY, BILL_MONEY, BORROW_DATE, REPAY_DATE, SERVICE_MONEY2, SERVICE_MONEY3, BANK_CARD, LENDER, 
+	    OPENING_BANK, LOAN_BILL, OWNER_ACC, CREATE_DATE, IMPORT_DEPT_NAME, FUND_ACCOUNT, 
+	    INCHARGE_ACC, STATUS, BATCH, AUDIT_STATUS, SUBMIT_TIME, AUDIT_TIME, DEFINED1, 
+	    DEFINED2, DEFINED3, DEFINED4, DEFINED5, DEFINED6, DEFINED7, DEFINED8, DEFINED9, DEFINED10, 
+	    DEFINED11, DEFINED12, DEFINED13, DEFINED14, DEFINED15, DEFINED16, DEFINED17, DEFINED18
+	</sql>
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<select id="findLeadIdByStatus" parameterType="map" resultType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID = #{orgId} AND STATUS = #{status}
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" /> 
+		from
+		<include refid="table_name" />
+		where ORG_ID = #{orgId} AND LEAD_ID = #{leadId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.credit.bean.CreditLeadInfoBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="com.qftx.tsm.credit.bean.CreditLeadInfoBean">
+		insert into
+		<include refid="table_name" />(
+		LEAD_ID,NAME,MOBILEPHONE,TELPHONE,COMPANY,DUTY,SEX,COMPANY_ADDR,COMPANY_ORG,REMARK,TYPE,IS_DEL,RES_LAST_CALL_DATE,INPUT_DATE,INPUT_ACC,UPDATE_DATE,UPDATE_ACC,IS_MAJOR,RES_GROUP_ID,OWNER_ACC,STATUS,ORG_ID,SIGN_DATE,INPUT_STATUS,OWNER_START_DATE,FILTER_COUNT,FILTER_TYPE,OPREATE_TYPE,FAX,EMAIL,UNITHOME,UNITINTRODUCTION,AMOYTOCUSTOMER_DATE,QQ,KEYWORD,CONTRACT_NUMBER,DEFINED1,DEFINED2,DEFINED3,DEFINED4,DEFINED5,DEFINED6,DEFINED7,DEFINED8,DEFINED9,DEFINED10,ALTERNATE_PHONE2,SIGN_ACC,SIGN_NAME,NEXTFOLLOW_DATE,BIRTHDAY,CALL_DATE_POSTPONED,REASON_FOR_CALLDELAY,RECUCLING_TYPE_DETAILS,AGAINWASH_COUNT,ACTION_DATE,LAST_CUST_FOLLOW_ID,SERVICE_ACC,SERVICE_NAME,SERVICE_LEVEL,VISITING_DATE,NEXT_VISITING_DATE,SERVICE_LABEL_CODE,SERVICE_LABEL_NAME,IS_PRECEDENCE,FOR_THE_CUSTOMER_TIME,LAST_VISIT_ACC,STATE,PLAN_DATE,ADDRESS,COMPANY_MONEY,COMPANY_USER,COMPANY_TRADE,COMPANY_FAX,LOSING_ID,LOSING_REMARK,PROVINCE_ID,CITY_ID,COUNTY_ID,LAST_LOG_ID,WANGWANG,SCOPE,MAIN_LINKMAN,tao_No ,IMPORT_DEPT_ID,LIFE_CODE,last_Option_Id
+		)values<foreach collection="list" item="bean" separator=",">(
+				#{bean.leadId,jdbcType=VARCHAR},#{bean.name,jdbcType=VARCHAR},#{bean.mobilephone,jdbcType=VARCHAR},#{bean.telphone,jdbcType=VARCHAR},#{bean.company,jdbcType=VARCHAR},#{bean.duty,jdbcType=VARCHAR},#{bean.sex,jdbcType=VARCHAR},#{bean.companyAddr,jdbcType=VARCHAR},#{bean.companyOrg,jdbcType=VARCHAR},#{bean.remark,jdbcType=VARCHAR},#{bean.type,jdbcType=DECIMAL},#{bean.isDel,jdbcType=DECIMAL},#{bean.resLastCallDate,jdbcType=TIMESTAMP},#{bean.inputDate,jdbcType=TIMESTAMP},#{bean.inputAcc,jdbcType=VARCHAR},#{bean.updateDate,jdbcType=TIMESTAMP},#{bean.updateAcc,jdbcType=VARCHAR},#{bean.isMajor,jdbcType=DECIMAL},#{bean.resGroupId,jdbcType=VARCHAR},#{bean.ownerAcc,jdbcType=VARCHAR},#{bean.status,jdbcType=DECIMAL},#{bean.orgId,jdbcType=VARCHAR},#{bean.signDate,jdbcType=TIMESTAMP},#{bean.inputStatus,jdbcType=DECIMAL},#{bean.ownerStartDate,jdbcType=TIMESTAMP},#{bean.filterCount,jdbcType=DECIMAL},#{bean.filterType,jdbcType=DECIMAL},#{bean.opreateType,jdbcType=DECIMAL},#{bean.fax,jdbcType=VARCHAR},#{bean.email,jdbcType=VARCHAR},#{bean.unithome,jdbcType=VARCHAR},#{bean.unitintroduction,jdbcType=VARCHAR},#{bean.amoytocustomerDate,jdbcType=TIMESTAMP},#{bean.qq,jdbcType=VARCHAR},#{bean.keyWord,jdbcType=VARCHAR},#{bean.contractNumber,jdbcType=VARCHAR},#{bean.defined1,jdbcType=VARCHAR},#{bean.defined2,jdbcType=VARCHAR},#{bean.defined3,jdbcType=VARCHAR},#{bean.defined4,jdbcType=VARCHAR},#{bean.defined5,jdbcType=VARCHAR},#{bean.defined6,jdbcType=VARCHAR},#{bean.defined7,jdbcType=VARCHAR},#{bean.defined8,jdbcType=VARCHAR},#{bean.defined9,jdbcType=VARCHAR},#{bean.defined10,jdbcType=VARCHAR},#{bean.alternatePhone2,jdbcType=VARCHAR},#{bean.signAcc,jdbcType=VARCHAR},#{bean.signName,jdbcType=VARCHAR},#{bean.nextFollowDate,jdbcType=VARCHAR},#{bean.birthday,jdbcType=VARCHAR},#{bean.callDatePostponed,jdbcType=TIMESTAMP},#{bean.reasonForCalldelay,jdbcType=VARCHAR},#{bean.recuclingTypeDetails,jdbcType=VARCHAR},#{bean.againwashCount,jdbcType=VARCHAR},#{bean.actionDate,jdbcType=TIMESTAMP},#{bean.lastCustFollowID,jdbcType=VARCHAR},#{bean.serviceAcc,jdbcType=VARCHAR},#{bean.serviceName,jdbcType=VARCHAR},#{bean.serviceLevel,jdbcType=VARCHAR},#{bean.visitingDate,jdbcType=TIMESTAMP},#{bean.nextVisitingDate,jdbcType=TIMESTAMP},#{bean.serviceLabelCode,jdbcType=VARCHAR},#{bean.serviceLabelName,jdbcType=VARCHAR},#{bean.isPrecedence,jdbcType=DECIMAL},#{bean.forTheCustomerTime,jdbcType=TIMESTAMP},#{bean.lastVisitAcc,jdbcType=VARCHAR},#{bean.state,jdbcType=DECIMAL},#{bean.planDate,jdbcType=TIMESTAMP},#{bean.address,jdbcType=VARCHAR},#{bean.companyMoney,jdbcType=VARCHAR},#{bean.companyUser,jdbcType=VARCHAR},#{bean.companyTrade,jdbcType=VARCHAR},#{bean.companyFax,jdbcType=VARCHAR},#{bean.losingId,jdbcType=VARCHAR},#{bean.losingRemark,jdbcType=VARCHAR},#{bean.provinceId,jdbcType=DECIMAL},#{bean.cityId,jdbcType=DECIMAL},#{bean.countyId,jdbcType=DECIMAL},#{bean.lastLogId,jdbcType=VARCHAR},#{bean.wangwang,jdbcType=VARCHAR},#{bean.scope,jdbcType=VARCHAR},#{bean.mainLinkman,jdbcType=VARCHAR},#{bean.taoNo,jdbcType=DECIMAL} ,#{bean.importDeptId,jdbcType=VARCHAR} ,#{bean.lifeCode,jdbcType=VARCHAR},#{bean.lastOptionId,jdbcType=VARCHAR}				
+		)</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.credit.bean.CreditLeadInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID = #{orgId} and LEAD_ID = #{leadId} 
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where LEAD_ID = #{leadId}
+	</delete>
+
+	<!-- 批量删除 -->
+	<update id="deleteBatch" parameterType="map">
+		update
+		<include refid="table_name" />
+		set IS_DEL = 1,UPDATE_ACC =#{updateacc},UPDATE_DATE = sysdate
+		where
+		LEAD_ID in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<sql id="find_leadinfo_where_sql">
+	   <if test="leadIds != null and leadIds.size() > 0">
+	   		AND T.LEAD_ID IN 
+	   			<foreach collection="leadIds" item="leadId" open="(" separator="," close=")">
+	   				#{leadId}
+	   			</foreach>
+	   </if>
+	   
+	   <if test="queryText != null and queryText != ''">
+       		<choose>
+       			<when test='queryType != null and queryType == "custName"'>
+       				AND T.CUST_NAME LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "company"'>
+       				AND T.COMPANY LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "cardId"'>
+       				AND T.CARD_ID LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "leadCode"'>
+       				AND T.LEAD_CODE LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "fundAccount"'>
+       				AND T.FUND_ACCOUNT LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "lender"'>
+       				AND T.LENDER LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "importDeptName"'>
+       				AND T.IMPORT_DEPT_NAME LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<otherwise>
+       				AND T.${queryType} LIKE CONCAT('%',#{queryText},'%') 
+       			</otherwise>
+       		</choose>
+       </if>
+       
+	   <if test="bstartDate != null and bstartDate != ''">
+       		AND T.BORROW_DATE &gt;= STR_TO_DATE(CONCAT(#{bstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="bendDate != null and bendDate != ''">
+       		AND T.BORROW_DATE &lt;= STR_TO_DATE(CONCAT(#{bendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="rstartDate != null and rstartDate != ''">
+       		AND T.REPAY_DATE &gt;= STR_TO_DATE(CONCAT(#{rstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="rendDate != null and rendDate != ''">
+       		AND T.REPAY_DATE &lt;= STR_TO_DATE(CONCAT(#{rendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       
+       <if test="status != null and status != ''">
+			AND T.STATUS = #{status }
+	   </if>
+	   
+	   <choose>
+		   <when test="ownerAccs!=null and ownerAccs.size() > 0">
+	       		AND T.OWNER_ACC IN 
+				<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		   </when>
+		   <when test="ownerAcc != null and ownerAcc != ''">
+       			AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR} 
+       		</when>
+		   <otherwise>
+		   		
+		   </otherwise>
+	   </choose>
+	   
+	   <choose>
+		   <when test="inchargeAccs!=null and inchargeAccs.size() > 0">
+	       		AND T.INCHARGE_ACC IN 
+				<foreach collection="inchargeAccs" item="item" index="index" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+		   </when>
+		   <when test="inchargeAcc != null and inchargeAcc != ''">
+       			AND T.INCHARGE_ACC = #{inchargeAcc,jdbcType=VARCHAR} 
+       		</when>
+		   <otherwise>
+		   		
+		   </otherwise>
+	   </choose>
+		
+	   <!-- 
+       <if test="importDeptIds != null and importDeptIds.size() > 0">
+       		AND T.IMPORT_DEPT_ID IN 
+       			<foreach collection="importDeptIds" item="ipd" open="(" separator="," close=")">
+       				#{ipd} 
+       			</foreach>
+       </if>
+        -->
+        
+        <if test="defined1 != null and defined1 != ''">
+		   AND T.DEFINED1 = #{defined1,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined2 != null and defined2 != ''">
+		   AND T.DEFINED2 = #{defined2,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined3 != null and defined3 != ''">
+			AND T.DEFINED3 = #{defined3,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined4 != null and defined4 != ''">
+			AND T.DEFINED4 = #{defined4,jdbcType=VARCHAR}  
+		</if>
+		<if test="defined5 != null and defined5 != ''">
+			AND T.DEFINED5 = #{defined5,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined6 != null and defined6 != ''">
+			AND T.DEFINED6 = #{defined6,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined7 != null and defined7 != ''">
+			AND T.DEFINED7 = #{defined7,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined8 != null and defined8 != ''">
+			AND T.DEFINED8 = #{defined8,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined9 != null and defined9 != ''">
+			AND T.DEFINED9 = #{defined9,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined10 != null and defined10 != ''">
+			AND T.DEFINED10 = #{defined10,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined11 != null and defined11 != ''">
+			AND T.DEFINED11 = #{defined11,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined12 != null and defined12 != ''">
+			AND T.DEFINED12 = #{defined12,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined13 != null and defined13 != ''">
+			AND T.DEFINED13 = #{defined13,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined14 != null and defined14 != ''">
+			AND T.DEFINED14 = #{defined14,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined15 != null and defined15 != ''">
+			AND T.DEFINED15 = #{defined15,jdbcType=VARCHAR} 
+		</if>
+        <if test="startdefined16!= null and startdefined16 !=''">
+			AND T.DEFINED16 >=
+			 STR_TO_DATE(CONCAT(#{startdefined16,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test=" enddefined16 != null and enddefined16 !=''">
+			AND T.DEFINED16 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined16,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="startdefined17!= null and startdefined17 !=''">
+			AND T.DEFINED17 >=
+			 STR_TO_DATE(CONCAT(#{startdefined17,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined17 != null and enddefined17 !=''">
+			AND T.DEFINED17 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined17,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>	
+		<if test="startdefined18!= null and startdefined18 !=''">
+			AND T.DEFINED18 >=
+			 STR_TO_DATE(CONCAT(#{startdefined18,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined18 != null and enddefined18 !=''">
+			AND T.DEFINED18 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined18,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+	</sql>
+	
+	<!-- 催放管理-放款信息 根据主键ID查询放款信息列表 -->
+	<select id="findLeadInfoList" parameterType="com.qftx.tsm.credit.dto.CreditLeadInfoDto" resultMap="DtoResultMap">
+	  	SELECT <include refid="Base_Column_List" />
+	  	  FROM TSM_LEAD_INFO T
+	  	 WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		   AND T.IS_DEL = 0 
+		   <if test="leadIds != null and leadIds.size() > 0">
+		   		AND T.LEAD_ID IN 
+		   			<foreach collection="leadIds" item="leadId" open="(" separator="," close=")">
+		   				#{leadId}
+		   			</foreach>
+		   </if>
+	</select>
+	
+	<!-- 催放管理-放款信息 查询分页列表 -->
+	<select id="findMyLeadInfoListPage" parameterType="com.qftx.tsm.credit.dto.CreditLeadInfoDto" resultMap="DtoResultMap">
+	  	SELECT <include refid="Base_Column_List" />
+	  	  FROM TSM_LEAD_INFO T
+	  	 WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		   AND T.IS_DEL = 0 
+		   
+		   <include refid="find_leadinfo_where_sql" />
+		   
+	       <if test="orderKey != null and orderKey != ''">
+			   ORDER BY ${orderKey } 
+		   </if>
+	</select>
+	
+	<!-- 催放管理-放款信息 查询总数 -->
+	<select id="findExportCount" parameterType="com.qftx.tsm.credit.dto.CreditLeadInfoDto" resultType="java.lang.Integer">
+		SELECT COUNT(T.LEAD_ID)  
+		  FROM TSM_LEAD_INFO T
+		 WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+	       AND T.IS_DEL = 0 
+		   
+		   <include refid="find_leadinfo_where_sql" />
+			
+	</select>
+	
+	<select id="findMyResCustPhoneListPage" parameterType="com.qftx.tsm.credit.dto.CreditLeadInfoDto" resultMap="DtoResultMap">
+		SELECT T1.NAME,T1.LEAD_ID, T1.COMPANY,T1.OWNER_ACC,T1.STATUS,T1.TYPE,T1.OWNER_START_DATE,T1.MOBILEPHONE,T1.TELPHONE,
+			T1.ALTERNATE_PHONE2,T1.IS_MAJOR,T1.PLAN_DATE,T1.ACTION_DATE,T1.NEXTFOLLOW_DATE,T1.IS_PRECEDENCE,T1.MAIN_LINKMAN,
+			T1.RES_GROUP_ID,T1.LAST_LOG_ID,T1.FILTER_TYPE,T1.DEFINED1,T1.DEFINED2,T1.DEFINED3,T1.DEFINED4,T1.DEFINED5,
+		    T1.DEFINED6,T1.DEFINED7,T1.DEFINED8,T1.DEFINED9,T1.DEFINED10,T1.DEFINED11,T1.DEFINED12,T1.DEFINED13,T1.DEFINED14,T1.DEFINED15, 
+		        T1.DEFINED16, 
+		        T1.DEFINED17, 
+		        T1.DEFINED18,
+		        T1.IMPORT_DEPT_ID,
+		        T1.COMPANY_MONEY,
+		        T1.COMPANY_USER,
+		        T1.COMPANY_FAX,
+		        T1.PROVINCE_ID,
+		        T1.CITY_ID,
+		        T1.COUNTY_ID,
+		        T1.KEYWORD,
+		        T1.COMPANY_TRADE,
+		        T1.SOURCE     
+			  	 FROM TSM_LEAD_INFO T1 
+			  	 WHERE T1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+				   AND T1.TYPE IN (1,3) 
+				   AND T1.STATUS IN (2,3) 
+				   AND T1.IS_DEL = 0 
+				   AND T1.MOBILEPHONE = #{queryText} 
+				   <if test="custIds != null and custIds.size() > 0">
+				   		AND T1.LEAD_ID IN 
+				   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+				   				#{cid}
+				   			</foreach>
+				   </if>
+				   <choose>
+					   <when test="adminAcc != null and adminAcc != ''">
+							<choose>
+								<when test="ownerAccs!=null and ownerAccs.size() > 0">
+									<if test="ownerAccs!=null">
+							       		AND T1.OWNER_ACC IN 
+										<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+											#{item}
+										</foreach>
+							        </if>
+								</when>
+								<otherwise>
+									AND T1.OWNER_ACC = #{adminAcc,jdbcType=VARCHAR} 
+								</otherwise>
+							</choose>
+					   </when>
+					   <otherwise>
+					   		AND T1.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR} 
+					   </otherwise>
+				   </choose>
+				   <if test='noteType != null and noteType == "2"'>
+				   		AND T1.OWNER_ACTION_DATE IS NULL 
+				   </if>
+				   <if test='noteType != null and noteType == "3"'>
+				   		AND T1.OWNER_ACTION_DATE IS NOT NULL 
+				   </if>
+				   <if test='noteType != null and noteType == "4"'>
+				   		<choose>
+			       			<when test="ids != null and ids.size() > 0">
+			       				AND (
+			       				T1.NEXTFOLLOW_DATE &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			       				AND T1.NEXTFOLLOW_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			       				OR T1.LEAD_ID IN <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+			       				)
+			       			</when>
+			       			<otherwise>
+					       		AND T1.NEXTFOLLOW_DATE &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+					       		AND T1.NEXTFOLLOW_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			       			</otherwise>
+			       		</choose>
+				   </if>
+				   <if test='noteType != null and noteType == "5"'>
+				   		AND T1.OWNER_ACTION_DATE &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				   </if>
+				   <if test='noteType != null and noteType == "6"'>
+				   		AND T1.IS_PRECEDENCE = 1 
+				   </if>
+				   <if test='noteType != null and noteType == "7"'>
+				   		AND DATEDIFF(NOW(),T1.OWNER_ACTION_DATE) &gt;= 7 
+				   </if>
+				   <if test='noteType != null and noteType == "8"'>
+				   		<choose>
+							<when test='expireType != null and expireType = "1"'>
+								AND DATEDIFF(NOW(),T1.OWNER_START_DATE) >= ${recyleDay }
+							</when>
+							<when test='expireType != null and expireType = "2"'>
+								AND DATEDIFF(NOW(),IFNULL(T1.ACTION_DATE,T1.OWNER_START_DATE)) >= ${recyleDay }
+							</when>
+							<otherwise></otherwise>
+						</choose>
+				   </if>
+				   <if test="name != null and name != ''">
+				   		AND T1.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%') 
+				   </if>
+				   <if test="source != null">
+				   		AND T1.SOURCE = #{source,jdbcType=DECIMAL} 
+				   </if>
+				   <if test="telphone != null and telphone != ''">
+				   		AND (T1.MOBILEPHONE = #{telphone} or T1.TELPHONE = #{telphone} or T1.ALTERNATE_PHONE2 = #{telphone}) 
+				   </if>
+				   <if test="pstartDate != null and pstartDate != ''">
+			       		AND T1.OWNER_START_DATE &gt;= STR_TO_DATE(CONCAT(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			       </if>
+			       <if test="pendDate != null and pendDate != ''">
+			       		AND T1.OWNER_START_DATE &lt;= STR_TO_DATE(CONCAT(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			       </if>
+			       <if test="startActionDate != null and startActionDate != ''">
+			       		AND T1.ACTION_DATE &gt;= STR_TO_DATE(CONCAT(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			       </if>
+			       <if test="endActionDate != null and endActionDate != ''">
+			       		AND T1.ACTION_DATE &lt;= STR_TO_DATE(CONCAT(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			       </if>
+			       <if test="startDate != null and startDate != ''">
+			       		AND T1.NEXTFOLLOW_DATE &gt;= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			       </if>
+			       <if test="endDate != null and endDate != ''">
+			       		AND T1.NEXTFOLLOW_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			       </if>
+			       <if test="importDeptIds != null and importDeptIds.size() > 0">
+			       		AND T1.IMPORT_DEPT_ID IN 
+			       			<foreach collection="importDeptIds" item="ipd" open="(" separator="," close=")">
+			       				#{ipd} 
+			       			</foreach>
+			       </if>
+			       <if test="groupId != null and groupId != ''">
+			       		AND T1.RES_GROUP_ID=#{groupId}
+			       </if>
+			       <if test="defined1 != null and defined1 != ''">
+				   AND T1.DEFINED1 = #{defined1,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined2 != null and defined2 != ''">
+				   AND T1.DEFINED2 = #{defined2,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined3 != null and defined3 != ''">
+					AND T1.DEFINED3 = #{defined3,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined4 != null and defined4 != ''">
+					AND T1.DEFINED4 = #{defined4,jdbcType=VARCHAR}  
+				</if>
+				<if test="defined5 != null and defined5 != ''">
+					AND T1.DEFINED5 = #{defined5,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined6 != null and defined6 != ''">
+					AND T1.DEFINED6 = #{defined6,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined7 != null and defined7 != ''">
+					AND T1.DEFINED7 = #{defined7,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined8 != null and defined8 != ''">
+					AND T1.DEFINED8 = #{defined8,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined9 != null and defined9 != ''">
+					AND T1.DEFINED9 = #{defined9,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined10 != null and defined10 != ''">
+					AND T1.DEFINED10 = #{defined10,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined11 != null and defined11 != ''">
+					AND T1.DEFINED11 = #{defined11,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined12 != null and defined12 != ''">
+					AND T1.DEFINED12 = #{defined12,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined13 != null and defined13 != ''">
+					AND T1.DEFINED13 = #{defined13,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined14 != null and defined14 != ''">
+					AND T1.DEFINED14 = #{defined14,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined15 != null and defined15 != ''">
+					AND T1.DEFINED15 = #{defined15,jdbcType=VARCHAR} 
+				</if>
+			       <if test="startdefined16!= null and startdefined16 !=''">
+						AND T1.DEFINED16 >=
+						 STR_TO_DATE(CONCAT(#{startdefined16,jdbcType=VARCHAR}, '00:00:00'),
+			                                       '%Y-%m-%d %H:%i:%s')
+					</if>
+					<if test=" enddefined16 != null and enddefined16 !=''">
+						AND T1.DEFINED16 <![CDATA[ <= ]]>
+						STR_TO_DATE(CONCAT(#{enddefined16,jdbcType=VARCHAR}, '23:59:59'),
+			                                       '%Y-%m-%d %H:%i:%s')
+					</if>
+					<if test="startdefined17!= null and startdefined17 !=''">
+						AND T1.DEFINED17 >=
+						 STR_TO_DATE(CONCAT(#{startdefined17,jdbcType=VARCHAR}, '00:00:00'),
+			                                       '%Y-%m-%d %H:%i:%s')
+					</if>
+					<if test="enddefined17 != null and enddefined17 !=''">
+						AND T1.DEFINED17 <![CDATA[ <= ]]>
+						STR_TO_DATE(CONCAT(#{enddefined17,jdbcType=VARCHAR}, '23:59:59'),
+			                                       '%Y-%m-%d %H:%i:%s')
+					</if>	
+					<if test="startdefined18!= null and startdefined18 !=''">
+						AND T1.DEFINED18 >=
+						 STR_TO_DATE(CONCAT(#{startdefined18,jdbcType=VARCHAR}, '00:00:00'),
+			                                       '%Y-%m-%d %H:%i:%s')
+					</if>
+					<if test="enddefined18 != null and enddefined18 !=''">
+						AND T1.DEFINED18 <![CDATA[ <= ]]>
+						STR_TO_DATE(CONCAT(#{enddefined18,jdbcType=VARCHAR}, '23:59:59'),
+			                                       '%Y-%m-%d %H:%i:%s')
+					</if>
+					<if test="companyTrade != null and companyTrade != ''">
+						AND T1.COMPANY_TRADE = #{companyTrade }
+					</if>
+			        <if test="queryResLog and isHaveResRemark != null and isHaveResRemark == 1 ">
+		       			AND t1.last_log_id is not null
+		       		</if>
+			       <!-- 查询结果排除ids by lizhihui-->
+			       <if test="rejectIds != null and rejectIds.size()>0">
+			       		<foreach collection="rejectIds" item="id" open="and T1.LEAD_ID not in(" close=")" separator=",">
+			       			#{id}
+			       		</foreach>
+			       </if> 
+			       <!-- 所在地区查询 -->
+					<if test="provinceId != null">
+						AND T1.PROVINCE_ID = #{provinceId,jdbcType=DECIMAL}
+					</if>
+					<if test="cityId != null">
+						AND T1.CITY_ID = #{cityId,jdbcType=DECIMAL}
+					</if>
+					<if test="countyId != null">
+						AND T1.COUNTY_ID = #{countyId,jdbcType=DECIMAL}
+					</if>
+		UNION 
+		   SELECT T1.NAME,T1.LEAD_ID, T1.COMPANY,T1.OWNER_ACC,T1.STATUS,T1.TYPE,T1.OWNER_START_DATE,T1.MOBILEPHONE,T1.TELPHONE,
+		T1.ALTERNATE_PHONE2,T1.IS_MAJOR,T1.PLAN_DATE,T1.ACTION_DATE,T1.NEXTFOLLOW_DATE,T1.IS_PRECEDENCE,T1.MAIN_LINKMAN,
+		T1.RES_GROUP_ID,T1.LAST_LOG_ID,T1.FILTER_TYPE,T1.DEFINED1,T1.DEFINED2,T1.DEFINED3,T1.DEFINED4,T1.DEFINED5,
+		    T1.DEFINED6,T1.DEFINED7,T1.DEFINED8,T1.DEFINED9,T1.DEFINED10,T1.DEFINED11,T1.DEFINED12,T1.DEFINED13,T1.DEFINED14,T1.DEFINED15, 
+		        T1.DEFINED16, 
+		        T1.DEFINED17, 
+		        T1.DEFINED18,
+		        T1.IMPORT_DEPT_ID,
+		        T1.COMPANY_MONEY,
+		        T1.COMPANY_USER,
+		        T1.COMPANY_FAX,
+		        T1.PROVINCE_ID,
+		        T1.CITY_ID,
+		        T1.COUNTY_ID,
+		        T1.KEYWORD,
+		        T1.COMPANY_TRADE,
+		        T1.SOURCE      
+		  	 FROM TSM_LEAD_INFO T1 
+		  	 WHERE T1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+			   AND T1.TYPE IN (1,3) 
+			   AND T1.STATUS IN (2,3) 
+			   AND T1.IS_DEL = 0 
+			   AND T1.TELPHONE = #{queryText} 
+			   <if test="custIds != null and custIds.size() > 0">
+			   		AND T1.LEAD_ID IN 
+			   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+			   				#{cid}
+			   			</foreach>
+			   </if>
+			   <choose>
+				   <when test="adminAcc != null and adminAcc != ''">
+						<choose>
+							<when test="ownerAccs!=null and ownerAccs.size() > 0">
+								<if test="ownerAccs!=null">
+						       		AND T1.OWNER_ACC IN 
+									<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+										#{item}
+									</foreach>
+						        </if>
+							</when>
+							<otherwise>
+								AND T1.OWNER_ACC = #{adminAcc,jdbcType=VARCHAR} 
+							</otherwise>
+						</choose>
+				   </when>
+				   <otherwise>
+				   		AND T1.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR} 
+				   </otherwise>
+			   </choose>
+			   <if test='noteType != null and noteType == "2"'>
+			   		AND T1.OWNER_ACTION_DATE IS NULL 
+			   </if>
+			   <if test='noteType != null and noteType == "3"'>
+			   		AND T1.OWNER_ACTION_DATE IS NOT NULL 
+			   </if>
+			   <if test='noteType != null and noteType == "4"'>
+			   		<choose>
+		       			<when test="ids != null and ids.size() > 0">
+		       				AND (
+		       				T1.NEXTFOLLOW_DATE &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       				AND T1.NEXTFOLLOW_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       				OR T1.LEAD_ID IN <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+		       				)
+		       			</when>
+		       			<otherwise>
+				       		AND T1.NEXTFOLLOW_DATE &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				       		AND T1.NEXTFOLLOW_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		       			</otherwise>
+		       		</choose>
+			   </if>
+			   <if test='noteType != null and noteType == "5"'>
+			   		AND T1.OWNER_ACTION_DATE &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			   </if>
+			   <if test='noteType != null and noteType == "6"'>
+			   		AND T1.IS_PRECEDENCE = 1 
+			   </if>
+			   <if test='noteType != null and noteType == "7"'>
+			   		AND DATEDIFF(NOW(),T1.OWNER_ACTION_DATE) &gt;= 7 
+			   </if>
+			   <if test='noteType != null and noteType == "8"'>
+			   		<choose>
+						<when test='expireType != null and expireType = "1"'>
+							AND DATEDIFF(NOW(),T1.OWNER_START_DATE) >= ${recyleDay }
+						</when>
+						<when test='expireType != null and expireType = "2"'>
+							AND DATEDIFF(NOW(),IFNULL(T1.ACTION_DATE,T1.OWNER_START_DATE)) >= ${recyleDay }
+						</when>
+						<otherwise></otherwise>
+					</choose>
+			   </if>
+			   <if test="name != null and name != ''">
+			   		AND T1.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%') 
+			   </if>
+			   <if test="source != null">
+			   		AND T1.SOURCE = #{source,jdbcType=DECIMAL} 
+			   </if>
+			   <if test="telphone != null and telphone != ''">
+			   		AND (T1.MOBILEPHONE = #{telphone} or T1.TELPHONE = #{telphone} or T1.ALTERNATE_PHONE2 = #{telphone}) 
+			   </if>
+			   <if test="pstartDate != null and pstartDate != ''">
+		       		AND T1.OWNER_START_DATE &gt;= STR_TO_DATE(CONCAT(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pendDate != null and pendDate != ''">
+		       		AND T1.OWNER_START_DATE &lt;= STR_TO_DATE(CONCAT(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="startActionDate != null and startActionDate != ''">
+		       		AND T1.ACTION_DATE &gt;= STR_TO_DATE(CONCAT(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endActionDate != null and endActionDate != ''">
+		       		AND T1.ACTION_DATE &lt;= STR_TO_DATE(CONCAT(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="startDate != null and startDate != ''">
+		       		AND T1.NEXTFOLLOW_DATE &gt;= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endDate != null and endDate != ''">
+		       		AND T1.NEXTFOLLOW_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="importDeptIds != null and importDeptIds.size() > 0">
+		       		AND T1.IMPORT_DEPT_ID IN 
+		       			<foreach collection="importDeptIds" item="ipd" open="(" separator="," close=")">
+		       				#{ipd} 
+		       			</foreach>
+		       </if>
+		       <if test="groupId != null and groupId != ''">
+		       		AND T1.RES_GROUP_ID=#{groupId}
+		       </if>
+		       <if test="defined1 != null and defined1 != ''">
+				   AND T1.DEFINED1 = #{defined1,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined2 != null and defined2 != ''">
+				   AND T1.DEFINED2 = #{defined2,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined3 != null and defined3 != ''">
+					AND T1.DEFINED3 = #{defined3,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined4 != null and defined4 != ''">
+					AND T1.DEFINED4 = #{defined4,jdbcType=VARCHAR}  
+				</if>
+				<if test="defined5 != null and defined5 != ''">
+					AND T1.DEFINED5 = #{defined5,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined6 != null and defined6 != ''">
+					AND T1.DEFINED6 = #{defined6,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined7 != null and defined7 != ''">
+					AND T1.DEFINED7 = #{defined7,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined8 != null and defined8 != ''">
+					AND T1.DEFINED8 = #{defined8,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined9 != null and defined9 != ''">
+					AND T1.DEFINED9 = #{defined9,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined10 != null and defined10 != ''">
+					AND T1.DEFINED10 = #{defined10,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined11 != null and defined11 != ''">
+					AND T1.DEFINED11 = #{defined11,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined12 != null and defined12 != ''">
+					AND T1.DEFINED12 = #{defined12,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined13 != null and defined13 != ''">
+					AND T1.DEFINED13 = #{defined13,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined14 != null and defined14 != ''">
+					AND T1.DEFINED14 = #{defined14,jdbcType=VARCHAR} 
+				</if>
+				<if test="defined15 != null and defined15 != ''">
+					AND T1.DEFINED15 = #{defined15,jdbcType=VARCHAR} 
+				</if>
+		       <if test="startdefined16!= null and startdefined16 !=''">
+					AND T1.DEFINED16 >=
+					 STR_TO_DATE(CONCAT(#{startdefined16,jdbcType=VARCHAR}, '00:00:00'),
+		                                       '%Y-%m-%d %H:%i:%s')
+				</if>
+				<if test=" enddefined16 != null and enddefined16 !=''">
+					AND T1.DEFINED16 <![CDATA[ <= ]]>
+					STR_TO_DATE(CONCAT(#{enddefined16,jdbcType=VARCHAR}, '23:59:59'),
+		                                       '%Y-%m-%d %H:%i:%s')
+				</if>
+				<if test="startdefined17!= null and startdefined17 !=''">
+					AND T1.DEFINED17 >=
+					 STR_TO_DATE(CONCAT(#{startdefined17,jdbcType=VARCHAR}, '00:00:00'),
+		                                       '%Y-%m-%d %H:%i:%s')
+				</if>
+				<if test="enddefined17 != null and enddefined17 !=''">
+					AND T1.DEFINED17 <![CDATA[ <= ]]>
+					STR_TO_DATE(CONCAT(#{enddefined17,jdbcType=VARCHAR}, '23:59:59'),
+		                                       '%Y-%m-%d %H:%i:%s')
+				</if>	
+				<if test="startdefined18!= null and startdefined18 !=''">
+					AND T1.DEFINED18 >=
+					 STR_TO_DATE(CONCAT(#{startdefined18,jdbcType=VARCHAR}, '00:00:00'),
+		                                       '%Y-%m-%d %H:%i:%s')
+				</if>
+				<if test="enddefined18 != null and enddefined18 !=''">
+					AND T1.DEFINED18 <![CDATA[ <= ]]>
+					STR_TO_DATE(CONCAT(#{enddefined18,jdbcType=VARCHAR}, '23:59:59'),
+		                                       '%Y-%m-%d %H:%i:%s')
+				</if>
+				<if test="companyTrade != null and companyTrade != ''">
+					AND T1.COMPANY_TRADE = #{companyTrade }
+				</if>
+		        <if test="queryResLog and isHaveResRemark != null and isHaveResRemark == 1 ">
+	       			AND t1.last_log_id is not null
+	       		</if>
+		       <!-- 查询结果排除ids by lizhihui-->
+				<if test="rejectIds != null and rejectIds.size()>0">
+					<foreach collection="rejectIds" item="id" open="and T1.LEAD_ID not in(" close=")" separator=",">
+						#{id}
+					</foreach>
+				</if>
+				<!-- 所在地区查询 -->
+				<if test="provinceId != null">
+					AND T1.PROVINCE_ID = #{provinceId,jdbcType=DECIMAL}
+				</if>
+				<if test="cityId != null">
+					AND T1.CITY_ID = #{cityId,jdbcType=DECIMAL}
+				</if>
+				<if test="countyId != null">
+					AND T1.COUNTY_ID = #{countyId,jdbcType=DECIMAL}
+				</if>
+	</select>
+	
+	<!-- 根据Id批量修改 -->
+	<update id="updateByIds" parameterType="com.qftx.tsm.credit.dto.CreditLeadInfoDto">
+		UPDATE
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql_batch" />
+		<if test=" source == 2 ">
+			,OWNER_ACTION_DATE = NULL  
+		</if>
+		WHERE ORG_ID=#{orgId} 
+		<if test="ids != null">
+			AND LEAD_ID IN 
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="leadId != null and leadId != ''">
+			AND LEAD_ID = #{leadId} 
+		</if>
+	</update>
+	
+	
+	<!-- 根据ID批量删除, 主要是更新IS_DEL字段状态 -->
+	<update id="delBatchLead" parameterType="com.qftx.tsm.credit.dto.CreditLeadInfoDto">
+		UPDATE
+		<include refid="table_name" />
+		<trim prefix="set" suffixOverrides=",">
+			<if test="isDel != null">
+				IS_DEL = #{isDel,jdbcType=TINYINT},
+			</if>
+			<if test="ownerAcc != null">
+				OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+		WHERE ORG_ID=#{orgId} 
+		<if test="leadIds != null">
+			AND LEAD_ID IN 
+			<foreach collection="leadIds" item="leadId" open="(" separator="," close=")">
+				#{leadId}
+			</foreach>
+		</if>
+	</update>
+	
+	<!-- ************************************ 导入时 查询是否重复 ************************************ -->
+	<!-- 号码去重 -->
+	<select id="getRepeatByPhone" resultType="Integer" parameterType="com.qftx.tsm.imp.dto.ImportRepeatDto">
+		select count(*) from TSM_LEAD_INFO where org_id = #{orgId} and is_del = 0 
+		<if test="isOpen == 1"> <!-- 资源去重开启 -->
+			<if test="isPhone !=1"> <!-- 号码去重开启 -->
+				<choose>
+					<when test="isPhone == 2"> <!-- 对签约客户 号码去重 -->
+							and (status = 6 or status = 7 or status = 8 )
+					</when>
+					<when test="isPhone == 3"> <!-- 对意向客户 号码去重 -->
+							and TYPE = 2
+					</when>
+				</choose>
+				<if test="mobelPhone != null and mobelPhone !='' and telPhone != null and telPhone !=''">
+					and (mobilephone in (#{mobelPhone},#{telPhone}) or telphone in (#{mobelPhone},#{telPhone}))
+				</if>	
+				<if test="mobelPhone != null and mobelPhone !='' and (telPhone == null or telPhone =='' )">
+					and (mobilephone = #{mobelPhone} or telphone = #{mobelPhone})
+				</if>
+				<if test="telPhone != null and telPhone !='' and (mobelPhone == null and mobelPhone =='')">
+					and (mobilephone = #{telPhone} or telphone = #{telPhone})
+				</if>			
+			</if>
+		</if>
+	</select>
+	
+	<!-- 单位名称去重 -->
+	<select id="getRepeatByName" resultType="Integer" parameterType="com.qftx.tsm.imp.dto.ImportRepeatDto">
+		select count(*) from TSM_LEAD_INFO where org_id = #{orgId} and is_del = 0 
+		<if test="isOpen == 1"> <!-- 资源去重开启 -->
+			<if test="isCompanyName !=0"> <!-- 单位名称去重开启 -->
+				<choose>
+					<when test="isCompanyName == 1"> <!-- 对签约客户 号码去重 -->
+							and (status = 6 or status = 7 or status = 8 )
+					</when>
+					<when test="isCompanyName == 2"> <!-- 对意向客户 号码去重 -->
+							and TYPE = 2
+					</when>
+				</choose>
+				<!-- 个人资源 查询单位名称 -->
+				<if test="isSys == 0 and comPanyName != null and comPanyName != ''">
+						and (COMPANY = #{comPanyName})
+				</if>
+				<!-- 企业资源 查询客户名称 -->
+				<if test="isSys == 1 and custName != null and custName != ''">
+						and (NAME = #{custName})
+				</if>
+			</if>
+		</if>
+	</select>
+	
+	<!-- 单位主页去重 -->
+	<select id="getRepeatByUnitHome" resultType="Integer" parameterType="com.qftx.tsm.imp.dto.ImportRepeatDto">
+		select count(*) from TSM_LEAD_INFO where org_id = #{orgId} and is_del = 0 
+		<if test="isOpen == 1"> <!-- 资源去重开启 -->
+			<if test="isUnithome !=0"> <!-- 单位主页去重开启 -->
+				<choose>
+					<when test="isUnithome == 1"> <!-- 对签约客户 号码去重 -->
+							and (status = 6 or status = 7 or status = 8 )
+					</when>
+					<when test="isUnithome == 2"> <!-- 对意向客户 号码去重 -->
+							and TYPE = 2
+					</when>
+				</choose>
+				<if test="unitHome != null and unitHome !=''">
+					and UNITHOME = #{unitHome}
+				</if>				
+			</if>
+		</if>
+	</select>
+	
+	<!-- 跟进身份证号查询贷款次数 -->
+	<select id="queryLoanCount" resultType="java.lang.Integer">
+		SELECT COUNT(T.LEAD_ID) cn 
+		  FROM TSM_LEAD_INFO T 
+		 WHERE T.ORG_ID= #{orgId} 
+		   AND T.CARD_ID = #{cardId}
+		   AND T.IS_DEL = 0 
+	</select>
+	
+	<!-- 根据身份证号查询放款信息（待放款状态、驳回状态） -->
+	<select id="findNotProcessedLeadInfoList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		  FROM TSM_LEAD_INFO T 
+		 WHERE T.ORG_ID= #{orgId} 
+		   AND T.CARD_ID = #{cardId}
+		   AND T.LEAD_ID != #{leadId}
+		   AND T.STATUS IN (1, 3)
+		   AND T.IS_DEL = 0 
+	</select>
+	
+	<!-- 跟进身份证号查询贷款次数 -->
+	<select id="countByLeadCode" resultType="java.lang.Integer">
+		SELECT COUNT(T.LEAD_ID) cn 
+		  FROM TSM_LEAD_INFO T 
+		 WHERE T.ORG_ID= #{orgId} 
+		   AND T.LEAD_CODE = #{leadCode}
+		   AND T.LEAD_ID != #{leadId}
+		   AND T.IS_DEL = 0 
+	</select>
+	
+	<!-- 根据身份证号查询其他负责人下所拥有的放款信息 -->
+	<select id="findNotCurrentAccLeadInfoList" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List" />
+		  FROM TSM_LEAD_INFO T 
+		 WHERE T.ORG_ID= #{orgId} 
+		   AND T.CARD_ID = #{cardId}
+		   AND T.OWNER_ACC != #{ownerAcc}
+		   AND T.LEAD_ID != #{leadId}
+		   AND T.IS_DEL = 0 
+	</select>
+	
+	<select id="findReviewInfoListPage" parameterType="com.qftx.tsm.credit.dto.TsmLoanReviewInfoDto" resultMap="ReviewDtoResultMap">
+		SELECT
+		T1.LEAD_ID, T1.LEAD_CODE, T1.CUST_NAME, T1.BATCH , T1.COMPANY, T1.rci_id, T1.ORG_ID, T1.import_dept_id, T1.CARD_ID, T1.PHONE, T1.BORROW_MONEY, 
+	    T1.ACCOUNT_MONEY, T1.SERVICE_MONEY, T1.BILL_MONEY, T1.BORROW_DATE, T1.REPAY_DATE, T1.SERVICE_MONEY2, T1.SERVICE_MONEY3, T1.BANK_CARD, T1.LENDER, 
+	    T1.OPENING_BANK, T1.LOAN_BILL, T1.OWNER_ACC, T1.CREATE_DATE, T1.IMPORT_DEPT_NAME, T1.FUND_ACCOUNT, 
+	    T1.INCHARGE_ACC, T1.STATUS, T1.AUDIT_STATUS, T1.SUBMIT_TIME, T1.AUDIT_TIME, T1.DEFINED1, 
+	    T1.DEFINED2, T1.DEFINED3, T1.DEFINED4, T1.DEFINED5, T1.DEFINED6, T1.DEFINED7, T1.DEFINED8, T1.DEFINED9, T1.DEFINED10, 
+	    T1.DEFINED11, T1.DEFINED12, T1.DEFINED13, T1.DEFINED14, T1.DEFINED15, T1.DEFINED16, T1.DEFINED17, T1.DEFINED18, 
+		T1.AUDIT_NODE,T1.ALL_NODE,T1.AUDIT_ACC
+		FROM TSM_LEAD_INFO T1
+		WHERE T1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		AND T1.IS_DEL = 0 
+		<if test="custIds != null and custIds.size() > 0">
+	   		AND 
+	   		T1.LEAD_ID IN 
+   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+   				#{cid}
+   			</foreach>
+	    </if>
+		<if test="leadIds != null and leadIds.size() > 0">
+	   		AND 
+	   		<if test='auditStatus == null'>
+				<if test="(auditStartDate == null or auditStartDate == '') and (auditEndDate == null or auditEndDate == '')">
+				(
+				</if>
+			</if>
+	   		T1.LEAD_ID IN 
+   			<foreach collection="leadIds" item="cid" open="(" separator="," close=")">
+   				#{cid}
+   			</foreach>
+	    </if>
+	   <!-- 审核状态 -->
+		<choose>
+			<when test='auditStatus == null and (leadIds == null or leadIds.size() == 0)'>
+				AND T1.AUDIT_ACC = #{ownerAcc,jdbcType=VARCHAR}
+			</when>
+			<when test="auditStatus == null 
+				and (leadIds != null and leadIds.size() > 0) 
+				and (auditStartDate == null or auditStartDate == '') 
+				and (auditEndDate == null or auditEndDate == '')">
+				OR T1.AUDIT_ACC = #{ownerAcc,jdbcType=VARCHAR})
+			</when>
+			<otherwise>
+				<if test="auditStatus == 1">
+		   			AND T1.AUDIT_ACC = #{ownerAcc,jdbcType=VARCHAR}
+		   			AND T1.STATUS = 1
+		   		</if>
+				<if test="auditStatus == 2">
+		   			AND T1.AUDIT_ACC != #{ownerAcc,jdbcType=VARCHAR}
+		   			AND T1.STATUS != 3
+		   		</if>
+		   		<if test="auditStatus == 3">
+		   			AND T1.STATUS = 3
+		   		</if>
+			</otherwise>
+		</choose>
+		<if test="auditDateType != null and auditDateType != ''">
+			AND T1.AUDIT_ACC != #{ownerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="ownerAccs!=null and ownerAccs.size() > 0">
+			AND T1.OWNER_ACC IN
+			<foreach collection="ownerAccs" item="item" index="index" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	   <if test="queryText != null and queryText != ''">
+       		<choose>
+       			<when test='queryType != null and queryType == "custName"'>
+       				AND T1.CUST_NAME LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "cardId"'>
+       				AND T1.CARD_ID LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "leadCode"'>
+       				AND T1.LEAD_CODE LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<otherwise>
+       				AND T1.${queryType} LIKE CONCAT('%',#{queryText},'%') 
+       			</otherwise>
+       		</choose>
+       </if>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+	   <!-- 借款日 -->
+       <if test="loanStartDate != null and loanStartDate != ''">
+       		AND T1.BORROW_DATE &gt;= STR_TO_DATE(CONCAT(#{loanStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="loanEndDate != null and loanEndDate != ''">
+       		AND T1.BORROW_DATE &lt;= STR_TO_DATE(CONCAT(#{loanEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <!-- 还款日 -->
+          <if test="dueStartDate != null and dueStartDate != ''">
+       		AND T1.REPAY_DATE &gt;= STR_TO_DATE(CONCAT(#{dueStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="dueEndDate != null and dueEndDate != ''">
+       		AND T1.REPAY_DATE &lt;= STR_TO_DATE(CONCAT(#{dueEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <!-- 提交时间 -->
+       <if test="submitStartDate != null and submitStartDate != ''">
+       		AND T1.SUBMIT_TIME &gt;= STR_TO_DATE(CONCAT(#{submitStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="submitEndDate != null and submitEndDate != ''">
+       		AND T1.SUBMIT_TIME &lt;= STR_TO_DATE(CONCAT(#{submitEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+	   <!-- 借款日 -->
+       <if test='loanDateType != null and loanDateType == 6'>
+       		AND T1.BORROW_DATE IS NULL 
+       </if>
+       <!-- 到期日 -->
+       <if test='dueDateType != null and dueDateType == 6'>
+       		AND T1.REPAY_DATE IS NULL 
+       </if>
+       <!-- 提交时间 -->
+       <if test='submitDateType != null and submitDateType == 6'>
+       		AND T1.SUBMIT_TIME IS NULL 
+       </if>
+       <if test="defined1 != null and defined1 != ''">
+		   AND T1.DEFINED1 = #{defined1,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined2 != null and defined2 != ''">
+		   AND T1.DEFINED2 = #{defined2,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined3 != null and defined3 != ''">
+			AND T1.DEFINED3 = #{defined3,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined4 != null and defined4 != ''">
+			AND T1.DEFINED4 = #{defined4,jdbcType=VARCHAR}  
+		</if>
+		<if test="defined5 != null and defined5 != ''">
+			AND T1.DEFINED5 = #{defined5,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined6 != null and defined6 != ''">
+			AND T1.DEFINED6 = #{defined6,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined7 != null and defined7 != ''">
+			AND T1.DEFINED7 = #{defined7,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined8 != null and defined8 != ''">
+			AND T1.DEFINED8 = #{defined8,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined9 != null and defined9 != ''">
+			AND T1.DEFINED9 = #{defined9,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined10 != null and defined10 != ''">
+			AND T1.DEFINED10 = #{defined10,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined11 != null and defined11 != ''">
+			AND T1.DEFINED11 = #{defined11,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined12 != null and defined12 != ''">
+			AND T1.DEFINED12 = #{defined12,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined13 != null and defined13 != ''">
+			AND T1.DEFINED13 = #{defined13,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined14 != null and defined14 != ''">
+			AND T1.DEFINED14 = #{defined14,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined15 != null and defined15 != ''">
+			AND T1.DEFINED15 = #{defined15,jdbcType=VARCHAR} 
+		</if>
+       <if test="startdefined16!= null and startdefined16 !=''">
+			AND T1.DEFINED16 >=
+			 STR_TO_DATE(CONCAT(#{startdefined16,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test=" enddefined16 != null and enddefined16 !=''">
+			AND T1.DEFINED16 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined16,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="startdefined17!= null and startdefined17 !=''">
+			AND T1.DEFINED17 >=
+			 STR_TO_DATE(CONCAT(#{startdefined17,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined17 != null and enddefined17 !=''">
+			AND T1.DEFINED17 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined17,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>	
+		<if test="startdefined18!= null and startdefined18 !=''">
+			AND T1.DEFINED18 >=
+			 STR_TO_DATE(CONCAT(#{startdefined18,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined18 != null and enddefined18 !=''">
+			AND T1.DEFINED18 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined18,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		ORDER BY T1.SUBMIT_TIME DESC
+	</select>
+	
+	
+	<select id="findReviewInfoList" parameterType="com.qftx.tsm.credit.dto.TsmLoanReviewInfoDto" resultMap="ReviewDtoResultMap">
+		SELECT
+		T1.LEAD_ID, T1.LEAD_CODE, T1.CUST_NAME, T1.BATCH, T1.COMPANY, T1.rci_id, T1.ORG_ID, T1.import_dept_id, T1.CARD_ID, T1.PHONE, T1.BORROW_MONEY, 
+	    T1.ACCOUNT_MONEY, T1.SERVICE_MONEY, T1.BILL_MONEY, T1.BORROW_DATE, T1.REPAY_DATE, T1.SERVICE_MONEY2, T1.SERVICE_MONEY3, T1.BANK_CARD, T1.LENDER, 
+	    T1.OPENING_BANK, T1.LOAN_BILL, T1.OWNER_ACC, T1.CREATE_DATE, T1.IMPORT_DEPT_NAME, T1.FUND_ACCOUNT, 
+	    T1.INCHARGE_ACC, T1.STATUS, T1.AUDIT_STATUS, T1.SUBMIT_TIME, T1.AUDIT_TIME, T1.DEFINED1, 
+	    T1.DEFINED2, T1.DEFINED3, T1.DEFINED4, T1.DEFINED5, T1.DEFINED6, T1.DEFINED7, T1.DEFINED8, T1.DEFINED9, T1.DEFINED10, 
+	    T1.DEFINED11, T1.DEFINED12, T1.DEFINED13, T1.DEFINED14, T1.DEFINED15, T1.DEFINED16, T1.DEFINED17, T1.DEFINED18, 
+	    T1.AUDIT_NODE,T1.ALL_NODE,T1.AUDIT_ACC
+		FROM TSM_LEAD_INFO T1
+		WHERE T1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		AND T1.IS_DEL = 0 
+		<!-- 所有者 -->
+		<if test="custIds != null and custIds.size() > 0">
+	   		AND 
+	   		T1.LEAD_ID IN 
+   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+   				#{cid}
+   			</foreach>
+	    </if>
+		<if test="leadIds != null and leadIds.size() > 0">
+	   		AND 
+	   		<if test='auditStatus == null'>
+	   			<if test="(auditStartDate == null or auditStartDate == '') and (auditEndDate == null or auditEndDate == '')">
+				(
+				</if>
+			</if>
+	   		T1.LEAD_ID IN 
+   			<foreach collection="leadIds" item="cid" open="(" separator="," close=")">
+   				#{cid}
+   			</foreach>
+	    </if>
+	   <!-- 审核状态 -->
+		<choose>
+			<when test='auditStatus == null and (leadIds == null or leadIds.size() == 0)'>
+				AND T1.AUDIT_ACC = #{ownerAcc,jdbcType=VARCHAR}
+			</when>
+			<when test="auditStatus == null 
+			and (leadIds != null and leadIds.size() > 0) 
+			and (auditStartDate == null or auditStartDate == '') 
+			and (auditEndDate == null or auditEndDate == '')">
+				OR T1.AUDIT_ACC = #{ownerAcc,jdbcType=VARCHAR})
+			</when>
+			<otherwise>
+				<if test="auditStatus == 1">
+		   			AND T1.AUDIT_ACC = #{ownerAcc,jdbcType=VARCHAR}
+		   			AND T1.STATUS = 1
+		   		</if>
+				<if test="auditStatus == 2">
+		   			AND T1.STATUS != 3
+		   		</if>
+		   		<if test="auditStatus == 3">
+		   			AND T1.STATUS = 3
+		   		</if>
+			</otherwise>
+		</choose>
+		<if test="ownerAccs !=null and ownerAccs.size() > 0">
+			AND T1.OWNER_ACC IN
+			<foreach collection="ownerAccs" item="item" index="index" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	   <if test="queryText != null and queryText != ''">
+       		<choose>
+       			<when test='queryType != null and queryType == "custName"'>
+       				AND T1.CUST_NAME LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "cardId"'>
+       				AND T1.CARD_ID LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "leadCode"'>
+       				AND T1.LEAD_CODE LIKE CONCAT('%',#{queryText},'%') 
+       			</when>
+       			<otherwise>
+       				AND T1.${queryType} LIKE CONCAT('%',#{queryText},'%') 
+       			</otherwise>
+       		</choose>
+       </if>
+	   <!-- 借款日 -->
+       <if test="loanStartDate != null and loanStartDate != ''">
+       		AND T1.BORROW_DATE &gt;= STR_TO_DATE(CONCAT(#{loanStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="loanEndDate != null and loanEndDate != ''">
+       		AND T1.BORROW_DATE &lt;= STR_TO_DATE(CONCAT(#{loanEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <!-- 还款日 -->
+          <if test="dueStartDate != null and dueStartDate != ''">
+       		AND T1.REPAY_DATE &gt;= STR_TO_DATE(CONCAT(#{dueStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="dueEndDate != null and dueEndDate != ''">
+       		AND T1.REPAY_DATE &lt;= STR_TO_DATE(CONCAT(#{dueEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <!-- 提交时间 -->
+       <if test="submitStartDate != null and submitStartDate != ''">
+       		AND T1.SUBMIT_TIME &gt;= STR_TO_DATE(CONCAT(#{submitStartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       </if>
+       <if test="submitEndDate != null and submitEndDate != ''">
+       		AND T1.SUBMIT_TIME &lt;= STR_TO_DATE(CONCAT(#{submitEndDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       </if>
+	   <!-- 借款日 -->
+       <if test='loanDateType != null and loanDateType == 6'>
+       		AND T1.BORROW_DATE IS NULL 
+       </if>
+       <!-- 到期日 -->
+       <if test='dueDateType != null and dueDateType == 6'>
+       		AND T1.REPAY_DATE IS NULL 
+       </if>
+       <!-- 提交时间 -->
+       <if test='submitDateType != null and submitDateType == 6'>
+       		AND T1.SUBMIT_TIME IS NULL 
+       </if>
+       <if test="defined1 != null and defined1 != ''">
+		   AND T1.DEFINED1 = #{defined1,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined2 != null and defined2 != ''">
+		   AND T1.DEFINED2 = #{defined2,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined3 != null and defined3 != ''">
+			AND T1.DEFINED3 = #{defined3,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined4 != null and defined4 != ''">
+			AND T1.DEFINED4 = #{defined4,jdbcType=VARCHAR}  
+		</if>
+		<if test="defined5 != null and defined5 != ''">
+			AND T1.DEFINED5 = #{defined5,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined6 != null and defined6 != ''">
+			AND T1.DEFINED6 = #{defined6,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined7 != null and defined7 != ''">
+			AND T1.DEFINED7 = #{defined7,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined8 != null and defined8 != ''">
+			AND T1.DEFINED8 = #{defined8,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined9 != null and defined9 != ''">
+			AND T1.DEFINED9 = #{defined9,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined10 != null and defined10 != ''">
+			AND T1.DEFINED10 = #{defined10,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined11 != null and defined11 != ''">
+			AND T1.DEFINED11 = #{defined11,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined12 != null and defined12 != ''">
+			AND T1.DEFINED12 = #{defined12,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined13 != null and defined13 != ''">
+			AND T1.DEFINED13 = #{defined13,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined14 != null and defined14 != ''">
+			AND T1.DEFINED14 = #{defined14,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined15 != null and defined15 != ''">
+			AND T1.DEFINED15 = #{defined15,jdbcType=VARCHAR} 
+		</if>
+       <if test="startdefined16!= null and startdefined16 !=''">
+			AND T1.DEFINED16 >=
+			 STR_TO_DATE(CONCAT(#{startdefined16,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test=" enddefined16 != null and enddefined16 !=''">
+			AND T1.DEFINED16 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined16,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="startdefined17!= null and startdefined17 !=''">
+			AND T1.DEFINED17 >=
+			 STR_TO_DATE(CONCAT(#{startdefined17,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined17 != null and enddefined17 !=''">
+			AND T1.DEFINED17 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined17,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>	
+		<if test="startdefined18!= null and startdefined18 !=''">
+			AND T1.DEFINED18 >=
+			 STR_TO_DATE(CONCAT(#{startdefined18,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined18 != null and enddefined18 !=''">
+			AND T1.DEFINED18 <![CDATA[ <= ]]>
+			STR_TO_DATE(CONCAT(#{enddefined18,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		ORDER BY T1.SUBMIT_TIME DESC
+	</select>
+	
+	<select id="getReviewDetail" parameterType="com.qftx.tsm.credit.dto.TsmLoanReviewInfoDto" resultMap="ReviewDtoResultMap">
+		SELECT
+		T1.LEAD_ID, T1.LEAD_CODE, T1.CUST_NAME, T1.BATCH, T1.rci_id, T1.ORG_ID, T1.import_dept_id, T1.CARD_ID, T1.PHONE, T1.BORROW_MONEY, 
+	    T1.ACCOUNT_MONEY, T1.SERVICE_MONEY, T1.BILL_MONEY, T1.BORROW_DATE, T1.REPAY_DATE, T1.SERVICE_MONEY2, T1.SERVICE_MONEY3,T1.BANK_CARD, T1.LENDER, 
+	    T1.OPENING_BANK, T1.LOAN_BILL, T1.OWNER_ACC, T1.CREATE_DATE, T1.IMPORT_DEPT_NAME, T1.FUND_ACCOUNT, 
+	    T1.INCHARGE_ACC, T1.STATUS, T1.AUDIT_STATUS, T1.SUBMIT_TIME, T1.AUDIT_TIME, T1.DEFINED1, 
+	    T1.DEFINED2, T1.DEFINED3, T1.DEFINED4, T1.DEFINED5, T1.DEFINED6, T1.DEFINED7, T1.DEFINED8, T1.DEFINED9, T1.DEFINED10, 
+	    T1.DEFINED11, T1.DEFINED12, T1.DEFINED13, T1.DEFINED14, T1.DEFINED15, T1.DEFINED16, T1.DEFINED17, T1.DEFINED18, 
+	   	T1.AUDIT_NODE,T1.ALL_NODE,T1.AUDIT_ACC
+		FROM TSM_LEAD_INFO T1
+		WHERE T1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		AND T1.IS_DEL = 0 
+		<if test="leadId != null and leadId !=''">
+			AND T1.LEAD_ID = #{leadId,jdbcType=VARCHAR} 
+		</if>
+	</select>
+	<select id="findStatisticList" parameterType="com.qftx.tsm.credit.dto.StatisticInfoDto" resultMap="StaDtoResultMap">
+		SELECT
+			W.USER_NAME,
+			W.GROUP_NAME AS IMPORT_DEPT_NAME,
+			ifnull( T1.COUNT, 0 ) AS COUNT,
+			ifnull( T1.BORROW_MONEY, 0 ) BORROW_MONEY,
+			ifnull( T1.ACCOUNT_MONEY, 0 ) ACCOUNT_MONEY,
+			ifnull( T1.SERVICE_MONEY, 0 ) SERVICE_MONEY,
+			ifnull( T1.SERVICE_MONEY2, 0 ) SERVICE_MONEY2,
+			ifnull( T1.SERVICE_MONEY3, 0 ) SERVICE_MONEY3,
+			ifnull( T1.BILL_MONEY, 0 ) BILL_MONEY,
+			ifnull( T1.DEFINED1, 0 ) AS DEFINED1,
+			ifnull( T1.DEFINED2, 0 ) AS DEFINED2,
+			ifnull( T1.DEFINED3, 0 ) AS DEFINED3,
+			ifnull( T1.DEFINED4, 0 ) AS DEFINED4,
+			ifnull( T1.DEFINED5, 0 ) AS DEFINED5,
+			ifnull( T1.DEFINED6, 0 ) AS DEFINED6,
+			ifnull( T1.DEFINED7, 0 ) AS DEFINED7,
+			ifnull( T1.DEFINED8, 0 ) AS DEFINED8,
+			ifnull( T1.DEFINED9, 0 ) AS DEFINED9,
+			ifnull( T1.DEFINED10, 0 ) AS DEFINED10,
+			ifnull( T1.DEFINED11, 0 ) AS DEFINED11,
+			ifnull( T1.DEFINED12, 0 ) AS DEFINED12,
+			ifnull( T1.DEFINED13, 0 ) AS DEFINED13,
+			ifnull( T1.DEFINED14, 0 ) AS DEFINED14,
+			ifnull( T1.DEFINED15, 0 ) AS DEFINED15 
+		FROM
+			(
+		SELECT
+			TTGM.MEMBER_ACC,
+			TTGM.USER_ID,
+			IFNULL( AU.USER_NAME, AU.USER_ACCOUNT ) USER_NAME,
+			TTG.GROUP_ID,
+			TTG.GROUP_NAME 
+		FROM
+			TSM_GROUP_SHAREINFO TGS
+			RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID = #{orgId,jdbcType=VARCHAR}
+			AND TTGM.ORG_ID = #{orgId,jdbcType=VARCHAR}
+			AND TTGM.GROUP_ID = TGS.GROUP_ID
+			LEFT JOIN AUTH_USER AU ON TTGM.MEMBER_ACC = AU.USER_ACCOUNT
+			LEFT JOIN TSM_TEAM_GROUP TTG ON TTG.ORG_ID = #{orgId,jdbcType=VARCHAR}
+			AND TGS.GROUP_ID = TTG.GROUP_ID 
+		WHERE
+			SHARE_ACC = #{ownerAcc,jdbcType=VARCHAR}
+			AND AU.USER_ACCOUNT IS NOT NULL 
+			) W
+			LEFT JOIN (
+		SELECT
+			T1.OWNER_ACC,
+			T1.IMPORT_DEPT_ID,
+			COUNT( 1 ) AS COUNT,
+			ifnull( SUM( T1.BORROW_MONEY ), 0 ) BORROW_MONEY,
+			ifnull( SUM( T1.ACCOUNT_MONEY ), 0 ) ACCOUNT_MONEY,
+			ifnull( SUM( T1.SERVICE_MONEY ), 0 ) SERVICE_MONEY,
+			ifnull( SUM( T1.SERVICE_MONEY2 ), 0 ) SERVICE_MONEY2,
+			ifnull( SUM( T1.SERVICE_MONEY3 ), 0 ) SERVICE_MONEY3,
+			ifnull( SUM( T1.BILL_MONEY ), 0 ) BILL_MONEY,
+			ifnull( SUM( T1.DEFINED1 ), 0 ) AS DEFINED1,
+			ifnull( SUM( T1.DEFINED2 ), 0 ) AS DEFINED2,
+			ifnull( SUM( T1.DEFINED3 ), 0 ) AS DEFINED3,
+			ifnull( SUM( T1.DEFINED4 ), 0 ) AS DEFINED4,
+			ifnull( SUM( T1.DEFINED5 ), 0 ) AS DEFINED5,
+			ifnull( SUM( T1.DEFINED6 ), 0 ) AS DEFINED6,
+			ifnull( SUM( T1.DEFINED7 ), 0 ) AS DEFINED7,
+			ifnull( SUM( T1.DEFINED8 ), 0 ) AS DEFINED8,
+			ifnull( SUM( T1.DEFINED9 ), 0 ) AS DEFINED9,
+			ifnull( SUM( T1.DEFINED10 ), 0 ) AS DEFINED10,
+			ifnull( SUM( T1.DEFINED11 ), 0 ) AS DEFINED11,
+			ifnull( SUM( T1.DEFINED12 ), 0 ) AS DEFINED12,
+			ifnull( SUM( T1.DEFINED13 ), 0 ) AS DEFINED13,
+			ifnull( SUM( T1.DEFINED14 ), 0 ) AS DEFINED14,
+			ifnull( SUM( T1.DEFINED15 ), 0 ) AS DEFINED15 
+		FROM
+			TSM_LEAD_INFO T1 
+		WHERE
+			T1.ORG_ID = #{orgId,jdbcType=VARCHAR}
+			AND T1.IS_DEL = 0 
+			AND T1.STATUS = 2
+			<if test="startDate != null and startDate != ''">
+	       		AND T1.BORROW_DATE &gt;= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	        </if>
+	        <if test="endDate != null and endDate != ''">
+	       		AND T1.BORROW_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	        </if>
+		GROUP BY
+			T1.OWNER_ACC,
+			T1.import_dept_id 
+			) T1 ON W.MEMBER_ACC = T1.OWNER_ACC 
+			WHERE 1=1
+		<if test="ownerAccs!=null and ownerAccs.size() > 0">
+       		AND W.MEMBER_ACC IN
+			<foreach collection="ownerAccs" item="item" index="index" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+        </if>
+		ORDER BY
+			W.MEMBER_ACC ASC
+	</select>
+	
+	<update id="updateReviewStatus" parameterType="com.qftx.tsm.credit.dto.TsmLoanReviewInfoDto">
+		update TSM_LEAD_INFO
+		<set>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="fundAccount != null">
+				FUND_ACCOUNT = #{fundAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="auditAcc != null">
+				AUDIT_ACC = #{auditAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="auditNode != null">
+				AUDIT_NODE = #{auditNode,jdbcType=TINYINT},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="auditTime != null">
+				AUDIT_TIME = #{auditTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ORG_ID = #{orgId} 
+		and LEAD_ID = #{leadId} 
+	</update>
+	
+	
+	<!-- 修改实体 -->
+	<update id="updateStatus" parameterType="com.qftx.tsm.credit.bean.CreditLeadInfoBean">
+		update TSM_LEAD_INFO
+		<set>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+		</set>
+		where ORG_ID = #{orgId} 
+		AND LEAD_ID IN
+		<foreach collection="leadIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 修改实体 -->
+	<update id="updateStatuing" parameterType="com.qftx.tsm.credit.bean.CreditLeadInfoBean">
+		update TSM_LEAD_INFO
+		<set>
+			AUDIT_NODE = 1,
+			AUDIT_TIME = null,
+			<if test="auditAcc != null">
+				AUDIT_ACC = #{auditAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="allNode != null">
+				ALL_NODE = #{allNode,jdbcType=TINYINT},
+			</if>
+		</set>
+		where ORG_ID = #{orgId} 
+		AND LEAD_ID IN
+		<foreach collection="leadIds" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 修改实体 -->
+	<update id="updateInitStatus" parameterType="com.qftx.tsm.credit.bean.CreditLeadInfoBean">
+		update TSM_LEAD_INFO
+		<set>
+			AUDIT_NODE = 1,
+			AUDIT_TIME = null,
+			<if test="auditAcc != null">
+				AUDIT_ACC = #{auditAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="allNode != null">
+				ALL_NODE = #{allNode,jdbcType=TINYINT},
+			</if>
+		</set>
+		where ORG_ID = #{orgId} 
+		and LEAD_ID = #{leadId} 
+	</update>
+</mapper>

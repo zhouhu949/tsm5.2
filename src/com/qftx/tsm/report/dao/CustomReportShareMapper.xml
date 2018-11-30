@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.report.dao.CustomReportShareMapper" >
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.report.bean.CustomReportShareBean" >
+	  <id column="SHARE_ID" property="shareId" jdbcType="VARCHAR" />
+	  <result column="CUSTOM_REPORT_ID" property="customReportId" jdbcType="VARCHAR" />
+	  <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	  <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+	  <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+	  <result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+	  <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+	  <result column="SHARE_ACC" property="shareAcc" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_CUSTOM_REPORT_SHARE</sql>
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="shareId != null and shareId !=''">
+			and SHARE_ID = #{shareId,jdbcType=VARCHAR}
+		</if>
+		<if test="customReportId != null and customReportId!=''">
+			and CUSTOM_REPORT_ID = #{customReportId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId !=''">
+			and ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="updateDate != null">
+			and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null">
+			and IS_DEL = #{isDel,jdbcType=DECIMAL}
+		</if>
+		<if test="inputDate != null">
+			and INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="inputAcc != null and inputAcc !=''">
+			and INPUT_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="shareAcc != null and shareAcc !=''">
+			and SHARE_ACC = #{shareAcc,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="shareId != null and shareId !=''">
+				SHARE_ID = #{shareId,jdbcType=VARCHAR},
+			</if>
+			<if test="customReportId != null and customReportId!=''">
+				CUSTOM_REPORT_ID = #{customReportId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null and orgId !=''">
+				ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="inputDate != null">
+				INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="shareAcc != null and shareAcc !=''">
+				SHARE_ACC = #{shareAcc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="shareId != null and shareId !=''">
+				SHARE_ID,
+			</if>
+			<if test="customReportId != null and customReportId!=''">
+				CUSTOM_REPORT_ID,
+			</if>
+			<if test="orgId != null and orgId !=''">
+				ORG_ID,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+			<if test="isDel != null">
+				IS_DEL,
+			</if>
+			<if test="inputDate != null">
+				INPUT_DATE,
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				INPUT_ACC,
+			</if>
+			<if test="shareAcc != null and shareAcc !=''">
+				SHARE_ACC,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="shareId != null and shareId !=''">
+				#{shareId,jdbcType=VARCHAR},
+			</if>
+			<if test="customReportId != null and customReportId!=''">
+				#{customReportId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null and orgId !=''">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="inputDate != null">
+				#{inputDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				#{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="shareAcc != null and shareAcc !=''">
+				#{shareAcc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	<!-- 表字段 -->
+	<sql id="Base_Column_List">
+		SHARE_ID,ORG_ID,CUSTOM_REPORT_ID,UPDATE_DATE,IS_DEL,INPUT_DATE,INPUT_ACC,SHARE_ACC
+	</sql>
+  	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where  org_id=#{orgId} and SHARE_ID = #{shareId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+	
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.bean.CustomReportShareBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.report.bean.CustomReportShareBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where org_id=#{orgId} and SHARE_ID = #{shareId}
+	</update>
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.report.bean.CustomReportShareBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where org_id=#{orgId} and SHARE_ID = #{shareId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from
+		<include refid="table_name" />
+		where org_id=#{orgId} and SHARE_ID = #{shareId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="map">
+		delete from
+		<include refid="table_name" />
+		where org_id=#{orgId} and SHARE_ACC in 
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+ 			#{id}
+ 		</foreach>
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByReportId" parameterType="com.qftx.tsm.report.bean.CustomReportShareBean">
+		delete from
+		<include refid="table_name" />
+		where org_id=#{orgId} and CUSTOM_REPORT_ID = #{customReportId}
+	</delete>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="findReportIdsByShareAcc" parameterType="com.qftx.tsm.report.bean.CustomReportShareBean" resultType="String">
+		select
+		custom_report_id
+		from
+		<include refid="table_name" />
+		where
+		org_id = #{orgId} and share_acc = #{shareAcc} and is_del = 0
+		order by input_date desc
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getShareAccsByReportId" parameterType="map" resultType="String">
+		select
+		share_acc
+		from
+		<include refid="table_name" />
+		where
+		org_id = #{orgId} and custom_report_id = #{customReportId} and is_del = 0
+	</select>
+	
+	<!-- 删除分享 -->
+	<update id="deleteShare" parameterType="com.qftx.tsm.report.bean.CustomReportShareBean">
+		update
+		<include refid="table_name" />
+		set is_del = 1,update_date = #{updateDate}
+		where org_id=#{orgId} and custom_report_id = #{customReportId}
+	</update>
+</mapper>

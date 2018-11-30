@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.report.dao.TsmReportPlanMapper">
+	<sql id="cols">
+	t.ID,t.ORG_ID,t.TYPE,t.ACCOUNT,t.user_id,t.res_add_num,t.res_plan_num,t.res_no_contact,t.res_total_num,t.res_sign_num,t.res_cust_num,t.res_pool_num,t.res_no_num,t.will_plan_num,t.will_no_contact,t.will_total_num,t.will_sign_num,t.will_cust_num,t.will_pool_num,t.will_no_num,t.sign_res_num,t.sign_will_num,t.trad_cust_num,t.call_out_time,t.sign_money,t.sale_chance_money,t.sale_money,t.report_date,t.INPUTTIME,t.UPDATE_DATE
+	</sql>
+
+	<resultMap type="com.qftx.tsm.report.bean.TsmReportPlanBean" id="TsmReportPlanMap">
+		<result column="ID" property="id"/>
+		<result column="ORG_ID" property="orgId"/>
+		<result column="TYPE" property="type"/>
+		<result column="ACCOUNT" property="account"/>
+		<result column="user_id" property="userId"/>
+		<result column="res_add_num" property="resAddNum"/>
+		<result column="res_plan_num" property="resPlanNum"/>
+		<result column="res_no_contact" property="resNoContact"/>
+		<result column="res_total_num" property="resTotalNum"/>
+		<result column="res_sign_num" property="resSignNum"/>
+		<result column="res_cust_num" property="resCustNum"/>
+		<result column="res_pool_num" property="resPoolNum"/>
+		<result column="res_no_num" property="resNoNum"/>
+		<result column="will_plan_num" property="willPlanNum"/>
+		<result column="will_no_contact" property="willNoContact"/>
+		<result column="will_total_num" property="willTotalNum"/>
+		<result column="will_sign_num" property="willSignNum"/>
+		<result column="will_cust_num" property="willCustNum"/>
+		<result column="will_pool_num" property="willPoolNum"/>
+		<result column="will_no_num" property="willNoNum"/>
+		<result column="sign_res_num" property="signResNum"/>
+		<result column="sign_will_num" property="signWillNum"/>
+		<result column="trad_cust_num" property="tradCustNum"/>
+		<result column="call_out_time" property="callOutTime"/>
+		<result column="sign_money" property="signMoney"/>
+		<result column="sale_chance_money" property="saleChanceMoney"/>
+		<result column="sale_money" property="saleMoney"/>
+		<result column="report_date" property="reportDate"/>
+		<result column="INPUTTIME" property="inputtime"/>
+		<result column="UPDATE_DATE" property="updateDate"/>
+		
+		<result column="dateFmt" property="dateFmt"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="GROUP_NAME" property="groupName"/>
+		<result column="GROUP_ID" property="groupId"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="TsmReportPlanMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="type != null">and t.TYPE = #{type}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="resAddNum != null">and t.res_add_num = #{resAddNum}</if>
+		<if test="resPlanNum != null">and t.res_plan_num = #{resPlanNum}</if>
+		<if test="resNoContact != null">and t.res_no_contact = #{resNoContact}</if>
+		<if test="resTotalNum != null">and t.res_total_num = #{resTotalNum}</if>
+		<if test="resSignNum != null">and t.res_sign_num = #{resSignNum}</if>
+		<if test="resCustNum != null">and t.res_cust_num = #{resCustNum}</if>
+		<if test="resPoolNum != null">and t.res_pool_num = #{resPoolNum}</if>
+		<if test="resNoNum != null">and t.res_no_num = #{resNoNum}</if>
+		<if test="willPlanNum != null">and t.will_plan_num = #{willPlanNum}</if>
+		<if test="willNoContact != null">and t.will_no_contact = #{willNoContact}</if>
+		<if test="willTotalNum != null">and t.will_total_num = #{willTotalNum}</if>
+		<if test="willSignNum != null">and t.will_sign_num = #{willSignNum}</if>
+		<if test="willCustNum != null">and t.will_cust_num = #{willCustNum}</if>
+		<if test="willPoolNum != null">and t.will_pool_num = #{willPoolNum}</if>
+		<if test="willNoNum != null">and t.will_no_num = #{willNoNum}</if>
+		<if test="signResNum != null">and t.sign_res_num = #{signResNum}</if>
+		<if test="signWillNum != null">and t.sign_will_num = #{signWillNum}</if>
+		<if test="tradCustNum != null">and t.trad_cust_num = #{tradCustNum}</if>
+		<if test="callOutTime != null">and t.call_out_time = #{callOutTime}</if>
+		<if test="signMoney != null">and t.sign_money = #{signMoney}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="saleMoney != null">and t.sale_money = #{saleMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+		
+		<if test="fromDate != null">and t.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t.report_date <![CDATA[<=]]> #{toDate}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="TsmReportPlanMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="type != null">and t.TYPE = #{type}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="resAddNum != null">and t.res_add_num = #{resAddNum}</if>
+		<if test="resPlanNum != null">and t.res_plan_num = #{resPlanNum}</if>
+		<if test="resNoContact != null">and t.res_no_contact = #{resNoContact}</if>
+		<if test="resTotalNum != null">and t.res_total_num = #{resTotalNum}</if>
+		<if test="resSignNum != null">and t.res_sign_num = #{resSignNum}</if>
+		<if test="resCustNum != null">and t.res_cust_num = #{resCustNum}</if>
+		<if test="resPoolNum != null">and t.res_pool_num = #{resPoolNum}</if>
+		<if test="resNoNum != null">and t.res_no_num = #{resNoNum}</if>
+		<if test="willPlanNum != null">and t.will_plan_num = #{willPlanNum}</if>
+		<if test="willNoContact != null">and t.will_no_contact = #{willNoContact}</if>
+		<if test="willTotalNum != null">and t.will_total_num = #{willTotalNum}</if>
+		<if test="willSignNum != null">and t.will_sign_num = #{willSignNum}</if>
+		<if test="willCustNum != null">and t.will_cust_num = #{willCustNum}</if>
+		<if test="willPoolNum != null">and t.will_pool_num = #{willPoolNum}</if>
+		<if test="willNoNum != null">and t.will_no_num = #{willNoNum}</if>
+		<if test="signResNum != null">and t.sign_res_num = #{signResNum}</if>
+		<if test="signWillNum != null">and t.sign_will_num = #{signWillNum}</if>
+		<if test="tradCustNum != null">and t.trad_cust_num = #{tradCustNum}</if>
+		<if test="callOutTime != null">and t.call_out_time = #{callOutTime}</if>
+		<if test="signMoney != null">and t.sign_money = #{signMoney}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="saleMoney != null">and t.sale_money = #{saleMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+		<if test="fromDate != null">and t.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t.report_date <![CDATA[<=]]> #{toDate}</if>
+		
+		<if test="orderKey!=null"> order by ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findListPage" resultMap="TsmReportPlanMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="type != null">and t.TYPE = #{type}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="resAddNum != null">and t.res_add_num = #{resAddNum}</if>
+		<if test="resPlanNum != null">and t.res_plan_num = #{resPlanNum}</if>
+		<if test="resNoContact != null">and t.res_no_contact = #{resNoContact}</if>
+		<if test="resTotalNum != null">and t.res_total_num = #{resTotalNum}</if>
+		<if test="resSignNum != null">and t.res_sign_num = #{resSignNum}</if>
+		<if test="resCustNum != null">and t.res_cust_num = #{resCustNum}</if>
+		<if test="resPoolNum != null">and t.res_pool_num = #{resPoolNum}</if>
+		<if test="resNoNum != null">and t.res_no_num = #{resNoNum}</if>
+		<if test="willPlanNum != null">and t.will_plan_num = #{willPlanNum}</if>
+		<if test="willNoContact != null">and t.will_no_contact = #{willNoContact}</if>
+		<if test="willTotalNum != null">and t.will_total_num = #{willTotalNum}</if>
+		<if test="willSignNum != null">and t.will_sign_num = #{willSignNum}</if>
+		<if test="willCustNum != null">and t.will_cust_num = #{willCustNum}</if>
+		<if test="willPoolNum != null">and t.will_pool_num = #{willPoolNum}</if>
+		<if test="willNoNum != null">and t.will_no_num = #{willNoNum}</if>
+		<if test="signResNum != null">and t.sign_res_num = #{signResNum}</if>
+		<if test="signWillNum != null">and t.sign_will_num = #{signWillNum}</if>
+		<if test="tradCustNum != null">and t.trad_cust_num = #{tradCustNum}</if>
+		<if test="callOutTime != null">and t.call_out_time = #{callOutTime}</if>
+		<if test="signMoney != null">and t.sign_money = #{signMoney}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="saleMoney != null">and t.sale_money = #{saleMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+		<if test="fromDate != null">and t.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t.report_date <![CDATA[<=]]> #{toDate}</if>
+		
+		<if test="orderKey!=null"> order by ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByGroup" resultMap="TsmReportPlanMap">
+		select
+		ifnull(sum(t.res_plan_num),0)as res_plan_num
+		,ifnull(sum(t.res_no_contact),0)as res_no_contact
+		,ifnull(sum(t.res_total_num),0)as res_total_num
+		,ifnull(sum(t.res_sign_num),0)as res_sign_num
+		,ifnull(sum(t.res_cust_num),0)as res_cust_num
+		,ifnull(sum(t.res_pool_num),0)as res_pool_num
+		,ifnull(sum(t.res_no_num),0)as res_no_num
+		,ifnull(sum(t.will_plan_num),0)as will_plan_num
+		,ifnull(sum(t.will_no_contact),0)as will_no_contact
+		,ifnull(sum(t.will_total_num),0)as will_total_num
+		,ifnull(sum(t.will_sign_num),0)as will_sign_num
+		,ifnull(sum(t.will_cust_num),0)as will_cust_num
+		,ifnull(sum(t.will_pool_num),0)as will_pool_num
+		,ifnull(sum(t.will_no_num),0)as will_no_num
+		,ifnull(sum(t.trad_cust_num),0)as trad_cust_num
+		,ifnull(sum(t.call_out_time),0)as call_out_time
+		,ifnull(sum(t.sign_money),0)as sign_money,t2.GROUP_ID,t2.GROUP_NAME
+		,ifnull(sum(t.res_add_num),0) as res_add_num
+		from tsm_report_plan t
+	    left join tsm_team_group_member t1 on 1=1
+	    <if test="orgId != null">and t1.ORG_ID = #{orgId}</if>
+	    and t1.user_id = t.user_id
+	    left join tsm_team_group t2 on 1=1
+	    <if test="orgId != null">and t2.ORG_ID = #{orgId}</if>
+	    and t1.GROUP_ID = t2.GROUP_ID
+		where 1=1
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="groupIds!=null and groupIds.length>0">
+		<foreach collection="groupIds" item="gid" open="and(" close=")" separator="or">t2.GROUP_ID = #{gid}</foreach>
+		</if>
+		
+		<if test="fromDate != null">and t.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t.report_date <![CDATA[<=]]> #{toDate}</if>
+		
+		<if test="groupKey!=null"> group by ${groupKey}</if>
+		<if test="orderKey!=null"> order by ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByUser" resultMap="TsmReportPlanMap">
+		select
+		ifnull(sum(t.res_plan_num),0)as res_plan_num
+		,ifnull(sum(t.res_no_contact),0)as res_no_contact
+		,ifnull(sum(t.res_total_num),0)as res_total_num
+		,ifnull(sum(t.res_sign_num),0)as res_sign_num
+		,ifnull(sum(t.res_cust_num),0)as res_cust_num
+		,ifnull(sum(t.res_pool_num),0)as res_pool_num
+		,ifnull(sum(t.res_no_num),0)as res_no_num
+		,ifnull(sum(t.will_plan_num),0)as will_plan_num
+		,ifnull(sum(t.will_no_contact),0)as will_no_contact
+		,ifnull(sum(t.will_total_num),0)as will_total_num
+		,ifnull(sum(t.will_sign_num),0)as will_sign_num
+		,ifnull(sum(t.will_cust_num),0)as will_cust_num
+		,ifnull(sum(t.will_pool_num),0)as will_pool_num
+		,ifnull(sum(t.will_no_num),0)as will_no_num
+		,ifnull(sum(t.trad_cust_num),0)as trad_cust_num
+		,ifnull(sum(t.call_out_time),0)as call_out_time
+		,ifnull(sum(t.sign_money),0)as sign_money,t.USER_ID,t.ACCOUNT
+		,ifnull(sum(t.res_add_num),0) as res_add_num
+		from tsm_report_plan t
+		where 1=1
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="userIds!=null and userIds.length>0">
+		<foreach collection="userIds" item="uid" open="and(" close=")" separator="or">t.USER_ID = #{uid}</foreach>
+		</if>
+		
+		<if test="fromDate != null">and t.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t.report_date <![CDATA[<=]]> #{toDate}</if>
+		
+		<if test="groupKey!=null"> group by ${groupKey}</if>
+		<if test="orderKey!=null"> order by ${orderKey}</if>
+	</select>
+	
+	<!-- 取消合同 取消签约 -->
+	<update id="cancelSign">
+		update tsm_report_plan
+		<set>
+		<if test="resSignNum != null">res_sign_num = res_sign_num + #{resSignNum},</if>
+		<if test="resCustNum != null">res_cust_num = res_cust_num + #{resCustNum},</if>
+		<if test="willSignNum != null">will_sign_num = will_sign_num + #{willSignNum},</if>
+		<if test="willNoNum != null">will_no_num = will_no_num + #{willNoNum},</if>
+		<if test="signMoney != null">sign_money = sign_money + #{signMoney},</if>
+		<if test="updateDate != null">UPDATE_DATE = #{updateDate},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and ORG_ID = #{orgId}</if>
+		<if test="id != null">and ID = #{id}</if>
+	</update>
+	
+	<!-- 取消合同 取消签约 -->
+	<update id="plusSaleMoney">
+		update tsm_report_plan
+		<set>
+			<if test="saleMoney != null">sale_money = sale_money + #{saleMoney},</if>
+		</set>
+		where 1=1
+		and ORG_ID = #{orgId} and ID = #{id}
+	</update>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update tsm_report_plan
+		<set>
+		<if test="type != null">TYPE = #{type},</if>
+		<if test="account != null">ACCOUNT = #{account},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="resAddNum != null">res_add_num = #{resAddNum},</if>
+		<if test="resPlanNum != null">res_plan_num = #{resPlanNum},</if>
+		<if test="resNoContact != null">res_no_contact = #{resNoContact},</if>
+		<if test="resTotalNum != null">res_total_num = #{resTotalNum},</if>
+		<if test="resSignNum != null">res_sign_num = #{resSignNum},</if>
+		<if test="resCustNum != null">res_cust_num = #{resCustNum},</if>
+		<if test="resPoolNum != null">res_pool_num = #{resPoolNum},</if>
+		<if test="resNoNum != null">res_no_num = #{resNoNum},</if>
+		<if test="willPlanNum != null">will_plan_num = #{willPlanNum},</if>
+		<if test="willNoContact != null">will_no_contact = #{willNoContact},</if>
+		<if test="willTotalNum != null">will_total_num = #{willTotalNum},</if>
+		<if test="willSignNum != null">will_sign_num = #{willSignNum},</if>
+		<if test="willCustNum != null">will_cust_num = #{willCustNum},</if>
+		<if test="willPoolNum != null">will_pool_num = #{willPoolNum},</if>
+		<if test="willNoNum != null">will_no_num = #{willNoNum},</if>
+		<if test="signResNum != null">sign_res_num = #{signResNum},</if>
+		<if test="signWillNum != null">sign_will_num = #{signWillNum},</if>
+		<if test="tradCustNum != null">trad_cust_num = #{tradCustNum},</if>
+		<if test="callOutTime != null">call_out_time = #{callOutTime},</if>
+		<if test="signMoney != null">sign_money = #{signMoney},</if>
+		<if test="saleChanceMoney != null">sale_chance_money = #{saleChanceMoney},</if>
+		<if test="saleMoney != null">sale_money = #{saleMoney},</if>
+		<if test="reportDate != null">report_date = #{reportDate},</if>
+		<if test="inputtime != null">INPUTTIME = #{inputtime},</if>
+		<if test="updateDate != null">UPDATE_DATE = #{updateDate},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and ORG_ID = #{orgId}</if>
+		<if test="id != null">and ID = #{id}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.bean.TsmReportPlanBean">
+	insert into tsm_report_plan(ID,ORG_ID,TYPE,ACCOUNT,user_id,res_add_num,res_plan_num,res_no_contact,res_total_num,res_sign_num,res_cust_num,res_pool_num,res_no_num,will_plan_num,will_no_contact,will_total_num,will_sign_num,will_cust_num,will_pool_num,will_no_num,sign_res_num,sign_will_num,trad_cust_num,call_out_time,sign_money,sale_chance_money,sale_money,report_date,INPUTTIME,UPDATE_DATE)
+	values(#{id},#{orgId},#{type},#{account},#{userId},#{resAddNum},#{resPlanNum},#{resNoContact},#{resTotalNum},#{resSignNum},#{resCustNum},#{resPoolNum},#{resNoNum},#{willPlanNum},#{willNoContact},#{willTotalNum},#{willSignNum},#{willCustNum},#{willPoolNum},#{willNoNum},#{signResNum},#{signWillNum},#{tradCustNum},#{callOutTime},#{signMoney},#{saleChanceMoney},#{saleMoney},#{reportDate},#{inputtime},#{updateDate})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into tsm_report_plan(ID,ORG_ID,TYPE,ACCOUNT,user_id,res_add_num,res_plan_num,res_no_contact,res_total_num,res_sign_num,res_cust_num,res_pool_num,res_no_num,will_plan_num,will_no_contact,will_total_num,will_sign_num,will_cust_num,will_pool_num,will_no_num,sign_res_num,sign_will_num,trad_cust_num,call_out_time,sign_money,sale_chance_money,sale_money,report_date,INPUTTIME,UPDATE_DATE)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.type},#{bean.account},#{bean.userId},#{bean.resAddNum},#{bean.resPlanNum},#{bean.resNoContact},#{bean.resTotalNum},#{bean.resSignNum},#{bean.resCustNum},#{bean.resPoolNum},#{bean.resNoNum},#{bean.willPlanNum},#{bean.willNoContact},#{bean.willTotalNum},#{bean.willSignNum},#{bean.willCustNum},#{bean.willPoolNum},#{bean.willNoNum},#{bean.signResNum},#{bean.signWillNum},#{bean.tradCustNum},#{bean.callOutTime},#{bean.signMoney},#{bean.saleChanceMoney},#{bean.saleMoney},#{bean.reportDate},#{bean.inputtime},#{bean.updateDate})
+    </foreach>
+    </insert>
+
+</mapper>

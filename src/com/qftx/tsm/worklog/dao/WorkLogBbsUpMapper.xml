@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.worklog.dao.WorkLogBbsUpMapper">
+	<sql id="cols">
+	t.id,t.wlb_id,t.user_id,t.org_id,t.type,t.inputdate,t.updatedate,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.worklog.bean.WorkLogBbsUpBean" id="WorkLogBbsUpMap">
+		<result column="id" property="id"/>
+		<result column="wlb_id" property="wlbId"/>
+		<result column="user_id" property="userId"/>
+		<result column="org_id" property="orgId"/>
+		<result column="type" property="type"/>
+		<result column="inputdate" property="inputdate"/>
+		<result column="updatedate" property="updatedate"/>
+		<result column="is_del" property="isDel"/>
+		
+		<result column="USER_NAME" property="userName"/>
+		<result column="IMG_URL" property="imgUrl"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="WorkLogBbsUpMap">
+		select
+		<include refid="cols" />
+		from work_log_bbs_up t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="wlbId != null">and t.wlb_id = #{wlbId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="type != null">and t.type = #{type}</if>
+		<if test="inputdate != null">and t.inputdate = #{inputdate}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		
+		<if test="wlbIds != null and  wlbIds.size()>0">and t.wlb_id in
+			<foreach collection="wlbIds" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="findListPage" resultMap="WorkLogBbsUpMap">
+		select
+		<include refid="cols" />,t1.user_name,t1.IMG_URL
+		from work_log_bbs_up t left join auth_user t1 on t1.org_id=#{orgId} and t.user_id = t1.user_id
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="wlbId != null">and t.wlb_id = #{wlbId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="type != null">and t.type = #{type}</if>
+		<if test="inputdate != null">and t.inputdate = #{inputdate}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		
+		<if test="wlbIds != null and  wlbIds.size()>0">and t.wlb_id in
+			<foreach collection="wlbIds" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="orderKey != null">order by ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="WorkLogBbsUpMap">
+		select
+		<include refid="cols" />
+		from work_log_bbs_up t
+		where 1=1
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="wlbId != null">and t.wlb_id = #{wlbId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="type != null">and t.type = #{type}</if>
+		<if test="inputdate != null">and t.inputdate = #{inputdate}</if>
+		<if test="updatedate != null">and t.updatedate = #{updatedate}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update work_log_bbs_up
+		<set>
+		<if test="wlbId != null">wlb_id = #{wlbId},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="inputdate != null">inputdate = #{inputdate},</if>
+		<if test="updatedate != null">updatedate = #{updatedate},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="id != null">and id = #{id}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.worklog.bean.WorkLogBbsUpBean">
+	insert into work_log_bbs_up(id,wlb_id,user_id,org_id,type,inputdate,updatedate,is_del)
+	values(#{id},#{wlbId},#{userId},#{orgId},#{type},#{inputdate},#{updatedate},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into work_log_bbs_up(id,wlb_id,user_id,org_id,type,inputdate,updatedate,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.wlbId},#{bean.userId},#{bean.orgId},#{bean.type},#{bean.inputdate},#{bean.updatedate},#{bean.isDel})
+    </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.imp.dao.ImportResResultMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.RES_ID,t.FILE_ID,t.TOTAL_NUM,t.SUCCESS_NUM,t.FAIL_NUM,t.PHONE_REPEAT,
+	t.PHONE_FORMART,t.CUST_NAME_REPEAT,t.PHONE_SPACE,t.PHONE_STOP,t.COMPANY_URL_REPEAT
+	,t.PHONE_NEVER_ANSWER,t.CALL_TIME_AVERAGE_SHORT,t.status,t.start_time,t.end_time,
+	t.updatetime,t.inputtime,t.is_del,t.DEFECT_REQUIRED,t.OWN_ILLEGAL_CHAR,
+	t.FORMART_ERROR,t.input_acc,t.mark,t.processId,t.CUST_NAME_NOTEXIST,t.is_detail
+	</sql>
+
+	<resultMap type="com.qftx.tsm.imp.bean.ImportResResultBean" id="ImportResResultMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="RES_ID" property="resId"/>
+		<result column="FILE_ID" property="fileId"/>
+		<result column="TOTAL_NUM" property="totalNum"/>
+		<result column="SUCCESS_NUM" property="successNum"/>
+		<result column="FAIL_NUM" property="failNum"/>
+		<result column="PHONE_REPEAT" property="phoneRepeat"/>
+		<result column="PHONE_FORMART" property="phoneFormart"/>
+		<result column="CUST_NAME_REPEAT" property="custNameRepeat"/>
+		<result column="PHONE_SPACE" property="phoneSpace"/>
+		<result column="PHONE_STOP" property="phoneStop"/>
+		<result column="COMPANY_URL_REPEAT" property="companyUrlRepeat"/>
+		<result column="PHONE_NEVER_ANSWER" property="phoneNeverAnswer"/>
+		<result column="CALL_TIME_AVERAGE_SHORT" property="callTimeAverageShort"/>
+		<result column="status" property="status"/>
+		<result column="start_time" property="startTime"/>
+		<result column="end_time" property="endTime"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="DEFECT_REQUIRED" property="defectRequired"/>
+		<result column="OWN_ILLEGAL_CHAR" property="ownIllegalChar"/>
+		<result column="FORMART_ERROR" property="formartError"/>
+		<result column="input_acc" property="inputAcc"/>
+		<result column="mark" property="mark"/>	
+		<result column="processId" property="processId"/>	
+		<result column="CUST_NAME_NOTEXIST" property="custNameNotExist"/>
+		<result column="is_detail" property="isDetail"/>	
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.imp.dto.ImportResResultDto" id="DtoResultMap" extends="ImportResResultMap">
+	</resultMap>
+	<!-- 查询-->
+	<select id="query" resultMap="DtoResultMap" parameterType ="com.qftx.tsm.imp.dto.ImportResResultDto">
+		select * from (
+		select
+		<include refid="cols" />
+		from import_res_result t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.is_del = 0	
+		<if test="inputtime!=null and inputtime!=''">
+			<![CDATA[
+			   and t.inputtime ${symbol} str_to_date(#{inputtime}, '%Y-%m-%d %H:%i:%s')
+			 ]]>
+		</if>
+		<if test="inputAcc != null and inputAcc != ''">
+			and t.input_acc = #{inputAcc}
+		</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+		limit 10 ) tt
+		order by tt.inputtime desc
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="ImportResResultMap">
+		select
+		<include refid="cols" />
+		from import_res_result t
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="resId != null">and RES_ID = #{resId}</if>
+		<if test="fileId != null">and FILE_ID = #{fileId}</if>
+		<if test="totalNum != null">and TOTAL_NUM = #{totalNum}</if>
+		<if test="successNum != null">and SUCCESS_NUM = #{successNum}</if>
+		<if test="failNum != null">and FAIL_NUM = #{failNum}</if>
+		<if test="phoneRepeat != null">and PHONE_REPEAT = #{phoneRepeat}</if>
+		<if test="phoneFormart != null">and PHONE_FORMART = #{phoneFormart}</if>
+		<if test="custNameRepeat != null">and CUST_NAME_REPEAT = #{custNameRepeat}</if>
+		<if test="phoneSpace != null">and PHONE_SPACE = #{phoneSpace}</if>
+		<if test="phoneStop != null">and PHONE_STOP = #{phoneStop}</if>
+		<if test="companyUrlRepeat != null">and COMPANY_URL_REPEAT = #{companyUrlRepeat}</if>
+		<if test="phoneNeverAnswer != null">and PHONE_NEVER_ANSWER = #{phoneNeverAnswer}</if>
+		<if test="callTimeAverageShort != null">and CALL_TIME_AVERAGE_SHORT = #{callTimeAverageShort}</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="startTime != null">and start_time = #{startTime}</if>
+		<if test="endTime != null">and end_time = #{endTime}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+		<if test="inputAcc != null">and input_acc = #{inputAcc}</if>
+		<if test="custNameNotExist != null">and CUST_NAME_NOTEXIST = #{custNameNotExist}</if>
+		<if test="isDetail != null">and is_detail = #{isDetail}</if>
+	</select>
+
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update import_res_result
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="resId != null">RES_ID = #{resId},</if>
+		<if test="fileId != null">FILE_ID = #{fileId},</if>
+		<if test="totalNum != null">TOTAL_NUM = #{totalNum},</if>
+		<if test="successNum != null">SUCCESS_NUM = #{successNum},</if>
+		<if test="failNum != null">FAIL_NUM = #{failNum},</if>
+		<if test="phoneRepeat != null">PHONE_REPEAT = #{phoneRepeat},</if>
+		<if test="phoneFormart != null">PHONE_FORMART = #{phoneFormart},</if>
+		<if test="custNameRepeat != null">CUST_NAME_REPEAT = #{custNameRepeat},</if>
+		<if test="phoneSpace != null">PHONE_SPACE = #{phoneSpace},</if>
+		<if test="phoneStop != null">PHONE_STOP = #{phoneStop},</if>
+		<if test="companyUrlRepeat != null">COMPANY_URL_REPEAT = #{companyUrlRepeat},</if>
+		<if test="phoneNeverAnswer != null">PHONE_NEVER_ANSWER = #{phoneNeverAnswer},</if>
+		<if test="callTimeAverageShort != null">CALL_TIME_AVERAGE_SHORT = #{callTimeAverageShort},</if>
+		<if test="callTimeAverageShort != null">DEFECT_REQUIRED = #{defectRequired},</if>
+		<if test="callTimeAverageShort != null">OWN_ILLEGAL_CHAR = #{ownIllegalChar},</if>
+		<if test="formartError != null">FORMART_ERROR = #{formartError},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="startTime != null">start_time = #{startTime},</if>
+		<if test="endTime != null">end_time = #{endTime},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="isDetail != null">is_detail = #{isDetail},</if>
+		<if test="custNameNotExist != null">CUST_NAME_NOTEXIST = #{custNameNotExist},</if>
+		</set>
+		where org_id = #{orgId} and id=#{id}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.imp.bean.ImportResResultBean">
+		insert into import_res_result(id,org_id,RES_ID,FILE_ID,TOTAL_NUM,SUCCESS_NUM,FAIL_NUM,PHONE_REPEAT,PHONE_FORMART,CUST_NAME_REPEAT,PHONE_SPACE,PHONE_STOP,COMPANY_URL_REPEAT,PHONE_NEVER_ANSWER,CALL_TIME_AVERAGE_SHORT,status,start_time,end_time,updatetime,inputtime,is_del,DEFECT_REQUIRED,OWN_ILLEGAL_CHAR,FORMART_ERROR,input_acc,mark,processId,CUST_NAME_NOTEXIST,is_detail)
+		values(#{id},#{orgId},#{resId},#{fileId},#{totalNum},#{successNum},#{failNum},#{phoneRepeat},#{phoneFormart},#{custNameRepeat},#{phoneSpace},#{phoneStop},#{companyUrlRepeat},#{phoneNeverAnswer},#{callTimeAverageShort},#{status},#{startTime},#{endTime},#{updatetime},#{inputtime},#{isDel},#{defectRequired},#{ownIllegalChar},#{formartError},#{inputAcc},#{mark},#{processId},#{custNameNotExist},#{isDetail})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+	    insert into import_res_result(id,org_id,RES_ID,FILE_ID,TOTAL_NUM,SUCCESS_NUM,FAIL_NUM,PHONE_REPEAT,PHONE_FORMART,CUST_NAME_REPEAT,PHONE_SPACE,PHONE_STOP,COMPANY_URL_REPEAT,PHONE_NEVER_ANSWER,CALL_TIME_AVERAGE_SHORT,status,start_time,end_time,updatetime,inputtime,is_del,DEFECT_REQUIRED,OWN_ILLEGAL_CHAR,FORMART_ERROR,input_acc,mark,processId,CUST_NAME_NOTEXIST,is_detail)
+	    values
+	    <foreach collection="list" item="bean" separator=",">
+	    	(#{bean.id},#{bean.orgId},#{bean.resId},#{bean.fileId},#{bean.totalNum},#{bean.successNum},#{bean.failNum},#{bean.phoneRepeat},#{bean.phoneFormart},#{bean.custNameRepeat},#{bean.phoneSpace},#{bean.phoneStop},#{bean.companyUrlRepeat},#{bean.phoneNeverAnswer},#{bean.callTimeAverageShort},#{bean.status},#{bean.startTime},#{bean.endTime},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.defectRequired},#{bean.ownIllegalChar},#{bean.formartError},#{bean.inputAcc},#{bean.mark},#{bean.processId},#{bean.custNameNotExist},#{bean.isDetail})
+	    </foreach>
+    </insert>
+    
+	<!-- 根据fileId 修改 -->
+	<update id="updateByFileId"  parameterType="com.qftx.tsm.imp.bean.ImportResResultBean">
+		update import_res_result
+		<set>
+		<if test="totalNum != null">TOTAL_NUM = #{totalNum},</if>
+		<if test="successNum != null">SUCCESS_NUM = #{successNum},</if>
+		<if test="failNum != null">FAIL_NUM = #{failNum},</if>
+		<if test="phoneRepeat != null">PHONE_REPEAT = #{phoneRepeat},</if>
+		<if test="phoneFormart != null">PHONE_FORMART = #{phoneFormart},</if>
+		<if test="custNameRepeat != null">CUST_NAME_REPEAT = #{custNameRepeat},</if>
+		<if test="phoneSpace != null">PHONE_SPACE = #{phoneSpace},</if>
+		<if test="phoneStop != null">PHONE_STOP = #{phoneStop},</if>
+		<if test="companyUrlRepeat != null">COMPANY_URL_REPEAT = #{companyUrlRepeat},</if>
+		<if test="phoneNeverAnswer != null">PHONE_NEVER_ANSWER = #{phoneNeverAnswer},</if>
+		<if test="callTimeAverageShort != null">CALL_TIME_AVERAGE_SHORT = #{callTimeAverageShort},</if>
+		<if test="callTimeAverageShort != null">DEFECT_REQUIRED = #{defectRequired},</if>
+		<if test="callTimeAverageShort != null">OWN_ILLEGAL_CHAR = #{ownIllegalChar},</if>
+		<if test="formartError != null">FORMART_ERROR = #{formartError},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="startTime != null">start_time = #{startTime},</if>
+		<if test="endTime != null">end_time = #{endTime},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="isDetail != null">is_detail = #{isDetail},</if>
+		<if test="custNameNotExist != null">CUST_NAME_NOTEXIST = #{custNameNotExist},</if>
+		</set>
+		where org_id = #{orgId} and FILE_ID = #{fileId}
+	</update>
+</mapper>

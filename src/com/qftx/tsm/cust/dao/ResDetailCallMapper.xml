@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.ResDetailCallMapper">
+    <!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.cust.bean.ResDetailCallBean" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="res_Id" property="resId" jdbcType="VARCHAR" />
+		<result column="res_detail_id" property="resDetailId" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="inputtime" property="inputTime" jdbcType="TIMESTAMP" />
+		<result column="input_name" property="inputName" jdbcType="VARCHAR" />
+		<result column="updatetime" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="update_name" property="updateName" jdbcType="VARCHAR" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+		<result column="call_num" property="callNum" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 实体表名 -->
+	<sql id="table_name">tsm_report_res_detail_call</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="resId != null and resId !=''">
+		    AND res_id = #{resId,jdbcType=VARCHAR} 
+		</if>
+		<if test="resDetailId != null and  resDetailId !=''">
+		    AND res_detail_id = #{resDetailId,jdbcType=VARCHAR} 
+		</if>		
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputTime != null ">
+		    AND inputtime = #{inputTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="inputName != null and inputName !=''">
+		    AND input_name = #{inputName,jdbcType=VARCHAR} 
+		</if>				
+		<if test="updateTime != null">
+		    AND updatetime = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateName != null and updateName !=''">
+		    AND update_name = #{updateName,jdbcType=VARCHAR} 
+		</if>		
+		<if test="isDel != null and isDel !=''">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="callNum != null and callNum !=''">
+		    AND call_num = #{callNum,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null and id !=''">
+			     id = #{id,jdbcType=VARCHAR} ,
+			</if>
+			<if test="resId != null and resId !=''">
+			     res_id = #{resId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="resDetailId != null and  resDetailId !=''">
+			     res_detail_id = #{resDetailId,jdbcType=VARCHAR} ,
+			</if>		
+			<if test="inputTime != null ">
+			     inputtime = #{inputTime,jdbcType=TIMESTAMP} ,
+			</if>
+			<if test="inputName != null and inputName !=''">
+			     input_name = #{inputName,jdbcType=VARCHAR} ,
+			</if>				
+			<if test="updateTime != null ">
+			     updatetime = #{updateTime,jdbcType=TIMESTAMP} ,
+			</if>
+			<if test="updateName != null and updateName !=''">
+			     update_name = #{updateName,jdbcType=VARCHAR} ,
+			</if>		
+			<if test="isDel != null and isDel !=''">
+			     is_del = #{isDel,jdbcType=DECIMAL} ,
+			</if>
+			<if test="callNum != null and callNum !=''">
+			     call_num = #{callNum,jdbcType=DECIMAL} ,
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null and id !=''">
+			    id,
+			</if>
+			<if test="resId != null and resId !=''">
+			      res_id,
+			</if>
+			<if test="resDetailId != null and  resDetailId !=''">
+			    res_detail_id ,
+			</if>	
+			<if test="orgId != null and orgId !=''">
+			    org_id,
+			</if>				
+			<if test="inputTime != null ">
+			     inputtime ,
+			</if>
+			<if test="inputName != null and inputName !=''">
+			    input_name ,
+			</if>				
+			<if test="updateTime != null">
+			     updatetime ,
+			</if>
+			<if test="updateName != null and updateName !=''">
+			     update_name ,
+			</if>		
+			<if test="isDel != null and isDel !=''">
+			   is_del,
+			</if>
+			<if test="callNum != null and callNum !=''">
+			    call_num,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null and id !=''">
+			     #{id,jdbcType=VARCHAR} ,
+			</if>
+			<if test="resId != null and resId !=''">
+			      #{resId,jdbcType=VARCHAR} ,
+			</if>
+			<if test="resDetailId != null and  resDetailId !=''">
+			    #{resDetailId,jdbcType=VARCHAR} ,
+			</if>	
+			<if test="orgId != null and orgId !=''">
+			     #{orgId,jdbcType=VARCHAR} ,
+			</if>				
+			<if test="inputTime != null ">
+			     #{inputTime,jdbcType=TIMESTAMP} ,
+			</if>
+			<if test="inputName != null and inputName !=''">
+			     #{inputName,jdbcType=VARCHAR} ,
+			</if>				
+			<if test="updateTime != null ">
+			     #{updateTime,jdbcType=TIMESTAMP} ,
+			</if>
+			<if test="updateName != null and updateName !=''">
+			      #{updateName,jdbcType=VARCHAR} ,
+			</if>		
+			<if test="isDel != null and isDel !=''">
+			    #{isDel,jdbcType=DECIMAL} ,
+			</if>
+			<if test="callNum != null and callNum !=''">
+			     #{callNum,jdbcType=DECIMAL} 
+			</if>
+		</trim>
+	</sql>
+	<!-- 表字段 -->
+	<sql id="Base_Column_List">
+        id,res_Id,res_detail_id,org_id,inputtime,input_name,updatetime,update_name,is_del,call_num
+	</sql>
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where id = #{id}
+	</select>
+	
+	<select id="getByPrimaryKeyAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID=#{orgId} AND id = #{id}
+	</select>
+
+	<select id="getByDetailIdAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID=#{orgId} AND res_detail_id = #{id}
+	</select>
+		
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.ResDetailCallBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.ResDetailCallBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND res_detail_id = #{resDetailId}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.ResDetailCallBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND res_detail_id = #{resDetailId}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="deleteByOrgId" parameterType="map">
+		delete from
+		<include refid="table_name" />
+		where org_id=#{orgId} and id = #{id}
+	</delete>
+
+	<!-- 批量删除 -->
+	<update id="deleteBatch" parameterType="map">
+		update
+		<include refid="table_name" />
+		set IS_DEL = 1,updatetime = now() 
+		where
+		id in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

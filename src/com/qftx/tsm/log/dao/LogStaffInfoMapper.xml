@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.log.dao.LogStaffInfoMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.log.bean.LogStaffInfoBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="TYPE" property="type" jdbcType="VARCHAR" /> <!-- 操作类型 -->
+		<result column="OPERATE_ACC" property="operateAcc" jdbcType="VARCHAR" /> <!-- 操作人 -->
+		<result column="OPERATE_DATE" property="operateDate" jdbcType="TIMESTAMP" /> <!-- 操作时间 -->
+		<result column="DATA" property="data" jdbcType="VARCHAR" /> <!-- 数据 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 描述 -->
+		<result column="reqId" property="reqId" jdbcType="VARCHAR" /> <!-- 描述 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">log_staff_info</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND ID = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type !=''">
+		    AND TYPE = #{type,jdbcType=VARCHAR} 
+		</if>
+		<if test="operateAcc != null and operateAcc !=''">
+		    AND OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR} 
+		</if>
+		<if test="operateDate != null and operateDate !=''">
+		    AND OPERATE_DATE = #{operateDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="data != null and data !=''">
+		    AND DATA = #{data,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND CONTEXT = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="reqID != null and reqID !=''">
+		    AND reqID = #{reqID,jdbcType=VARCHAR} 
+		</if>		
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    ID = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="operateAcc != null">
+			    OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="operateDate != null">
+			    OPERATE_DATE = #{operateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="data != null">
+			    DATA = #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    CONTEXT = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="reqId != null">
+			    reqId = #{reqId,jdbcType=VARCHAR},
+			</if>			
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    ID,
+			</if>
+			<if test="orgId != null" >
+			    ORG_ID,
+			</if>
+			<if test="type != null" >
+			    TYPE,
+			</if>
+			<if test="operateAcc != null" >
+			    OPERATE_ACC,
+			</if>
+			<if test="operateDate != null" >
+			    OPERATE_DATE,
+			</if>
+			<if test="data != null" >
+			    DATA,
+			</if>
+			<if test="context != null" >
+			    CONTEXT,
+			</if>
+			<if test="reqId != null" >
+			    reqId,
+			</if>			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="operateAcc != null">
+			    #{operateAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="operateDate != null">
+			    #{operateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="data != null">
+			    #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="reqId != null">
+			    #{reqId,jdbcType=VARCHAR},
+			</if>			
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,ORG_ID,TYPE,OPERATE_ACC,OPERATE_DATE,DATA,CONTEXT ,reqId
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.log.bean.LogStaffInfoBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.log.bean.LogStaffInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.log.bean.LogStaffInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>

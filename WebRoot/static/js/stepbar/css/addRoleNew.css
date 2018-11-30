@@ -1,0 +1,25 @@
+.role-edit-info{margin-top:0;width:auto;overflow:hidden;border-top:1px solid #f0f0f0;}
+.role-edit-info .newRoleBox{width:310px;float:left;margin-top:0;}
+.role-edit-info p label{font-size:14px;}
+.role-edit-info .manag-role{float:left;padding:10px;background-color:#fff;margin-top:0;}
+.manag-role span{width:60px;}
+.inpu-role{height:24px;margin-top:8px;line-height:24px;}
+.role-new .func-menu{border:none;margin-top:15px;border-top:1px solid #f0f0f0;width:auto;}
+.role-new #role-menu3{height:230px;overflow:hidden;}
+.role-new #role-menu2{height:375px;overflow-y:auto;}
+.menu-cont{width:70%;height:auto!important;overflow:hidden;padding:10px 0;}
+.work-time-set{margin:0;width:600px;}
+.skin-minimal .check{width:44px;height:16px;margin-top:2px;}
+.addRoleTitle{float:left;width:150px;height:40px;line-height:40px;font-size:14px;margin-right:50px;margin-left:20px;}
+.work-time-set-box{width:auto;height:auto;float:left;}
+.hyx-oral-right-title{height:40px;line-height:40px;font-size:16px;margin-top:10px;}
+.hyx-oral-right-title span{float:left;margin-left:10px;}
+.hyx-right-title-btn{width:100px;height:30px;line-height:30px;border-radius:8px;background-color:#fff;outline:none;font-size:14px;border:1px solid #808080;margin-right:20px;color:#fff;cursor:pointer;}
+.hyx-right-title-btn:hover{background-color:#0f5aac;}
+.stitle-btn-save{background-color:#1979ca;border:1px solid #1979ca;}
+.stitle-btn-cancle{color:#303030;}
+.stitle-btn-cancle:hover{color:#fff;}
+.work-time-set p{margin-top:3px;}
+.sele-canc{width:280px;}
+.xiaoduanshu{height:20px;width:5px;background-color:#2f97e2;margin-right:5px;float:left;margin-top:10px;}
+.shows-morenzhi{position:absolute;left:40px;top:30px;height:20px;font-size:12px;color:#ccc;line-height:20px;}

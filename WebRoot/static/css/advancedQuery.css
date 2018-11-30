@@ -1,0 +1,224 @@
+*{
+  margin: 0;
+  padding: 0
+}
+body{
+  font-size: 12px;
+  background-color: #fff;
+  font-family:"microsoft yahei","Arial";
+  padding-bottom: 40px;
+}
+.advancedQuery-everytitle{
+  height: 30px;
+  line-height: 30px;
+  font-size: 14px;
+  background-color: #F5F6F7;
+  padding-left:20px;
+}
+.advancedQuery-everycontent{
+  padding: 0 20px 10px;
+  position: relative;
+}
+.advancedQuery-everycontent .tree-box{
+	position: absolute;
+	top: 42px;
+	left: 20px;
+	background-color: #fff;
+	z-index: 50;
+	width: 200px;
+	height: 320px;
+	border: 1px solid #d3d3d3;
+	display: none;
+	padding:10px 20px;
+}
+.ownerDiv label{
+	vertical-align: top;
+	padding-left: 10px;
+	cursor: pointer;
+}
+.tree-box [data-type='tree']{
+	/* margin-top: 20px; */
+	height: 250px;
+	overflow-y: auto;
+}
+.tree-box[data-developcode='ownerAcc'] [data-type='tree']{
+	margin-top: 10px;
+	height: 235px;
+}
+.tree-box [data-type='tree'] .tree-node{
+	overflow:hidden;
+}
+.tree-box .button-area{
+	margin-top: 10px;
+	text-align: center;
+}
+.advancedQuery-everycontent .advancedQuery-tagincont{
+	  position: relative;
+	  display: inline-block;
+	  width: 100px;
+	  height: 30px;
+	  line-height: 30px;
+	  margin-right: 10px;
+	  margin-top:10px;
+	  padding: 0 5px;
+	  border: 1px solid #DEDEDE;
+	  border-radius: 5px;
+	  text-align: center;
+	  overflow: hidden;
+	  white-space: nowrap;
+	  text-overflow: ellipsis;
+	  cursor:pointer;
+}
+.advancedQuery-everycontent .advancedQuery-tagincont.active{
+	color: #fff;
+	background-color: #1979C9;
+}
+.advancedQuery-everycontent .advancedQuery-tagincont .icon-close{
+	position: absolute;
+	right: 5px;
+	height: 30px;
+  line-height: 30px;
+	color: #fff;
+}
+.advancedQuery-everycontent .advancedQuery-text{
+  display: none;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.advancedQuery-tagincont input[type='checkbox'],
+.advancedQuery-tagincont input[type='radio']{
+	display: none;
+}
+
+.tree .tree-icon {
+	width: 0;
+	height: 0;
+}
+
+.button-area.sure-cancel {
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #fff;
+	padding: 4px 0;
+}
+
+button.btn {
+	border: 1px solid #d3d3d3;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 0 10px;
+	padding:0 15px;
+	line-height:22px;
+}
+
+button.btn:disabled {
+	cursor: not-allowed;
+}
+
+.btn.btn-md {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.btn.btn-submit {
+	color: #fff;
+	background-color: #1979ca;
+}
+
+.btn.btn-submit:hover {
+	background-color: #0f5aac;
+}
+
+.btn.btn-default {
+	background-color: #fff;
+}
+
+.btn.btn-default:hover {
+	color: #fff;
+	background-color: #1979ca;
+}
+
+.style-hidden {
+	display: none;
+}
+
+/* 可搜索树输入框样式 */
+input[data-type="tree_search_input"]{
+	margin: 10px 0 0 10px;
+	width: 160px;
+}
+
+.res-group-checked .tree-box{
+	overflow-y: auto;
+}
+
+.conditions-block .content {
+	padding-left: 20px;
+}
+.conditions-block .content .display-text {
+	display: inline-block;
+	color: #1979ca;
+	border: 1px solid #1979ca;
+	border-radius: 8px;
+	padding: 2px;
+	margin: 4px 2px 4px 0;
+}
+.conditions-block .content>label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.conditions-block .content .output-checkbox{
+	display: inline-block;
+	width: 160px;
+	line-height: 24px;
+}
+.conditions-block .content input[type=checkbox] {
+	vertical-align: middle;
+	margin-right: 2px;
+}
+
+.conditions-block.message-code-check {
+	margin-top: 20px;
+	padding: 10px 0 10px 20px;
+	line-height: 28px;
+	background-color: #F5F6F7;
+}
+
+.message-code-check .label-72px {
+	display: inline-block;
+	width: 72px;
+	text-align: right;
+}
+
+.message-code-check .content {
+	padding-left: 0;
+}
+
+.warning {
+	color: #f00;
+}
+
+.btn.btn-prev-step[data-step='1'] {
+	display: none;
+}
+
+div[data-show-step] {
+	display: none;
+}
+div[data-show-step='1'] {
+	display: block;
+}
+
+.time-input {
+	margin-top: 10px;
+	width: 50px;
+	line-height: 20px;
+}

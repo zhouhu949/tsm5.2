@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.callrecord.dao.CallMapper">
+    <!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.callrecord.dto.CustResInfoDto" id="DtoResultMap">
+		<result column="RES_CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="NAME" property="custName" jdbcType="VARCHAR" />
+		<result column="PHONE" property="telphone" jdbcType="VARCHAR" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 邮件发送异步查询 企业 资源列表  -->
+	<select id="findComCustDetails" resultType="Map" parameterType="Map">
+		select rci_id custId,
+				  name name,
+         		  EMAIL email 
+		 from tsm_res_cust_info_detail 
+		 where org_id = #{orgId} 
+		 AND  rci_id in
+		 <foreach collection="ids" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		 and EMAIL is not null  and EMAIL !=''		 
+	</select>
+	
+	<!-- 邮件发送异步查询 企业 资源列表  -->
+	<select id="findComCustListPage" resultMap="DtoResultMap" parameterType="com.qftx.tsm.callrecord.dto.CustResInfoDto">
+		select t.RES_CUST_ID,
+				 t.NAME COMPANY,
+         		  t.main_linkman NAME
+		 from tsm_res_cust_info t
+		 where t.org_id = #{orgId} 
+		 <choose>
+				<when test="ownerAccs != null"> <!-- 有选择指定拥有者 -->
+					and t.OWNER_ACC in
+					<foreach collection="ownerAccs" index="index" item="item"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					 and t.OWNER_ACC = #{ownerAcc} 
+				</otherwise>
+			</choose>
+		 
+		and t.IS_DEL = 0 
+		 <if test="queryText != null and queryText !=''">
+				AND T.NAME LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')
+		        union
+		        select t.RES_CUST_ID,
+				 t.NAME  COMPANY,
+         		  t.main_linkman NAME
+				 from tsm_res_cust_info t
+				 where t.org_id = #{orgId} 
+				<choose>
+					<when test="ownerAccs != null"> <!-- 有选择指定拥有者 -->
+						and t.OWNER_ACC in
+						<foreach collection="ownerAccs" index="index" item="item"
+							open="(" separator="," close=")">
+							#{item}
+						</foreach>
+					</when>
+					<otherwise>
+						 and t.OWNER_ACC = #{ownerAcc} 
+					</otherwise>
+				</choose>
+				 and t.IS_DEL = 0 
+				 AND t.STATUS in(3,2,6,7,8)
+				 AND t.main_linkman LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')		
+		 </if>
+	</select>
+	
+	<!-- 邮件发送异步查询 个人 资源列表  -->
+	<select id="findPerSonCustListPage" resultMap="DtoResultMap" parameterType="com.qftx.tsm.callrecord.dto.CustResInfoDto">
+		select t.RES_CUST_ID,
+				 t.COMPANY,
+         		  t.NAME, 
+         		  t.EMAIL
+		 from tsm_res_cust_info t
+		 where t.org_id = #{orgId} 
+		 <choose>
+				<when test="ownerAccs != null"> <!-- 有选择指定拥有者 -->
+					and t.OWNER_ACC in
+					<foreach collection="ownerAccs" index="index" item="item"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					 and t.OWNER_ACC = #{ownerAcc} 
+				</otherwise>
+			</choose>
+		 
+		  and t.IS_DEL = 0 
+		 AND t.STATUS in(3,2,6,7,8)
+		 and t.EMAIL is not null  and t.EMAIL !=''
+		 <if test="queryText != null and queryText !=''">
+				AND T.NAME LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')
+		        union
+		        select t.RES_CUST_ID,
+				 t.COMPANY,
+         		  t.NAME, 
+         		  t.EMAIL
+				 from tsm_res_cust_info t
+				 where t.org_id = #{orgId} 
+				 <choose>
+				<when test="ownerAccs != null"> <!-- 有选择指定拥有者 -->
+					and t.OWNER_ACC in
+					<foreach collection="ownerAccs" index="index" item="item"
+						open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</when>
+				<otherwise>
+					 and t.OWNER_ACC = #{ownerAcc} 
+				</otherwise>
+			</choose> 
+			    and t.IS_DEL = 0 
+				 AND t.STATUS in(3,2,6,7,8)
+				 and t.EMAIL is not null  and t.EMAIL !=''	 
+				 AND t.COMPANY LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')		
+		 </if>
+	</select>
+	
+	<!-- 短信发送异步查询 资源列表  -->
+	<select id="findCustByCallSmsListPage" resultMap="DtoResultMap" parameterType="com.qftx.tsm.callrecord.dto.CustResInfoDto">
+		select s.* from (
+		select t.RES_CUST_ID,
+		<choose>
+         	<when test="state != null and state == 1 ">
+         		t.name COMPANY,
+         		t.main_linkman name,
+         		 ifnull(T.MOBILEPHONE, T.TELPHONE) PHONE
+         	</when>
+         	<otherwise>
+         		  t.COMPANY,
+         		  t.NAME, <!-- 为了和企业资源统一名称 -->
+         		  ifnull(T.MOBILEPHONE, T.TELPHONE) PHONE
+         	</otherwise>
+   		</choose>    
+		 from tsm_res_cust_info t	
+		 where t.org_id = #{orgId} and t.OWNER_ACC = #{ownerAcc} and t.IS_DEL = 0 
+		 AND t.STATUS in(3,2,6,7,8)
+		 <if test="queryText != null and queryText !=''">		 		
+		 		<choose>
+		         	<when test="state != null and state == 1 ">
+		         		AND (T.main_linkman LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%') or T.NAME LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%'))
+		         	</when>
+		         	<otherwise>
+		         		 AND (T.NAME LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%') or t.COMPANY LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%'))
+		         	</otherwise>
+   				</choose>    		 		
+		 </if>
+		 ) s where s.PHONE is not null
+	</select>
+	
+</mapper>

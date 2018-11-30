@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.TsmNewWillCountMapper">
+    <resultMap type="com.qftx.tsm.report.bean.TsmNewWillCountBean" id="BaseMap">
+		<result column="tsm_count_id" property="tsmCountId" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="account" property="account" jdbcType="VARCHAR"/>
+		<result column="name" property="name" jdbcType="VARCHAR"/>
+		<result column="inputdate" property="inputDate" jdbcType="TIMESTAMP"/>
+		<result column="count" property="count" jdbcType="DECIMAL"/><!-- 新增资源客户数 -->
+    </resultMap>
+    
+    
+    	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="tsmCountId != null" >
+			    tsm_count_id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="account != null" >
+			    account,
+			</if>
+			<if test="name != null" >
+			    name,
+			</if>
+			<if test="inputDate != null" >
+			    inputdate,
+			</if>
+			<if test="count != null" >
+			    count,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="tsmCountId != null">
+			    #{tsmCountId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    #{name,jdbcType=VARCHAR},
+			</if>
+            <if test="inputDate != null" >
+            STR_TO_DATE(CONCAT(DATE_FORMAT(#{inputDate,jdbcType=TIMESTAMP},'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s'),
+			</if>
+			<if test="count != null">
+			    #{count,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+
+	<!-- 实体表名 -->
+	<sql id="table_name">tsm_report_new_will_count</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+			<if test="tsmCountId != null and tsmCountId !=''">
+			     and tsm_count_id=#{tsmCountId,jdbcType=VARCHAR} 
+			</if>	
+		<if test="inputDate != null and inputDate''">
+		    AND inputdate = #{inputDate}
+		</if>	
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>			
+	</sql>
+	
+	<select id="getUsersCount" parameterType="map" resultMap="BaseMap">
+		SELECT
+		  account, 
+          count 
+        FROM
+	     tsm_report_new_will_count 
+        WHERE
+	      org_id =#{orgId} 
+	    AND inputdate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	    AND account IN 
+	    <foreach collection="accounts" item="acc" open="(" separator="," close=")">
+	    	#{acc} 
+	    </foreach>
+	</select>
+	
+	 <select id="findTsmNewWillCountData" parameterType="com.qftx.tsm.report.bean.TsmNewWillCountBean" resultType="String">
+         SELECT
+          count
+          FROM
+	      tsm_report_new_will_count 
+          WHERE
+	      org_id =#{orgId}
+          AND account =#{account}
+          AND inputdate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	</select>
+	
+	
+		 <select id="findTsmNewWillCountDataBydate" parameterType="com.qftx.tsm.report.bean.TsmNewWillCountBean" resultType="String">
+         SELECT
+          count
+          FROM
+	      tsm_report_new_will_count 
+          WHERE
+	      org_id =#{orgId}
+          AND account =#{account}
+          <if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+             AND str_to_date(date_format(inputdate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		     AND str_to_date(date_format(inputdate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+	</select>
+	
+		 <select id="updateNum" parameterType="com.qftx.tsm.report.bean.TsmNewWillCountBean">
+                 UPDATE 
+	      tsm_report_new_will_count 
+          SET count=(count + #{count})
+          WHERE
+	      org_id =#{orgId} 
+	      and tsm_count_id =#{tsmCountId}
+	</select>
+	
+		<select id="insertTsmNewWillCount" parameterType="com.qftx.tsm.report.bean.TsmNewWillCountBean">
+        INSERT INTO tsm_report_new_will_count
+		<include refid="insert_into_field" />
+	    </select>
+	
+		 <select id="findTsmNewWillCountData_new" parameterType="com.qftx.tsm.report.bean.TsmNewWillCountBean" resultMap="BaseMap">
+         SELECT
+          tsm_count_id,count
+          FROM
+	      tsm_report_new_will_count 
+          WHERE
+	      org_id =#{orgId}
+          AND account =#{account}
+          AND inputdate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	</select>
+	</mapper>

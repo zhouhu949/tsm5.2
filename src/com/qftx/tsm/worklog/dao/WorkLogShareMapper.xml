@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.worklog.dao.WorkLogShareMapper">
+	<sql id="cols">
+	t.wls_id,t.wli_id,t.user_id,t.org_id,t.share_userid,t.share_useracc,t.input_time,t.update_time,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.worklog.bean.WorkLogShareBean" id="WorkLogShareMap">
+		<result column="wls_id" property="wlsId"/>
+		<result column="wli_id" property="wliId"/>
+		<result column="user_id" property="userId"/>
+		<result column="org_id" property="orgId"/>
+		<result column="share_userid" property="shareUserid"/>
+		<result column="share_useracc" property="shareUseracc"/>
+		<result column="input_time" property="inputTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="is_del" property="isDel"/>
+		
+		<result column="user_name" property="userName"/>
+    </resultMap>
+     
+	<insert id="saveWorkLogShare">
+		insert into work_log_share (wls_id,wli_id,user_id,org_id,share_userid,share_time)   
+	    values  
+	    <foreach collection="shareUser" item="item" index="index" separator="," >  
+	        (#{wlsId},#{wliId},#{userId},#{orgId},#{item},{shareTime})  
+	    </foreach>  
+	</insert>
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="WorkLogShareMap">
+		select
+		<include refid="cols" />
+		from work_log_share t
+		where 1=1
+		<if test="wlsId != null">and t.wls_id = #{wlsId}</if>
+		<if test="wliId != null">and t.wli_id = #{wliId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="shareUserid != null">and t.share_userid = #{shareUserid}</if>
+		<if test="shareUseracc != null">and t.share_useracc = #{shareUseracc}</if>
+		<if test="inputTime != null">and t.input_time = #{inputTime}</if>
+		<if test="updateTime != null">and t.update_time = #{updateTime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="WorkLogShareMap">
+		select
+		<include refid="cols" />
+		from work_log_share t
+		where 1=1
+		<if test="wlsId != null">and t.wls_id = #{wlsId}</if>
+		<if test="wliId != null">and t.wli_id = #{wliId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="shareUserid != null">and t.share_userid = #{shareUserid}</if>
+		<if test="shareUseracc != null">and t.share_useracc = #{shareUseracc}</if>
+		<if test="inputTime != null">and t.input_time = #{inputTime}</if>
+		<if test="updateTime != null">and t.update_time = #{updateTime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update work_log_share
+		<set>
+		<if test="updateTime != null">update_time = #{updateTime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="wlsId != null">and wls_id = #{wlsId}</if>
+		<if test="wliId != null">and wli_id = #{wliId}</if>
+		<if test="userId != null">and user_id = #{userId}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.worklog.bean.WorkLogShareBean">
+	insert into work_log_share(wls_id,wli_id,user_id,org_id,share_userid,share_useracc,input_time,update_time,is_del)
+	values(#{wlsId},#{wliId},#{userId},#{orgId},#{shareUserid},#{shareUseracc},#{inputTime},#{updateTime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into work_log_share(wls_id,wli_id,user_id,org_id,share_userid,share_useracc,input_time,update_time,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.wlsId},#{bean.wliId},#{bean.userId},#{bean.orgId},#{bean.shareUserid},#{bean.shareUseracc},#{bean.inputTime},#{bean.updateTime},#{bean.isDel})
+    </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.CustDefinedDataMapper" >
+                                        
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.CustDefinedDataBean" >
+   	<result column="id" property="id" jdbcType="VARCHAR" /> <!-- id -->
+	<result column="org_id" property="orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+	<result column="cust_id" property="custId" jdbcType="VARCHAR" /> <!-- 资源ID -->
+	<result column="field_code" property="fieldCode" jdbcType="VARCHAR" /> <!-- 自定义字段code -->
+	<result column="field_data" property="fieldData" jdbcType="VARCHAR" /> <!-- 自定义字段值 -->
+  </resultMap>
+  
+   <!-- 实体表名 -->
+  <sql id="table_name">tsm_cust_defined_data</sql>
+  
+  <!-- 实体条件查询组装 -->
+  <sql id="entity_condition_orderby">
+  	<if test="id != null and id !=''">
+    	AND id = #{id,jdbcType=VARCHAR} 
+	</if>
+	<if test="orgId != null and orgId !=''">
+	    AND org_id = #{orgId,jdbcType=VARCHAR} 
+	</if>
+	<if test="custId != null and custId !=''">
+	    AND cust_id = #{custId,jdbcType=VARCHAR} 
+	</if>
+	<if test="fieldCode != null and fieldCode !=''">
+	    AND field_code = #{fieldCode,jdbcType=VARCHAR} 
+	</if>
+	<if test="fieldData != null and fieldData !=''">
+	    AND field_data = #{fieldData,jdbcType=VARCHAR} 
+	</if>
+  </sql>
+	
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    cust_id = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldCode != null">
+			    field_code = #{fieldCode,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldData != null">
+			    field_data = #{fieldData,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+  
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="custId != null" >
+			    cust_id,
+			</if>
+			<if test="fieldCode != null" >
+			    field_code,
+			</if>
+			<if test="fieldData != null" >
+			    field_data,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldCode != null">
+			    #{fieldCode,jdbcType=VARCHAR},
+			</if>
+			<if test="fieldData != null">
+			    #{fieldData,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	     id,org_id,cust_id,field_code,field_data
+  	</sql>
+	<sql id="batch_insert_into_value">
+		      (
+		      	#{item.id,jdbcType=VARCHAR},
+		      	#{item.orgId,jdbcType=VARCHAR}, 
+		      	#{item.custId,jdbcType=VARCHAR},
+		      	#{item.fieldCode,jdbcType=VARCHAR},
+		      	#{item.fieldData,jdbcType=VARCHAR}
+		      )
+	</sql>
+	
+	
+	<!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.CustDefinedDataBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.CustOptorBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where id =  #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.CustOptorBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where org_id=#{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<delete id="deleteByCustId" parameterType="map">
+		delete from <include refid="table_name"/> where org_id = #{orgId} and cust_id = #{custId} 
+	</delete>
+	
+	<select id="findCustIdsByDefinedData" parameterType="map" resultType="java.lang.String">
+		SELECT
+			cust_id 
+		FROM
+			tsm_cust_defined_data
+		WHERE
+			org_id = #{orgId} 
+		<if test="fieldCodes != null and fieldCodes.size() > 0">
+			AND field_code IN  
+			<foreach collection="fieldCodes" item="fieldCode" open="(" separator="," close=")">
+				#{fieldCode} 
+			</foreach>
+		</if>
+		<if test="fieldDatas != null and fieldDatas.size() > 0">
+			AND field_data IN 
+			<foreach collection="fieldDatas" item="fieldData" open="(" separator="," close=")">
+				#{fieldData} 
+			</foreach>
+		</if>
+		<if test="custIds != null and custIds.size() > 0">
+			AND cust_id IN 
+			<foreach collection="custIds" item="custId" open="(" separator="," close=")">
+				#{custId} 
+			</foreach>
+		</if>
+		group by cust_id 
+	</select>
+	
+	<select id="findCustDefinedShowDatas" parameterType="map" resultMap="BaseResultMap">
+		select 
+			<include refid="Base_Column_List" /> 
+		from <include refid="table_name" /> 
+		WHERE
+			org_id = #{orgId} 
+			<if test="fieldCodes != null and fieldCodes.size() > 0">
+				AND field_code IN  
+				<foreach collection="fieldCodes" item="fieldCode" open="(" separator="," close=")">
+					#{fieldCode} 
+				</foreach>
+			</if>
+			<if test="custIds != null and custIds.size() > 0">
+				AND cust_id IN 
+				<foreach collection="custIds" item="custId" open="(" separator="," close=")">
+					#{custId} 
+				</foreach>
+			</if>			
+	</select>
+	
+	<delete id="deleteByFieldCode" parameterType="map">
+		delete from <include refid="table_name"/>
+		 where 
+		 org_id = #{orgId} 
+		 <if test="custId != null ">
+		 	 and cust_id = #{custId} 
+		 </if>
+		<if test="fieldCode != null ">
+		 	 and field_code = #{fieldCode} 
+		 </if>		 
+	</delete>
+</mapper>

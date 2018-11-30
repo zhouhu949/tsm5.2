@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.TsmCustSynConfigMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.TsmCustSynConfigBean" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SYN_URL" property="synUrl" jdbcType="VARCHAR" />
+    <result column="SYN_KEY" property="synKey" jdbcType="VARCHAR" />
+    <result column="SYN_WAY" property="synWay" jdbcType="VARCHAR" />
+    <result column="SYN_TYPE" property="synType" jdbcType="DECIMAL" />
+    <result column="ORDER_AUTH" property="orderAuth" jdbcType="DECIMAL" />    
+  </resultMap>
+  
+  
+  <!-- 实体表名 -->
+  <sql id="table_name">tsm_cust_syn_config</sql>
+  
+
+ <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+      <if test="orgId != null and orgId != ''" >
+        AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="synType != null" >
+        AND SYN_TYPE = #{synType,jdbcType=DECIMAL}
+      </if>
+      <if test="orderAuth != null" >
+        AND ORDER_AUTH = #{orderAuth,jdbcType=DECIMAL}
+      </if>
+	</sql>
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		      <if test="synUrl != null" >
+		        SYN_URL = #{synUrl,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synKey != null" >
+		        SYN_KEY = #{synKey,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synWay != null" >
+		        SYN_WAY = #{synWay,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synType != null" >
+		        SYN_TYPE = #{synType,jdbcType=DECIMAL},
+		      </if>
+		      <if test="orderAuth != null" >
+		        ORDER_AUTH = #{orderAuth,jdbcType=DECIMAL},
+		      </if>
+		</trim>
+	</sql>
+  
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			  <if test="id != null" >
+		        ID,
+		      </if>
+		      <if test="orgId != null" >
+		        ORG_ID,
+		      </if>
+		      <if test="synUrl != null" >
+		        SYN_URL,
+		      </if>
+		      <if test="synKey != null" >
+		        SYN_KEY,
+		      </if>
+		      <if test="synWay != null" >
+		        SYN_WAY,
+		      </if>
+		      <if test="synType != null" >
+		        SYN_TYPE,
+		      </if>
+		      <if test="orderAuth != null" >
+		        ORDER_AUTH,
+		      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="id != null" >
+		        #{id,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orgId != null" >
+		        #{orgId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synUrl != null" >
+		        #{synUrl,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synKey != null" >
+		        #{synKey,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synWay != null" >
+		        #{synWay,jdbcType=VARCHAR},
+		      </if>
+		      <if test="synType != null" >
+		        #{synType,jdbcType=DECIMAL},
+		      </if>
+		      <if test="orderAuth != null" >
+		        #{orderAuth,jdbcType=DECIMAL},
+		      </if>
+		</trim>
+	</sql>
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	      id, ORG_ID, SYN_URL, SYN_KEY, SYN_WAY, SYN_TYPE, ORDER_AUTH
+  	</sql>
+  	
+	<sql id="batch_insert_into_value">
+		 select 
+		      #{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.synUrl,jdbcType=VARCHAR},
+		      #{item.synKey,jdbcType=VARCHAR},#{item.synWay,jdbcType=VARCHAR}, #{item.synType,jdbcType=DECIMAL},
+		      #{item.orderAuth,jdbcType=DECIMAL}
+		 from dual
+	</sql>
+ <!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.TsmCustSynConfigBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator="union all">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+		
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.TsmCustSynConfigBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ID = #{id,jdbcType=VARCHAR} and org_id = #{orgId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.TsmCustSynConfigBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ID = #{id,jdbcType=VARCHAR} and org_id = #{orgId,jdbcType=VARCHAR}
+	</update>
+	
+	
+	<!-- 
+	##################################################################################################
+	#########################资源操作记录方法 开始。。。。。。。。          ##################################
+	##################################################################################################
+	 -->
+	
+</mapper>

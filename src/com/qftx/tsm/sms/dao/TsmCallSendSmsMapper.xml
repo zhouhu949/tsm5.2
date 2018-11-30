@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sms.dao.TsmCallSendSmsMapper" >
+	<!-- 
+	#################################################################################################
+	#########################基础定义配置(需要修改部分)###############################################
+	################################################################################################
+	-->
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sms.bean.TsmCallSendSms" >
+    <id column="SMS_ID" property="smsId" jdbcType="VARCHAR" />
+    <result column="SMS_COMMENT" property="smsComment" jdbcType="VARCHAR" />
+    <result column="SMS_NUMBER" property="smsNumber" jdbcType="DECIMAL" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="CALL_DATE" property="callDate" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SUBMIT_STATUS" property="submitStatus" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="CALLER_NUM" property="callerNum" jdbcType="VARCHAR" />
+    <result column="CALLED_NUM" property="calledNum" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="DECIMAL" />
+    
+    
+  </resultMap>
+
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_CALL_SMS_SEND</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="smsId != null and smsId !=''" >
+		  AND SMS_ID = #{smsId,jdbcType=VARCHAR}
+		</if>
+		<if test="smsComment != null and smsComment !=''" >
+		  AND SMS_COMMENT = #{smsComment,jdbcType=VARCHAR}
+		</if>
+		<if test="smsNumber != null" >
+		  AND SMS_NUMBER = #{smsNumber,jdbcType=DECIMAL}
+		</if>
+		<if test="sendDate != null and sendDate !=''" >
+		  AND SEND_DATE = #{sendDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null and isDel !=''" >
+		    AND IS_DEL = #{isDel,jdbcType=DECIMAL}
+		</if>
+		<if test="submitStatus != null submitStatus orgId !=''" >
+		  AND SUBMIT_STATUS = #{submitStatus,jdbcType=VARCHAR}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+             AND str_to_date(date_format(SEND_DATE,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		     AND str_to_date(date_format(SEND_DATE,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+		<if test="account != null"> 
+		  and account = #{account}
+		</if>
+		<if test="type != null"> 
+		  and type = #{type}
+		</if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="smsComment != null and submitStatus != ''" >
+			   SMS_COMMENT = #{smsComment,jdbcType=VARCHAR},
+			</if>
+			<if test="smsNumber != null and smsDate != ''" >
+			   SMS_NUMBER = #{smsNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="sendDate != null and sendDate != ''" >
+			   SEND_DATE = #{sendDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="callDate != null and callDate != ''" >
+			   CALL_DATE = #{callDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null and isDel != ''" >
+			   IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="orgId != null and orgId != ''" >
+			   ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="submitStatus != null and submitStatus != ''" >
+			   SUBMIT_STATUS = #{submitStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null and account != ''" >
+			   account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null and name != ''" >
+			   name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="callerNum != null and callerNum != ''" >
+			   CALLER_NUM = #{callerNum,jdbcType=VARCHAR},
+			</if>
+			<if test="calledNum != null and calledNum != ''" >
+			   CALLED_NUM = #{calledNum,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+			   type = #{type},
+			</if>			
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			    <if test="smsId != null" >
+		           SMS_ID,
+		        </if>
+		        <if test="smsComment != null" >
+			       SMS_COMMENT,
+				</if>
+				<if test="smsNumber != null" >
+				   SMS_NUMBER,
+				</if>
+				<if test="sendDate != null" >
+				   SEND_DATE,
+				</if>
+				<if test="callDate != null" >
+				   CALL_DATE,
+				</if>
+				<if test="isDel != null" >
+				   IS_DEL,
+				</if>
+				<if test="orgId != null" >
+				   ORG_ID,
+				</if>
+				<if test="submitStatus != null" >
+				   SUBMIT_STATUS,
+				</if>
+				<if test="account != null" >
+				   account,
+				</if>
+				<if test="name != null" >
+				   name,
+				</if>
+				<if test="type != null" >
+				   type,
+				</if>
+				<if test="callerNum != null" >
+			   		CALLER_NUM,
+				</if>	
+				<if test="calledNum != null" >
+			   		CALLED_NUM,
+				</if>	
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="smsId != null" >
+			    #{smsId,jdbcType=VARCHAR},
+			</if>
+		    <if test="smsComment != null" >
+			    #{smsComment,jdbcType=VARCHAR},
+			</if>
+			<if test="smsNumber != null" >
+			    #{smsNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="sendDate != null" >
+			    #{sendDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="callDate != null" >
+			    #{callDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null" >
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="orgId != null" >
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="submitStatus != null" >
+			    #{submitStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null" >
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null" >
+			    #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+			    #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="callerNum != null" >
+			   	#{callerNum,jdbcType=VARCHAR},
+			</if>	
+			<if test="calledNum != null" >
+			   #{calledNum,jdbcType=VARCHAR},
+			</if>		
+		</trim>
+	</sql>
+	
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	    SMS_ID,SMS_COMMENT,SMS_NUMBER,SEND_DATE,CALL_DATE,
+		IS_DEL,ORG_ID,SUBMIT_STATUS,account,name,TYPE,CALLER_NUM,CALLED_NUM
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+		        #{item.smsId,jdbcType=VARCHAR},
+			    #{item.smsComment,jdbcType=VARCHAR},
+			    #{item.smsNumber,jdbcType=DECIMAL},
+			    #{item.sendDate,jdbcType=TIMESTAMP},
+			    #{item.callDate,jdbcType=TIMESTAMP},
+			    #{item.isDel,jdbcType=DECIMAL},
+			    #{item.orgId,jdbcType=VARCHAR},
+			    #{item.submitStatus,jdbcType=VARCHAR},
+			    #{item.account,jdbcType=VARCHAR},
+			    #{item.name,jdbcType=VARCHAR},
+			    #{item.type,jdbcType=DECIMAL},
+			    #{item.callerNum,jdbcType=VARCHAR},
+			    #{item.calledNum,jdbcType=VARCHAR}
+		)
+	</sql>
+
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<select id="findByIds" parameterType="map" resultMap="BaseResultMap">
+	    select <include refid="Base_Column_List"/> from  <include refid="table_name"/> 
+	     where  ORG_ID = #{orgId} and sms_id in
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sms.bean.TsmCallSendSms">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sms.bean.TsmCallSendSms">
+		update <include refid="table_name"/>
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and SMS_ID = #{smsId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sms.bean.TsmCallSendSms">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and SMS_ID = #{smsId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 批量删除实体 -->
+	<update id="deleteBatchBy" parameterType="Map">
+		update <include refid="table_name"/> set IS_DEL=1 where ORG_ID = #{orgId} and SMS_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+	
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	 <resultMap type="com.qftx.tsm.sms.dto.TsmCallSendSmsDto" id="BaseResultAll" extends="BaseResultMap">
+	     <result column="user_name" property="ownerName" jdbcType="VARCHAR"/>
+	     <result column="org_name" property="orgName" jdbcType="VARCHAR"/>	     
+	 </resultMap>
+	
+	<resultMap type="com.qftx.tsm.sms.dto.TsmCallSendSmsDto"  id="BaseResultAll1" extends="BaseResultAll">
+		<collection property="failNum" column="{hookTempId1 = hook_temp_id ,orgId1 = ORG_ID}" ofType="Integer"  select="getFailNum" />
+	     <collection property="successNum" column="{hookTempId1 = hook_temp_id ,orgId1 = ORG_ID}" ofType="Integer"  select="getSuccessNum" />
+	</resultMap>
+	
+    <select id="getSendSmsListPage" resultMap="BaseResultAll" parameterType="com.qftx.tsm.sms.dto.TsmCallSendSmsDto">
+     select <include refid="Base_Column_List"/> from TSM_CALL_SMS_SEND 
+		where org_id = #{orgId} 
+          <choose>                 			
+                   			<when test="ownerAccs != null"> <!-- 有选择指定发件者 -->                   			
+                    			and account in 
+                    			<foreach collection="ownerAccs" index="index" item="item" open="("
+										separator="," close=")">
+								#{item}
+							</foreach>
+			       		</when>
+			     	<otherwise>
+						    AND account = #{ownerAcc}
+     			</otherwise>
+     			</choose>
+		  AND IS_DEL = 0
+		 <if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+             AND str_to_date(date_format(CALL_DATE,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		     AND str_to_date(date_format(CALL_DATE,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+			<if test=" queryText != null and queryText != '' ">
+	  			<choose>
+	       			<when test="queryType == '1'.toString()">
+	       				AND (CALLER_NUM LIKE concat('%',#{queryText},'%'))
+	       			</when>
+	       			<when test="queryType == '2'.toString()">
+	       				AND (CALLED_NUM LIKE concat('%',#{queryText},'%'))
+	       			</when>	       			
+	       		</choose>									
+			</if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+    </select>
+  
+	 	<!-- 批量修改短信状态 -->
+	<update id="updateBatchSms" parameterType="map">
+		update <include refid="table_name"/> set SUBMIT_STATUS=#{code} where org_id = #{orgId} and SMS_ID in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+</mapper>

@@ -1,0 +1,1313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.export.dao.CustDataExportMapper">
+	<!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.cust.bean.ResCustInfoBean" id="BaseResultMap">
+		<id column="RES_CUST_ID" property="resCustId" jdbcType="VARCHAR" />
+		<result column="NAME" property="name" jdbcType="VARCHAR" />
+		<result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+		<result column="TELPHONE" property="telphone" jdbcType="VARCHAR" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="DUTY" property="duty" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="DECIMAL" />
+		<result column="COMPANY_ADDR" property="companyAddr" jdbcType="VARCHAR" />
+		<result column="COMPANY_ORG" property="companyOrg" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="DECIMAL" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+		<result column="RES_LAST_CALL_DATE" property="resLastCallDate" jdbcType="TIMESTAMP" />
+		<result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+		<result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ACC" property="updateAcc" jdbcType="VARCHAR" />
+		<result column="IS_MAJOR" property="isMajor" jdbcType="DECIMAL" />
+		<result column="RES_GROUP_ID" property="resGroupId" jdbcType="VARCHAR" />
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+		<result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP" />
+		<result column="INPUT_STATUS" property="inputStatus" jdbcType="DECIMAL" />
+		<result column="OWNER_START_DATE" property="ownerStartDate" jdbcType="TIMESTAMP" />
+		<result column="FILTER_COUNT" property="filterCount" jdbcType="DECIMAL" />
+		<result column="FILTER_TYPE" property="filterType" jdbcType="DECIMAL" />
+		<result column="OPREATE_TYPE" property="opreateType" jdbcType="DECIMAL" />
+		<result column="COORDINATES" property="coordinates" jdbcType="VARCHAR" />
+		<result column="FAX" property="fax" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="UNITHOME" property="unithome" jdbcType="VARCHAR" />
+		<result column="UNITINTRODUCTION" property="unitintroduction" jdbcType="VARCHAR" />
+		<result column="AMOYTOCUSTOMER_DATE" property="amoytocustomerDate" jdbcType="TIMESTAMP" />
+		<result column="QQ" property="qq" jdbcType="VARCHAR" />
+		<result column="KEYWORD" property="keyWord" jdbcType="VARCHAR" />
+		<result column="CONTRACT_NUMBER" property="contractNumber" jdbcType="VARCHAR" />
+		<result column="DEFINED1" property="defined1" jdbcType="VARCHAR" />
+		<result column="DEFINED2" property="defined2" jdbcType="VARCHAR" />
+		<result column="DEFINED3" property="defined3" jdbcType="VARCHAR" />
+		<result column="DEFINED4" property="defined4" jdbcType="VARCHAR" />
+		<result column="SIGN_ACC" property="signAcc" jdbcType="VARCHAR" />
+		<result column="SIGN_NAME" property="signName" jdbcType="VARCHAR" />
+		<result column="NEXTFOLLOW_DATE" property="nextFollowDate" jdbcType="TIMESTAMP" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="CALL_DATE_POSTPONED" property="callDatePostponed" jdbcType="TIMESTAMP" />
+		<result column="REASON_FOR_CALLDELAY" property="reasonForCalldelay" jdbcType="VARCHAR" />
+		<result column="DEFINED5" property="defined5" jdbcType="VARCHAR" />
+		<result column="ALTERNATE_PHONE2" property="alternatePhone2" jdbcType="VARCHAR" />
+		<result column="RECUCLING_TYPE_DETAILS" property="recuclingTypeDetails" jdbcType="VARCHAR" />
+		<result column="AGAINWASH_COUNT" property="againwashCount" jdbcType="DECIMAL" />
+		<result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+		<result column="LAST_CUST_FOLLOW_ID" property="lastCustFollowID" jdbcType="VARCHAR" />
+		<result column="SERVICE_ACC" jdbcType="VARCHAR" property="serviceAcc" />
+		<result column="SERVICE_NAME" jdbcType="VARCHAR" property="serviceName" />
+		<result column="SERVICE_LEVEL" jdbcType="VARCHAR" property="serviceLevel" />
+		<result column="VISITING_DATE" jdbcType="TIMESTAMP" property="visitingDate" />
+		<result column="NEXT_VISITING_DATE" jdbcType="TIMESTAMP" property="nextVisitingDate" />
+		<result column="SERVICE_LABEL_CODE" jdbcType="VARCHAR" property="serviceLabelCode" />
+		<result column="SERVICE_LABEL_NAME" jdbcType="VARCHAR" property="serviceLabelName" />
+		<result column="IS_PRECEDENCE" jdbcType="DECIMAL" property="isPrecedence" />
+		<result column="FOR_THE_CUSTOMER_TIME" jdbcType="TIMESTAMP" property="forTheCustomerTime" />
+		<result column="LAST_VISIT_ACC" jdbcType="VARCHAR" property="lastVisitAcc" />
+		<!-- 4.0新增 -->
+		<result column="STATE" jdbcType="DECIMAL" property="state"/>
+		<result column="PLAN_DATE" jdbcType="TIMESTAMP" property="planDate"/>
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+		<result column="COMPANY_MONEY" jdbcType="VARCHAR" property="companyMoney"/>
+		<result column="COMPANY_USER" jdbcType="VARCHAR" property="companyUser"/>
+		<result column="COMPANY_TRADE" jdbcType="VARCHAR" property="companyTrade"/>
+		<result column="COMPANY_FAX" jdbcType="VARCHAR" property="companyFax"/>
+		<result column="LOSING_ID" jdbcType="VARCHAR" property="losingId"/>
+		<result column="LOSING_REMARK" jdbcType="VARCHAR" property="losingRemark"/>
+		<result column="PROVINCE_ID" jdbcType="DECIMAL" property="provinceId"/>
+		<result column="CITY_ID" jdbcType="DECIMAL" property="cityId"/>
+		<result column="COUNTY_ID" jdbcType="DECIMAL" property="countyId"/>
+		<result column="LAST_LOG_ID" jdbcType="VARCHAR" property="lastLogId"/>
+		<result column="WANGWANG" jdbcType="VARCHAR" property="wangwang"/>
+		<result column="SCOPE" jdbcType="VARCHAR" property="scope"/>
+		<result column="MAIN_LINKMAN" jdbcType="VARCHAR" property="mainLinkman"/>
+		<result column="DEFINED6" property="defined6" jdbcType="VARCHAR" />
+		<result column="DEFINED7" property="defined7" jdbcType="VARCHAR" />
+		<result column="DEFINED8" property="defined8" jdbcType="VARCHAR" />
+		<result column="DEFINED9" property="defined9" jdbcType="VARCHAR" />
+		<result column="DEFINED10" property="defined10" jdbcType="VARCHAR" />
+	    <result column="TAO_NO" property="taoNo" jdbcType="DECIMAL" />
+	    <result column="SIGN_BEFORE_STATUS" property="signBeforeStatus" jdbcType="DECIMAL" />
+	    <result column="SIGN_BEFORE_TYPE" property="signBeforeType" jdbcType="DECIMAL" />
+	    <result column="IMPORT_DEPT_ID" jdbcType="VARCHAR" property="importDeptId"/>
+	    <result column="LIFE_CODE" jdbcType="VARCHAR" property="lifeCode"/>
+	    <result column="last_Option_Id" jdbcType="VARCHAR" property="lastOptionId"/>
+	    <result column="last_Loss_Date" property="lastLossDate" jdbcType="TIMESTAMP" />
+	    <result column="is_Concat" jdbcType="VARCHAR" property="isConcat"/>
+	    <result column="last_Cust_Type_Id" jdbcType="VARCHAR" property="lastCustTypeId"/>
+	    <result column="label_Code" jdbcType="VARCHAR" property="labelCode"/>
+	    <result column="label_name" jdbcType="VARCHAR" property="labelName"/>	
+		<result column="DEFINED11" property="defined11" jdbcType="VARCHAR" />
+		<result column="DEFINED12" property="defined12" jdbcType="VARCHAR" />
+		<result column="DEFINED13" property="defined13" jdbcType="VARCHAR" />
+		<result column="DEFINED14" property="defined14" jdbcType="VARCHAR" />
+		<result column="DEFINED15" property="defined15" jdbcType="VARCHAR" />	
+		<result column="DEFINED16" property="defined16" jdbcType="TIMESTAMP" />	
+		<result column="DEFINED17" property="defined17" jdbcType="TIMESTAMP" />
+		<result column="DEFINED18" property="defined18" jdbcType="TIMESTAMP" />	
+		<!-- 5.0新增 -->     
+		<result column="COMMON_ACC" property="commonAcc" jdbcType="VARCHAR" />	 
+		<!-- 5.1新增 -->    
+		<result column="SOURCE" property="source" jdbcType="DECIMAL" /> 
+		<result column="OWNER_ACTION_DATE" property="ownerActionDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="export_column">
+		t.res_cust_id,
+		t.name,
+		t.main_linkman,
+		t.sex,
+		t.birthday,
+		t.mobilephone,
+		t.telphone,
+		t.fax,
+		t.company,
+		t.keyword,
+		t.email,
+		t.qq,
+		t.unithome,
+		t.duty,
+		t.alternate_phone2,
+		t.company_addr,
+		t.remark,
+		t.wangwang,
+		t.company_money,
+		t.company_trade,
+		t.company_user,
+		t.company_fax,
+		t.address,
+		t.scope,
+		t.province_id,
+        t.city_id,
+        t.county_id,
+		t.defined1,
+        t.defined2,
+        t.defined3,
+        t.defined4,
+        t.defined5,
+        t.defined6,
+        t.defined7,
+        t.defined8,
+        t.defined9,
+        t.defined10,
+        t.defined11,
+        t.defined12,
+        t.defined13,
+        t.defined14,
+        t.defined15,
+        t.defined16,
+        t.defined17,
+        t.defined18  
+	</sql>
+	
+	<sql id="defined_search">
+		<if test="defined1 != null and defined1 != ''">
+		   and t.defined1 = #{defined1,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined2 != null and defined2 != ''">
+		   and t.defined2 = #{defined2,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined3 != null and defined3 != ''">
+			and t.defined3 = #{defined3,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined4 != null and defined4 != ''">
+			and t.defined4 = #{defined4,jdbcType=VARCHAR}  
+		</if>
+		<if test="defined5 != null and defined5 != ''">
+			and t.defined5 = #{defined5,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined6 != null and defined6 != ''">
+			and t.defined6 = #{defined6,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined7 != null and defined7 != ''">
+			and t.defined7 = #{defined7,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined8 != null and defined8 != ''">
+			and t.defined8 = #{defined8,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined9 != null and defined9 != ''">
+			and t.defined9 = #{defined9,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined10 != null and defined10 != ''">
+			and t.defined10 = #{defined10,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined11 != null and defined11 != ''">
+			and t.defined11 = #{defined11,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined12 != null and defined12 != ''">
+			and t.defined12 = #{defined12,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined13 != null and defined13 != ''">
+			and t.defined13 = #{defined13,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined14 != null and defined14 != ''">
+			and t.defined14 = #{defined14,jdbcType=VARCHAR} 
+		</if>
+		<if test="defined15 != null and defined15 != ''">
+			and t.defined15 = #{defined15,jdbcType=VARCHAR} 
+		</if>
+       <if test="startdefined16!= null and startdefined16 !=''">
+			and t.defined16 >=
+			 str_to_date(concat(#{startdefined16,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test=" enddefined16 != null and enddefined16 !=''">
+			and t.defined16 <![CDATA[ <= ]]>
+			str_to_date(concat(#{enddefined16,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="startdefined17!= null and startdefined17 !=''">
+			and t.defined17 >=
+			 str_to_date(concat(#{startdefined17,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined17 != null and enddefined17 !=''">
+			and t.defined17 <![CDATA[ <= ]]>
+			str_to_date(concat(#{enddefined17,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>	
+		<if test="startdefined18!= null and startdefined18 !=''">
+			and t.defined18 >=
+			 str_to_date(concat(#{startdefined18,jdbcType=VARCHAR}, '00:00:00'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="enddefined18 != null and enddefined18 !=''">
+			and t.defined18 <![CDATA[ <= ]]>
+			str_to_date(concat(#{enddefined18,jdbcType=VARCHAR}, '23:59:59'),
+                                       '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test="companyTrade != null and companyTrade != ''">
+			and t.company_trade = #{companyTrade }
+		</if>
+		<!-- 所在地区查询 -->
+		<if test="provinceId != null">
+			and t.province_id = #{provinceId,jdbcType=DECIMAL}
+		</if>
+		<if test="cityId != null">
+			and t.city_id = #{cityId,jdbcType=DECIMAL}
+		</if>
+		<if test="countyId != null">
+			and t.county_id = #{countyId,jdbcType=DECIMAL}
+		</if>
+		<if test="queryText != null and queryText != ''">
+       		<choose>
+       			<when test='queryType != null and queryType == "custName"'>
+       				and t.name like concat('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "mainLinkman"'>
+       				and t.main_linkman like concat('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "company"'>
+       				and t.company like concat('%',#{queryText},'%') 
+       			</when>
+       			<when test='queryType != null and queryType == "mobilephone"'>
+       				and (t.mobilephone = #{queryText} or t.telphone = #{queryText}) 
+       			</when>
+       			<otherwise>
+       				and t.${queryType} like concat('%',#{queryText},'%') 
+       			</otherwise>
+       		</choose>
+       </if>
+	</sql>
+	
+	<select id="findResCustList" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="BaseResultMap">
+		select 
+		<include refid="export_column" /> 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.type = 1  
+		   and t.status IN (2,3) 
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+		   		and t.res_cust_id in 
+		   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+		   				#{cid}
+		   			</foreach>
+		   </if>
+		   <choose>
+			   <when test="adminAcc != null and adminAcc != '' and ownerAccs!=null and ownerAccs.size() > 0">
+		       		and t.owner_acc in 
+					<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			   </when>
+			   <otherwise>
+			   		and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+			   </otherwise>
+		   </choose>
+		   <if test='noteType != null and noteType == "2"'>
+		   		and t.action_date is null 
+		   </if>
+		   <if test='noteType != null and noteType == "3"'>
+		   		and t.action_date is not null 
+		   </if>
+		   <if test='noteType != null and noteType == "4"'>
+		   		<choose>
+	       			<when test="ids != null and ids.size() > 0">
+	       				AND (
+	       				t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	       				and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       				or t.res_cust_id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+	       				)
+	       			</when>
+	       			<otherwise>
+			       		and t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			       		and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+	       			</otherwise>
+	       		</choose>
+		   </if>
+		   <if test='noteType != null and noteType == "5"'>
+		   		and t.action_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		   </if>
+		   <if test='noteType != null and noteType == "6"'>
+		   		and t.is_precedence = 1 
+		   </if>
+		   <if test='noteType != null and noteType == "7"'>
+		   		and t.action_date &lt;= date_add(now(),interval -7 day)
+		   </if>
+		   <if test='noteType != null and noteType == "8"'>
+		   		<choose>
+					<when test='expireType != null and expireType = "1"'>
+						and datediff(now(),t.owner_start_date) >= ${recyleDay }
+					</when>
+					<when test='expireType != null and expireType = "2"'>
+						and datediff(ifnull(now(),t.action_date,t.owner_start_date)) >= ${recyleDay }
+					</when>
+					<otherwise></otherwise>
+				</choose>
+		   </if>
+		   <if test="source != null">
+		   		and t.source = #{source,jdbcType=DECIMAL} 
+		   </if>
+		   <if test="pstartDate != null and pstartDate != ''">
+	       		and t.owner_start_date &gt;= str_to_date(concat(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="pendDate != null and pendDate != ''">
+	       		and t.owner_start_date &lt;= str_to_date(concat(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="startDate != null and startDate != ''">
+	       		and t.nextfollow_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endDate != null and endDate != ''">
+	       		and t.nextfollow_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="importDeptIds != null and importDeptIds.size() > 0">
+	       		and t.import_dept_id in 
+	       			<foreach collection="importDeptIds" item="ipd" open="(" separator="," close=")">
+	       				#{ipd} 
+	       			</foreach>
+	       </if>
+	       <if test="groupId != null and groupId != ''">
+	       		and t.res_group_id=#{groupId}
+	       </if>
+	       <include refid="defined_search" />
+	</select>
+	
+	<select id="findResCustNum" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultType="java.lang.Integer">
+		select 
+		count(1)  
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.type = 1  
+		   and t.status IN (2,3) 
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+		   		and t.res_cust_id in 
+		   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+		   				#{cid}
+		   			</foreach>
+		   </if>
+		   <choose>
+			   <when test="adminAcc != null and adminAcc != '' and ownerAccs!=null and ownerAccs.size() > 0">
+		       		and t.owner_acc in 
+					<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+			   </when>
+			   <otherwise>
+			   		and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+			   </otherwise>
+		   </choose>
+		   <if test='noteType != null and noteType == "2"'>
+		   		and t.action_date is null 
+		   </if>
+		   <if test='noteType != null and noteType == "3"'>
+		   		and t.action_date is not null 
+		   </if>
+		   <if test='noteType != null and noteType == "4"'>
+		   		<choose>
+	       			<when test="ids != null and ids.size() > 0">
+	       				AND (
+	       				t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	       				and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       				or t.res_cust_id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+	       				)
+	       			</when>
+	       			<otherwise>
+			       		and t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			       		and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+	       			</otherwise>
+	       		</choose>
+		   </if>
+		   <if test='noteType != null and noteType == "5"'>
+		   		and t.action_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		   </if>
+		   <if test='noteType != null and noteType == "6"'>
+		   		and t.is_precedence = 1 
+		   </if>
+		   <if test='noteType != null and noteType == "7"'>
+		   		and t.action_date &lt;= date_add(now(),interval -7 day)
+		   </if>
+		   <if test='noteType != null and noteType == "8"'>
+		   		<choose>
+					<when test='expireType != null and expireType = "1"'>
+						and datediff(now(),t.owner_start_date) >= ${recyleDay }
+					</when>
+					<when test='expireType != null and expireType = "2"'>
+						and datediff(ifnull(now(),t.action_date,t.owner_start_date)) >= ${recyleDay }
+					</when>
+					<otherwise></otherwise>
+				</choose>
+		   </if>
+		   <if test="source != null">
+		   		and t.source = #{source,jdbcType=DECIMAL} 
+		   </if>
+		   <if test="pstartDate != null and pstartDate != ''">
+	       		and t.owner_start_date &gt;= str_to_date(concat(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="pendDate != null and pendDate != ''">
+	       		and t.owner_start_date &lt;= str_to_date(concat(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="startDate != null and startDate != ''">
+	       		and t.nextfollow_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endDate != null and endDate != ''">
+	       		and t.nextfollow_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="importDeptIds != null and importDeptIds.size() > 0">
+	       		and t.import_dept_id in 
+	       			<foreach collection="importDeptIds" item="ipd" open="(" separator="," close=")">
+	       				#{ipd} 
+	       			</foreach>
+	       </if>
+	       <if test="groupId != null and groupId != ''">
+	       		and t.res_group_id=#{groupId}
+	       </if>
+	       <include refid="defined_search" />
+	</select>
+	
+	<select id="findIntCustList" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="BaseResultMap">
+		select 
+		<include refid="export_column" /> 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.type = 2   
+		   and t.status IN (2,3) 
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+			   		and t.res_cust_id in 
+			   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+			   				#{cid}
+			   			</foreach>
+			    </if>
+				<choose>
+				   <when test="adminAcc != null and adminAcc != '' and ownerAccs!=null and ownerAccs.size() > 0">
+						and t.owner_acc in 
+							<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+				   </when>
+				   <otherwise>
+						and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+				   </otherwise>
+			    </choose>
+				<if test="commonAccs != null and commonAccs.size() > 0">
+					and t.common_acc in 
+						<foreach collection="commonAccs" item="ca" open="(" separator="," close=")">
+							#{ca} 
+						</foreach>
+				</if>
+				<if test='noteType=="9"'>
+		     		and t.common_acc is not null  
+		     	</if>
+		       <if test='noteType == "2"'>
+		       		and t.amoytocustomer_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "3"'>
+		       		<choose>
+		       			<when test="ids != null and ids.size() > 0">
+		       				and (
+		       				t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       				and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       				or t.res_cust_id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+		       				)
+		       			</when>
+		       			<otherwise>
+				       		and t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				       		and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		       			</otherwise>
+		       		</choose>
+		       </if>
+		       <if test='noteType == "5"'>
+		       		and t.is_major = 1  
+		       </if>
+		       <if test="name != null and name != ''">
+			   		and t.name like concat(#{name,jdbcType=VARCHAR},'%') 
+			   </if>
+			   <if test="source != null">
+			   		and t.source = #{source,jdbcType=DECIMAL} 
+			   </if>
+			   <if test="startDate != null and startDate != ''">
+		       		and t.nextfollow_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endDate != null and endDate != ''">
+		       		and t.nextfollow_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pstartDate != null and pstartDate != ''">
+		       		and t.amoytocustomer_date &gt;= str_to_date(concat(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pendDate != null and pendDate != ''">
+		       		and t.amoytocustomer_date &lt;= str_to_date(concat(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="mainLinkman != null and mainLinkman != ''">
+		       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+		       </if>
+		       <if test="isMajor != null and isMajor != ''">
+		       		and t.is_major = #{isMajor}
+		       </if>
+		       <if test='noteType == "4"'>
+		       		and t.action_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "6"'>
+		       		and t.action_date  >= str_to_date(concat(date_format(date_add(curdate(),interval -weekday(curdate())day),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "7"'>
+		       		and t.action_date &lt;= date_add(now(),interval -7 day)
+		       </if>
+		       <if test='noteType == "8"'>
+		       		and t.action_date &lt;= date_add(now(),interval -30 day)
+		       </if>
+		       <if test="startActionDate != null and startActionDate != ''">
+		       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endActionDate != null and endActionDate != ''">
+		       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="custTypeId != null and custTypeId != ''">
+		       		and t.last_cust_type_id = #{custTypeId,jdbcType=VARCHAR} 
+		       </if>
+		       <if test="saleProcessId != null and saleProcessId != ''">
+		       		and t.last_option_id = #{saleProcessId,jdbcType=VARCHAR}
+		       </if>
+		       <if test='lDateType != null and lDateType == 6'>
+		       		and t.action_date is null 
+		       </if>
+		       <if test='nDateType != null and nDateType == 6'>
+		       		and t.nextfollow_date is null 
+		       </if>
+		       <if test="labels != null and labels.size() > 0">
+		       		<foreach collection="labels" item="label" separator=" " >
+		       			and t.label_code like concat('%',#{label},'%') 
+		       		</foreach> 
+		       </if>
+		       <if test="groupId != null and groupId != ''">
+		       		and t.res_group_id = #{groupId}
+		       </if>
+		        <include refid="defined_search" />
+	</select>
+	
+	<select id="findIntCustNum" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultType="java.lang.Integer">
+		select 
+		count(1) 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.type = 2   
+		   and t.status IN (2,3) 
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+			   		and t.res_cust_id in 
+			   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+			   				#{cid}
+			   			</foreach>
+			    </if>
+				<choose>
+				   <when test="adminAcc != null and adminAcc != '' and ownerAccs!=null and ownerAccs.size() > 0">
+						and t.owner_acc in 
+							<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+				   </when>
+				   <otherwise>
+						and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+				   </otherwise>
+			    </choose>
+				<if test="commonAccs != null and commonAccs.size() > 0">
+					and t.common_acc in 
+						<foreach collection="commonAccs" item="ca" open="(" separator="," close=")">
+							#{ca} 
+						</foreach>
+				</if>
+				<if test='noteType=="9"'>
+		     		and t.common_acc is not null  
+		     	</if>
+		       <if test='noteType == "2"'>
+		       		and t.amoytocustomer_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "3"'>
+		       		<choose>
+		       			<when test="ids != null and ids.size() > 0">
+		       				and (
+		       				t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       				and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       				or t.res_cust_id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+		       				)
+		       			</when>
+		       			<otherwise>
+				       		and t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				       		and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		       			</otherwise>
+		       		</choose>
+		       </if>
+		       <if test='noteType == "5"'>
+		       		and t.is_major = 1  
+		       </if>
+		       <if test="name != null and name != ''">
+			   		and t.name like concat(#{name,jdbcType=VARCHAR},'%') 
+			   </if>
+			   <if test="source != null">
+			   		and t.source = #{source,jdbcType=DECIMAL} 
+			   </if>
+			   <if test="startDate != null and startDate != ''">
+		       		and t.nextfollow_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endDate != null and endDate != ''">
+		       		and t.nextfollow_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pstartDate != null and pstartDate != ''">
+		       		and t.amoytocustomer_date &gt;= str_to_date(concat(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pendDate != null and pendDate != ''">
+		       		and t.amoytocustomer_date &lt;= str_to_date(concat(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="mainLinkman != null and mainLinkman != ''">
+		       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+		       </if>
+		       <if test="isMajor != null and isMajor != ''">
+		       		and t.is_major = #{isMajor}
+		       </if>
+		       <if test='noteType == "4"'>
+		       		and t.action_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "6"'>
+		       		and t.action_date  >= str_to_date(concat(date_format(date_add(curdate(),interval -weekday(curdate())day),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "7"'>
+		       		and t.action_date &lt;= date_add(now(),interval -7 day)
+		       </if>
+		       <if test='noteType == "8"'>
+		       		and t.action_date &lt;= date_add(now(),interval -30 day)
+		       </if>
+		       <if test="startActionDate != null and startActionDate != ''">
+		       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endActionDate != null and endActionDate != ''">
+		       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="custTypeId != null and custTypeId != ''">
+		       		and t.last_cust_type_id = #{custTypeId,jdbcType=VARCHAR} 
+		       </if>
+		       <if test="saleProcessId != null and saleProcessId != ''">
+		       		and t.last_option_id = #{saleProcessId,jdbcType=VARCHAR}
+		       </if>
+		       <if test='lDateType != null and lDateType == 6'>
+		       		and t.action_date is null 
+		       </if>
+		       <if test='nDateType != null and nDateType == 6'>
+		       		and t.nextfollow_date is null 
+		       </if>
+		       <if test="labels != null and labels.size() > 0">
+		       		<foreach collection="labels" item="label" separator=" " >
+		       			and t.label_code like concat('%',#{label},'%') 
+		       		</foreach> 
+		       </if>
+		       <if test="groupId != null and groupId != ''">
+		       		and t.res_group_id = #{groupId}
+		       </if>
+		        <include refid="defined_search" />
+	</select>
+	
+	<select id="findSignCustList" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="BaseResultMap">
+		select 
+		<include refid="export_column" /> 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.status = 6  
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+			   		and t.res_cust_id in 
+			   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+			   				#{cid}
+			   			</foreach>
+			     </if>
+				 <choose>
+				   <when test="adminAcc != null and adminAcc != '' and ownerAccs!=null and ownerAccs.size() > 0">
+						and t.owner_acc in 
+							<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+				   </when>
+				   <otherwise>
+						and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+				   </otherwise>
+			    </choose>
+				<if test="commonAccs != null and commonAccs.size() > 0">
+					and t.common_acc in 
+						<foreach collection="commonAccs" item="ca" open="(" separator="," close=")">
+							#{ca} 
+						</foreach>
+				</if>
+			   <if test="serviceAccs != null and serviceAccs.size() > 0">
+					and t.service_acc in 
+						<foreach collection="serviceAccs" item="ca" open="(" separator="," close=")">
+							#{ca} 
+						</foreach>
+			   </if>
+			   <if test='noteType=="8"'>
+			     		and t.common_acc is not null 
+			   </if>
+			   <if test="source != null">
+			   		and t.source = #{source,jdbcType=DECIMAL} 
+			   </if>
+			   <if test="startActionDate != null and startActionDate != ''">
+		       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endActionDate != null and endActionDate != ''">
+		       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="startDate != null and startDate != ''">
+		       		and t.sign_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endDate != null and endDate != ''">
+		       		and t.sign_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+	         	<if test="pstartDate != null and pstartDate != ''">
+		       		and t.nextfollow_date &gt;= str_to_date(concat(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pendDate != null and pendDate != ''">
+		       		and t.nextfollow_date &lt;= str_to_date(concat(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="mainLinkman != null and mainLinkman != ''">
+		       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+		       </if>
+		       <if test='noteType == "2"'>
+		        	and t.sign_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "3"'>
+		        	and t.sign_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m'),'-01 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "4"'>
+		        	<choose>
+		       			<when test="ids != null and ids.size() > 0">
+		       				and (
+		       				t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       				and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       				or t.res_cust_id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+		       				)
+		       			</when>
+		       			<otherwise>
+				       		and t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				       		and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		       			</otherwise>
+		       		</choose>
+		       </if>
+		       <if test='noteType == "5"'>
+		        	and t.action_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "6"'>
+		        	and t.action_date &lt;= date_add(now(),interval -7 day)
+		       </if>
+		       <if test='noteType == "7"'>
+		        	and t.action_date &lt;= date_add(now(),interval -30 day)
+		       </if>
+		       <if test="custTypeId != null and custTypeId != ''">
+		       		and t.last_cust_type_id = #{custTypeId,jdbcType=VARCHAR} 
+		       </if>
+		       <if test='lDateType != null and lDateType == 6'>
+		       		and t.action_date is null 
+		       </if>
+		       <if test='oDateType != null and oDateType == 6'>
+		       		and t.nextfollow_date is null 
+		       </if>
+		       <if test="labels != null and labels.size() > 0">
+		       		<foreach collection="labels" item="label" separator=" " >
+		       			and t.label_code like concat('%',#{label},'%') 
+		       		</foreach> 
+		       </if>
+		       <if test="groupId != null and groupId != ''">
+		       		and t.res_group_id=#{groupId}
+		       </if>
+		       <include refid="defined_search" />
+	</select>
+	
+	<select id="findSignCustNum" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultType="java.lang.Integer">
+		select 
+		count(1)  
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.status = 6  
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+			   		and t.res_cust_id in 
+			   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+			   				#{cid}
+			   			</foreach>
+			     </if>
+				 <choose>
+				   <when test="adminAcc != null and adminAcc != '' and ownerAccs!=null and ownerAccs.size() > 0">
+						and t.owner_acc in 
+							<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+				   </when>
+				   <otherwise>
+						and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+				   </otherwise>
+			    </choose>
+				<if test="commonAccs != null and commonAccs.size() > 0">
+					and t.common_acc in 
+						<foreach collection="commonAccs" item="ca" open="(" separator="," close=")">
+							#{ca} 
+						</foreach>
+				</if>
+			   <if test="serviceAccs != null and serviceAccs.size() > 0">
+					and t.service_acc in 
+						<foreach collection="serviceAccs" item="ca" open="(" separator="," close=")">
+							#{ca} 
+						</foreach>
+			   </if>
+			   <if test='noteType=="8"'>
+			     		and t.common_acc is not null 
+			   </if>
+			   <if test="source != null">
+			   		and t.source = #{source,jdbcType=DECIMAL} 
+			   </if>
+			   <if test="startActionDate != null and startActionDate != ''">
+		       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endActionDate != null and endActionDate != ''">
+		       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="startDate != null and startDate != ''">
+		       		and t.sign_date &gt;= str_to_date(concat(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="endDate != null and endDate != ''">
+		       		and t.sign_date &lt;= str_to_date(concat(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+	         	<if test="pstartDate != null and pstartDate != ''">
+		       		and t.nextfollow_date &gt;= str_to_date(concat(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="pendDate != null and pendDate != ''">
+		       		and t.nextfollow_date &lt;= str_to_date(concat(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       </if>
+		       <if test="mainLinkman != null and mainLinkman != ''">
+		       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+		       </if>
+		       <if test='noteType == "2"'>
+		        	and t.sign_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "3"'>
+		        	and t.sign_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m'),'-01 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "4"'>
+		        	<choose>
+		       			<when test="ids != null and ids.size() > 0">
+		       				and (
+		       				t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       				and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+		       				or t.res_cust_id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+		       				)
+		       			</when>
+		       			<otherwise>
+				       		and t.nextfollow_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				       		and t.nextfollow_date &lt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		       			</otherwise>
+		       		</choose>
+		       </if>
+		       <if test='noteType == "5"'>
+		        	and t.action_date &gt;= str_to_date(concat(date_format(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		       </if>
+		       <if test='noteType == "6"'>
+		        	and t.action_date &lt;= date_add(now(),interval -7 day)
+		       </if>
+		       <if test='noteType == "7"'>
+		        	and t.action_date &lt;= date_add(now(),interval -30 day)
+		       </if>
+		       <if test="custTypeId != null and custTypeId != ''">
+		       		and t.last_cust_type_id = #{custTypeId,jdbcType=VARCHAR} 
+		       </if>
+		       <if test='lDateType != null and lDateType == 6'>
+		       		and t.action_date is null 
+		       </if>
+		       <if test='oDateType != null and oDateType == 6'>
+		       		and t.nextfollow_date is null 
+		       </if>
+		       <if test="labels != null and labels.size() > 0">
+		       		<foreach collection="labels" item="label" separator=" " >
+		       			and t.label_code like concat('%',#{label},'%') 
+		       		</foreach> 
+		       </if>
+		       <if test="groupId != null and groupId != ''">
+		       		and t.res_group_id=#{groupId}
+		       </if>
+		       <include refid="defined_search" />
+	</select>
+	
+	<select id="findSilentCustList" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="BaseResultMap">
+		select 
+		<include refid="export_column" /> 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.status = 7   
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+	   		and t.res_cust_id in 
+	   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+	   				#{cid}
+	   			</foreach>
+	      </if>
+		  <choose>
+			   <when test="adminAcc != null and adminAcc != ''">
+					<choose>
+						<when test="ownerAccs!=null and ownerAccs.size() > 0">
+							<if test="ownerAccs!=null">
+					       		and t.owner_acc in 
+								<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+									#{item}
+								</foreach>
+					        </if>
+						</when>
+						<otherwise>
+							and t.owner_acc = #{adminAcc,jdbcType=VARCHAR} 
+						</otherwise>
+					</choose>
+			   </when>
+			   <otherwise>
+			   		and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+			   </otherwise>
+		   </choose>
+		   <if test="name != null and name != ''">
+		   		and t.name like concat(#{name,jdbcType=VARCHAR},'%') 
+		   </if>
+		   <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="mainLinkman != null and mainLinkman != ''">
+	       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+	       </if>
+	       <if test='noteType == "2"'>
+	       		and datediff(now(),t.action_date) &lt;= 7
+	       </if>
+	       <if test='noteType == "3"'>
+	       	  	and datediff(now(),t.action_date) &lt;= 30
+	       </if>
+	       <if test='noteType == "4"'>
+	       		and datediff(now(),t.action_date) &lt;= 90
+	       </if>
+	       <if test='noteType == "5"'>
+				and datediff(now(),t.action_date) > 90 
+	       </if>
+	       <if test="labels != null and labels.size() > 0">
+	       		<foreach collection="labels" item="label" separator=" " >
+	       			and t.label_code like concat('%',#{label},'%') 
+	       		</foreach> 
+	       </if>
+	       <if test="resGroupId != null and resGroupId != ''">
+	       		and t.res_group_id = #{resGroupId} 
+	       </if>
+	       <!-- 最近联系时间 -->
+	       <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="queryText != null and queryText != ''">
+	       		<choose>
+	       			<when test='queryType != null and queryType == "1"'>
+	       				and t.name like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "2"'>
+	       				and t.main_linkman like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "4"'>
+	       				and t.company like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "mobilephone"'>
+	       				and (t.mobilephone = #{queryText} or t.telphone = #{queryText}) 
+	       			</when>
+	       			<otherwise>
+	       				and t.${queryType} like concat('%',#{queryText},'%') 
+	       			</otherwise>
+	       		</choose>
+	       </if>
+	</select>
+	
+	<select id="findSilentCustNum" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultType="java.lang.Integer">
+		select 
+		count(1) 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.status = 7   
+		   and t.is_del = 0 
+		   <if test="custIds != null and custIds.size() > 0">
+	   		and t.res_cust_id in 
+	   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+	   				#{cid}
+	   			</foreach>
+	      </if>
+		  <choose>
+			   <when test="adminAcc != null and adminAcc != ''">
+					<choose>
+						<when test="ownerAccs!=null and ownerAccs.size() > 0">
+							<if test="ownerAccs!=null">
+					       		and t.owner_acc in 
+								<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+									#{item}
+								</foreach>
+					        </if>
+						</when>
+						<otherwise>
+							and t.owner_acc = #{adminAcc,jdbcType=VARCHAR} 
+						</otherwise>
+					</choose>
+			   </when>
+			   <otherwise>
+			   		and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+			   </otherwise>
+		   </choose>
+		   <if test="name != null and name != ''">
+		   		and t.name like concat(#{name,jdbcType=VARCHAR},'%') 
+		   </if>
+		   <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="mainLinkman != null and mainLinkman != ''">
+	       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+	       </if>
+	       <if test='noteType == "2"'>
+	       		and datediff(now(),t.action_date) &lt;= 7
+	       </if>
+	       <if test='noteType == "3"'>
+	       	  	and datediff(now(),t.action_date) &lt;= 30
+	       </if>
+	       <if test='noteType == "4"'>
+	       		and datediff(now(),t.action_date) &lt;= 90
+	       </if>
+	       <if test='noteType == "5"'>
+				and datediff(now(),t.action_date) > 90 
+	       </if>
+	       <if test="labels != null and labels.size() > 0">
+	       		<foreach collection="labels" item="label" separator=" " >
+	       			and t.label_code like concat('%',#{label},'%') 
+	       		</foreach> 
+	       </if>
+	       <if test="resGroupId != null and resGroupId != ''">
+	       		and t.res_group_id = #{resGroupId} 
+	       </if>
+	       <!-- 最近联系时间 -->
+	       <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="queryText != null and queryText != ''">
+	       		<choose>
+	       			<when test='queryType != null and queryType == "1"'>
+	       				and t.name like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "2"'>
+	       				and t.main_linkman like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "4"'>
+	       				and t.company like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "mobilephone"'>
+	       				and (t.mobilephone = #{queryText} or t.telphone = #{queryText}) 
+	       			</when>
+	       			<otherwise>
+	       				and t.${queryType} like concat('%',#{queryText},'%') 
+	       			</otherwise>
+	       		</choose>
+	       </if>
+	</select>
+	
+	<select id="findLosingCustList" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="BaseResultMap">
+		select 
+		<include refid="export_column" /> 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.status = 8    
+		   and t.is_del = 0 
+		  <if test="custIds != null and custIds.size() > 0">
+	   		and t.res_cust_id in 
+	   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+	   				#{cid}
+	   			</foreach>
+	      </if>
+		  <choose>
+			   <when test="adminAcc != null and adminAcc != ''">
+					<choose>
+						<when test="ownerAccs!=null and ownerAccs.size() > 0">
+							<if test="ownerAccs!=null">
+					       		and t.owner_acc in 
+								<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+									#{item}
+								</foreach>
+					        </if>
+						</when>
+						<otherwise>
+							and t.owner_acc = #{adminAcc,jdbcType=VARCHAR} 
+						</otherwise>
+					</choose>
+			   </when>
+			   <otherwise>
+			   		and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+			   </otherwise>
+		   </choose>
+		   <if test="name != null and name != ''">
+		   		and t.name like concat(#{name,jdbcType=VARCHAR},'%') 
+		   </if>
+		   <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="mainLinkman != null and mainLinkman != ''">
+	       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+	       </if>
+	       <if test='noteType == "2"'>
+	       		and datediff(now(),t.action_date) &lt;= 7 
+	       </if>
+	       <if test='noteType == "3"'>
+	       	    and datediff(now(),t.action_date) &lt;= 30   
+	       </if>
+	       <if test='noteType == "4"'>
+	       		and datediff(now(),t.action_date) &lt;= 90 
+	       </if>
+	       <if test='noteType == "5"'>
+				and datediff(now(),t.action_date) > 90 
+	       </if>
+	       <if test="losingId != null and losingId != ''">
+	       		and t.losing_id = #{losingId} 
+	       </if>
+	       <if test="resGroupId != null and resGroupId != ''">
+	       		and t.res_group_id = #{resGroupId} 
+	       </if>
+	       <if test="labels != null and labels.size() > 0">
+	       		<foreach collection="labels" item="label" separator=" " >
+	       			and t.label_code like concat('%',#{label},'%') 
+	       		</foreach> 
+	       </if>
+	       <if test="queryText != null and queryText != ''">
+	       		<choose>
+	       			<when test='queryType != null and queryType == "1"'>
+	       				and t.name like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "2"'>
+	       				and t.main_linkman like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "4"'>
+	       				and t.company like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "mobilephone"'>
+	       				and (t.mobilephone = #{queryText} or t.telphone = #{queryText}) 
+	       			</when>
+	       			<otherwise>
+	       				and t.${queryType} like concat('%',#{queryText},'%') 
+	       			</otherwise>
+	       		</choose>
+	       </if>
+	</select>
+	
+	<select id="findLosingCustNum" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultType="java.lang.Integer">
+		select 
+		count(1) 
+		from tsm_res_cust_info t 
+		where 
+			t.org_id = #{orgId} 
+		   and t.status = 8    
+		   and t.is_del = 0 
+		  <if test="custIds != null and custIds.size() > 0">
+	   		and t.res_cust_id in 
+	   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+	   				#{cid}
+	   			</foreach>
+	      </if>
+		  <choose>
+			   <when test="adminAcc != null and adminAcc != ''">
+					<choose>
+						<when test="ownerAccs!=null and ownerAccs.size() > 0">
+							<if test="ownerAccs!=null">
+					       		and t.owner_acc in 
+								<foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+									#{item}
+								</foreach>
+					        </if>
+						</when>
+						<otherwise>
+							and t.owner_acc = #{adminAcc,jdbcType=VARCHAR} 
+						</otherwise>
+					</choose>
+			   </when>
+			   <otherwise>
+			   		and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR} 
+			   </otherwise>
+		   </choose>
+		   <if test="name != null and name != ''">
+		   		and t.name like concat(#{name,jdbcType=VARCHAR},'%') 
+		   </if>
+		   <if test="startActionDate != null and startActionDate != ''">
+	       		and t.action_date &gt;= str_to_date(concat(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="endActionDate != null and endActionDate != ''">
+	       		and t.action_date &lt;= str_to_date(concat(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	       </if>
+	       <if test="mainLinkman != null and mainLinkman != ''">
+	       		and t.main_linkman like concat('%',#{mainLinkman,jdbcType=VARCHAR},'%') 
+	       </if>
+	       <if test='noteType == "2"'>
+	       		and datediff(now(),t.action_date) &lt;= 7 
+	       </if>
+	       <if test='noteType == "3"'>
+	       	    and datediff(now(),t.action_date) &lt;= 30   
+	       </if>
+	       <if test='noteType == "4"'>
+	       		and datediff(now(),t.action_date) &lt;= 90 
+	       </if>
+	       <if test='noteType == "5"'>
+				and datediff(now(),t.action_date) > 90 
+	       </if>
+	       <if test="losingId != null and losingId != ''">
+	       		and t.losing_id = #{losingId} 
+	       </if>
+	       <if test="resGroupId != null and resGroupId != ''">
+	       		and t.res_group_id = #{resGroupId} 
+	       </if>
+	       <if test="labels != null and labels.size() > 0">
+	       		<foreach collection="labels" item="label" separator=" " >
+	       			and t.label_code like concat('%',#{label},'%') 
+	       		</foreach> 
+	       </if>
+	       <if test="queryText != null and queryText != ''">
+	       		<choose>
+	       			<when test='queryType != null and queryType == "1"'>
+	       				and t.name like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "2"'>
+	       				and t.main_linkman like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "4"'>
+	       				and t.company like concat('%',#{queryText},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "mobilephone"'>
+	       				and (t.mobilephone = #{queryText} or t.telphone = #{queryText}) 
+	       			</when>
+	       			<otherwise>
+	       				and t.${queryType} like concat('%',#{queryText},'%') 
+	       			</otherwise>
+	       		</choose>
+	       </if>
+	</select>
+</mapper>

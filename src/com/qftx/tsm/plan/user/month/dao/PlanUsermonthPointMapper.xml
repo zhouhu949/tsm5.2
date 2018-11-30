@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.user.month.dao.PlanUsermonthPointMapper">
+	<sql id="cols">
+		t.id,t.org_id,t.su_id,t.type,t.status,t.context,t.updatetime,t.inputtime,t.is_del		
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.user.month.bean.PlanUsermonthPointBean" id="PlanUsermonthPointMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="su_id" property="suId"/>
+		<result column="type" property="type"/>
+		<result column="status" property="status"/>
+		<result column="context" property="context"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<select id="queryByPlanId" resultMap="PlanUsermonthPointMap">
+		select
+		<include refid="cols" />
+		from plan_usermonth_point t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.su_id=#{planId}
+		and t.is_del = 0
+	</select>
+
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.user.month.bean.PlanUsermonthPointBean">
+		insert into plan_usermonth_point(id,org_id,su_id,type,status,context,updatetime,inputtime,is_del)
+		values(#{id},#{orgId},#{suId},#{type},#{status},#{context},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+
+</mapper>

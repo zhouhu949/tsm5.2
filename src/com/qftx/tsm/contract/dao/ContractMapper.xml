@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.contract.dao.ContractMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.contract.bean.ContractBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="CONTRACT_NAME" property="contractName" jdbcType="VARCHAR"/>
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="CODE" property="code" jdbcType="VARCHAR" />
+		<result column="MONEY" property="money" jdbcType="DECIMAL" />
+		<result column="BODY" property="body" jdbcType="VARCHAR" />
+		<result column="PAY_CONTEXT" property="payContext" jdbcType="VARCHAR" />
+		<result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP" />
+		<result column="STORE_INDEX" property="storeIndex" jdbcType="VARCHAR" />
+		<result column="SIGN_USERNAME" property="signUsername" jdbcType="VARCHAR" />
+		<result column="SIGN_USERID" property="signUserid" jdbcType="VARCHAR" />
+		<result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP"/>
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="INVALID_DATE" property="invalidDate" jdbcType="TIMESTAMP" />
+		<result column="AUTH_STATE" property="authState" jdbcType="VARCHAR" />
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+		<result column="CANCLE_REMARK" property="cancleRemark" jdbcType="VARCHAR"/>
+	</resultMap>
+	<resultMap id="DtoResultMap" type="com.qftx.tsm.contract.dto.ContractDto" extends="BaseResultMap">
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+		<result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR"/>
+		<result column="TELPHONE" property="telphone" jdbcType="VARCHAR"/>
+		<result column="MAIN_LINKMAN" property="mainLinkman" jdbcType="VARCHAR"/>
+		<result column="COMPANY" property="company" jdbcType="VARCHAR"/>
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR"/>
+		<result column="COMMON_ACC" property="commonAcc" jdbcType="VARCHAR"/>
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">CONTRACT</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="contractName != null and contractName != ''">
+			AND contract_name = #{contractName,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId != null and userId !=''">
+		    AND user_id = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="groupId != null and groupId !=''">
+		    AND group_id = #{groupId,jdbcType=VARCHAR} 
+		</if>
+		<if test="custId != null and custId !=''">
+		    AND cust_id = #{custId,jdbcType=VARCHAR} 
+		</if>
+		<if test="custName != null and custName !=''">
+		    AND cust_name = #{custName,jdbcType=VARCHAR} 
+		</if>
+		<if test="code != null and code !=''">
+		    AND code = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="money != null and money !=''">
+		    AND money = #{money,jdbcType=DECIMAL} 
+		</if>
+		<if test="body != null and body !=''">
+		    AND body = #{body,jdbcType=VARCHAR} 
+		</if>
+		<if test="payContext != null and payContext !=''">
+		    AND pay_context = #{payContext,jdbcType=VARCHAR} 
+		</if>
+		<if test="effectiveDate != null and effectiveDate !=''">
+		    AND effective_date = #{effectiveDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="storeIndex != null and storeIndex !=''">
+		    AND store_index = #{storeIndex,jdbcType=VARCHAR} 
+		</if>
+		<if test="signUsername != null and signUsername !=''">
+		    AND sign_username = #{signUsername,jdbcType=VARCHAR} 
+		</if>
+		<if test="signUserid != null and signUserid !=''">
+		    AND sign_userid = #{signUserid,jdbcType=VARCHAR} 
+		</if>
+		<if test="signDate != null and signDate != ''">
+			AND sign_date = #{signDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="status != null and status !=''">
+		    AND status = #{status,jdbcType=VARCHAR} 
+		</if>
+		<if test="invalidDate != null and invalidDate !=''">
+		    AND invalid_date = #{invalidDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="authState != null and authState !=''">
+		    AND auth_state = #{authState,jdbcType=VARCHAR} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="orderKey != null and orderKey != ''">
+			ORDER BY ${orderKey} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="contractName != null">
+				contract_name = #{contractName,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="userId != null">
+			    user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+			    group_id = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    cust_id = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null">
+			    cust_name = #{custName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+			    code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+			    money = #{money,jdbcType=DECIMAL},
+			</if>
+			<if test="body != null">
+			    body = #{body,jdbcType=VARCHAR},
+			</if>
+			<if test="payContext != null">
+			    pay_context = #{payContext,jdbcType=VARCHAR},
+			</if>
+			<if test="effectiveDate != null">
+			    effective_date = #{effectiveDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="effectiveDate == null">
+			    effective_date = null,
+			</if>
+			<if test="storeIndex != null">
+			    store_index = #{storeIndex,jdbcType=VARCHAR},
+			</if>
+			<if test="signUsername != null">
+			    sign_username = #{signUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="signUserid != null">
+			    sign_userid = #{signUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="signDate != null">
+				sign_date = #{signDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+			    status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="invalidDate != null">
+			    invalid_date = #{invalidDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="invalidDate == null">
+			    invalid_date = null,
+			</if>
+			<if test="authState != null">
+			    auth_state = #{authState,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="cancleRemark != null">
+			    CANCLE_REMARK = #{cancleRemark,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="contractName != null">
+				contract_name,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="userId != null" >
+			    user_id,
+			</if>
+			<if test="groupId != null" >
+			    group_id,
+			</if>
+			<if test="custId != null" >
+			    cust_id,
+			</if>
+			<if test="custName != null" >
+			    cust_name,
+			</if>
+			<if test="company != null">
+				company,
+			</if>
+			<if test="code != null" >
+			    code,
+			</if>
+			<if test="money != null" >
+			    money,
+			</if>
+			<if test="body != null" >
+			    body,
+			</if>
+			<if test="payContext != null" >
+			    pay_context,
+			</if>
+			<if test="effectiveDate != null" >
+			    effective_date,
+			</if>
+			<if test="storeIndex != null" >
+			    store_index,
+			</if>
+			<if test="signUsername != null" >
+			    sign_username,
+			</if>
+			<if test="signUserid != null" >
+			    sign_userid,
+			</if>
+			<if test="signDate != null">
+				sign_date,
+			</if>
+			<if test="status != null" >
+			    status,
+			</if>
+			<if test="invalidDate != null" >
+			    invalid_date,
+			</if>
+			<if test="authState != null" >
+			    auth_state,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="contractName != null">
+				#{contractName,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+			    #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null">
+			    #{custName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+				#{company,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+			    #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+			    #{money,jdbcType=DECIMAL},
+			</if>
+			<if test="body != null">
+			    #{body,jdbcType=VARCHAR},
+			</if>
+			<if test="payContext != null">
+			    #{payContext,jdbcType=VARCHAR},
+			</if>
+			<if test="effectiveDate != null">
+			    #{effectiveDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="storeIndex != null">
+			    #{storeIndex,jdbcType=VARCHAR},
+			</if>
+			<if test="signUsername != null">
+			    #{signUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="signUserid != null">
+			    #{signUserid,jdbcType=VARCHAR},
+			</if>
+			<if test="signDate != null">
+				#{signDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+			    #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="invalidDate != null">
+			    #{invalidDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="authState != null">
+			    #{authState,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,CONTRACT_NAME,ORG_ID,USER_ID,GROUP_ID,CUST_ID,CUST_NAME,COMPANY,CODE,MONEY,BODY,PAY_CONTEXT,EFFECTIVE_DATE,
+		STORE_INDEX,SIGN_USERNAME,SIGN_USERID,SIGN_DATE,STATUS,INVALID_DATE,AUTH_STATE,UPDATETIME,INPUTTIME,IS_DEL,CANCLE_REMARK
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<update id="deleteContract" parameterType="map">
+		UPDATE <include refid="table_name" /> SET IS_DEL = 1,UPDATETIME=NOW(),CANCLE_REMARK = #{cancleRemark} WHERE ORG_ID = #{orgId} AND ID = #{id} 
+	</update>
+	
+	<update id="deleteContractBatch" parameterType="map">
+		UPDATE <include refid="table_name" /> SET IS_DEL = 1,UPDATETIME=NOW()
+		<if test="cancleRemark != null and cancleRemark != ''">
+			,CANCLE_REMARK = #{cancleRemark} 
+		</if>
+		 WHERE ORG_ID = #{orgId} 
+		AND ID IN 
+		<foreach collection="ids" item="id" open="(" separator="," close=")" index="index">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="findUnitContractListPage" parameterType="com.qftx.tsm.contract.dto.ContractDto" resultMap="DtoResultMap">
+		select 
+	 	   t1.cust_name,
+	 	   t1.company,
+	       t1.sign_date,
+	       t1.cust_id,
+	       t1.sign_username,
+	       t1.code,
+	       t1.effective_date,
+	       t1.invalid_date,
+	       t1.id,
+	       t1.money,
+	       t1.contract_name,
+	       t1.cancle_remark,
+	  	   t1.inputtime,
+	  	   t1.group_id,
+	  	   t1.is_del 
+	  from contract t1 
+	  where t1.org_id=#{orgId,jdbcType=VARCHAR}
+		 <if test="signAccs != null">
+		 	and t1.sign_userid in 
+		 		<foreach collection="signAccs" item="acc" open="(" separator="," close=")">
+		 			#{acc} 
+		 		</foreach>
+		 </if>
+		 <if test="isDel != null">
+		 	and t1.is_del = ${isDel} 
+		 </if>
+		 <if test="startSignDate != null and startSignDate != ''">
+		 	and t1.sign_date >= STR_TO_DATE(CONCAT(#{startSignDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		 </if>
+		 <if test="endSignDate != null and endSignDate != ''">
+		 	and t1.sign_date &lt;= STR_TO_DATE(CONCAT(#{endSignDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		 </if>
+		 <if test="startEffecDate != null and startEffecDate != ''">
+		 	and t1.effective_date >= STR_TO_DATE(CONCAT(#{startEffecDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		 </if>
+		 <if test="endEffecDate != null and endEffecDate != ''">
+		 	and t1.effective_date &lt;= STR_TO_DATE(CONCAT(#{endEffecDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		 </if>
+		 <if test="startInvalidDate != null and startInvalidDate != ''">
+		 	and t1.invalid_date >= STR_TO_DATE(CONCAT(#{startInvalidDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		 </if>
+		 <if test="endInvalidDate != null and endInvalidDate != ''">
+		 	and t1.invalid_date &lt;= STR_TO_DATE(CONCAT(#{endInvalidDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+		 </if>
+		 <if test="groupId != null and groupId != ''">
+		 	and t1.group_id = #{groupId,jdbcType=VARCHAR} 
+		 </if>
+		 <if test="queryText != null and queryText != ''">
+			<choose>
+				<when test='queryType != null and queryType == "1"'>
+					and t1.cust_name like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+				</when>
+				<when test='queryType != null and queryType == "2"'>
+		 			and t1.code like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+		 		</when>
+				<when test='queryType != null and queryType == "3"'>
+					and t1.company like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+				</when>
+			</choose>
+		 </if>
+		 <choose>
+				<when test="custId!=null and custId!=''">
+				   and T1.cust_id=#{custId}
+				</when>
+				<otherwise>
+				   and T1.cust_id in 
+				   (
+				   	 select 
+				   	 	res_cust_id 
+				   	 from tsm_res_cust_info 
+				   	where org_id = #{orgId} 
+				   		and is_del = 0 
+				   		and status in (6,7,8) 
+				   	 	<if test='noteType == "1"'>
+				   			<choose>
+				   				<when test="ownerAccs != null and ownerAccs.size() > 0">
+				   					and owner_acc in 
+								 		<foreach collection="ownerAccs" item="acc" open="(" separator="," close=")">
+								 			#{acc} 
+								 		</foreach>
+				   				</when>
+				   				<otherwise>
+				   					and owner_acc = #{ownerAcc} 
+				   				</otherwise>
+				   			</choose>
+					  </if>
+					  <if test='noteType == "2"'>
+					  	and common_acc = #{commonAcc} 
+					  </if>
+				   )
+				</otherwise>
+			</choose>
+			 order by t1.inputtime desc
+	</select>
+	
+	<select id="findContractInfoByIdAndOrg" parameterType="map" resultMap="DtoResultMap">
+		SELECT	T.ID,
+				T.CONTRACT_NAME,
+				T.ORG_ID,
+				T.USER_ID,
+				T.GROUP_ID,
+				T.CUST_ID,
+				T.CUST_NAME,
+				T.COMPANY,
+				T.CODE,
+				T.MONEY,
+				T.BODY,
+				T.PAY_CONTEXT,
+				T.EFFECTIVE_DATE,
+				T.STORE_INDEX,
+				T.SIGN_USERNAME,
+				T.SIGN_USERID,
+				T.SIGN_DATE,
+				T.STATUS,
+				T.INVALID_DATE,
+				T.AUTH_STATE,
+				T.UPDATETIME,
+				T.INPUTTIME,
+				T.IS_DEL,
+				TTG.GROUP_NAME,
+				T.CANCLE_REMARK  
+			FROM CONTRACT T 
+			LEFT JOIN TSM_TEAM_GROUP TTG ON TTG.ORG_ID=#{orgId} AND T.GROUP_ID = TTG.GROUP_ID 
+			WHERE T.ORG_ID = #{orgId} AND T.ID = #{contractId}
+	</select>
+	
+	<!-- 判断指定月份是否有到期合同 -->
+	<select id="findDateExpireHT" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			contract t
+		WHERE
+			t.org_id = #{orgId}
+		AND t.cust_id = #{custId}
+		AND t.sign_userid = #{account}
+		AND DATE_FORMAT(t.invalid_date, '%Y-%m') = #{currDate} limit 0,1
+	</select>
+</mapper>

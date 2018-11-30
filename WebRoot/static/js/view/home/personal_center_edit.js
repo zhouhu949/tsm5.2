@@ -1,0 +1,29 @@
+$(function(){
+ 	$(".personal-edit-rows-inputs[name='birthday']").unbind('click').click(function(){
+		WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'%y-%M-{%d} %H:%m:%s',readOnly:true,onpicked:timeChange,changing:timeChange,oncleared:timeChange});
+	});
+ 	$("#saveResBtn").on("click",function(e){
+ 		e.stopPropagation();
+ 		$.ajax({
+ 			url:ctx+"/user/updateUser",
+ 			type:"post",
+ 			data:$("#editForm").serialize(),
+ 			success:function(data){
+ 				if(data.status){
+ 					window.parent.iDialogMsg("提示","操作成功！");
+ 					setTimeout('window.parent.location.reload();',500);
+ 					closeParentPubDivDialogIframe("personal_edit");
+ 				}else{
+ 					window.parent.iDialogMsg("提示",data.errorMsg);
+ 				}
+ 			}
+ 		})
+ 	})
+ 	$("#cacleResBtn").on("click",function(e){
+ 		e.stopPropagation();
+ 		closeParentPubDivDialogIframe("personal_edit")
+ 	})
+})
+function timeChange(){
+	$(".WdateDiv").hide();
+}

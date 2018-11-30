@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.option.dao.DataDictionaryMapper" >
+	<!-- 
+	#################################################################################################
+	#########################基础定义配置(需要修改部分)###############################################
+	################################################################################################
+	-->
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.option.bean.DataDictionaryBean" >
+	  <id column="DICTIONARY_ID" property="dictionaryId" jdbcType="VARCHAR" />
+	  <result column="DICTIONARY_NAME" property="dictionaryName" jdbcType="VARCHAR" />
+	  <result column="DICTIONARY_VALUE" property="dictionaryValue" jdbcType="VARCHAR" />
+	  <result column="DICTIONARY_VALUE_NOTES" property="dictionaryValueNotes" jdbcType="VARCHAR" />
+	  <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+	  <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+	  <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+	  <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+	  <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	  <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+	  <result column="IS_OPEN" property="isOpen" jdbcType="VARCHAR" />
+	  <result column="DICTIONARY_CODE" property="dictionaryCode" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_DT_DATADICTIONARY</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="dictionaryId != null">
+		  AND DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR}
+		</if>
+		<if test="dictionaryName != null" >
+		  AND DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR}
+		</if>
+		<if test="dictionaryValue != null" >
+		  AND DICTIONARY_VALUE = #{dictionaryValue,jdbcType=VARCHAR}
+		</if>
+		<if test="dictionaryValueNotes != null" >
+		  AND DICTIONARY_VALUE_NOTES = #{dictionaryValueNotes,jdbcType=VARCHAR}
+		</if>
+		<if test="inputerAcc != null" >
+		  AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null" >
+		  AND INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifierAcc != null" >
+		  AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null" >
+		  AND MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null" >
+		  AND IS_DEL = #{isDel}
+		</if>
+		<if test="dictionaryCode != null" >
+		  AND DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR}
+		</if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="dictionaryId != null">
+			  DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryName != null" >
+			  DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryValue != null" >
+			  DICTIONARY_VALUE = #{dictionaryValue,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryValueNotes != null" >
+			  DICTIONARY_VALUE_NOTES = #{dictionaryValueNotes,jdbcType=VARCHAR},
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="dictionaryCode != null" >
+			  DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="dictionaryId != null">
+			  DICTIONARY_ID = #{dictionaryId,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryName != null" >
+			  DICTIONARY_NAME = #{dictionaryName,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryValue != null" >
+			  DICTIONARY_VALUE = #{dictionaryValue,jdbcType=VARCHAR},
+			</if>
+			<if test="dictionaryValueNotes != null" >
+			  DICTIONARY_VALUE_NOTES = #{dictionaryValueNotes,jdbcType=VARCHAR},
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="dictionaryCode != null" >
+			  DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR},
+			</if>
+			<if test="isOpen != null and isOpen != ''">
+				IS_OPEN = #{isOpen,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dictionaryId != null" >
+			  DICTIONARY_ID,
+			</if>
+			<if test="dictionaryName != null" >
+			  DICTIONARY_NAME,
+			</if>
+			<if test="dictionaryValue != null" >
+			  DICTIONARY_VALUE,
+			</if>
+			<if test="dictionaryValueNotes != null" >
+			  DICTIONARY_VALUE_NOTES,
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC,
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE,
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE,
+			</if>
+			<if test="orgId != null" >
+			  ORG_ID,
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL,
+			</if>
+			<if test="dictionaryCode != null" >
+			  DICTIONARY_CODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dictionaryId != null" >
+			  #{dictionaryId},
+			</if>
+			<if test="dictionaryName != null" >
+			  #{dictionaryName},
+			</if>
+			<if test="dictionaryValue != null" >
+			  #{dictionaryValue},
+			</if>
+			<if test="dictionaryValueNotes != null" >
+			  #{dictionaryValueNotes},
+			</if>
+			<if test="inputerAcc != null" >
+			  #{inputerAcc},
+			</if>
+			<if test="inputdate != null" >
+			  #{inputdate},
+			</if>
+			<if test="modifierAcc != null" >
+			  #{modifierAcc},
+			</if>
+			<if test="modifydate != null" >
+			  #{modifydate},
+			</if>
+			<if test="orgId != null" >
+			  #{orgId},
+			</if>
+			<if test="isDel != null" >
+			  #{isDel},
+			</if>
+			<if test="dictionaryCode != null" >
+			  #{dictionaryCode},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  DICTIONARY_ID, DICTIONARY_NAME, DICTIONARY_VALUE, DICTIONARY_VALUE_NOTES, INPUTER_ACC, 
+	  INPUTDATE, MODIFIER_ACC, MODIFYDATE, ORG_ID, IS_DEL, DICTIONARY_CODE,IS_OPEN
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			#{item.dictionaryId,jdbcType=VARCHAR},#{item.dictionaryName,jdbcType=VARCHAR},#{item.dictionaryValue,jdbcType=VARCHAR},
+			#{item.dictionaryValueNotes,jdbcType=VARCHAR},#{item.inputerAcc,jdbcType=VARCHAR},#{item.inputdate,jdbcType=TIMESTAMP},
+			#{item.modifierAcc,jdbcType=VARCHAR},#{item.modifydate,jdbcType=TIMESTAMP},#{item.orgId,jdbcType=VARCHAR},#{item.isDel,jdbcType=DECIMAL},
+			#{item.dictionaryCode,jdbcType=VARCHAR},#{item.isOpen,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+		<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+
+		<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="findAllWithOrgId" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where org_id is not null
+	</select>	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId} 
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId} 
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where DICTIONARY_ID = #{dictionaryId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId} 
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.option.bean.DataDictionaryBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.option.bean.DataDictionaryBean">
+		update <include refid="table_name"/> 
+		<include refid="update_set_sql"/>
+		where ORG_ID = #{orgId} and DICTIONARY_ID = #{dictionaryId}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.option.bean.DataDictionaryBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId}  and DICTIONARY_ID = #{dictionaryId}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where DICTIONARY_ID = #{dictionaryId}
+	</delete>
+	
+	<!-- 根据orgId 删除实体 -->
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where ORG_ID=#{orgId}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatch" parameterType="list">
+		delete from <include refid="table_name"/> where DICTIONARY_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	  <!-- 批量伪删除实体(实际上只做is_del字段修改) -->
+	<update id="deleteFakeBatch" parameterType="map">
+		update <include refid="table_name"/>
+		<if test="isDel != null">
+			set IS_DEL = #{isDel}
+		</if>
+		,modifier_acc =#{modifierAcc},modifydate = now()
+		where ORG_ID = #{orgId} and DICTIONARY_ID in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<!-- 获得原始定义的字典数据数据 -->
+	<select id="getOldDataList" resultMap="BaseResultMap">
+		SELECT
+			 <include refid="Base_Column_List"/>
+		FROM TSM_DT_DATADICTIONARY T
+		WHERE T.ORG_ID IS NULL
+		AND T.DICTIONARY_CODE IN
+		('DATA_10001','DATA_10002','DATA_10003','DATA_10004','DATA_10017',
+		'DATA_10006','DATA_10011','DATA_10012','DATA_10013','DATA_10014','DATA_10015','DATA_10016','DATA_10018','DATA_10019','DATA_10020','DATA_10021','DATA_10022',
+		'DATA_10023','DATA_10024','DATA_10028','DATA_40034','DATA_40035','DATA_40036',
+		'DATA_10034','DATA_10035','DATA_10036','DATA_10037','DATA_10038','DATA_10039','DATA_10040','DATA_10041','DATA_20001','DATA_20002','DATA_20003',
+		'DATA_20005','DATA_20006','DATA_20007','DATA_20008','DATA_20028',
+		'DATA_20011','DATA_20012','DATA_20013','DATA_10042','DATA_10043','DATA_40015',
+		'DATA_40016','DATA_40017','DATA_40018','DATA_40019','DATA_40020','DATA_40021',
+		 'DATA_40022','DATA_40023','DATA_40024','DATA_40025','DATA_40026','DATA_40027','DATA_40028','DATA_40029','DATA_20014','DATA_40031'
+		 ,'DATA_40032','DATA_40033','DATA_40037','DATA_40038','DATA_40039','DATA_20016','DATA_40040','DATA_40041'
+		 ,'DATA_50001','DATA_50002','DATA_50003','DATA_50004','DATA_50005','DATA_50006','DATA_50007','DATA_50008'
+		 ,'DATA_50009','DATA_50010','DATA_50011','DATA_50012','DATA_50013','DATA_50014','DATA_50015','DATA_50016'
+		 ,'DATA_50017','DATA_50018','DATA_50019','DATA_50020','DATA_50021','DATA_50022','DATA_50023','DATA_50024','DATA_50025','DATA_50026')
+	</select>
+	
+	<!-- 获得【快话】原始定义的字典数据数据 -->
+	<select id="getQcOldDataList" resultMap="BaseResultMap">
+		SELECT
+			 <include refid="Base_Column_List"/>
+		FROM TSM_DT_DATADICTIONARY T
+		WHERE T.ORG_ID IS NULL
+		AND T.DICTIONARY_CODE IN
+		('DATA_10002','DATA_10004','DATA_10017',
+		'DATA_10006','DATA_10011','DATA_10012','DATA_10013','DATA_10014','DATA_10015','DATA_10016','DATA_10018','DATA_10019','DATA_10020','DATA_10021','DATA_10022',
+		'DATA_10023','DATA_10024','DATA_10030','DATA_10031','DATA_10032','DATA_10033',
+		'DATA_10034','DATA_10035','DATA_10036','DATA_10037','DATA_10038',
+		'DATA_10039','DATA_10040','DATA_10041','DATA_20001',
+		'DATA_20005','DATA_20006','DATA_20007','DATA_20008',
+		'DATA_20011','DATA_10042','DATA_10043',
+		'DATA_40016','DATA_40017','DATA_40018','DATA_40019','DATA_40021',
+		 'DATA_40022','DATA_40023','DATA_40024','DATA_40025','DATA_40026',
+		 'DATA_40027','DATA_40028','DATA_40029','DATA_20014','DATA_20025','DATA_20026','DATA_20027','DATA_20028',
+		 'DATA_40032','DATA_40033','DATA_40034','DATA_40035','DATA_40036','DATA_40037','DATA_40038','DATA_20016')
+	</select>
+	
+	<!-- 根据单位ID以及CODE查询值 -->
+	<select id="findDataValueByOrgIdAndCode" parameterType="map" resultType="integer">
+		SELECT T.DICTIONARY_VALUE
+		FROM TSM_DT_DATADICTIONARY T
+		WHERE T.IS_DEL = 0
+		AND T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+		AND T.DICTIONARY_CODE = #{code,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 根据机构查询 -->
+	<select id="getAllWithOrgId" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List"></include>
+		FROM <include refid="table_name"/> WHERE ORG_ID=#{orgId}
+	</select>
+	
+	<!-- 根据机构和code获取对应对象 -->
+	<select id="findDataDictionaryBean" resultMap="BaseResultMap" parameterType="map"> 
+		SELECT T.*
+		FROM TSM_DT_DATADICTIONARY T
+		WHERE T.IS_DEL = 0
+		AND T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+		AND T.DICTIONARY_CODE = #{code,jdbcType=VARCHAR}
+	</select>	
+	
+	<!-- 获取设置为开启的 参数 -->
+	<select id="findOpenMsgArgs" parameterType="map" resultMap="BaseResultMap">
+		select t.DICTIONARY_ID,t.dictionary_value, t.org_id, t.dictionary_code, t.IS_OPEN
+		  from tsm_dt_datadictionary t
+		 where t.org_id = #{orgId} and t.dictionary_code like concat('DATA_200','%')
+		   and t.is_del = 0
+		 order by t.dictionary_code
+	</select>
+	
+	<!-- 根据机构和code获取对应对象 -->
+	<select id="updateByCode" parameterType="com.qftx.tsm.option.bean.DataDictionaryBean"> 
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		WHERE IS_DEL = 0
+		AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		AND DICTIONARY_CODE = #{dictionaryCode,jdbcType=VARCHAR}
+	</select>	
+	
+	 <!-- 批量修改 -->
+	<update id="batchUpdate" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update
+            <include refid="table_name"/>
+            <set>
+	            <if test="item.modifierAcc != null" >
+				  MODIFIER_ACC = #{item.modifierAcc,jdbcType=VARCHAR}
+				</if>
+				<if test="item.modifydate != null" >
+				 ,MODIFYDATE = #{item.modifydate,jdbcType=TIMESTAMP}
+				</if>
+				<if test="item.dictionaryValue != null" >
+				  ,DICTIONARY_VALUE = #{item.dictionaryValue,jdbcType=VARCHAR}
+				</if>
+				<if test="item.isOpen != null and item.isOpen != ''">
+					,IS_OPEN = #{item.isOpen,jdbcType=VARCHAR}
+				</if>   
+            </set>
+            where org_id = #{item.orgId} and DICTIONARY_ID = #{item.dictionaryId} 
+        </foreach>
+    </update>
+	
+</mapper>

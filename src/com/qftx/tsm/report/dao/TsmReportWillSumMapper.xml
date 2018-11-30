@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.TsmReportWillSumMapper">   
+        <resultMap type="com.qftx.tsm.report.bean.TsmReportWillSumBean" id="TsmReportWillSumMap">
+		<result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR"/>
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR"/>
+		<result column="COMPANY" property="company" jdbcType="VARCHAR"/>
+		<result column="NAME" property="name" jdbcType="VARCHAR"/>
+		<result column="MAIN_LINKMAN" property="mainLinkman" jdbcType="VARCHAR"/>
+		<result column="CURR_PROCESS_ID" property="currProcessId" jdbcType="VARCHAR"/>
+		<result column="CURR_PROCESS_NAME" property="currProcessName" jdbcType="VARCHAR"/>
+		<result column="INIT_PROCESS_ID" property="initProcessId" jdbcType="VARCHAR"/>
+		<result column="INIT_PROCESS_NAME" property="initProcessName" jdbcType="VARCHAR"/>
+		<result column="INIT_STATUS" property="initStatus" jdbcType="VARCHAR"/>
+		<result column="INIT_TYPE" property="initType" jdbcType="VARCHAR"/>
+		<result column="STATUS" property="status" jdbcType="VARCHAR"/>
+		<result column="TYPE" property="type" jdbcType="VARCHAR"/>
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="curr_date" property="currDate" jdbcType="VARCHAR"/>
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+		<result column="owner_acc" property="ownerAcc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+	   	<!-- ################################################################################################## 
+		#########################5.1新增############################################################################################################### -->
+    	  <select id="findNewWillSumByAccountsListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+			SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+              u.GROUP_NAME,
+              au.USER_NAME AS owner_acc
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+            LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+			WHERE
+				t.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index" item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			AND t.status =3
+			AND t.init_type !=2
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+       </select>
+       
+       	       <select id="findNewWillSumByAccount_new1ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap">
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+              u.GROUP_NAME,
+              au.USER_NAME AS owner_acc
+			  
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+            LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			AND t.curr_process_id=#{optionlistId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	       </select>
+	       
+	       
+	       	       <select id="findNewWillSumByAccount_new2ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+              u.GROUP_NAME,
+              au.USER_NAME AS owner_acc
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+            LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+            LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			AND t.curr_process_id=#{optionlistId}
+			AND t.type in (1,2)
+			AND t.status = 3
+			AND t.init_type not  in (3,4)
+			AND t.init_process_id!=t.curr_process_id
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	       </select>   
+	       
+	       
+	       <select id="findNewWillSumByAccount_new3ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap">
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+			  ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  u.GROUP_NAME,
+              au.USER_NAME AS owner_acc
+			FROM
+				log_contact_day_data t
+				LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+				LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+                LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+            	LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+                LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			    LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"  item="userAccount" open="(" separator= "," close=")">
+			 #{userAccount}
+			</foreach>
+			</if>
+			AND t.curr_process_id=#{optionlistId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3           
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	        union
+	          SELECT
+			  t1.owner_acc AS USER_ACCOUNT ,
+			  t1.cust_id,
+			  tr1.COMPANY,
+			  tr1.`NAME`,
+			  tr1.main_linkman,
+			  t1.curr_process_id,
+			  ta2.OPTION_NAME as curr_process_name,
+			  t1.init_process_id,
+              ta12.OPTION_NAME as init_process_name,
+			  t1.init_status,
+			  t1.init_type,
+			  t1.`status`,
+			  t1.type,
+			  u1.GROUP_NAME,
+              au1.USER_NAME AS owner_acc
+			FROM
+				log_contact_day_data t1			
+				LEFT JOIN tsm_res_cust_info tr1 ON tr1.ORG_ID=#{orgId} AND t1.cust_id=tr1.RES_CUST_ID
+				LEFT JOIN  tsm_data_optionlist ta2 on ta2.org_id =#{orgId} AND ta2.ITEM_CODE = 'SALES_10001' AND ta2.OPTIONLIST_ID = t1.curr_process_id
+                LEFT JOIN  tsm_data_optionlist ta12 on ta12.org_id =#{orgId} AND ta12.ITEM_CODE = 'SALES_10001' AND ta12.OPTIONLIST_ID = t1.init_process_id
+                LEFT JOIN tsm_team_group_member g1 ON g1.org_id=#{orgId} AND g1.MEMBER_ACC=t1.owner_acc
+                LEFT JOIN tsm_team_group u1 ON u1.ORG_ID=#{orgId} AND u1.GROUP_ID=g1.GROUP_ID
+			    LEFT JOIN  auth_user au1 ON au1.ORG_ID=#{orgId} AND au1.USER_ACCOUNT=tr1.owner_acc
+            WHERE
+				t1.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t1.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccount" open="(" separator="," close=")">
+			 #{userAccount}
+			</foreach>
+			</if>
+			AND t1.curr_process_id=#{optionlistId}
+			AND t1.type in (1,2)
+			AND t1.status = 3
+			AND t1.init_type not  in (3,4)
+			AND t1.init_process_id!=t1.curr_process_id
+			AND t1.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	       </select>
+	       
+	       	       	   	<!-- ################################################################################################## 
+		#########################5.1(历史数据)新增############################################################################################################### -->
+    	  <select id="findOldNewWillSumByDateListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+			SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  t.curr_process_id,
+			  t.init_process_id,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+              t.curr_date
+			  
+			FROM
+				log_contact_day_data t
+			WHERE
+				t.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			AND t.status =3
+			AND t.init_type !=2
+			<if test="currDate!=null and currDate!=''">
+			AND t.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>   
+			 </select>
+       
+       	       <select id="findNewWillSumByDate_new1ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap">
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+              t.curr_date,
+              u.GROUP_NAME,
+              au.USER_NAME  AS owner_acc
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+            LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			AND t.curr_process_id=#{optionlistId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3
+            <if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			<if test="currDate!=null and currDate!=''">
+			AND t.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>    	       
+			</select>
+	       
+	       
+	       	       <select id="findNewWillSumByDate_new2ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  t.curr_date,
+              u.GROUP_NAME,
+              au.USER_NAME  AS owner_acc
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+            LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			AND t.curr_process_id=#{optionlistId}
+			AND t.type in (1,2)
+			AND t.status = 3
+			AND t.init_type not  in (3,4)
+			AND t.init_process_id!=t.curr_process_id
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			<if test="currDate!=null and currDate!=''">
+			AND t.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>     
+			</select>   
+	       
+	       
+	           <select id="findNewWillSumByDate_new3ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+	          SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  t.curr_process_id,
+			  t.init_process_id,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  t.curr_date
+			FROM
+				log_contact_day_data t
+            WHERE
+				t.ORG_ID =#{orgId}
+			AND t.curr_process_id=#{optionlistId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"  item="userAccount" open="(" separator= "," close=")">
+			 #{userAccount}
+			</foreach>
+			</if>
+			<if test="currDate!=null and currDate!=''">
+			AND t.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if> 
+			union
+	          SELECT
+			  t1.owner_acc AS USER_ACCOUNT ,
+			  t1.cust_id,
+			  t1.curr_process_id,
+			  t1.init_process_id,
+			  t1.init_status,
+			  t1.init_type,
+			  t1.`status`,
+			  t1.type,
+			  t1.curr_date
+			FROM
+				log_contact_day_data t1			
+            WHERE
+			t1.ORG_ID =#{orgId}
+			AND t1.curr_process_id=#{optionlistId}
+			AND t1.type in (1,2)
+			AND t1.status = 3
+			AND t1.init_type not  in (3,4)
+			AND t1.init_process_id!=t1.curr_process_id
+			<if test="userAccounts != null">                			
+              AND  t1.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccount" open="(" separator="," close=")">
+			 #{userAccount}
+			</foreach>
+			</if>
+			<if test="currDate!=null and currDate!=''">
+			AND t1.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t1.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t1.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>  
+			</select>   
+	       
+	       
+	       
+	       	   	<!-- ################################################################################################## 
+		#########################5.1(历史数据)新增############################################################################################################### 
+    	  <select id="findOldNewWillSumByGroup" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+			SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  au.USER_NAME,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  t.curr_date,
+              trg.GROUP_NAME,
+              au.USER_NAME
+			  
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON t.org_id=tr.ORG_ID AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_res_group trg ON trg.ORG_ID=#{orgId} AND tr.RES_GROUP_ID=trg.RES_GROUP_ID 
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+			WHERE
+				t.ORG_ID =#{orgId}
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccounts" open="(" separator="," close=")">
+			 #{userAccounts}
+			</foreach>
+			</if>
+			AND t.status =3
+			AND t.init_type !=2
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>
+      </select>
+       
+       	       <select id="findNewWillSumByGroup_new1" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap">
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  au.USER_NAME,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  t.curr_date,
+              trg.GROUP_NAME,
+              au.USER_NAME
+			  
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON t.org_id=tr.ORG_ID AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_res_group trg ON trg.ORG_ID=#{orgId} AND tr.RES_GROUP_ID=trg.RES_GROUP_ID 
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+			
+            WHERE
+				t.ORG_ID =#{orgId}
+			AND t.curr_process_id=#{optionlistId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>	       </select>
+	       
+	       
+	       	       <select id="findNewWillSumByGroup_new2" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+			  SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  au.USER_NAME,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+	          ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  t.curr_date,
+              trg.GROUP_NAME,
+              au.USER_NAME
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_res_cust_info tr ON t.org_id=tr.ORG_ID AND t.cust_id=tr.RES_CUST_ID
+			LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+            LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+			LEFT JOIN tsm_res_group trg ON trg.ORG_ID=#{orgId} AND tr.RES_GROUP_ID=trg.RES_GROUP_ID 
+			LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			AND t.curr_process_id=#{optionlistId}
+			AND t.type=2
+			AND t.status = 3
+			AND t.init_type not  in (3,4)
+			AND t.init_process_id!=t.curr_process_id
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>	       
+			</select>   
+			
+				           <select id="findNewWillSumByDate_new3ListPage" parameterType="com.qftx.tsm.report.bean.TsmReportWillSumBean" resultMap="TsmReportWillSumMap" >
+	          SELECT
+			  t.owner_acc AS USER_ACCOUNT,
+			  t.cust_id,
+			  tr.COMPANY,
+			  tr.`NAME`,
+			  tr.main_linkman,
+			  t.curr_process_id,
+			  ta.OPTION_NAME as curr_process_name,
+			  t.init_process_id,
+              ta1.OPTION_NAME as init_process_name,
+			  t.init_status,
+			  t.init_type,
+			  t.`status`,
+			  t.type,
+			  t.curr_date,
+			  u.GROUP_NAME,
+              au.USER_NAME AS owner_acc,
+              tr.TYPE AS nowType,
+              tr.`STATUS` AS nowStatus
+			FROM
+				log_contact_day_data t
+				LEFT JOIN tsm_res_cust_info tr ON tr.ORG_ID=#{orgId} AND t.cust_id=tr.RES_CUST_ID
+				LEFT JOIN  tsm_data_optionlist ta on ta.org_id =#{orgId} AND ta.ITEM_CODE = 'SALES_10001' AND ta.OPTIONLIST_ID = t.curr_process_id
+                LEFT JOIN  tsm_data_optionlist ta1 on ta1.org_id =#{orgId} AND ta1.ITEM_CODE = 'SALES_10001' AND ta1.OPTIONLIST_ID = t.init_process_id
+            	LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId} AND g.MEMBER_ACC=t.owner_acc
+                LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			    LEFT JOIN  auth_user au ON au.ORG_ID=#{orgId} AND au.USER_ACCOUNT=tr.owner_acc
+            WHERE
+				t.ORG_ID =#{orgId}
+			AND t.curr_process_id=#{optionlistId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3
+			<if test="userAccounts != null">                			
+              AND  t.owner_acc in 
+              <foreach collection="userAccounts" index="index"  item="userAccount" open="(" separator= "," close=")">
+			 #{userAccount}
+			</foreach>
+			</if>
+			<if test="currDate!=null and currDate!=''">
+			AND t.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if> 
+			union
+	          SELECT
+			  t1.owner_acc AS USER_ACCOUNT ,
+			  t1.cust_id,
+			  tr1.COMPANY,
+			  tr1.`NAME`,
+			  tr1.main_linkman,
+			  t1.curr_process_id,
+			  ta2.OPTION_NAME as curr_process_name,
+			  t1.init_process_id,
+              ta12.OPTION_NAME as init_process_name,
+			  t1.init_status,
+			  t1.init_type,
+			  t1.`status`,
+			  t1.type,
+			  t1.curr_date,
+			  u1.GROUP_NAME,
+              au1.USER_NAME AS owner_acc,
+              tr1.TYPE AS nowType,
+              tr1.`STATUS` AS nowStatus
+			FROM
+				log_contact_day_data t1			
+				LEFT JOIN tsm_res_cust_info tr1 ON tr1.ORG_ID=#{orgId} AND t1.cust_id=tr1.RES_CUST_ID
+				LEFT JOIN  tsm_data_optionlist ta2 on ta2.org_id =#{orgId} AND ta2.ITEM_CODE = 'SALES_10001' AND ta2.OPTIONLIST_ID = t1.curr_process_id
+                LEFT JOIN  tsm_data_optionlist ta12 on ta12.org_id =#{orgId} AND ta12.ITEM_CODE = 'SALES_10001' AND ta12.OPTIONLIST_ID = t1.init_process_id
+                LEFT JOIN tsm_team_group_member g1 ON g1.org_id=#{orgId} AND g1.MEMBER_ACC=t1.owner_acc
+                LEFT JOIN tsm_team_group u1 ON u1.ORG_ID=#{orgId} AND u1.GROUP_ID=g1.GROUP_ID
+			    LEFT JOIN  auth_user au1 ON au1.ORG_ID=#{orgId} AND au1.USER_ACCOUNT=tr1.owner_acc
+            WHERE
+			t1.ORG_ID =#{orgId}
+			AND t1.curr_process_id=#{optionlistId}
+			AND t1.type in (1,2)
+			AND t1.status = 3
+			AND t1.init_type not  in (3,4)
+			AND t1.init_process_id!=t1.curr_process_id
+			<if test="userAccounts != null">                			
+              AND  t1.owner_acc in 
+              <foreach collection="userAccounts" index="index"   item="userAccount" open="(" separator="," close=")">
+			 #{userAccount}
+			</foreach>
+			</if>
+			<if test="currDate!=null and currDate!=''">
+			AND t1.curr_date = #{currDate}  
+			</if>
+			<if test="startDate!=null and startDate!=''">
+			       <![CDATA[
+		             AND str_to_date(date_format(t1.curr_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+				   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+				   <![CDATA[
+				     AND str_to_date(date_format(t1.curr_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+				   ]]>
+			</if>  
+			</select>   
+           -->
+	</mapper>

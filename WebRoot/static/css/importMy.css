@@ -1,0 +1,19 @@
+.ui-stepBar-wrap .ui-stepInfo-wrap{width:100%;padding-left:27px;}
+.ui-stepBar-wrap{height:100px;margin-top:-15px;}
+.ui-stepInfo{padding-left:0 !important;}
+#importList{width:500px;}
+#importList li {margin:0;}
+.swfupload{margin-left:0;}
+.temp-download{display:inline-block;width:48px;height: 20px;line-height: 44px;text-decoration:underline;color:#666666;}
+.shows-cust-select{width:580px;margin:0 auto;overflow:hidden;padding-top:50px;}
+.shows-cust-select>p{overflow:hidden;}
+.shows-cust-select>p>span{float:left;text-align:right;display:inline-block;width:210px;line-height:40px;}
+.shows-cust-select>p>select{width:180px;margin-top:11px;float:left;}
+.subm-succ p span{margin-left:0;}
+#uploadButton{width:250px;height:25px;line-height:20px;background-color:#fafafa;color:#cccccc;text-align:left;padding-left:10px;cursor:default;}
+.chooseFiles{width:145px;height:20px;padding:0;background-color:#fff;color:#000;margin-top:10px;}
+.import-next-btn{border:none;outline:none;margin-left:auto;margin-right:auto;}
+.next-prev-btnbox{text-align:center;margin-top:20px;}
+.com-btnb{diplay:inline-block;}
+.prev-margin-left{margin-left:-160px;}
+.subm-succ{width:490px;margin:5px auto;}

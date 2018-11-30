@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.TsmCustSynTempDataMapper">
+	<resultMap type="com.qftx.tsm.cust.bean.TsmCustSynTempDataBean" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="json_data" property="jsonData" jdbcType="VARCHAR" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+		<result column="inputtime" property="inputtime" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<!-- 实体表名 -->
+   <sql id="table_name">tsm_cust_syn_temp_data</sql>
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	    ID, ORG_ID, JSON_DATA, inputtime, type
+  	</sql>
+  	
+	<sql id="batch_insert_into_value">
+		(
+		      #{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.jsonData,jdbcType=VARCHAR}, 
+		      #{item.inputtime,jdbcType=TIMESTAMP}, #{item.type,jdbcType=DECIMAL}
+		 )
+	</sql>
+	
+	<select id="findTop500Data" resultMap="BaseResultMap">
+		select 
+			id,
+			json_data,
+			org_id,
+			inputtime, 
+			type
+		from tsm_cust_syn_temp_data 
+		where org_id = #{orgId} and type = #{type}
+		order by inputtime asc limit 0,500 
+	</select>
+	
+	<select id="insert" parameterType="com.qftx.tsm.cust.bean.TsmCustSynTempDataBean">
+		insert into tsm_cust_syn_temp_data (id,org_id,json_data,inputtime,type) values
+		 (#{id,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR},
+		 #{jsonData,jdbcType=VARCHAR},#{inputtime,jdbcType=TIMESTAMP},
+		 #{type,jdbcType=DECIMAL})
+	</select>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<delete id="deleteByIds" parameterType="map">
+		delete from tsm_cust_syn_temp_data where org_id = #{orgId}  
+		 and id in
+		 <foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		 </foreach>
+	</delete>
+	
+</mapper>

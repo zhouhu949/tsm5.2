@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+	<beans>
+		
+		<!-- *****************************【 慧营销 心跳】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_heartBeat" class="com.qftx.base.timer.HeartBeatQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_heartBeat" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_heartBeat" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="heartBeatJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_heartBeat" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="0/60 * * * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 【未来半小时内多少客户联系】 消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_custContact" class="com.qftx.tsm.sms.timer.CustContactQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_custContact" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_custContact" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="custContactJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_custContact" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 0/5 * * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 延后呼叫消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_delayCall" class="com.qftx.tsm.sms.timer.DelayCallQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_delayCall" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_delayCall" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="delayCallJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_delayCall" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 0/5 * * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 跟进警报消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_followAlert" class="com.qftx.tsm.sms.timer.FollowAlertQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_followAlert" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_followAlert" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="followAlertJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_followAlert" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 0 9 * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 待跟进消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_nextFollow" class="com.qftx.tsm.sms.timer.NextFollowQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_nextFollow" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_nextFollow" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="nextFollowJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_nextFollow" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 0/1 * * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 未接来电消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_noRecevCall" class="com.qftx.tsm.sms.timer.NoRecevCallQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_noRecevCall" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_noRecevCall" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="noRecevCallJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_noRecevCall" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 0/5 * * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 坐席到期 消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_serviceExpire" class="com.qftx.tsm.sms.timer.ServiceExpireQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_serviceExpire" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_serviceExpire" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="serviceExpireobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_serviceExpire" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 0 10 * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 短信剩余 消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_smsSurplus" class="com.qftx.tsm.sms.timer.SmsSurplusQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_smsSurplus" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_smsSurplus" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="smsSurplusJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_smsSurplus" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 20 10 * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 通信剩余 消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_commCationSurplus" class="com.qftx.tsm.sms.timer.CommCationSurplusQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_commCationSurplus" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_commCationSurplus" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="commCationSurplusJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_commCationSurplus" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 40 10 * * ?" />
+		</bean>
+		
+		<!-- *****************************【慧营销 计划未提交 消息提醒】************************************** -->
+		<!-- 工作的bean -->
+		<bean id="job_planNoSubmit" class="com.qftx.tsm.sms.timer.PlanNoSubmitQuartz" />
+		<!-- job的配置开始 -->
+		<bean id="jobDetail_planNoSubmit" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="job_planNoSubmit" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<!-- job的配置结束 -->
+		<!-- 调度的配置开始 -->
+		<bean id="planNoSubmitJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_planNoSubmit" />
+			<!-- 每5秒 -->
+			<property name="cronExpression" value="01 40 10 * * ?" />
+		</bean>
+		<!-- 调度的配置结束 -->
+		
+		<!-- *******************************任务：【定时分配时长】***************************** -->
+		<bean id="distributionScQuartz" class="com.qftx.tsm.bill.timer.DistributionScQuartz"></bean>
+		<bean id="jobDetail_distributionSc" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="distributionScQuartz" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<bean id="trigger_distributionSc" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_distributionSc" />
+			<!-- 每个周一、周二、周三、周四、周五的9点到下午5点每隔一小时触发 -->
+			<property name="cronExpression" value="0 0 8-20/1 ? * MON-FRI" />
+		</bean>
+		<!-- *******************************任务：【定时清除帐号当天定时分配的时长】****************-->
+		<bean id="removeTodayScQuartz" class="com.qftx.tsm.bill.timer.RemoveTodayScQuartz" />
+		<bean id="jobDetail_removeTodaySc" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<property name="targetObject" ref="removeTodayScQuartz" />
+			<property name="targetMethod" value="execute" />
+		</bean>
+		<bean id="trigger_removeTodaySc" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<property name="jobDetail" ref="jobDetail_removeTodaySc" />
+			<property name="cronExpression" value="59 59 23 * * ?" />
+		</bean>
+		<!-- 启动触发器的配置开始 -->
+		<bean name="startQuertz" lazy-init="false" autowire="no"
+			  class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+			<property name="triggers">
+				<list>
+					<!-- <ref bean="heartBeatJobTrigger" />
+					 <ref bean="custContactJobTrigger" />
+					 <ref bean="delayCallJobTrigger" />
+					 <ref bean="followAlertJobTrigger" />
+					 <ref bean="nextFollowJobTrigger" />
+					 <ref bean="noRecevCallJobTrigger" />
+					 <ref bean="serviceExpireobTrigger" />
+					 <ref bean="smsSurplusJobTrigger" />
+					 <ref bean="commCationSurplusJobTrigger" />
+					 <ref bean="planNoSubmitJobTrigger" />
+					 <ref bean="trigger_distributionSc"/>
+					 <ref bean="trigger_removeTodaySc"/>-->
+				</list>
+			</property>
+		</bean>
+		<!-- 启动触发器的配置结束 -->
+
+</beans> 

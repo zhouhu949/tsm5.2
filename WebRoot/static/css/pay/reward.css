@@ -1,0 +1,37 @@
+.reward-box{	width:550px;	margin:20px auto;	font-size:14px;background-color:#fff;padding:20px 0;}
+.reward-cols-box{	line-height:40px;padding:10px 0 15px 20px;position:relative;}
+.reward-cols-box input[type='text'],.reward-cols-box input[type='number'],.reward-cols-box select{	height:40px;	width:220px;border:0;background-color:#f7f7f7;}
+.reward-cols-box .award-amount{font-size:30px;}
+.reward-cols-box .account{font-size:14px;}
+.reward-default-btn{width: 100px;height: 26px;line-height: 26px;border-radius: 8px;background-color: #fff;outline: none;font-size: 14px;border: 1px solid #808080;margin-right: 20px;cursor: pointer;}
+.reward-tag-box{padding:10px 0 10px 20px; }
+.reward-tag-box>span{	display:inline-block;	width:60px;	height:30px;	line-height:30px;	text-align:center;	margin:20px 65px 0 0;	border:1px solid #dedede;	cursor:pointer;    border-radius: 5px;}
+.reward-tag-box>span:nth-of-type(4n){margin-right:0;}
+.reward-pay-way{	margin:20px auto;padding-left:20px;width:90%;}
+.reward-pay-way-bottom-box{line-height:40px;	}
+.reward-pay-way-bottom-cols{	display:inline-block;vertical-align: middle;font-size:16px;margin-right:20px;}
+.reward-pay-way-bottom-cols:last-of-type{margin-right:0;}
+.reward-pay-way-bottom-cols>img{vertical-align: middle;margin-right:5px;}
+.reward-pay-way-bottom-cols>input[type='radio']{	vertical-align: middle;}
+/* .hyx-wallet-radio{margin-right:10px;} */
+body .reward-bottom-btn-box{text-align:center;margin-left:-26px;padding:10px 0;}
+.reward-cols-box,.reward-tag-box{border:1px solid #dedede;box-sizing:border-box;background-color:#f7f7f7;width:90%;margin:0 auto;}
+.reward-cols-box:nth-of-type(2){border-top:0;border-bottom:0;}
+.help-block{position:absolute;height:20px;line-height:20px;font-size:12px;left:90px;bottom:0;}
+/* autocomplete下拉框的样式 */
+.ui-widget.ui-widget-content{height: 200px;overflow-y: auto;overflow-x: hidden;}
+/* 支付的隐藏显示 */
+.paywaybox,.hyxpaybox{display:none;}
+.mainbox{display:block;}
+.pay-way-choose,.pay-way-choose-tips{text-align:center;line-height:26px;}
+.qscode-box{width:150px;height:150px;margin:20px auto;}
+.withdrawals-box-right-inner-box-cols{line-height:40px;margin-bottom:12px;position:relative;}
+.withdrawals-box-right-inner-box-cols>label{display:inline-block;	width:150px;	text-align:right; }
+.withdrawals-reward-title{padding-left:50px;}
+.settings-bottom-btn-box{margin-top:30px;text-align:center;}
+.hyxpaybox .reward-cols-box{background-color:#fff;border:0;}
+.hyxpaybox .reward-cols-box input[type='text']{width: 220px;height: 30px;border-radius: 5px;background-color: #f7f7f7;border: 1px solid #dedede;}
+.error{color:red;}
+.reward-cols-box label{display:inline-block;width:120px;text-align:right;}
+.reward-sure-btn {background-color: #469bff;border-color: #469bff;color: #fff;}
+.reward-cols-box .reward-objaval{width:auto;}/*打赏金额和打赏对象左对齐*/

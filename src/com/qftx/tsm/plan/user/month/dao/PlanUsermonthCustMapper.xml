@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.user.month.dao.PlanUsermonthCustMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.plan_id,t.cust_id,t.cust_name,t.cust_status,t.singcust_num,t.fact_singcust_num,t.plan_money,t.fact_money,t.status,t.context,t.updatetime,t.inputtime,t.is_del,t.company
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.user.month.bean.PlanUsermonthCustBean" id="PlanUsermonthCustMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="plan_id" property="planId"/>
+		<result column="cust_id" property="custId"/>
+		<result column="cust_name" property="custName"/>
+		<result column="company" property="company"/>
+		<result column="cust_status" property="custStatus"/>
+		<result column="singcust_num" property="singcustNum"/>
+		<result column="fact_singcust_num" property="factSingcustNum"/>
+		<result column="plan_money" property="planMoney"/>
+		<result column="fact_money" property="factMoney"/>
+		<result column="status" property="status"/>
+		<result column="context" property="context"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="NAME" property="name"/>
+		<result column="SALE_PROCESS_NAME" property="saleProcessName"/>
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.plan.user.month.bean.PlanHistoryBean" id="PlanHistoryMap" extends="PlanUsermonthCustMap">
+		<result column="plan_id" property="planId"/>
+		<result column="plan_year" property="planYear"/>
+		<result column="plan_month" property="planMonth"/>
+		<result column="group_name" property="groupName"/>
+		<result column="user_name" property="userName"/>
+		<result column="willcust_num" property="willcustNum"/>
+	</resultMap>
+	
+	<select id="findHistoryListPage" resultMap="PlanHistoryMap">
+		<if test="company ==null and (custName == null or custName == '待确定'.toString() 
+		or custName == '待'.toString()or custName == '确'.toString()or custName == '定'.toString()
+		or custName == '待确'.toString()or custName == '确定'.toString())">
+		SELECT t.id as plan_id,t.plan_month,t.plan_year,t2.group_name as group_name,t1.user_name as user_name,'' as company,'待确定' as cust_name ,t.plan_willcustnum_add as willcust_num,t.plan_signcustnum_add as singcust_num, t.plan_willcustnum_money as plan_money,t.wait_confirm_cust_state as status 
+		FROM plan_usermonth t
+		left join auth_user t1 on t1.org_id=#{orgId} and t1.user_id = t.user_id 
+		left join tsm_team_group t2 on  t2.org_id=#{orgId} and  t2.GROUP_ID = t.group_id
+		where 1=1
+		and t.org_id=#{orgId} 
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="status != null">and t.wait_confirm_cust_state = #{status}</if>
+		<if test="groupIds != null and groupIds.length&gt;0">
+			<foreach collection="groupIds" item="groupId" open="and(" close=")" separator="or">
+				t.group_id=#{groupId}
+			</foreach>
+		</if>
+		<if test="userIds != null and userIds.length&gt;0">
+			<foreach collection="userIds" item="userId" open="and(" close=")" separator="or">
+				t.user_id=#{userId}
+			</foreach>
+		</if>
+		
+		union
+		</if>
+		
+		select t3.plan_id,t.plan_month,t.plan_year,t2.group_name as group_name,t1.user_name as user_name,t3.company,t3.cust_name,'0' as willcust_num,t3.singcust_num,t3.plan_money,t3.status
+		from plan_usermonth t 
+		join plan_usermonth_cust t3 on t3.org_id=#{orgId} and t.id = t3.plan_id
+		left join auth_user t1 on t1.org_id=#{orgId} and t1.user_id = t.user_id 
+		left join tsm_team_group t2 on  t2.org_id=#{orgId} and  t2.GROUP_ID = t.group_id
+		where    t.org_id=#{orgId}
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="status != null">and t3.status = #{status}</if>
+		<if test="custName != null">and t3.cust_name LIKE CONCAT('%',#{custName},'%')</if>
+		<if test="company != null">and t3.company LIKE CONCAT('%',#{company},'%')</if>
+		<if test="groupIds != null and groupIds.length&gt;0">
+			<foreach collection="groupIds" item="groupId" open="and(" close=")" separator="or">
+				t.group_id=#{groupId}
+			</foreach>
+		</if>
+		<if test="userIds != null and userIds.length&gt;0">
+			<foreach collection="userIds" item="userId" open="and(" close=")" separator="or">
+				t.user_id=#{userId}
+			</foreach>
+		</if>
+		<!-- <if test="orderKey!=null">order by ${orderKey}</if> -->
+	</select>
+	
+	<select id="findFromRes" resultMap="PlanUsermonthCustMap">
+	select t.RES_CUST_ID as cust_id ,t.NAME as cust_name,t.company,
+	case WHEN t.STATUS = 6 THEN 0 ELSE 1 END as singcust_num,
+	t.last_Option_Id as cust_status 
+	from tsm_res_cust_info t
+	where 1=1
+	<if test="orgId != null">and t.org_id = #{orgId}</if>
+    <if test="custIds!=null and custIds.length>0">
+    	<foreach collection="custIds" open="and (" close=")" item="custId" separator="or">
+			t.RES_CUST_ID = #{custId}
+		</foreach>
+    </if>
+	</select>
+	
+	<select id="queryCustSum" resultMap="PlanUsermonthCustMap">
+		select sum(t.singcust_num) as singcust_num,sum(t.plan_money) as plan_money,sum(t.fact_singcust_num) as fact_singcust_num,sum(t.fact_money) as fact_money
+		from plan_usermonth_cust t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.plan_id=#{planId}
+		and t.is_del = 0
+	</select>
+	
+	
+	<!-- 更新实际总数值 -->
+	<update id="updateFactNum">
+		update plan_usermonth_cust
+		<set>
+		<if test="factMoney !=null">fact_money =fact_money + #{factMoney},</if>
+		<if test="factSingcustNum !=null">fact_singcust_num = fact_singcust_num + #{factSingcustNum},</if>
+		<if test="status !=null">status = #{status},</if>
+		</set>
+		
+		where 1=1
+		and org_id=#{orgId}
+		and id = #{id}
+	</update>
+ 
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanUsermonthCustMap">
+		select
+		<include refid="cols" />
+		from plan_usermonth_cust t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="planId != null">and t.plan_id = #{planId}</if>
+		<if test="custId != null">and t.cust_id = #{custId}</if>
+		<if test="custName != null">and t.cust_name = #{custName}</if>
+		<if test="custStatus != null">and t.cust_status = #{custStatus}</if>
+		<if test="singcustNum != null">and t.singcust_num = #{singcustNum}</if>
+		<if test="factSingcustNum != null">and t.fact_singcust_num = #{factSingcustNum}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="company != null">and t.company = #{company}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanUsermonthCustMap">
+		select
+		<include refid="cols" />
+		from plan_usermonth_cust t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="planId != null">and t.plan_id = #{planId}</if>
+		<if test="custId != null">and t.cust_id = #{custId}</if>
+		<if test="custName != null">and t.cust_name = #{custName}</if>
+		<if test="custStatus != null">and t.cust_status = #{custStatus}</if>
+		<if test="singcustNum != null">and t.singcust_num = #{singcustNum}</if>
+		<if test="factSingcustNum != null">and t.fact_singcust_num = #{factSingcustNum}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="company != null">and t.company = #{company}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_usermonth_cust
+		<set>
+		<if test="custStatus != null">cust_status = #{custStatus},</if>
+		<if test="singcustNum != null">singcust_num = #{singcustNum},</if>
+		<if test="factSingcustNum != null">fact_singcust_num = #{factSingcustNum},</if>
+		<if test="planMoney != null">plan_money = #{planMoney},</if>
+		<if test="factMoney != null">fact_money = #{factMoney},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="context != null">context = #{context},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		and id=#{id}
+		
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.user.month.bean.PlanUsermonthCustBean">
+	insert into plan_usermonth_cust(id,org_id,plan_id,cust_id,cust_name,cust_status,singcust_num,fact_singcust_num,plan_money,fact_money,status,context,updatetime,inputtime,is_del,company)
+	values(#{id},#{orgId},#{planId},#{custId},#{custName},#{custStatus},#{singcustNum},#{factSingcustNum},#{planMoney},#{factMoney},#{status},#{context},#{updatetime},#{inputtime},#{isDel},#{company})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_usermonth_cust(id,org_id,plan_id,cust_id,cust_name,cust_status,singcust_num,fact_singcust_num,plan_money,fact_money,status,context,updatetime,inputtime,is_del,company)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.planId},#{bean.custId},#{bean.custName},#{bean.custStatus},#{bean.singcustNum},#{bean.factSingcustNum},#{bean.planMoney},#{bean.factMoney},#{bean.status},#{bean.context},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.company})
+    </foreach>
+    </insert>
+
+</mapper>

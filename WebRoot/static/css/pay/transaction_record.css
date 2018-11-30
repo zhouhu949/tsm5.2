@@ -1,0 +1,24 @@
+.hyx-silent-p{margin:10px auto;padding-left:20px;}
+.hyx-wallet-head{height:200px;background-color:#fff;margin:70px auto 50px;}
+.hyx-wallet-head-left,.hyx-wallet-head-center,.hyx-wallet-head-right{float:left;height:100%;width:33%;position:relative;}
+.hyx-wallet-head-left,.hyx-wallet-head-center{border-right:1px solid #dedede;}
+.hyx-wallet-hleft-icon{width:100px;height:100px;border-radius:50%;display:block;position:absolute;left:0;}
+.hyx-wallet-hleft-cont{width:200px;height:100px;position:absolute;line-height:20px;right:0;}
+.hyx-wallet-head-left-cont{width:350px;box-sizing:border-box;height:100px;position:absolute;top:50%;left:50%;margin-left:-175px;margin-top:-50px;}
+.hyx-wallet-hleft-cont>h2{margin:10px 0;}
+.hyx-wallet-change,.hyx-wallet-change-phone{color:#197acb;cursor:pointer;}
+.hyx-wallet-head-center{font-size:14px;}
+.hyx-wallet-hcenter-top,.hyx-wallet-hcenter-bottom{padding:10px 0;padding-left:100px;line-height:30px;}
+.hyx-wallet-hcenter-cont{width:100%;height:150px;position:absolute;top:50%;margin-top:-75px;}
+.hyx-wallet-hcenter-top>.hyx-wallet-balance{color:#8B8B8B;margin-right:20px;}
+.wallet-balance-num{font-size:30px;}
+.hyx-wallet-hcenter-bottom>button{width: 130px;height: 50px;line-height: 50px;border-radius: 30px;border: 1px solid #42c02e;outline: none;cursor: pointer;font-weight:bold;}
+.hyx-wallet-hcenter-bottom>.hyx-wallet-balance-to{background-color: #42C02E;color: #fff;margin-right:20px;}
+.hyx-wallet-hcenter-bottom>.hyx-wallet-balance-withdrawals{background-color: #fff;color: #42C02E;}
+.hyx-wallet-hright-cont{width:300px;height:100px;position:absolute;top:50%;left:20%;margin-top:-50px;color:#8B8B8B;font-size:14px;line-height:30px;}
+.hyx-wallet-subtract{color:#f5a623;}
+.hyx-wallet-add{color:#00c800;}
+#payForm{width:90%;margin:10px auto;}
+.transaction-record{padding-left:20px;line-height:40px;border-bottom: 1px solid #e6e6e6;font-size: 14px;}
+.hyx-mpe-table{margin-bottom:0;}
+.color_grey{color:grey;}

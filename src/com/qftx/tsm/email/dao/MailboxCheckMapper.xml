@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.email.dao.MailboxCheckMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.email.bean.MailboxCheckBean" >
+    <id column="ID" property="id" jdbcType="VARCHAR" /> <!-- 主键 -->
+	<result column="ACCOUNT" property="account" jdbcType="VARCHAR" /> <!-- 帐号 -->
+	<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+	<result column="TYPE" property="type" jdbcType="DECIMAL" /> <!-- 类型（0-邮箱绑定，1-更换邮箱） -->
+	<result column="CODE" property="code" jdbcType="VARCHAR" /> <!-- 验证码 -->
+	<result column="EMAIL" property="email" jdbcType="VARCHAR" /> <!-- 邮箱 -->
+	<result column="PASSWORD" property="password" jdbcType="VARCHAR" /> <!-- 密码 -->
+	<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 创建时间 -->
+	<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 是否删除（0-否，1-是） -->
+  </resultMap>
+  
+  <!-- 实体表名 -->
+	<sql id="table_name">sys_email_check</sql>
+ 
+	 <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND account = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null">
+		    AND type = #{type,jdbcType=DECIMAL} 
+		</if>
+		<if test="code != null and code !=''">
+		    AND code = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="email != null and email !=''">
+		    AND email = #{email,jdbcType=VARCHAR} 
+		</if>
+		<if test="password != null and password !=''">
+		    AND password = #{password,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+  		
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    account = #{account,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="type != null">
+			    type = #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="code != null">
+			    code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+			    email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+			    password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+  
+  <sql id="insert_into_field">
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="id != null" >
+		    id,
+		</if>
+		<if test="account != null" >
+		    account,
+		</if>
+		<if test="orgId != null" >
+		    org_id,
+		</if>
+		<if test="type != null" >
+		    type,
+		</if>
+		<if test="code != null" >
+		    code,
+		</if>
+		<if test="email != null" >
+		    email,
+		</if>
+		<if test="password != null" >
+		    password,
+		</if>
+		<if test="inputtime != null" >
+		    inputtime,
+		</if>
+		<if test="isDel != null" >
+		    is_del,
+		</if>
+	</trim>
+	<trim prefix="values (" suffix=")" suffixOverrides="," >
+		<if test="id != null">
+		    #{id,jdbcType=VARCHAR},
+		</if>
+		<if test="account != null">
+		    #{account,jdbcType=VARCHAR},
+		</if>
+		<if test="orgId != null">
+		    #{orgId,jdbcType=VARCHAR},
+		</if>
+		<if test="type != null">
+		    #{type,jdbcType=DECIMAL},
+		</if>
+		<if test="code != null">
+		    #{code,jdbcType=VARCHAR},
+		</if>
+		<if test="email != null">
+		    #{email,jdbcType=VARCHAR},
+		</if>
+		<if test="password != null">
+		    #{password,jdbcType=VARCHAR},
+		</if>
+		<if test="inputtime != null">
+		    #{inputtime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="isDel != null">
+		    #{isDel,jdbcType=DECIMAL},
+		</if>
+	</trim>
+  </sql>
+  
+  <!-- 批量插入实体对应的字段语句 -->
+  <sql id="Base_Column_List" >
+    ID,ACCOUNT,ORG_ID,TYPE,CODE,EMAIL,PASSWORD,INPUTTIME,IS_DEL 
+  </sql>
+  
+  <!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where 1=1 
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  1=1 
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  1=1 
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.email.bean.TsmEmailConfig">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.email.bean.MailboxCheckBean">
+		update <include refid="table_name"/>
+		<include refid="trents_update_set_sql"/>
+		where id = #{id,jdbcType=VARCHAR} 
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.email.bean.MailboxCheckBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		update <include refid="table_name"/> set IS_DEL=1 where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<update id="deleteBatchBy" parameterType="Map">
+		update <include refid="table_name"/> set IS_DEL=1 where id in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+</mapper>

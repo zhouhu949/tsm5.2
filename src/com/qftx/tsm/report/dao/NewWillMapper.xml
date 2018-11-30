@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.report.dao.NewWillMapper">
+    <resultMap type="com.qftx.tsm.report.bean.NewWillBean" id="BaseMap">
+		<result column="last_Option_Id" property="lastOptionId" jdbcType="VARCHAR"/>
+		<result column="org_id" property="orgId" jdbcType="VARCHAR"/>
+		<result column="FOR_THE_CUSTOMER_TIME" property="forTheCustomerTime" jdbcType="TIMESTAMP"/>
+		<result column="num" property="num" jdbcType="DECIMAL"/><!-- 新增意向数 -->
+		<result column="import_dept_id" property="imporTdeptId" jdbcType="VARCHAR"/>
+		<result column="OWNER_ACC" property="owenrAcc" jdbcType="VARCHAR"/>
+		<result column="MEMBER_NAME" property="memberName" jdbcType="VARCHAR"/>
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+    </resultMap>   
+
+		 <select id="findNewWillCountDataBydate" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+	      	SELECT
+		    last_Option_Id,
+		    DATE_FORMAT(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d') FOR_THE_CUSTOMER_TIME,
+		    count(0) as num
+	        FROM
+		    tsm_res_cust_info
+	        WHERE
+		    last_Option_Id IS NOT NULL
+	        AND ORG_ID=#{orgId}
+	        <if test="owenrAcc!=null and owenrAcc!=''">
+	        AND OWNER_ACC=#{owenrAcc}
+	        </if>
+	              <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+	        AND `STATUS` in (2,3)
+	        AND last_Option_Id !=''
+	        AND FOR_THE_CUSTOMER_TIME IS NOT NULL
+	        GROUP BY
+	        last_Option_Id,
+	        DATE_FORMAT(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d')
+	        ORDER BY FOR_THE_CUSTOMER_TIME ASC 
+	</select>
+	
+	
+		<select id="findNewWilldate" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultType="String">
+	      	SELECT
+	        distinct	DATE_FORMAT(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d') FOR_THE_CUSTOMER_TIME
+	        FROM
+		    tsm_res_cust_info
+	        WHERE
+		    last_Option_Id IS NOT NULL
+	        AND ORG_ID=#{orgId}
+	              <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+			<if test="owenrAcc != null">
+			 AND  OWNER_ACC= #{owenrAcc,jdbcType=VARCHAR}
+			</if>
+	        AND `STATUS` in (2,3)
+	        AND last_Option_Id !=''
+	        AND FOR_THE_CUSTOMER_TIME IS NOT NULL
+	        GROUP BY
+	        last_Option_Id,
+	        DATE_FORMAT(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d') 
+	        ORDER BY FOR_THE_CUSTOMER_TIME ASC
+	</select>
+	
+		<select id="findNewWilldateByGroup" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+	         SELECT
+	         import_dept_id,
+	         last_Option_Id,
+	         count(0) as num
+	         FROM
+		     tsm_res_cust_info 
+	         WHERE
+		     last_Option_Id IS NOT NULL
+	          AND ORG_ID=#{orgId}
+	              <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+			<if test="owenrAcc != null">
+			 AND  OWNER_ACC= #{owenrAcc,jdbcType=VARCHAR}
+			</if>
+	         AND `STATUS` in (2,3)
+	         AND last_Option_Id !=''
+	         AND FOR_THE_CUSTOMER_TIME IS NOT NULL
+	         GROUP BY
+	         last_Option_Id,
+	         import_dept_id
+	</select>
+	
+	
+		<select id="findNewWilldateByUser" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+	         SELECT
+	         OWNER_ACC,
+	         import_dept_id,
+	         last_Option_Id,
+	         count(0) as num
+	         FROM
+		     tsm_res_cust_info 
+	         WHERE
+		     last_Option_Id IS NOT NULL
+	          AND ORG_ID=#{orgId}
+	              <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+			<if test="groupId != null">
+			 AND  import_dept_id= #{groupId,jdbcType=VARCHAR}
+			</if>
+			<if test="groupIds != null">                			
+              AND  import_dept_id in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+	         AND `STATUS` in (2,3)
+	         AND last_Option_Id !=''
+	         AND FOR_THE_CUSTOMER_TIME IS NOT NULL
+	         GROUP BY
+	         last_Option_Id,
+	         import_dept_id,
+	         OWNER_ACC
+	</select>
+	
+			<select id="findNewWillUserByGroup" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+			 SELECT
+			t.OWNER_ACC,
+			g.MEMBER_NAME,
+			t.import_dept_id
+			FROM
+				tsm_res_cust_info t LEFT JOIN tsm_team_group_member g
+			ON 
+			t.org_id=g.org_id 
+			AND t.OWNER_ACC=g.MEMBER_ACC
+			WHERE
+				t.last_Option_Id IS NOT NULL
+			AND t.ORG_ID=#{orgId}
+		    <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			 </if>
+			AND t.`STATUS` in (2,3)
+			<if test="groupId != null">
+			 AND  import_dept_id= #{groupId,jdbcType=VARCHAR}
+			</if>
+			AND t.last_Option_Id !=''
+			AND t.FOR_THE_CUSTOMER_TIME IS NOT NULL
+			GROUP BY
+			t.import_dept_id,
+			t.OWNER_ACC
+	</select>
+	
+			<select id="findNewWillAllUser" parameterType="String" resultMap="BaseMap">
+			SELECT
+				g.MEMBER_ACC as  OWNER_ACC,
+				g.MEMBER_NAME
+			FROM
+				tsm_team_group_member g
+			WHERE
+				g.org_id =#{orgId}
+	</select>
+	
+	
+			<select id="findNewWillUserByGroupByDay" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+			 SELECT
+			t.OWNER_ACC,
+			g.MEMBER_NAME,
+			t.import_dept_id,
+			(SELECT GROUP_NAME FROM tsm_team_group WHERE GROUP_ID=import_dept_id ) GROUP_NAME
+			FROM
+				tsm_res_cust_info t LEFT JOIN tsm_team_group_member g
+			ON 
+			t.org_id=g.org_id 
+			AND t.OWNER_ACC=g.MEMBER_ACC
+			WHERE
+				t.last_Option_Id IS NOT NULL
+			AND t.ORG_ID=#{orgId}
+		    <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(FOR_THE_CUSTOMER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			 </if>
+			AND t.`STATUS` in (2,3)
+			<if test="groupId != null">
+			 AND  import_dept_id= #{groupId,jdbcType=VARCHAR}
+			</if>
+			AND t.last_Option_Id !=''
+			AND t.FOR_THE_CUSTOMER_TIME IS NOT NULL
+			GROUP BY
+			t.import_dept_id,
+			t.OWNER_ACC
+	</select>
+
+
+	</mapper>

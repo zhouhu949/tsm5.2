@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.data.dao.DataProcessMapper">
+    <select id="countTableNum" resultType="int">
+    	select count (1) from ${tableName} where org_id =#{orgId}
+    </select>
+    
+    <select id="getSudIds" resultType="String">
+    	select id from plan_userday where org_id =#{orgId} and user_id in (${whereSql})
+    </select>
+    
+    <select id="getPlanUserMonthIds" resultType="String">
+    	select id from plan_usermonth where org_id =#{orgId} and user_id in (${whereSql})
+    </select>
+    
+    <select id="getGroupIds" resultType="String">
+    	select group_id from tsm_team_group where org_id =#{orgId}
+    </select>
+    
+</mapper>

@@ -1,0 +1,97 @@
+
+.date_box td{
+	text-align: center; 
+}
+
+.date_box{
+	height:300px;
+	width:300px;
+	background-color:#EFF5FB;
+}
+
+.date_box .head{
+	height:40%;
+	border-bottom-style:outset;
+	border-bottom-width: 1px;
+}
+
+.date_box .head .show_day{
+	font-size:3.75em;
+}
+
+.date_box .content{
+	height:60%;
+	border-bottom-style:outset;
+	border-bottom-width: 1px;
+}
+
+.date_box .content .title{
+	margin:auto;
+}
+
+.date_box .content .title .lastMonth{
+	float:left;
+}
+
+.date_box .content .title .dateContent{
+	float:left;
+}
+
+.date_box .content .dateBody .dateTable {
+	width:100%;
+}
+
+.date_box .content .dateBody .dateTable th{
+	width:13%;
+}
+
+.allReadyEdit{
+	background-color:green;
+}
+
+.neverEdit{
+	background-color:yellow;
+}
+
+.today{
+	background-color:blue;
+}
+
+.lastOrNextMonth{
+	color:gray;
+}
+
+.selectDay{
+	background-color:red;
+}
+
+.existMyLog{
+	background-color:green;
+}
+
+.existSubordinateLog{
+	background-color:blue;
+}
+
+.noExistSubordinateLog{
+	background-color:yellow;
+}
+
+.planHavePlan{
+	background-color:blue;
+}
+
+.planReportPlan{
+	background-color:black;
+}
+
+
+.planAuthPass{
+	background-color:green;
+}
+
+.planAuthNoPass{
+	background-color:yellow;
+}
+
+

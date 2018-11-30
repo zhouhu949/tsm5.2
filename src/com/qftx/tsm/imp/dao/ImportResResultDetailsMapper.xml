@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.imp.dao.ImportResResultDetailsMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.RES_ID,t.FILE_ID,t.ERRO_CODE,t.status,t.updatetime,t.inputtime,t.is_del,t.ERROR_MSG
+	</sql>
+
+	<resultMap type="com.qftx.tsm.imp.bean.ImportResResultDetailsBean" id="ImportResResultDetailsMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="RES_ID" property="resId"/>
+		<result column="FILE_ID" property="fileId"/>
+		<result column="ERRO_CODE" property="erroCode"/>
+		<result column="status" property="status"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="ERROR_MSG" property="errorMsg"/>
+		
+	</resultMap>
+	<!-- 查询-->
+	<select id="query" resultMap="ImportResResultDetailsMap">
+		select
+		<include refid="cols" />
+		from import_res_result_details t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.is_del = 0
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="ImportResResultDetailsMap">
+		select
+		<include refid="cols" />
+		from import_res_result_details t
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="resId != null">and RES_ID = #{resId}</if>
+		<if test="fileId != null">and FILE_ID = #{fileId}</if>
+		<if test="erroCode != null">and ERRO_CODE = #{erroCode}</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update import_res_result_details
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="resId != null">RES_ID = #{resId},</if>
+		<if test="fileId != null">FILE_ID = #{fileId},</if>
+		<if test="erroCode != null">ERRO_CODE = #{erroCode},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="errorMsg != null">ERROR_MSG = #{errorMsg},</if>
+		</set>
+		where org_id = #{orgId} and id=#{id}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.imp.bean.ImportResResultDetailsBean">
+	insert into import_res_result_details(id,org_id,RES_ID,FILE_ID,ERRO_CODE,status,updatetime,inputtime,is_del,ERROR_MSG)
+	values(#{id},#{orgId},#{resId},#{fileId},#{erroCode},#{status},#{updatetime},#{inputtime},#{isDel},#{errorMsg})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into import_res_result_details(id,org_id,RES_ID,FILE_ID,ERRO_CODE,status,updatetime,inputtime,is_del,ERROR_MSG)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.resId},#{bean.fileId},#{bean.erroCode},#{bean.status},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.errorMsg})
+    </foreach>
+    </insert>
+	
+	<delete id="deleteByBatch" parameterType="Map">
+    delete  from import_res_result_details where ORG_ID = #{orgId} and res_id in
+    <foreach item="id" collection="list" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </delete>
+
+</mapper>

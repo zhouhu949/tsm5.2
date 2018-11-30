@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.report.dao.TsmReportPlanSaleChanceMapper">
+	<sql id="cols">
+	t.ID,t.ORG_ID,t.ACCOUNT,t.user_id,t.sale_chance_money,t.report_date,t.INPUTTIME,t.UPDATE_DATE
+	</sql>
+
+	<resultMap type="com.qftx.tsm.report.bean.TsmReportPlanSaleChanceBean" id="TsmReportPlanSaleChanceMap">
+		<result column="ID" property="id"/>
+		<result column="ORG_ID" property="orgId"/>
+		<result column="ACCOUNT" property="account"/>
+		<result column="user_id" property="userId"/>
+		<result column="sale_chance_money" property="saleChanceMoney"/>
+		<result column="report_date" property="reportDate"/>
+		<result column="INPUTTIME" property="inputtime"/>
+		<result column="UPDATE_DATE" property="updateDate"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="TsmReportPlanSaleChanceMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan_sale_chance t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+		
+		<if test="fromDate != null">and t.reportDate <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.reportDate <![CDATA[ <= ]]> #{toDate}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByCondtion" resultMap="TsmReportPlanSaleChanceMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan_sale_chance t
+		where 1=1
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+		
+		<if test="userIds!=null and userIds.length>0">
+			<foreach collection="userIds" item="uid" open="and t1.user_id in(" close=")" separator=",">#{uid}</foreach>
+		</if>
+		<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and t2.GROUP_ID in(" close=")" separator=",">#{gid}</foreach>
+		</if>
+		
+		<if test="fromDate != null">and t.reportDate <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.reportDate <![CDATA[ <= ]]> #{toDate}</if>
+	</select>
+	
+	
+	<!-- 查询-->
+	<select id="findListPage" resultMap="TsmReportPlanSaleChanceMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan_sale_chance t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="TsmReportPlanSaleChanceMap">
+		select
+		<include refid="cols" />
+		from tsm_report_plan_sale_chance t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="saleChanceMoney != null">and t.sale_chance_money = #{saleChanceMoney}</if>
+		<if test="reportDate != null">and t.report_date = #{reportDate}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update tsm_report_plan_sale_chance
+		<set>
+		<if test="id != null">ID = #{id},</if>
+		<if test="orgId != null">ORG_ID = #{orgId},</if>
+		<if test="account != null">ACCOUNT = #{account},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="saleChanceMoney != null">sale_chance_money = #{saleChanceMoney},</if>
+		<if test="reportDate != null">report_date = #{reportDate},</if>
+		<if test="inputtime != null">INPUTTIME = #{inputtime},</if>
+		<if test="updateDate != null">UPDATE_DATE = #{updateDate},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and ID = #{id}</if>
+		<if test="orgId != null">and ORG_ID = #{orgId}</if>
+		<if test="account != null">and ACCOUNT = #{account}</if>
+		<if test="userId != null">and user_id = #{userId}</if>
+		<if test="saleChanceMoney != null">and sale_chance_money = #{saleChanceMoney}</if>
+		<if test="reportDate != null">and report_date = #{reportDate}</if>
+		<if test="inputtime != null">and INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and UPDATE_DATE = #{updateDate}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.bean.TsmReportPlanSaleChanceBean">
+	insert into tsm_report_plan_sale_chance(ID,ORG_ID,ACCOUNT,user_id,sale_chance_money,report_date,INPUTTIME,UPDATE_DATE)
+	values(#{id},#{orgId},#{account},#{userId},#{saleChanceMoney},#{reportDate},#{inputtime},#{updateDate})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into tsm_report_plan_sale_chance(ID,ORG_ID,ACCOUNT,user_id,sale_chance_money,report_date,INPUTTIME,UPDATE_DATE)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.account},#{bean.userId},#{bean.saleChanceMoney},#{bean.reportDate},#{bean.inputtime},#{bean.updateDate})
+    </foreach>
+    </insert>
+
+</mapper>

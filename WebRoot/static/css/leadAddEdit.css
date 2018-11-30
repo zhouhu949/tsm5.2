@@ -1,0 +1,248 @@
+.swfupload{display:inline-block;float:left;width:200px;height:20px;line-height:20px;border:solid #d6d6d6 1px;}
+.chooseFiles{position:relative;padding: 2px 10px;width:158px;height: 158px;line-height: 20px;position: relative;cursor: pointer;color: #545454;background: #fafafa;border: 1px solid #ddd;overflow: hidden;display: inline-block;*display: inline;*zoom: 1}
+.chooseFiles:hover{text-decoration:none;}
+.chooseFiles>img{position:absolute;left:50%;top:10%;height:80%;transform:translateX(-50%);z-index:1;}
+.chooseFiles .add-text{position:absolute;width:80px;height:30px;line-height:30px;left:50%;margin-left:-40px;bottom:40px;text-align:center;font-size:16px;}
+.chooseFiles .add-file-icon{position:absolute;width:20px;height:20px;font-size:30px;text-align:center;left:50%;margin-left:-10px;top:50px;}
+#files{position: absolute; font-size: 100px; right: 0; top: 0;left:0;bottom:0; opacity: 0;z-index:2; filter: alpha(opacity=0); cursor: pointer ;}
+#files:hover{color: #444; background: #eee; border-color: #ccc; text-decoration: none ;}
+.hyx-nc .bomp-p{width:350px;position:relative;margin-top:20px;height:25px;}
+.hyx-nc .bomp-p.loanVoucherBox{width:700px;height:auto;}
+span.error{position:absolute;left:120px;top:100%;font-size:12px;color:red;}
+dl.select span.error{left:0;}
+.hyx-nc .bomp-p .lab_a{width:120px;}
+.com-search01 .select{margin-bottom:0;}
+.com-btnbox{float:left;width: 100%;text-align: center;}
+.com-btnbox button{margin: 20px auto 0;border-radius: 5px;position: relative;display: block;width: 84px;height: 25px;background-color: #0f5aac;line-height: 25px;outline: none;text-align: center;border: 1px solid #0f5aac;color: #fff;cursor: pointer;}
+dl[data-multi="true"]>dt{width: 180px;box-sizing: border-box;background-position: 165px center;}
+dl[data-multi="true"].select>dd>ul{width: 180px;box-sizing: border-box;}
+dl[data-multi="true"].select>dd{top:24px;}
+.hyx-nc .bomp-p .ipt_a{height:24px;line-height:24px;box-sizing:border-box;}
+.hyx-nc .detail-info {
+	width: 180px;
+	line-height: 25px;
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.custname-drop {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    left: 120px;
+    top: 25px;
+    height: 220px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    overflow-y: auto;
+    width: 260px;
+}
+
+.custname-drop ul,.custname-drop li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.custname-drop .custname-drop-ul {
+	
+}
+
+.custname-drop .custname-drop-ul>li {
+	line-height: 22px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.custname-drop .custname-drop-ul>li:hover{
+	background-color: #e1e1e1;
+}
+
+.custname-drop .custname-drop-ul .no-data-li {
+	text-align: left;
+	cursor: default;
+}
+
+.custname-drop .head{
+	height: 35px;
+    line-height: 30px;
+    background-color: #e1e1e1;
+    text-align: center;
+}
+.custname-drop .head .search-text {
+	width: 180px;
+    height: 25px;
+    line-height: 25px;
+    padding: 3px;
+    vertical-align: middle;
+	font-size: 12px;
+}
+.custname-drop .head .btn-custname-search{
+    height: 25px;
+    padding: 3px;
+    vertical-align: middle;
+    border-radius: 3px;
+    border:1px solid #b4b4b4;
+    background-color:#fff;
+}
+
+.input-hidden {
+	display: block;
+	visibility: hidden;
+	height:0 !important;
+	border:none;
+}
+.bomp-p .sel_a{
+	height:25px;
+	line-height:25px;
+	margin-bottom:0;
+}
+
+.progress{
+	border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 20px;
+	font-size: 0;
+	padding-left: 77.77px;
+	position:relative;
+    padding-top: 50px;
+    padding-bottom: 40px;
+}
+.progress .box{
+	display: inline-block;
+	width: 215px;
+	font-size: 12px;
+	box-sizing: border-box;
+	padding-left: 100px;
+	position: relative;
+}
+.progress .round{
+  width: 30px;
+  height: 30px;
+  background-color: #1891ff;
+  text-align: center;
+  line-height: 30px;
+  border-radius: 50%;
+  position: relative;
+  left: -100px;
+
+}
+.progress .status{
+  display: inline-block;
+  width: 50px;
+  position: absolute;
+  left: 30px;
+  top: 0px;
+
+}
+.progress .account{
+  display: inline-block;
+  width: 125px;
+  position: absolute;
+  left: -20px;
+  top: 25px;
+  text-align: justify;
+
+}
+.progress .remarks{
+  display: inline-block;
+  width: 200px;
+  position: absolute;
+  left: -20px;
+  top: 48px;
+  line-height: 20px;
+  text-align: justify;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.progress .title{
+   display: block;
+   font-size: 14px;
+   position:absolute;
+   left: 41px;
+   top: 18px;
+
+}
+.progress .step{
+  color: #fff;
+}
+.progress .line{
+  border-bottom: 1px solid #1891ff;
+  text-align: center;
+  position: absolute;
+  top: 0px;
+  left:-140px;
+  width: 138px;
+}
+.select,.textarea{
+  display: block;
+  margin-left: 70px;
+  margin-top: 33px;
+}
+.textarea label{
+  vertical-align: top;
+
+}
+textarea{
+  width:500px;
+  height: 50px;
+  outline:none;
+}
+.button-cancel{
+  background-color: #ffffff;
+  padding: 3px 16px;
+  outline: none;
+  border: none;
+  color: #321e2c;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-right: 5px;
+  border:1px solid #c4c4c3;
+}
+.button-cancel:hover{
+  background-color: rgb(25,121,202);
+  color:#ffffff;
+
+}
+.button-sure{
+  background-color: rgb(25,121,202);
+  padding: 3px 16px;
+  outline: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.button-sure:hover{
+  background-color: rgb(15,90,172);
+
+}
+.button{
+  text-align: center;
+  margin:5px;
+}
+
+/*详情页面 流程*/
+.auditProcess{
+	padding:10px 20px;
+}
+.auditProcess>.title{
+    line-height:26px;
+}
+.auditProcess>ul{
+	overflow:hidden;
+	
+}
+.auditProcess>ul>li{
+	float:left;
+	width:33%;
+}
+.auditProcess>ul>li.line{
+	width:14%;
+	color:#1890ff;
+}

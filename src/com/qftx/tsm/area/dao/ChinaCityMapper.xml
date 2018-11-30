@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.area.dao.ChinaCityMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.area.bean.ChinaCityBean">
+		<id column="cid" property="cid" jdbcType="DECIMAL" />
+		<result column="cname" property="cname" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="DECIMAL" />
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">sys_china_city</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="cid != null and cid !=''">
+		    AND cid = #{cid,jdbcType=DECIMAL} 
+		</if>
+		<if test="cname != null and cname !=''">
+		    AND cname = #{cname,jdbcType=VARCHAR} 
+		</if>
+		<if test="pid != null and pid !=''">
+		    AND pid = #{pid,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		cid,cname,pid
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+	
+</mapper>

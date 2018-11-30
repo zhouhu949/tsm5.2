@@ -1,0 +1,31 @@
+/* ��Ļcss */
+  *{margin:0;padding:0;}
+  body{background:url("1.png") no-repeat top center/ font-size:12px;font-family:"微软雅黑","Arial"; }
+
+.clearfix{zoom:1}
+.clearfix:after{content:" ";display:table;clear:both}
+.fl_l{float:left;}
+.fl_r{float:right;}
+  /*d_screen start*/
+ .dm{width:100%;height:30%;position:absolute;top:45px;left:0;display:none;}
+ .dm .d_screen 
+ .d_del{height:25px;display:block;text-align:center;line-height:38px;
+  text-decoration:none;font-size:16px;color:#fff;position:absolute;top:10px;right:70px;z-index:3;display:none;/* background:#600;border-radius:19px;border:1px solid #fff; */}
+  .comment{height:25px;display:block;text-align:center;line-height:38px;
+  text-decoration:none;font-size:16px;color:#fff;position:absolute;top:10px;right:20px;z-index:3;}
+ .dm .d_screen .d_del:visited, .dm .d_screen .comment:visited{color:#fff;}
+.d_screen{position:relative;width:100%;height:100%;overflow:hidden;background:#000;opacity:0.5;filter:alpha(opacity=50);cursor:pointer;}
+ .dm .d_screen .d_mask{width:90%;height:80%;position:absolute;top:0;left:0; z-index:1;}
+ .dm .d_screen .d_show{position: relative;z-index:2;}
+ .dm .d_screen .d_show div{font-size:22px;line-height:36px;color:#fff;position:absolute;left:0;top:0;word-break:keep-all; white-space:nowrap;}
+  /*end d_scree*/
+
+   /*.send start*/
+ .send{display:none;width:100%;height:36px;position:absolute;bottom:4px;left:0;}
+ .send .s_fiter{position:relative;width:50%;height:36px;margin:0 auto;position:bottom:0;left:0;opacity:0.8;filter:alpha(opacity=80);}
+ .send .s_con{width:100%;height:40px;position:absolute;top:0;left:0;z-index:2;text-align:center;line-height:40px;}
+ .send .s_con 
+ .s_txt{width:580px;height:34px;border-radius:4px 0 0 4px;outline:none;border:1px solid #5bba32;background:#fff;}
+ .send .s_con .s_sub{width:100px;height:36px;background:#22c37d;border:0;outline:none;font-size:14px;color:#fff;font-family:"微软雅黑","Arial";cursor:pointer;border-radius:0 4px 4px 0;border:1px solid #5bba32;}
+ .send .s_con .s_sub:hover{background:#3eaf0e;}
+  /*end .send*/

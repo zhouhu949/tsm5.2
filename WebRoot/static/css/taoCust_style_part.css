@@ -1,0 +1,60 @@
+.hyx-cfu-timeline .timeline {
+	background: none;
+	width: 100%;
+}
+.timeline_icon_grey_empty {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	background-image: url(../images/icon_grey_empty.png);
+	left: 16px;
+	top: -10px;
+}
+.time_line {
+	width: 20px;
+	height: 100%;
+	position: absolute;
+	border-right: 2px solid #e6e6e6;
+}
+.hyx-wlm-cent-timeline .timeline ul li {
+	width: 94%;
+}
+.hyx-cfu-timeline .timeline .cfu-cirb {
+	background: url(../images/icon_grey_full.png) no-repeat;
+	position: absolute;
+	left: 16px;
+	width: 10px;
+	height: 10px;
+	top: 10px;
+}
+.hyx-cfu-timeline .timeline .right {
+	width: 90%;
+}
+.hyx-cfu-timeline .timeline .cfu-time {
+	font-size: 12px;
+	color: #000;
+	height: 20px;
+	line-height: 20px;
+	margin:5px 0 5px 10px;
+}
+.hyx-wlm-cent-timeline .timeline .cfu-box {
+	padding: 0;
+	text-indent: 1em;
+}
+.timeline_icon_grey_empty_end {
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	background-image: url(../images/icon_grey_empty.png);
+	left: 16px;
+	bottom: -10px;
+}
+.video_on{
+	float: left;
+}
+/* 日计划右侧的 */
+.timeline-outerbox{
+   height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

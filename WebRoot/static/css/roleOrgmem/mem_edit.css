@@ -1,0 +1,40 @@
+.memb-edit-info p label, .com-search label{height:35px;line-height:35px;}
+.select dt,.sub-dep-inpu{font-weight:normal;}
+.memb-edit-info p label{width:70px;text-align:right;}
+.memb-edit-info .notinqu label{display:inline-block;height:35px;line-height:35px;text-align:right;width:70px;}
+.memb-edit-info .notinqu span{width:140px;display:inline-block;height:25px;line-height:25px;}
+.memb-edit-info p span{width:140px;}
+.shows-edit-title{font-size:14px;padding-bottom:12px;border-bottom:1px solid #e5e5e5;font-weight:bold;padding-left:15px;}
+.memb-edit-info .notinqu select,.memb-edit-info p .moble-input,.memb-edit-info p .w,.memb-edit-info .notinqu .w{width:140px;margin-right:60px;}
+.memb-edit-info .notinqu select{width:135px;}  /*select和input宽度不匹配*/
+.memb-edit-info p{position:relative;}
+.memb-edit-info p .bianKuan{width:140px;}
+.memb-edit-info .notinqu{padding-top:10px;position:relative;}
+.memb-edit-info p textarea{width:415px;height:50px;resize:none;position:absolute;}
+.com-search01 label{width:70px;}
+.manage-drop{width:165px;top: 38px;position: absolute;z-index: 10;background-color: #fff;}
+.memb-edit-info{width:570px;overflow:hidden;height:100%;position:relative;box-sizing:border-box;padding-bottom:50px;margin-left:15px}/* 成员编辑页面的提示和下面展开树之后出现滚动条影响到了提示信息的展示  宽度570 左边距15为显得居中  大窗口尺寸590 */
+.memb-edit-info p .w{margin-right:60px;}
+.memb-edit-info p .nobuyao{margin-right:20px;}
+#error_verifyMobile,#error_name{width:auto;position:absolute;height:35px;line-height:35px;left:215px;}
+#error_verifyMailbox{width:auto;position:absolute;height:35px;line-height:35px;left:485px;}
+.error{color:red;}
+.memb-edit-info .notinqu>input,.memb-edit-info .notinqu>select{height: 25px;line-height: 25px;}
+.marginright60{margin-right:60px;}
+.margintop25{margin-top: 25px;}
+.irequired{color:red;font-style:normal;}
+.role-edit-div{padding-top:10px;height:35px;line-height:35px;}
+.select .role-dl-style{z-index:999;line-height30px;margin: 0;display: inline-block;height: 30px;}
+.select .role-dt-style{width:120px;background:#fff url(${ctx }/static/images/drop-down-arrow.png) no-repeat 149px center;line-height: 23px;height: 23px;}
+.role-dl-style>dd>ul{width:135px;max-height:150px;}
+.role-jurisdiction-label{display: inline-block;height: 30px;line-height: 30px;text-align: right;width: 70px;}
+.com-search01 .role-jujurisdiction-input{height: 23px;line-height: 23px;width:140px;margin-top:0;margin-left:0;border:1px solid #a9a9a9;margin-top:5px;}
+.role-jujurisdiction-treeul{width:99%;height:150px;overflow-y:auto;}
+.memb-edit-info .com-search01 .sure-cancle .bomp-btna label{width:auto;height:17px;line-height:17px;}
+.neworg-surbtn{margin:0;position:absolute;bottom:12px;width:100%;text-align:center;}
+.memb-edit-overflowbox{height:100%;overflow-x:hidden;overflow-y:auto;}
+.select .role-dt-style{background-position:127px center;border:1px solid #a9a9a9;}
+.tree li div ,.tree-title{height: 18px;line-height: 18px;}
+.tree-hit{margin-top:0;}
+.com-search01 .select{margin-bottom:0;margin-right:60px;margin-top:5px;}
+.com-search01 label{line-height:35px;height:35px;}

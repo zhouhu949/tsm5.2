@@ -1,0 +1,252 @@
+/*清除默认样式*/
+body,html,button{
+	margin:0;
+	padding: 0; 
+}
+ul,li{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.show-box{
+	width: 600px;
+	/* height: 550px; */
+	color:#333;
+}
+/*交出原因有文本域的页面*/
+
+/*上中下三部分*/
+.shows-idialog-top{
+	width: 100%;
+	height: 69px;
+	overflow: hidden;
+	border-bottom: 1px solid #e5e5e5;
+}
+.shows-idialog-middle{
+	width: 100%;
+	height: 299px;
+	border-bottom: 1px solid #e5e5e5;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.shows-idialog-bottom{
+	width: 100%;
+	height: 180px;
+	overflow: hidden;
+}
+/*上部分*/
+.shows-input-box{
+	width: 585px;
+	height: 70px;
+	margin: 0 auto;
+	position: relative;
+}
+.shows-input-box span{
+	float: right;
+	font-size: 12px;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	width: 30%;
+	text-align: right;
+	padding-right:5px;
+}
+.shows-input-box span i{
+	font-style: normal;
+}
+.shows-input-box .placehold{
+	position: absolute;
+	left: 10px;
+	top: 30px;
+	color: #ccc;
+	font-size: 14px;
+	text-align: left;
+}
+.shows-input-box input{
+	width: 80%;
+	height: 26px;
+	float: left;
+	border:1px solid #e1e1e1;
+}
+.shows-input-box button{
+	width: 19%;
+	height: 26px;
+	float: left;
+	background-color: #459bff;
+	color: #fff;
+	border: none;
+	font-size: 14px;
+	line-height: 26px;
+	font-weight: bold;
+}
+/*中部分*/
+.shows-idialog-middle>div{
+	padding-left: 20px;
+}
+.shows-middle-title{
+	/* width: 100%; */
+	height: 20px;
+	line-height: 20px;
+	font-weight: bold;
+	margin-top:15px;
+	font-size:14px;
+}
+.shows-middle-cont-box{
+	width: 100%;
+	height: auto;
+	margin-top: 10px;
+	line-height: 30px;
+	font-size:14px;
+}
+.shows-middle-radio-box{
+	width: 90%;
+	height: auto;
+	padding-left: 15px;
+	font-size:12px;
+}
+.shows-middle-radio-box>span{
+	display: inline-block;
+	width: 100px;
+	height: 24px;
+	text-align: left;
+	margin-left: 20px;
+	line-height:24px;
+	overflow:hidden;
+}
+.shows-middle-radio-box span input{
+	margin-top: 6px;
+	float:left;
+	margin-right:5px;
+}
+/*下部分*/
+.shows-reason-box{
+	width: 585px;
+	height: 70px;
+	margin: 20px auto 45px;;
+	position: relative;
+	overflow: hidden;
+}
+.shows-reason-box-1{
+	width: 585px;
+	height: 60px;
+	margin: 20px 0 0 15px;
+	position: relative;
+	overflow: hidden;
+}
+.shows-reason-box .out-resson,.shows-reason-box-1 .out-resson{
+	float: left;
+	display: block;
+	font-size: 12px;
+	width: 12%;
+	height: 30px;
+	line-height: 30px;
+}
+.shows-reason-box textarea,.shows-reason-box-1 textarea{
+	width: 87%;
+	height: 95%;
+	float: right;
+	resize: none;
+	outline: none;
+	border:1px solid #e1e1e1;
+}
+.shows-reason-box #reason{
+	float:left;
+}
+.shows-three-reason-box{
+	width: 100%;
+	height: 30px;
+	margin-bottom: 15px;
+	margin-top: 10px;
+}
+.shows-three-reason-part{
+	float: left;
+	width: 30%;
+	height: 100%;
+	margin-left: 15px;
+	line-height: 30px;
+	overflow: hidden;
+}
+.shows-idialog-bottom button,.shows-middle-title button{
+	width: 84px;
+	height:25px;
+	line-height: 25px;
+	font-size: 14px;
+	border-radius: 3px;
+	outline: none;
+	cursor: pointer;
+	font-family:"微软雅黑","Arial";
+}
+.shows-idialog-bottom .true-click{
+	margin-left: 160px;
+	background-color: #197acb;
+	color: #fff;
+	border:1px solid #197acb;
+}
+.shows-idialog-bottom .prev-click.true-click{
+	margin-left: 220px;
+}
+.shows-idialog-bottom .confirm{
+	margin-left:20px;
+	background-color: #197acb;
+	color: #fff;
+	border:1px solid #197acb;
+}
+ .shows-idialog-bottom .cancle-click{
+	margin-left:20px;
+	border:1px solid #b0b0b0;
+	background-color:#fff;
+}
+.shows-middle-title .cancel-check{
+	border:1px solid #b0b0b0;
+	background-color:#fff;
+	float: right;
+	margin-right: 10px;
+}
+ .shows-idialog-bottom button:hover,.shows-middle-title button:hover{
+	background-color: #0f5ba6;
+	color: #fff;
+	border:1px solid #0f5ba6;
+} 
+/*有下拉框客户状态的页面*/
+.shows-input-box .cust-resson{
+	margin-top: 20px;
+}
+.shows-input-box .placehold1{
+	position: absolute;
+	left: 10px;
+	top: 20px;
+	color: #ccc;
+	font-size: 14px;
+	text-align: left;
+}
+.cust-out-xs,.cust-states{
+	font-size: 12px;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+}
+.xs-name,.access-obj,.xs-reason,.access-obj-num{
+	font-size: 12px;
+}
+.cust-sele-state{
+	width: 170px;
+	height: 30px;
+	border: 1px solid #ccc;
+	outline: none;
+	position: absolute;
+	text-align: center;
+	color:#333;
+}
+.next-tip{
+	margin-left: 280px;
+	background-color: #459bff;
+	color: #fff;
+	border:1px solid #459bff;
+}
+
+/*下面全是文本的页面*/
+.shows-reason-box-part{
+	width: 50%;
+	height: auto;
+	float: left;
+}

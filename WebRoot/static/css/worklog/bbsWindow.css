@@ -1,0 +1,33 @@
+.qqFace{margin-top:4px;background:#fff;padding:2px;border:1px #dfe6f6 solid;}
+.qqFace table td{padding:0px;}
+.qqFace table td img{cursor:pointer;border:1px #fff solid;}
+.qqFace table td img:hover{border:1px #0066cc solid;}
+.job-log-revi .hole-replay-good{border-top: none;}
+.log-hole-good,.log-from-client{margin-left: 10px;}
+.job-log-revi .bortop .con .log-commit-user-name{margin-left: 60px;margin-top:10px;margin-bottom: 10px;line-height:14px;color: #000;cursor: default;}
+.log-reply-content{padding-left: 60px;width: 100%;box-sizing: border-box;}
+.posirela{position: relative;}
+.log-commit-head-icon{display: block;width: 40px;height: 40px;position: absolute;border-radius: 50%;top:10px;left: 10px;overflow: hidden;}
+.log-good-head-icon{display: block;width: 40px;height: 40px;position: absolute;border-radius: 50%;top:50%;left: 10px;overflow: hidden;margin-top:-15px;}
+.log-commit-head-icon>img,.log-good-head-icon>img{width: 100%;height: 100%;}
+.job-log-revi .arrow-a{right:150px;}
+.log-reply-username,.log-reply-bwteen{margin-right: 10px;}
+/* .reply-every-box{padding-bottom:10px;} */
+.job-log-revi .page-of-hole{border-top:0;}
+.page-of-hole .com-pagea{margin-right:14px;}
+.job-log-revi .good-every-box{padding-bottom:20px;position:relative;padding-top:20px;}
+.good-every-box:last-of-type,.reply-every-box:last-of-type{border-bottom:1px solid #d9d9d9;}
+.good-every-box .cen{margin-left:60px;margin-top:0px;}
+.log-goodreply-box{padding-bottom:5px;line-height:30px;cursor:pointer;}
+.log-goodreply-box.log-active{border-bottom:2px solid #333;}
+.job-log-revi .log-good-nodata,.job-log-revi .log-reply-nodata{text-align:center;font-size:14px;}
+.job-log-revi .box-cont,.job-log-revrig .box-cont{margin-bottom:0;}
+.remindme-fontnum{display:block;color:#808080;font-size:12px;width:100px;height:25px;line-height:25px;right:100px;top:0;position:absolute;cursor:default;}
+
+/* 只本页面样式 不可共用 */
+.com-btna{border:none;}
+.com-pagea .a-hover{border:none;background-color:#e5e5e5;}
+.font-color{color:#000;}
+.marginLaR{margin-left:5px;margin-right:5px;}
+.tree-title{width:52px;}
+.btnw55{color: #fff;background-color: #4598fe;background-image: none;border-radius: 5px;cursor: pointer;}

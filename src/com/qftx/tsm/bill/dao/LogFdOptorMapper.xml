@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.bill.dao.LogFdOptorMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.bill.bean.LogFdOptorBean" >
+    <id column="ALLOCATION_ID" property="allocationId" jdbcType="VARCHAR" />
+    <result column="ALLOCATION_ACC" property="allocationAcc" jdbcType="VARCHAR" />
+    <result column="OPERATE_TIMELENGTH" property="operateTimelength" jdbcType="DECIMAL" />
+    <result column="OPERATE_TYPE" property="operateType" jdbcType="DECIMAL" />
+    <result column="OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATE_ACC" property="operateAcc" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="PACKAGE_CODE" property="packageCode" jdbcType="VARCHAR" />
+    <result column="ORDERNUMBER" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="AFTER_OPERATE_TIMELENGTH" property="afterOperateTimelength" jdbcType="DECIMAL" />
+  </resultMap>
+  
+    <!-- 实体表名 -->
+  <sql id="table_name">TSM_LOG_FD_OPTOR</sql>
+  
+  <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	      <if test="allocationId != null" >
+	        AND ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="allocationAcc != null" >
+	        AND ALLOCATION_ACC = #{allocationAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="operateTimelength != null" >
+	        AND OPERATE_TIMELENGTH = #{operateTimelength,jdbcType=DECIMAL},
+	      </if>
+	      <if test="operateType != null" >
+	        AND OPERATE_TYPE = #{operateType,jdbcType=DECIMAL},
+	      </if>
+	      <if test="operateTime != null" >
+	        AND OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="operateAcc != null" >
+	        AND OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="orgId != null" >
+	        AND ORG_ID = #{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="packageCode != null" >
+	        AND PACKAGE_CODE = #{packageCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="orderNumber != null">
+	        AND ORDERNUMBER = #{orderNumber,jdbcType=VARCHAR},
+	      </if>
+	      <if test="afterOperateTimelength != null">
+	      	AND AFTER_OPERATE_TIMELENGTH = #{afterOperateTimelength,jdbcType=DECIMAL},
+	      </if>
+		  <if test="orderKey != null"> 
+		    ORDER BY ${orderKey}
+		  </if>
+	</sql>
+	
+    <!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		      <if test="allocationId != null" >
+		        ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="allocationAcc != null" >
+		        ALLOCATION_ACC = #{allocationAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="operateTimelength != null" >
+		        OPERATE_TIMELENGTH = #{operateTimelength,jdbcType=DECIMAL},
+		      </if>
+		      <if test="operateType != null" >
+		        OPERATE_TYPE = #{operateType,jdbcType=DECIMAL},
+		      </if>
+		      <if test="operateTime != null" >
+		        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="operateAcc != null" >
+		        OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR},
+		      </if>
+		      <!--<if test="orgId != null" >
+		        ORG_ID = #{orgId,jdbcType=VARCHAR},
+		      </if>-->
+		      <if test="packageCode != null" >
+		        PACKAGE_CODE = #{packageCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orderNumber != null" >
+		        ORDERNUMBER = #{orderNumber,jdbcType=VARCHAR},
+		      </if>
+		      <if test="afterOperateTimelength != null">
+		      	AFTER_OPERATE_TIMELENGTH = #{afterOperateTimelength,jdbcType=DECIMAL},
+		      </if>
+		</trim>
+	</sql>
+  
+  <!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			  <if test="allocationId != null and allocationId != ''" >
+		        ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="allocationAcc != null and allocationAcc != ''" >
+		        ALLOCATION_ACC = #{allocationAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="operateTimelength != null and operateTimelength != ''" >
+		        OPERATE_TIMELENGTH = #{operateTimelength,jdbcType=DECIMAL},
+		      </if>
+		      <if test="operateType != null and operateType != ''" >
+		        OPERATE_TYPE = #{operateType,jdbcType=DECIMAL},
+		      </if>
+		      <if test="operateTime != null and operateTime != ''" >
+		        OPERATE_TIME = #{operateTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="operateAcc != null and operateAcc != ''" >
+		        OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR},
+		      </if>
+		      <!--<if test="orgId != null and orgId != ''" >
+		        ORG_ID = #{orgId,jdbcType=VARCHAR},
+		      </if>-->
+		      <if test="packageCode != null and orgId != ''" >
+		        PACKAGE_CODE = #{packageCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orderNumber != null and orgId != ''" >
+		        ORDERNUMBER = #{orderNumber,jdbcType=VARCHAR},
+		      </if>
+		      <if test="afterOperateTimelength != null">
+		      	AFTER_OPERATE_TIMELENGTH = #{afterOperateTimelength,jdbcType=DECIMAL},
+		      </if>
+		</trim>
+	</sql>
+  
+  <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			  <if test="allocationId != null" >
+		        ALLOCATION_ID,
+		      </if>
+		      <if test="allocationAcc != null" >
+		        ALLOCATION_ACC,
+		      </if>
+		      <if test="operateTimelength != null" >
+		        OPERATE_TIMELENGTH,
+		      </if>
+		      <if test="operateType != null" >
+		        OPERATE_TYPE,
+		      </if>
+		      <if test="operateTime != null" >
+		        OPERATE_TIME,
+		      </if>
+		      <if test="operateAcc != null" >
+		        OPERATE_ACC,
+		      </if>
+		      <if test="orgId != null" >
+		        ORG_ID,
+		      </if>
+		      <if test="packageCode != null" >
+		        PACKAGE_CODE,
+		      </if>
+		      <if test="orderNumber != null" >
+		        ORDERNUMBER,
+		      </if>
+		      <if test="afterOperateTimelength != null">
+		      	AFTER_OPERATE_TIMELENGTH,
+		      </if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="allocationId != null" >
+		        #{allocationId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="allocationAcc != null" >
+		        #{allocationAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="operateTimelength != null" >
+		        #{operateTimelength,jdbcType=DECIMAL},
+		      </if>
+		      <if test="operateType != null" >
+		        #{operateType,jdbcType=DECIMAL},
+		      </if>
+		      <if test="operateTime != null" >
+		        #{operateTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="operateAcc != null" >
+		        #{operateAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orgId != null" >
+		        #{orgId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="packageCode != null" >
+		        #{packageCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orderNumber != null" >
+		        #{orderNumber,jdbcType=VARCHAR},
+		      </if>
+		      <if test="afterOperateTimelength != null">
+		      	#{afterOperateTimelength,jdbcType=DECIMAL},
+		      </if>
+		</trim>
+	</sql>
+		
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	     ALLOCATION_ID, ALLOCATION_ACC, OPERATE_TIMELENGTH, OPERATE_TYPE, OPERATE_TIME,
+	     OPERATE_ACC,ORG_ID,PACKAGE_CODE,ORDERNUMBER,AFTER_OPERATE_TIMELENGTH
+	</sql>
+	<sql id="batch_insert_into_value">
+	   (#{item.allocationId,jdbcType=VARCHAR},
+		      #{item.allocationAcc,jdbcType=VARCHAR},
+		      #{item.operateTimelength,jdbcType=DECIMAL},
+		      #{item.operateType,jdbcType=DECIMAL},
+		      #{item.operateTime,jdbcType=TIMESTAMP},
+		      #{item.operateAcc,jdbcType=VARCHAR},
+		      #{item.orgId,jdbcType=VARCHAR},
+		      #{item.packageCode,jdbcType=VARCHAR},
+		      #{item.orderNumber,jdbcType=VARCHAR},
+		      #{item.afterOperateTimelength,jdbcType=DECIMAL})
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+  <!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR},
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.bill.bean.LogCommuOptorBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.bill.bean.LogCommuOptorBean">
+		update <include refid="table_name"/>
+		<include refid="update_set_sql"/>
+		where ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.bill.bean.LogCommuOptorBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete <include refid="table_name"/> where ALLOCATION_ID = #{allocationId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	  <resultMap type="com.qftx.tsm.bill.dto.LogFdOptorDto" id="BaseResultMapAll" extends="BaseResultMap">
+	     <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+	     <result column="OPERATE_NAME" property="operateNname" jdbcType="VARCHAR" />
+	     <result column="FIRST_OPERATE_TIMELENGTH" property="firstOperateTimelength" jdbcType="DECIMAL" />
+	  </resultMap>
+	  
+	  <select id="findLogFdOptorListPage" resultMap="BaseResultMapAll" parameterType="com.qftx.tsm.bill.dto.LogFdOptorDto">
+		 SELECT * FROM (
+		 SELECT T.ALLOCATION_ID, T.ALLOCATION_ACC, T.OPERATE_TIMELENGTH, 
+		        T.OPERATE_TYPE, T.OPERATE_TIME, T.OPERATE_ACC, 
+	            T.ORG_ID,T.AFTER_OPERATE_TIMELENGTH,
+	            (CASE 
+	             WHEN t.operate_type = 1 THEN t.after_operate_timelength - t.operate_timelength
+	             WHEN t.operate_type = 2 THEN t.after_operate_timelength - t.operate_timelength
+	             WHEN t.operate_type = 3 THEN t.after_operate_timelength - t.operate_timelength
+	             WHEN t.operate_type = 6 THEN t.after_operate_timelength - t.operate_timelength
+	             WHEN t.operate_type = 7 THEN t.after_operate_timelength - t.operate_timelength
+	             WHEN t.operate_type = 8 THEN t.after_operate_timelength - t.operate_timelength
+	             ELSE 0
+	             END
+	            ) as FIRST_OPERATE_TIMELENGTH,
+	            U.USER_NAME,
+	            (CASE 
+	             WHEN t.operate_type = 6 THEN '系统管理员'
+	             ELSE AU.USER_NAME
+	             END
+	            ) as OPERATE_NAME
+	     FROM TSM_LOG_FD_OPTOR T,AUTH_USER U,AUTH_USER AU
+	     WHERE T.ALLOCATION_ACC = U.USER_ACCOUNT
+	     		AND T.OPERATE_ACC = AU.USER_ACCOUNT
+	            AND T.ORG_ID=#{orgId}
+	            AND T.OPERATE_TYPE IN (1,2,3,6,7,8)
+			    <if test="operateType != null and operateType !=''" >
+			       AND T.OPERATE_TYPE = #{operateType,jdbcType=DECIMAL}
+			    </if>
+				<if test="startDate!=null and startDate!=''">
+		           AND STR_TO_DATE(DATE_FORMAT(T.OPERATE_TIME,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{startDate}, '%Y-%m-%d') 	       
+				</if>
+				<if test="endDate!=null and endDate!=''">
+				   AND STR_TO_DATE(DATE_FORMAT(T.OPERATE_TIME,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d') 
+				</if>
+				<if test="accounts != null">
+				    AND T.ALLOCATION_ACC IN 
+				    <foreach collection="accounts" item="account" open="(" separator="," close=")" index="index">
+				    	#{account} 
+				    </foreach> 
+				</if>) W WHERE 1=1 
+					<if test="queryText != null and queryText != ''">
+						AND W.OPERATE_NAME LIKE CONCAT('%',#{queryText },'%') 
+					</if>
+				ORDER BY W.OPERATE_TIME DESC
+	 </select>
+</mapper>

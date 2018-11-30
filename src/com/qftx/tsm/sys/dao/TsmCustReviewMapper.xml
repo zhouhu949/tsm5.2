@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.TsmCustReviewMapper" >
+
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.TsmCustReview" >
+    <id column="REVIEW_ID" property="reviewId" jdbcType="VARCHAR" />
+    <result column="RETA_ID" property="retaId" jdbcType="VARCHAR" />
+    <result column="REV_COMMENT" property="revComment" jdbcType="VARCHAR" />
+    <result column="REVIEW_DATE" property="reviewDate" jdbcType="TIMESTAMP" />
+    <result column="REVIEW_ACC" property="reviewAcc" jdbcType="VARCHAR" />
+    <result column="REVIEW_NAME" property="reviewName" jdbcType="VARCHAR" />
+    <result column="RECORD_EXAMP_ID" property="recordExampId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="RETA_TIME" property="retaTime" jdbcType="VARCHAR" />
+    <result column="RECORD_URL" property="recordUrl" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+    <result column="TIME_LENGH" property="timeLengh" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="SALES_PROCESS" property="salesProcess" jdbcType="VARCHAR" />
+    <result column="IS_READ" property="isRead" jdbcType="DECIMAL" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="type" property="type" jdbcType="DECIMAL" />
+    <result column="call_d" property="callD" jdbcType="VARCHAR" />
+    <result column="call_code" property="callCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <!-- 实体表名 -->
+  <sql id="table_name">tsm_cust_review</sql>
+  
+  
+  <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	  <if test="reviewId != null and reviewId !=''" >
+        and REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+      </if>
+	  <if test="retaId != null and retaId !=''" >
+        and RETA_ID = #{retaId,jdbcType=VARCHAR}
+      </if>
+      <if test="revComment != null and revComment !=''" >
+        and REV_COMMENT = #{revComment,jdbcType=VARCHAR}
+      </if>
+      <if test="reviewDate != null and reviewDate !=''" >
+        and REVIEW_DATE = #{reviewDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="reviewAcc != null and reviewAcc !=''" >
+        and REVIEW_ACC = #{reviewAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="recordExampId != null and recordExampId !=''" >
+        and RECORD_EXAMP_ID = #{recordExampId,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId !=null and orgId !=''">
+        and ORG_ID = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="retaTime != null and retaTime != ''">
+       and RETA_TIME = #{retaTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="recordUrl != null and recordUrl != ''">
+       and RECORD_URL = #{recordUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="custId != null and custId != ''">
+       and CUST_ID = #{custId,jdbcType=VARCHAR}
+      </if>
+      <if test="ownerAcc != null and ownerAcc != ''">
+       and OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="timeLengh != null and timeLengh != ''">
+       and TIME_LENGH = #{timeLengh,jdbcType=DECIMAL}
+      </if>
+      <if test="isRead != null">
+       and IS_READ = #{isRead,jdbcType=DECIMAL}
+      </if>
+      <if test="isDel != null">
+       and IS_DEL = #{isDel,jdbcType=DECIMAL}
+      </if>
+      <if test="minDate != null and minDate != ''">
+       and CUST_ID is not null
+       and REVIEW_DATE <![CDATA[ >= ]]> TRUNC(SYSDATE - #{minDate,jdbcType=DECIMAL})
+      </if>
+
+      <if test="type != null and type != ''">
+       and type = #{type,jdbcType=DECIMAL}
+      </if>
+      <if test="callD != null and callD!='' ">
+       and call_d = #{callD,jdbcType=VARCHAR}
+      </if>
+      <if test="callCode != null">
+       and call_code = #{callCode,jdbcType=VARCHAR}
+      </if>
+            
+      <if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+	
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			  <if test="retaId != null" >
+		        RETA_ID = #{retaId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="revComment != null" >
+		        REV_COMMENT = #{revComment,jdbcType=VARCHAR},
+		      </if>
+		      <if test="reviewDate != null" >
+		        REVIEW_DATE = #{reviewDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="reviewAcc != null" >
+		        REVIEW_ACC = #{reviewAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="recordExampId != null" >
+		        RECORD_EXAMP_ID = #{recordExampId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="retaTime != null">
+		       RETA_TIME = #{retaTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="recordUrl != null">
+		       RECORD_URL = #{recordUrl,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custId != null">
+		       CUST_ID = #{custId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="ownerAcc != null">
+		       OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="isRead != null">
+		       IS_READ = #{isRead,jdbcType=DECIMAL},
+		      </if>
+		      <if test="phone != null">
+		       PHONE = #{phone,jdbcType=VARCHAR},
+		      </if>
+		      <if test="type != null and type != ''">
+		        type = #{type,jdbcType=DECIMAL},
+		      </if>
+		      <if test="callD != null and callD!='' ">
+		        call_d = #{callD,jdbcType=VARCHAR},
+		      </if>
+		      <if test="callCode != null">
+		        call_code = #{callCode,jdbcType=VARCHAR},
+		      </if>		      
+		</trim>
+	</sql>
+  
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			  <if test="reviewId != null" >
+		        REVIEW_ID,
+		      </if>
+		      <if test="retaId != null" >
+		        RETA_ID,
+		      </if>
+		      <if test="revComment != null" >
+		        REV_COMMENT,
+		      </if>
+		      <if test="reviewDate != null" >
+		        REVIEW_DATE,
+		      </if>
+		      <if test="reviewAcc != null" >
+		        REVIEW_ACC,
+		      </if>
+		      <if test="recordExampId != null" >
+		        RECORD_EXAMP_ID,
+		      </if>
+		       <if test="orgId !=null">
+		        ORG_ID,
+		      </if>
+		      <if test="retaTime != null">
+		       RETA_TIME,
+		      </if>
+		      <if test="recordUrl != null">
+		       RECORD_URL,
+		      </if>
+		      <if test="custId != null">
+		       CUST_ID,
+		      </if>
+		      <if test="ownerAcc != null">
+		       OWNER_ACC,
+		      </if>
+		      <if test="timeLengh != null">
+		       TIME_LENGH,
+		      </if>
+		      <if test="name != null">
+		       NAME,
+		      </if>
+		      <if test="company != null">
+		       	COMPANY,
+		      </if>
+		      <if test="salesProcess != null">
+		       SALES_PROCESS,
+		      </if>
+		      <if test="isRead != null">
+		       IS_READ,
+		      </if>
+		      <if test="phone != null">
+		       PHONE,
+		      </if>
+		      <if test="isDel != null">
+		       IS_DEL,
+		      </if>
+		      <if test="reviewName != null" >
+		        REVIEW_NAME,
+		      </if>
+		      <if test="type != null and type != ''">
+		        type ,
+		      </if>
+		      <if test="callD != null and callD!='' ">
+		        call_d ,
+		      </if>
+		      <if test="callCode != null">
+		        call_code ,
+		      </if>			      
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="reviewId != null" >
+		        #{reviewId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="retaId != null" >
+		        #{retaId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="revComment != null" >
+		        #{revComment,jdbcType=VARCHAR},
+		      </if>
+		      <if test="reviewDate != null" >
+		        #{reviewDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="reviewAcc != null" >
+		        #{reviewAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="recordExampId != null" >
+		        #{recordExampId,jdbcType=VARCHAR},
+		      </if>
+		       <if test="orgId !=null">
+		        #{orgId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="retaTime != null">
+		       #{retaTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="recordUrl != null">
+		       #{recordUrl,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custId != null">
+		       #{custId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="ownerAcc != null">
+		       #{ownerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="timeLengh != null">
+		       #{timeLengh,jdbcType=DECIMAL},
+		      </if>
+		      <if test="name != null">
+		       #{name,jdbcType=VARCHAR},
+		      </if>
+		      <if test="company != null">
+		       	#{company,jdbcType=VARCHAR},
+		      </if>
+		      <if test="salesProcess != null">
+		       #{salesProcess,jdbcType=VARCHAR},
+		      </if>
+		      <if test="isRead != null">
+		       #{isRead,jdbcType=DECIMAL},
+		      </if>
+		      <if test="phone!= null">
+		       #{phone,jdbcType=DECIMAL},
+		      </if>
+		      <if test="isDel != null">
+		       #{isDel,jdbcType=DECIMAL},
+		      </if>
+		      <if test="reviewName != null" >
+		        #{reviewName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="type != null and type != ''">
+		         #{type,jdbcType=DECIMAL},
+		      </if>
+		      <if test="callD != null and callD!='' ">
+		         #{callD,jdbcType=VARCHAR},
+		      </if>
+		      <if test="callCode != null">
+		        #{callCode,jdbcType=VARCHAR},
+		      </if>			      
+		</trim>
+	</sql>
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	     REVIEW_ID, RETA_ID, REV_COMMENT, REVIEW_DATE, REVIEW_ACC, RECORD_EXAMP_ID,ORG_ID,RETA_TIME,RECORD_URL,CUST_ID,OWNER_ACC,TIME_LENGH,
+	     NAME,COMPANY,SALES_PROCESS,IS_READ,PHONE,IS_DEL,REVIEW_NAME,type,call_d,call_code
+  	</sql>
+  	
+	<sql id="batch_insert_into_value">
+		 select 
+		      #{item.reviewId,jdbcType=VARCHAR}, #{item.retaId,jdbcType=VARCHAR}, #{item.revComment,jdbcType=VARCHAR}, 
+              #{item.reviewDate,jdbcType=TIMESTAMP}, #{item.reviewAcc,jdbcType=VARCHAR},
+              #{item.recordExampId,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.retaTime,jdbcType=TIMESTAMP},#{item.recordUrl,jdbcType=VARCHAR},
+              #{item.custId,jdbcType=VARCHAR},#{item.ownerAcc,jdbcType=VARCHAR}, #{timeLengh,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}
+              , #{salesProcess,jdbcType=VARCHAR}, #{isRead,jdbcType=DECIMAL}, #{phone,jdbcType=VARCHAR},#{isDel,jdbcType=DECIMAL},#{reviewName,jdbcType=VARCHAR}
+              , #{call_d,jdbcType=VARCHAR},#{type,jdbcType=DECIMAL},#{call_code,jdbcType=VARCHAR}
+		 from dual
+	</sql>
+  
+  
+  <!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.TsmCustReview">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator="union all">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+		
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.TsmCustReview">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId,jdbcType=VARCHAR} and REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.TsmCustReview">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId,jdbcType=VARCHAR} and REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where REVIEW_ID = #{reviewId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatchBy" parameterType="map">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId} and REVIEW_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	<!-- 
+	##################################################################################################
+	#########################客户点评操作方法 开始。。。。。。。。          ##################################
+	##################################################################################################
+	 -->
+	 
+    <resultMap id="BaseResultAll" type="com.qftx.tsm.sys.dto.TsmCustReviewDto" extends="BaseResultMap" >
+	    <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+	    <result column="USER_NAME" property="reviewName" jdbcType="VARCHAR" />
+	    <result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR" />
+	    <result column="name" property="resCustName" jdbcType="VARCHAR" />
+	    <result column="mobilephone" property="mobilePhone" jdbcType="VARCHAR" />
+	    <result column="telphone" property="telPhone" jdbcType="VARCHAR" />
+	    <result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+    </resultMap>
+	 
+	<!-- 客户资料卡点评记录 -->
+    <select id="findCustCardListPage" parameterType="com.qftx.tsm.sys.dto.TsmCustReviewDto" resultMap="BaseResultAll">
+	    <!-- select r.REVIEW_DATE,f.ACTION_DATE,u.user_name,r.rev_comment
+	            from TSM_CUST_REVIEW r,TSM_CUST_FOLLOW f,AUTH_USER u
+			    where r.RETA_ID=f.CUST_FOLLOW_ID
+			    and r.REVIEW_ACC=u.user_account
+			    and f.cust_id=#{custId}
+	     union all
+         select r.REVIEW_DATE,f.START_TIME,u.user_name,r.rev_comment
+                from TSM_CUST_REVIEW r, TSM_RECORD_CALL f, AUTH_USER u
+                where r.RETA_ID = f.CALL_ID
+                and r.REVIEW_ACC = u.user_account
+                and f.cust_id = #{custId}-->
+                
+                
+       select r.REVIEW_DATE,r.RETA_TIME,ifnull(u.user_name,u.user_account) user_name,r.rev_comment
+	            from TSM_CUST_REVIEW r,AUTH_USER u
+			    where r.REVIEW_ACC=u.user_account
+			    and r.cust_id=#{custId} 
+       ORDER BY r.REVIEW_DATE DESC
+     </select>
+      
+        <!-- 根据录音ID查询出该录音示范实体 -->
+     <select id="findReview" parameterType="Map" resultMap="BaseResultMap">
+     	SELECT
+     		<include refid="Base_Column_List"/>
+     	FROM TSM_CUST_REVIEW t
+     	WHERE 
+     	t.org_id = #{orgId} and 
+     	t.reta_id = #{retaId}
+     	AND t.record_examp_id IS NOT NULL
+     </select>
+  
+  	 <select id="findRecordReviewListPage" parameterType="com.qftx.tsm.sys.dto.TsmCustReviewDto" resultMap="BaseResultAll">
+  	 	SELECT t.review_id,t.reta_id,t.cust_id,t.time_lengh,t.review_date,t.reta_time,t.rev_comment,t.record_url,
+  	 	t.name,t.phone,OWNER_ACC ,REVIEW_ACC,call_d,call_code
+				 from tsm_cust_review t 
+			    WHERE
+			 t.record_examp_id IS NOT NULL
+			AND t.org_id = #{orgId,jdbcType=VARCHAR}
+		<if test="recordExampId != null and recordExampId != ''">
+			AND t.record_examp_id = #{recordExampId,jdbcType=VARCHAR}
+		</if>
+		<if test="ownerAccs!=null">
+			AND  t.OWNER_ACC IN 		
+			<foreach collection="ownerAccs" item="shareAcc" open="(" separator="," close=")">
+		         #{shareAcc}
+	        </foreach>	
+	    </if>	
+	    <if test="ownerAcc != null and ownerAcc != ''">
+		    AND t.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR} 
+	    </if>	    	
+		<if test="startDate!=null and startDate!='' ">
+	       <![CDATA[
+	        AND t.review_date>=str_to_date(  CONCAT(#{startDate},' 00:00:00'), '%Y-%m-%d %H:%i:%s') 	       	
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		   AND t.review_date<=str_to_date(  CONCAT(#{endDate},' 23:59:59'), '%Y-%m-%d %H:%i:%s') 	 
+		   ]]>
+		</if>
+		<if test="qKeyWord != null and qKeyWord != ''">
+			AND (t.rev_comment LIKE concat('%',#{qKeyWord},'%') or t.review_name LIKE concat('%',#{qKeyWord},'%'))
+		</if>
+		ORDER BY t.review_date DESC
+  	 </select>
+  	 
+  	 <!-- 单个资源客户的点评记录 -->
+  	 <select id="getCustReview" resultMap="BaseResultMap" parameterType="com.qftx.tsm.sys.bean.TsmCustReview">
+  	 	 select r.REVIEW_DATE,r.REVIEW_ACC,r.REV_COMMENT
+	            from TSM_CUST_REVIEW r 
+			    where r.org_id = #{orgId} 
+			    and r.cust_id=#{custId}  ORDER BY r.REVIEW_DATE DESC
+  	 </select>
+  	 <select id="findCustReviewListPage" parameterType="com.qftx.tsm.sys.bean.TsmCustReview" resultMap="BaseResultMap">
+  	 	 select r.REVIEW_DATE,r.REVIEW_ACC,r.REV_COMMENT
+	            from TSM_CUST_REVIEW r
+			    where r.org_id = #{orgId} 
+			    and r.cust_id=#{custId}  ORDER BY r.REVIEW_DATE DESC  	 
+  	 </select>
+</mapper>

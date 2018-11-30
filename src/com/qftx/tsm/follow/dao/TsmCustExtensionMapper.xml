@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.follow.dao.TsmCustExtensionMapper">
+
+	<!-- 延期审核 -->
+	<resultMap type="com.qftx.tsm.follow.bean.TsmCustExtension" id="BaseResultMap">
+		<result column="EXTENSION_ID" property="extensionId" jdbcType="VARCHAR" />
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="DAYS_EXTENSION" property="daysExtension" jdbcType="DECIMAL" />
+		<result column="REASONS_EXTENSION" property="reasonsExtension" jdbcType="VARCHAR" />
+		<result column="APPLICANT_EXTENSION_ID" property="applicantExtensionId" jdbcType="VARCHAR" />
+		<!-- 必须是 年月日 时分秒 -->
+		<result column="APPLICATION_TIME_EXTENSION" property="applicationTimeExtension" jdbcType="TIMESTAMP" />
+		<result column="STATUS_EXTENDED" property="statusExtended" jdbcType="DECIMAL" />
+		<result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+		<result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ACC" property="updateAcc" jdbcType="VARCHAR" />
+		<result column="REVIEWER_ID" property="reviewerId" jdbcType="VARCHAR" />
+		<result column="REVIEWER_NAME" property="reviewerName" jdbcType="VARCHAR" />
+		<result column="APPLICANT_EXTENSION_NAME" property="applicantExtensionName" jdbcType="VARCHAR" />
+		<result column="REVIEWER_TIME" property="reviewerTime" jdbcType="TIMESTAMP" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+  	<!-- 实体表名 -->
+	<sql id="table_name">TSM_CUST_EXTENSION</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="extensionId != null">
+			  EXTENSION_ID,
+			</if>
+			<if test="custId != null">
+			  CUST_ID,
+			</if>
+			<if test="daysExtension != null">
+			  DAYS_EXTENSION,
+			</if>
+			<if test="reasonsExtension != null">
+			  REASONS_EXTENSION,
+			</if>
+			<if test="applicantExtensionId != null">
+			  APPLICANT_EXTENSION_ID,
+			</if>
+			<if test="applicationTimeExtension != null">
+			  APPLICATION_TIME_EXTENSION,
+			</if>
+			<if test="statusExtended != null">
+			  STATUS_EXTENDED,
+			</if>
+			<if test="inputDate != null">
+			  INPUT_DATE,
+			</if>
+			<if test="inputAcc != null">
+			  INPUT_ACC,
+			</if>
+			<if test="updateDate != null">
+			  UPDATE_DATE,
+			</if>
+			<if test="updateAcc != null">
+			  UPDATE_ACC,
+			</if>
+			<if test="reviewerId != null">
+			  REVIEWER_ID,
+			</if>
+			<if test="reviewerName != null">
+			  REVIEWER_NAME,
+			</if>
+			<if test="applicantExtensionName != null">
+			  APPLICANT_EXTENSION_NAME,
+			</if>
+			<if test="reviewerTime != null" >
+			  REVIEWER_TIME,
+			</if>
+			<if test="orgId != null" >
+			  ORG_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="extensionId != null">
+			  #{extensionId},
+			</if>
+			<if test="custId != null">
+			  #{custId},
+			</if>
+			<if test="daysExtension != null">
+			  #{daysExtension},
+			</if>
+			<if test="reasonsExtension != null">
+			  #{reasonsExtension},
+			</if>
+			<if test="applicantExtensionId != null">
+			  #{applicantExtensionId},
+			</if>
+			<if test="applicationTimeExtension != null">
+			  #{applicationTimeExtension},
+			</if>
+			<if test="statusExtended != null">
+			  #{statusExtended},
+			</if>
+			<if test="inputDate != null">
+			  #{inputDate},
+			</if>
+			<if test="inputAcc != null">
+			  #{inputAcc},
+			</if>
+			<if test="updateDate != null">
+			  #{updateDate},
+			</if>
+			<if test="updateAcc != null">
+			  #{updateAcc},
+			</if>
+			<if test="reviewerId != null">
+			  #{reviewerId},
+			</if>
+			<if test="reviewerName != null">
+			  #{reviewerName},
+			</if>
+			<if test="applicantExtensionName != null">
+			  #{applicantExtensionName},
+			</if>
+			<if test="reviewerTime != null">
+			  #{reviewerTime},
+			</if>
+			<if test="orgId != null" >
+			  #{orgId},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.follow.bean.TsmCustExtension">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<resultMap type="com.qftx.tsm.follow.dto.TsmCustExtensionDto" id="BaseResultMapAll" extends="BaseResultMap">
+	    <result column="CUST_ID" property="custId" jdbcType="VARCHAR"/>
+		<result column="CUST_NAME" property="custName" jdbcType="VARCHAR"/>
+		<result column="COMPANY" property="company" jdbcType="VARCHAR"/>
+		<result column="OPTION_ID" property="optionId" jdbcType="VARCHAR"/>
+		<result column="OPTION_NAME" property="optionName" jdbcType="VARCHAR"/>
+		<result column="IS_MAJOR" property="isMajor" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!--延期审核列表查询-->
+	<select id="findDeferredAuditListPage" parameterType="com.qftx.tsm.follow.dto.TsmCustExtensionDto" resultMap="BaseResultMapAll">
+			select * from(
+			select  EXTENSION_ID,
+		        e.CUST_ID,
+		        e.DAYS_EXTENSION,
+		        e.REASONS_EXTENSION,
+		        e.APPLICANT_EXTENSION_ID,
+		        e.APPLICATION_TIME_EXTENSION,
+		        e.STATUS_EXTENDED,
+		        e.INPUT_DATE,
+		        e.INPUT_ACC,
+		        e.UPDATE_DATE,
+		        e.UPDATE_ACC,
+		        e.REVIEWER_ID,
+		        e.REVIEWER_NAME,
+		        e.APPLICANT_EXTENSION_NAME,
+		        e.REVIEWER_TIME,
+		        c.name CUST_NAME,
+		        c.company,
+		        c.is_major,
+		        c.last_Option_Id option_id
+			 from tsm_team_group_member tgm left join tsm_group_shareinfo tgs
+			 on tgm.org_id= #{orgId} and tgs.org_id = #{orgId} and tgs.group_id = tgm.group_id
+			 left join TSM_CUST_EXTENSION e on e.org_id=#{orgId} and tgm.member_acc = e.APPLICANT_EXTENSION_ID
+			 left join tsm_res_cust_info c on c.org_id=#{orgId} and e.cust_id=c.res_cust_id
+			where e.org_id=#{orgId} and tgs.share_acc = #{ownerAcc}
+			<if test="optionId !='' and optionId !=null">
+			  and c.last_Option_Id = #{optionId}
+			</if>
+			<if test="custIds != null and custIds.size() > 0">
+		   		AND c.RES_CUST_ID IN 
+		   			<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+		   				#{cid}
+		   			</foreach>
+		    </if>
+			<if test="queryText != null and queryText !=''">
+				 <choose>
+		       			<when test="queryType == 1">
+		       				AND c.NAME LIKE concat('%',#{queryText},'%')
+		       			</when>
+		       			<when test="queryType == 2 and (state == null or state == 0)">
+		       				AND c.MAIN_LINKMAN LIKE concat('%',#{queryText},'%')
+		       			</when>
+		       			<when test="queryType == 3 and (state == null or state == 0)">
+		       				AND c.MOBILEPHONE = #{queryText} 						       									
+		       			</when>
+		       			<when test="queryType == 4"><!-- 单位名称 -->
+		       				AND c.COMPANY LIKE concat('%',#{queryText},'%')
+		       			</when>
+		       			<when test="queryType == 5"><!-- 申请人 -->
+		       				AND e.APPLICANT_EXTENSION_NAME LIKE concat('%',#{queryText},'%')
+		       			</when>
+		       		</choose>	
+			</if>
+
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(e.APPLICATION_TIME_EXTENSION,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(e.APPLICATION_TIME_EXTENSION,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+		   <if test="applicantExtensionName !='' and applicantExtensionName != null">
+			   and e.APPLICANT_EXTENSION_NAME like concat('%',#{applicantExtensionName},'%')
+		   </if>
+		   <if test="statusExtended !=null">
+			   and e.STATUS_EXTENDED = #{statusExtended,jdbcType=DECIMAL}
+		   </if>
+		   <if test="auditStartDate!=null and auditStartDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(e.REVIEWER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{auditStartDate}, '%Y-%m-%d') 	       
+			   ]]>
+		   </if>
+		   <if test="auditEndDate!=null and auditEndDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(e.REVIEWER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{auditEndDate}, '%Y-%m-%d') 
+			   ]]>
+		   </if>
+		   <if test="reviewerName !='' and reviewerName != null">
+			   and e.REVIEWER_NAME like concat('%',#{reviewerName},'%')
+		   </if>
+		   <if test="queryText != null and queryText !='' and queryType == 3 and (state == null or state == 0)">
+		   		union
+		   		select  EXTENSION_ID,
+		        e.CUST_ID,
+		        e.DAYS_EXTENSION,
+		        e.REASONS_EXTENSION,
+		        e.APPLICANT_EXTENSION_ID,
+		        e.APPLICATION_TIME_EXTENSION,
+		        e.STATUS_EXTENDED,
+		        e.INPUT_DATE,
+		        e.INPUT_ACC,
+		        e.UPDATE_DATE,
+		        e.UPDATE_ACC,
+		        e.REVIEWER_ID,
+		        e.REVIEWER_NAME,
+		        e.APPLICANT_EXTENSION_NAME,
+		        e.REVIEWER_TIME,
+		        c.name CUST_NAME,
+		        c.company,
+		        c.is_major,
+		        c.last_Option_Id option_id
+			 from tsm_team_group_member tgm left join tsm_group_shareinfo tgs
+			 on tgm.org_id= #{orgId} and tgs.org_id = #{orgId} and tgs.group_id = tgm.group_id
+			 left join TSM_CUST_EXTENSION e on e.org_id=#{orgId} and tgm.member_acc = e.APPLICANT_EXTENSION_ID
+			 left join tsm_res_cust_info c on c.org_id=#{orgId} and e.cust_id=c.res_cust_id
+			where e.org_id=#{orgId} and tgs.share_acc = #{ownerAcc}
+			<if test="optionId !='' and optionId !=null">
+			  c.last_Option_Id = #{optionId}
+			</if>
+			<if test="queryText != null and queryText !=''">
+				 <choose>
+		       			<when test="queryType == 3 and (state == null or state == 0)">
+		       				AND c.TELPHONE = #{queryText} 						       									
+		       			</when>
+		       		</choose>	
+			</if>
+
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(e.APPLICATION_TIME_EXTENSION,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(e.APPLICATION_TIME_EXTENSION,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+		   <if test="applicantExtensionName !='' and applicantExtensionName != null">
+			   and e.APPLICANT_EXTENSION_NAME like concat('%',#{applicantExtensionName},'%')
+		   </if>
+		   <if test="statusExtended !=null">
+			   and e.STATUS_EXTENDED = #{statusExtended,jdbcType=DECIMAL}
+		   </if>
+		   <if test="auditStartDate!=null and auditStartDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(e.REVIEWER_TIME,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{auditStartDate}, '%Y-%m-%d') 	       
+			   ]]>
+		   </if>
+		   <if test="auditEndDate!=null and auditEndDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(e.REVIEWER_TIME,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{auditEndDate}, '%Y-%m-%d') 
+			   ]]>
+		   </if>
+		   <if test="reviewerName !='' and reviewerName != null">
+			   and e.REVIEWER_NAME like concat('%',#{reviewerName},'%')
+		   </if>
+		   </if>
+		   ) e
+		   <if test=" orderKey != null and orderKey != '' and queryType != 3">
+			ORDER BY ${orderKey} 
+           </if>
+	</select>
+	
+	<!--批量修改审核状态-->
+	<update id="updateBatchStatus" parameterType="map">
+	   update TSM_CUST_EXTENSION 
+			   set STATUS_EXTENDED=#{statusExtended},
+				   UPDATE_DATE=now(),
+				   REVIEWER_TIME=now(),
+				   UPDATE_ACC=#{updateAcc},
+				   REVIEWER_ID=#{updateAcc},
+				   REVIEWER_NAME=#{updateName}
+	   where ORG_ID = #{orgId} and EXTENSION_ID in
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+</mapper>

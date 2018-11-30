@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.log.dao.ModuleResourceMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.log.bean.ModuleResourceBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID -->
+		<result column="MODULE_ID" property="moduleId" jdbcType="VARCHAR" /> <!-- 模块id -->
+		<result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" /> <!-- 模块名称 -->
+		<result column="PID" property="pid" jdbcType="VARCHAR" /> <!-- 父模块id -->
+		<result column="LEVEL_TYPE" property="levelType" jdbcType="VARCHAR" /> <!-- 层级等级-->
+		<result column="type" property="type" jdbcType="DECIMAL" /> <!-- 0:公共，1：专业版：2标准版-->
+    </resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">MODULE_RESOURCE</sql>
+	
+	<select id="findModuleReslist" resultMap="BaseResultMap">
+		 SELECT *
+	     FROM MODULE_RESOURCE 
+	     WHERE 1=1
+	     AND TYPE IN (0,1)
+	 </select>
+	 
+	 <select id="findModuleReslistByPid" resultMap="BaseResultMap" parameterType="String">
+		 SELECT *
+	     FROM MODULE_RESOURCE  
+	     WHERE LEVEL_TYPE = #{levelType}
+	     AND TYPE IN (0,1)
+	 </select>
+	 
+	 	 <select id="findModuleRes" resultMap="BaseResultMap" parameterType="map">
+		 SELECT *
+	     FROM MODULE_RESOURCE  
+	     WHERE 
+	     LEVEL_TYPE = #{levelType}
+	     AND PID = #{pid }
+	     AND TYPE IN (0,1)
+	 </select>
+</mapper>

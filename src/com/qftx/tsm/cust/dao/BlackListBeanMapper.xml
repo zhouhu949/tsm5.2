@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.BlackListBeanMapper" >
+	<!-- 
+	#################################################################################################
+	#########################基础定义配置(需要修改部分)###############################################
+	################################################################################################
+	-->
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.BlackListBean" >
+    <id column="BLACK_ID" property="blackId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="PHONE" property="phone" jdbcType="VARCHAR" />  
+    <result column="INPUTDATE" property="inputDate" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="IS_DELETE" property="is_Delete" jdbcType="INTEGER" />
+  </resultMap>
+
+	<!-- 实体表名 -->
+	<sql id="table_name">BLACK_LIST_RECORD</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="phone != null and phone !=''" >
+		  AND PHONE = #{phone,jdbcType=VARCHAR}
+		</if>
+		<if test="inputDate != null and inputDate !=''" >
+		  AND INPUTDATE = #{inputDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="is_Delete != null" >
+		    AND IS_DELETE = #{is_Delete,jdbcType=INTEGER}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+             AND str_to_date(date_format(INPUTDATE,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		     AND str_to_date(date_format(INPUTDATE,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+	</sql>
+	
+	  <sql id="Base_Column_List" >
+  BLACK_ID as blackId,
+  ORG_ID as orgId,
+  USER_ID as userId,
+  USER_NAME as userName,
+  USER_ACCOUNT as userAccount,
+  PHONE as phone,
+  INPUTDATE  as inputDate,
+  TYPE as type,
+  IS_DELETE as is_Delete
+     </sql>
+
+	<select id="findBlackListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.cust.bean.BlackListBean">
+    SELECT
+        <include refid="Base_Column_List"/>
+        from 
+        <include refid="table_name"/>
+		where ORG_ID = #{orgId} 
+		<include refid="entity_condition_orderby"/>
+		 
+              <if test="blackIdList != null">                			
+                   and BLACK_ID in 
+                        <foreach collection="blackIdList" index="index"   item="blackIdList" open="(" separator="," close=")">
+							#{blackIdList}
+						</foreach>
+			 </if>
+			 
+			 <if test="userList != null">                			
+                   and USER_ACCOUNT in 
+                        <foreach collection="userList" index="index"   item="userList" open="(" separator="," close=")">
+							#{userList}
+						</foreach>
+			 </if>
+			  <if test="type != null">                			
+                   and type =#{type}
+			 </if>
+		<if test="typeList != null">
+			and type in
+			<foreach collection="userList" index="index"   item="typeList" open="(" separator="," close=")">
+				#{typeList}
+			</foreach>
+		</if>
+		ORDER BY INPUTDATE DESC	  
+    </select>
+
+	<select id="findBlackList" resultType="String" parameterType="com.qftx.tsm.cust.bean.BlackListBean">
+		SELECT DISTINCT phone
+		from
+		<include refid="table_name"/>
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+
+		<if test="blackIdList != null">
+			and BLACK_ID in
+			<foreach collection="blackIdList" index="index"   item="blackIdList" open="(" separator="," close=")">
+				#{blackIdList}
+			</foreach>
+		</if>
+
+		<if test="userList != null">
+			and USER_ACCOUNT in
+			<foreach collection="userList" index="index"   item="userList" open="(" separator="," close=")">
+				#{userList}
+			</foreach>
+		</if>
+		<if test="type != null">
+			and type =#{type}
+		</if>
+		<if test="typeList != null">
+			and type in
+			<foreach collection="typeList" index="index"   item="typeList" open="(" separator="," close=")">
+				#{typeList}
+			</foreach>
+		</if>
+		ORDER BY INPUTDATE DESC
+	</select>
+	 
+
+	<!-- 添加数据 -->
+	<insert id="insertBlack" parameterType="com.qftx.tsm.cust.bean.BlackListBean">
+		insert  into <include refid="table_name"/>
+		(BLACK_ID,ORG_ID,USER_ID,USER_ACCOUNT,USER_NAME,PHONE,INPUTDATE,TYPE,IS_DELETE)
+		values (#{blackId},#{orgId},#{userId},#{userAccount},#{userName},#{phone},#{inputDate},#{type},0)
+	</insert>
+	
+	<!--删除数据  -->
+		<update id="deleteBlack" parameterType="com.qftx.tsm.cust.bean.BlackListBean">
+		update <include refid="table_name"/>
+        set IS_DELETE=1
+		where ORG_ID = #{orgId} 
+			<if test="blackIdList != null">                			
+                   and BLACK_ID in 
+                        <foreach collection="blackIdList" index="index"   item="blackIdList" open="(" separator="," close=")">
+							#{blackIdList}
+						</foreach>
+			 </if>
+	</update>
+
+	<select id="selectCountByOgrId" parameterType="string" resultType="String">
+		SELECT COUNT(1) FROM black_list_record WHERE ORG_ID =#{orgId} ;
+	</select>
+
+</mapper>

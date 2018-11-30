@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.ServiceVisitMapper" >
+	<!-- 
+	#################################################################################################
+	#########################基础定义配置(需要修改部分)###############################################
+	################################################################################################
+	-->
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.ServiceVisit" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="VISITING_DATE" property="visitingDate" jdbcType="TIMESTAMP" />
+    <result column="VISITING_ACC" property="visitingAcc" jdbcType="VARCHAR" />
+    <result column="VISITING_NAME" property="visitingName" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="VISITING_TYPE" property="visitingType" jdbcType="VARCHAR" />
+    <result column="SERVICE_LEVEL" property="serviceLevel" jdbcType="VARCHAR" />
+    <result column="EFFECTIVENESS" property="effectiveness" jdbcType="DECIMAL" />
+    <result column="LABEL_CODE" property="labelCode" jdbcType="VARCHAR" />
+    <result column="LABEL_NAME" property="labelName" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="NEXT_VISITING_DATE" property="nextVisitingDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_SERVICE_VISITING</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+      <if test=" id != null" >
+        AND ID = #{ id,jdbcType=VARCHAR}
+      </if>
+      <if test=" visitingDate != null" >
+        AND VISITING_DATE = #{ visitingDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test=" visitingAcc != null" >
+        AND VISITING_ACC = #{ visitingAcc,jdbcType=VARCHAR}
+      </if>
+      <if test=" visitingName != null" >
+        AND VISITING_NAME = #{ visitingName,jdbcType=VARCHAR}
+      </if>
+      <if test=" custId != null" >
+        AND CUST_ID = #{ custId,jdbcType=VARCHAR}
+      </if>
+      <if test=" visitingType != null" >
+        AND VISITING_TYPE = #{ visitingType,jdbcType=VARCHAR}
+      </if>
+      <if test=" serviceLevel != null" >
+        AND SERVICE_LEVEL = #{ serviceLevel,jdbcType=VARCHAR}
+      </if>
+      <if test=" effectiveness != null" >
+        AND EFFECTIVENESS = #{ effectiveness,jdbcType=DECIMAL}
+      </if>
+      <if test=" labelCode != null" >
+        AND LABEL_CODE = #{ labelCode,jdbcType=VARCHAR}
+      </if>
+      <if test=" labelName != null" >
+        AND LABEL_NAME = #{ labelName,jdbcType=VARCHAR}
+      </if>
+      <if test=" remark != null" >
+        AND REMARK = #{ remark,jdbcType=VARCHAR}
+      </if>
+      <if test=" isDel != null" >
+        AND IS_DEL = #{ isDel,jdbcType=DECIMAL}
+      </if>
+      <if test=" inputerAcc != null" >
+        AND INPUTER_ACC = #{ inputerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test=" inputdate != null" >
+        AND INPUTDATE = #{ inputdate,jdbcType=TIMESTAMP}
+      </if>
+      <if test=" modifierAcc != null" >
+        AND MODIFIER_ACC = #{ modifierAcc,jdbcType=VARCHAR}
+      </if>
+      <if test=" modifydate != null" >
+        AND MODIFYDATE = #{ modifydate,jdbcType=TIMESTAMP}
+      </if>
+      <if test=" nextVisitingDate != null" >
+        AND NEXT_VISITING_DATE = #{ nextVisitingDate,jdbcType=TIMESTAMP}
+      </if>
+	</sql>
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+	      <if test="visitingDate != null" >
+	        VISITING_DATE = #{visitingDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="visitingAcc != null" >
+	        VISITING_ACC = #{visitingAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="visitingName != null" >
+	        VISITING_NAME = #{visitingName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="custId != null" >
+	        CUST_ID = #{custId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="visitingType != null" >
+	        VISITING_TYPE = #{visitingType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="serviceLevel != null" >
+	        SERVICE_LEVEL = #{serviceLevel,jdbcType=VARCHAR},
+	      </if>
+	      <if test="effectiveness != null" >
+	        EFFECTIVENESS = #{effectiveness,jdbcType=DECIMAL},
+	      </if>
+	      <if test="labelCode != null" >
+	        LABEL_CODE = #{labelCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="labelName != null" >
+	        LABEL_NAME = #{labelName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="remark != null" >
+	        REMARK = #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL = #{isDel,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="orgId != null" >
+	        ORG_ID = #{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="nextVisitingDate != null" >
+	        NEXT_VISITING_DATE = #{nextVisitingDate,jdbcType=TIMESTAMP},
+	      </if>			
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        ID,
+	      </if>
+	      <if test="visitingDate != null" >
+	        VISITING_DATE,
+	      </if>
+	      <if test="visitingAcc != null" >
+	        VISITING_ACC,
+	      </if>
+	      <if test="visitingName != null" >
+	        VISITING_NAME,
+	      </if>
+	      <if test="custId != null" >
+	        CUST_ID,
+	      </if>
+	      <if test="visitingType != null" >
+	        VISITING_TYPE,
+	      </if>
+	      <if test="serviceLevel != null" >
+	        SERVICE_LEVEL,
+	      </if>
+	      <if test="effectiveness != null" >
+	        EFFECTIVENESS,
+	      </if>
+	      <if test="labelCode != null" >
+	        LABEL_CODE,
+	      </if>
+	      <if test="labelName != null" >
+	        LABEL_NAME,
+	      </if>
+	      <if test="remark != null" >
+	        REMARK,
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL,
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC,
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE,
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC,
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE,
+	      </if>
+	      <if test="orgId != null" >
+	        ORG_ID,
+	      </if>
+	      <if test="nextVisitingDate != null" >
+	        NEXT_VISITING_DATE,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      <if test="id != null" >
+	        #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="visitingDate != null" >
+	        #{visitingDate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="visitingAcc != null" >
+	        #{visitingAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="visitingName != null" >
+	        #{visitingName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="custId != null" >
+	        #{custId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="visitingType != null" >
+	        #{visitingType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="serviceLevel != null" >
+	        #{serviceLevel,jdbcType=VARCHAR},
+	      </if>
+	      <if test="effectiveness != null" >
+	        #{effectiveness,jdbcType=DECIMAL},
+	      </if>
+	      <if test="labelCode != null" >
+	        #{labelCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="labelName != null" >
+	        #{labelName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="remark != null" >
+	        #{remark,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isDel != null" >
+	        #{isDel,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="orgId != null" >
+	        #{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="nextVisitingDate != null" >
+	        #{nextVisitingDate,jdbcType=TIMESTAMP},
+	      </if>
+	    </trim>
+	</sql>
+	
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	    ID, VISITING_DATE, VISITING_ACC, VISITING_NAME, CUST_ID, VISITING_TYPE, SERVICE_LEVEL, 
+	    EFFECTIVENESS, LABEL_CODE, LABEL_NAME, REMARK, IS_DEL, INPUTER_ACC, INPUTDATE, MODIFIER_ACC, 
+	    MODIFYDATE, ORG_ID, NEXT_VISITING_DATE
+	</sql>
+	<sql id="batch_insert_into_value">
+		SELECT
+	      #{item.id,jdbcType=VARCHAR}, {#item.visitingDate,jdbcType=TIMESTAMP}, #{item.visitingAcc,jdbcType=VARCHAR}, 
+	      #{item.visitingName,jdbcType=VARCHAR}, #{item.custId,jdbcType=VARCHAR}, #{item.visitingType,jdbcType=VARCHAR}, 
+	      #{item.serviceLevel,jdbcType=VARCHAR}, #{item.effectiveness,jdbcType=DECIMAL}, #{item.labelCode,jdbcType=VARCHAR}, 
+	      #{item.labelName,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.isDel,jdbcType=DECIMAL}, 
+	      #{item.inputerAcc,jdbcType=VARCHAR}, #{item.inputdate,jdbcType=TIMESTAMP}, #{item.modifierAcc,jdbcType=VARCHAR}, 
+	      #{item.modifydate,jdbcType=TIMESTAMP}, #{item.orgId,jdbcType=VARCHAR}, #{item.nextVisitingDate,jdbcType=TIMESTAMP}
+		FROM DUAL
+	</sql>
+
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.ServiceVisit">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator="union all">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.ServiceVisit">
+		update <include refid="table_name"/>
+		<include refid="update_set_sql"/>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.ServiceVisit">
+		update <include refid="table_name"/>
+		<include refid="update_set_sql"/>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>	
+
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	<resultMap id="extendListMap" type="com.qftx.tsm.sys.dto.ServiceVisitDto" extends="BaseResultMap">
+	 	<result column="optionName" property="optionName" jdbcType="VARCHAR" />
+	 	<result column="custName" property="custName" jdbcType="VARCHAR" />
+	 	<result column="company" property="company" jdbcType="VARCHAR" />
+	 	<result column="ACTION_DATE" property="saleFollowDate" jdbcType="TIMESTAMP"/>
+	 	<result column="MOBILEPHONE" property="linkPhone" jdbcType="VARCHAR" />
+	 	<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+	 </resultMap>
+ 
+ <!-- 查询销售人员团队的所有签约客户的今日回访记录 -->
+ <select id="findTeamTodayVisitListPage" parameterType="com.qftx.tsm.sys.dto.ServiceVisitDto" resultMap="extendListMap">
+  	 select t.CUST_ID ,
+  	       t.visiting_date,
+  	       t.NEXT_VISITING_DATE,
+	       t.visiting_name,
+	       t.visiting_type,
+	       t.effectiveness,
+	       t.service_level,
+	       t.remark,
+	       t.label_name,
+	        t.label_code,
+	       ifnull(r.MOBILEPHONE,r.telphone) MOBILEPHONE,
+	       p.option_name optionName,
+	       r.name custName,
+	       r.company,
+	       ifnull(u.USER_NAME,r.OWNER_ACC) OWNER_ACC,
+	       r.ACTION_DATE,
+	       t.id
+	  from tsm_service_visiting t 
+	 left join TSM_RES_CUST_INFO r 
+	 on r.org_id = #{orgId} and  r.res_cust_id = t.CUST_ID  
+	 left join AUTH_USER u
+	 on u.org_id = #{orgId} and  r.OWNER_ACC = u.USER_ACCOUNT
+	 left join tsm_data_optionlist p
+	 on p.org_id = #{orgId} and  t.service_level = p.optionlist_id
+	 where 
+	 t.org_id = #{orgId}
+	 and r.status=6
+	 and r.IS_DEL=0
+		<if test="custName !=null and custName !=''">
+			AND r.NAME like concat('%',#{custName},'%')
+		</if>		
+		<if test="visitingName !=null and visitingName !=''">
+			AND t.VISITING_NAME like concat('%',#{visitingName},'%')
+		</if>	
+		<if test="serviceLevel !=null and serviceLevel !=''">
+			AND t.service_level like concat('%',#{serviceLevel},'%')
+		</if>		 
+		<if test="effectiveness !=null">
+			AND t.EFFECTIVENESS = #{effectiveness}
+		</if>
+		<if test="visitingType !=null ">
+			AND t.VISITING_TYPE = #{visitingType}
+		</if>	
+		<if test="ownerAccs !=null">
+			AND r.OWNER_ACC IN 
+			<foreach collection="ownerAccs" index="index" open="(" separator="," close=")" item="item">
+				#{item}
+			</foreach>
+		</if>	
+		<if test="vstartDate !=null and vstartDate !=''">
+	       <![CDATA[
+            AND str_to_date(date_format(t.VISITING_DATE,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{vstartDate}, '%Y-%m-%d') 	       				   	       
+		   ]]>
+		</if>
+		<if test="vendDate !=null and vendDate !=''">
+		   <![CDATA[
+           AND str_to_date(date_format(t.VISITING_DATE,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{vendDate}, '%Y-%m-%d') 	       				   
+		   ]]>
+		</if>	
+		<!-- 最近销售联系时间	 -->
+		<if test="saleFollowStartDate !=null and saleFollowStartDate !=''">
+	       <![CDATA[
+            AND str_to_date(date_format(r.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{saleFollowStartDate}, '%Y-%m-%d') 	       				   	       
+		   ]]>
+		</if>
+		<if test="saleFollowEndDate !=null and saleFollowEndDate !=''">
+		   <![CDATA[
+           AND str_to_date(date_format(r.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{saleFollowEndDate}, '%Y-%m-%d') 	       				   
+		   ]]>
+		</if>	 
+		<!--3.0 标签判断 -->
+		<if test=" lables != null and lables !=''">
+			AND
+			<foreach collection="lables" index="index" item="item" open="("
+				separator="OR" close=")">
+				t.LABEL_CODE like concat('%',#{item},'%')
+			</foreach>
+		</if>			
+	 order by  t.visiting_date desc      
+ </select>
+
+ <select id="getAllServiceInfo" resultMap="extendListMap" parameterType="java.lang.String">
+ 	SELECT 	V.ID,
+ 			V.VISITING_DATE ,
+ 		    V.NEXT_VISITING_DATE,
+ 		    V.VISITING_NAME,
+ 		    V.VISITING_TYPE,
+ 		    V.SERVICE_LEVEL,
+ 		    V.REMARK,
+ 		    V.LABEL_NAME,
+ 		    V.LABEL_CODE,
+ 		    V.EFFECTIVENESS,
+ 		    P.OPTION_NAME optionName
+ 	FROM TSM_SERVICE_VISITING V,TSM_DATA_OPTIONLIST P
+ 	WHERE V.IS_DEL=0 
+ 	AND V.SERVICE_LEVEL = P.OPTIONLIST_ID(+)
+ 	<if test="custId !='' and custId != null">
+ 		AND V.CUST_ID=#{custId}
+ 	</if>
+ 	ORDER BY VISITING_DATE DESC
+ </select>
+ <!--弹屏 -->
+ <select id="findCustVisistListPage" parameterType="com.qftx.tsm.sys.dto.ServiceVisitDto" resultMap="BaseResultMap">
+     	 select t.visiting_date,
+	       t.visiting_name,
+	       t.visiting_type,
+	       t.effectiveness,
+	       t.service_level,
+	       t.remark,
+	       t.label_name,
+	       p.option_name optionName
+	  from tsm_service_visiting t left join tsm_data_optionlist p on p.org_id=#{orgId} and t.service_level = p.optionlist_id
+	 where t.cust_id = #{custId}
+	 and t.org_id=#{orgId}
+	 order by  t.visiting_date desc
+ </select>
+</mapper>

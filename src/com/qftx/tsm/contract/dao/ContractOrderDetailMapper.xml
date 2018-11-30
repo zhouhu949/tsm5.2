@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.contract.dao.ContractOrderDetailMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.contract.bean.ContractOrderDetailBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+		<result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" /> <!-- 订单ID(contract_order的ID) -->
+		<result column="CODE" property="code" jdbcType="VARCHAR" /> <!-- 订单编号 -->
+		<result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" /> <!-- 产品名称 -->
+		<result column="PRODUCT_MODEL" property="productModel" jdbcType="VARCHAR" /> <!-- 产品型号 -->
+		<result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" /> <!-- 产品规格 -->
+		<result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" /> <!-- 产品ID -->
+		<result column="PRODUCT_PRICE" property="productPrice" jdbcType="DECIMAL" /> <!-- 产品原价 -->
+		<result column="BUY_PRICE" property="buyPrice" jdbcType="DECIMAL" /> <!-- 购买交易价 -->
+		<result column="BUY_NUM" property="buyNum" jdbcType="DECIMAL" /> <!-- 购买数量 -->
+		<result column="BUY_MONEY" property="buyMoney" jdbcType="DECIMAL" /> <!-- 购买总价 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 备注 -->
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 录入时间 -->
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 册除状态1-删除，0-未删除 -->
+	</resultMap>
+	
+	<resultMap id="DtoResultMap" type="com.qftx.tsm.contract.dto.ContractOrderDetailDto" extends="BaseResultMap">
+		<result column="CUST_NAME" property="custName" jdbcType="VARCHAR"/>
+		<result column="ORDER_CODE" property="orderCode" jdbcType="VARCHAR"/>
+		<result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP"/>
+		<result column="INVALID_DATE" property="invalidDate" jdbcType="TIMESTAMP"/>
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP"/>
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR"/>
+		<result column="COMPANY" property="company" jdbcType="VARCHAR"/>
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR"/>
+		<result column="COMMON_ACC" property="commonAcc" jdbcType="VARCHAR"/>
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 实体表名 -->
+	<sql id="table_name">CONTRACT_ORDER_DETAIL</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderId != null and orderId !=''">
+		    AND order_id = #{orderId,jdbcType=VARCHAR} 
+		</if>
+		<if test="code != null and code !=''">
+		    AND code = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="productName != null and productName !=''">
+		    AND product_name = #{productName,jdbcType=VARCHAR} 
+		</if>
+		<if test="productModel != null and productModel !=''">
+		    AND product_model = #{productModel,jdbcType=VARCHAR} 
+		</if>
+		<if test="productType != null and productType !=''">
+		    AND product_type = #{productType,jdbcType=VARCHAR} 
+		</if>
+		<if test="productId != null and productId !=''">
+		    AND product_id = #{productId,jdbcType=VARCHAR} 
+		</if>
+		<if test="productPrice != null and productPrice !=''">
+		    AND product_price = #{productPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="buyPrice != null and buyPrice !=''">
+		    AND buy_price = #{buyPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="buyNum != null and buyNum !=''">
+		    AND buy_num = #{buyNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="buyMoney != null and buyMoney !=''">
+		    AND buy_money = #{buyMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="orderId != null">
+			    order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+			    code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="productName != null">
+			    product_name = #{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productModel != null">
+			    product_model = #{productModel,jdbcType=VARCHAR},
+			</if>
+			<if test="productType != null">
+			    product_type = #{productType,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+			    product_id = #{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="productPrice != null">
+			    product_price = #{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="buyPrice != null">
+			    buy_price = #{buyPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="buyNum != null">
+			    buy_num = #{buyNum,jdbcType=DECIMAL},
+			</if>
+			<if test="buyMoney != null">
+			    buy_money = #{buyMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="orderId != null" >
+			    order_id,
+			</if>
+			<if test="code != null" >
+			    code,
+			</if>
+			<if test="productName != null" >
+			    product_name,
+			</if>
+			<if test="productModel != null" >
+			    product_model,
+			</if>
+			<if test="productType != null" >
+			    product_type,
+			</if>
+			<if test="productId != null" >
+			    product_id,
+			</if>
+			<if test="productPrice != null" >
+			    product_price,
+			</if>
+			<if test="buyPrice != null" >
+			    buy_price,
+			</if>
+			<if test="buyNum != null" >
+			    buy_num,
+			</if>
+			<if test="buyMoney != null" >
+			    buy_money,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+			    #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+			    #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="productName != null">
+			    #{productName,jdbcType=VARCHAR},
+			</if>
+			<if test="productModel != null">
+			    #{productModel,jdbcType=VARCHAR},
+			</if>
+			<if test="productType != null">
+			    #{productType,jdbcType=VARCHAR},
+			</if>
+			<if test="productId != null">
+			    #{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="productPrice != null">
+			    #{productPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="buyPrice != null">
+			    #{buyPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="buyNum != null">
+			    #{buyNum,jdbcType=DECIMAL},
+			</if>
+			<if test="buyMoney != null">
+			    #{buyMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,ORDER_ID,CODE,PRODUCT_NAME,PRODUCT_MODEL,PRODUCT_TYPE,PRODUCT_ID,
+		PRODUCT_PRICE,BUY_PRICE,BUY_NUM,BUY_MONEY,CONTEXT,UPDATETIME,INPUTTIME,IS_DEL
+	</sql>
+
+	<sql id="batch_insert_into_value">
+		      (#{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.orderId,jdbcType=VARCHAR}, 
+              #{item.code,jdbcType=VARCHAR}, #{item.productName,jdbcType=VARCHAR}, #{item.productModel,jdbcType=VARCHAR}, 
+              #{item.productType,jdbcType=VARCHAR}, #{item.productId,jdbcType=VARCHAR}, #{item.productPrice,jdbcType=DECIMAL},
+              #{item.buyPrice,jdbcType=DECIMAL},#{item.buyNum,jdbcType=DECIMAL},#{item.buyMoney,jdbcType=DECIMAL},#{item.context,jdbcType=VARCHAR},
+              #{item.updatetime,jdbcType=TIMESTAMP},#{item.inputtime,jdbcType=TIMESTAMP},#{item.isDel,jdbcType=DECIMAL})
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractOrderDetailBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractOrderDetailBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID = #{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractOrderDetailBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID = #{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<select id="findContractOrderDetailListPage" parameterType="com.qftx.tsm.contract.dto.ContractOrderDetailDto" resultMap="DtoResultMap">
+		SELECT
+			T.CUST_NAME,
+			T.COMPANY,
+			T.CODE AS ORDER_CODE,
+			T.EFFECTIVE_DATE,
+			T.INVALID_DATE,
+			T.TRADE_DATE,
+			T.USER_ID,
+			T.CUST_ID,
+			COD.PRODUCT_MODEL,
+			COD.PRODUCT_NAME,
+			COD.PRODUCT_PRICE,
+			COD.BUY_PRICE,
+			COD.BUY_NUM,
+			COD.BUY_MONEY,
+			COD.CONTEXT,
+			COD.INPUTTIME 
+		FROM 
+		(SELECT COD1.PRODUCT_MODEL,
+			COD1.PRODUCT_NAME,
+			COD1.PRODUCT_PRICE,
+			COD1.BUY_PRICE,
+			COD1.BUY_NUM,
+			COD1.BUY_MONEY,
+			COD1.CONTEXT,
+			COD1.INPUTTIME,
+			COD1.ORDER_ID 
+		 FROM CONTRACT_ORDER_DETAIL COD1 
+		 WHERE COD1.ORG_ID=#{orgId} 
+		 	AND COD1.IS_DEL = 0 
+		 	<if test="productId != null and productId != ''">
+				AND COD1.PRODUCT_ID = #{productId,jdbcType=VARCHAR} 
+			</if>
+			<if test="productModel != null and productModel != ''">
+				AND COD1.PRODUCT_MODEL = #{productModel,jdbcType=VARCHAR} 
+			</if>
+		 ) COD 
+		INNER JOIN (
+		SELECT  T1.ID,
+				T1.CUST_NAME,
+				T1.COMPANY,
+				T1.CODE,
+				T1.EFFECTIVE_DATE,
+				T1.INVALID_DATE,
+				T1.TRADE_DATE,
+				T1.USER_ID,
+				T1.CUST_ID  
+			FROM CONTRACT_ORDER T1
+			WHERE T1.ORG_ID = #{orgId} 
+				AND T1.IS_DEL = 0 
+				<if test="isTP ==1">
+				   AND T1.AUTH_STATE = 2
+				</if>
+				<if test="userIds != null">
+					AND T1.USER_ID IN 
+					<foreach collection="userIds" item="uid" open="(" separator="," close=")">
+						#{uid} 
+					</foreach>
+				</if>
+				<if test="startDate != null and startDate != ''">
+					AND T1.TRADE_DATE >= STR_TO_DATE(CONCAT(#{startDate,jdbcType=VARCHAR},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+				</if>
+				<if test="endDate != null and endDate != ''">
+					AND T1.TRADE_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate,jdbcType=VARCHAR},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+				</if>
+				<if test="queryText != null and queryText != ''">
+					<choose>
+						<when test='queryType != null and queryType == "1"'>
+							AND T1.CUST_NAME LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')
+						</when>
+						<when test='queryType != null and queryType == "2"'>
+							AND T1.CODE LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')
+						</when>
+						<when test='queryType != null and queryType == "3"'>
+							AND T1.COMPANY LIKE CONCAT('%',#{queryText,jdbcType=VARCHAR},'%')
+						</when>
+					</choose>
+				</if>
+				<choose>
+					<when test="custId!=null and custId!=''">
+					   and T1.cust_id=#{custId}
+					</when>
+					<otherwise>
+					   and T1.cust_id in 
+					   (
+					   	 select 
+					   	 	res_cust_id 
+					   	 from tsm_res_cust_info 
+					   	where org_id = #{orgId} 
+					   		and is_del = 0 
+					   		and status in (6,7,8) 
+					   	 	<if test='noteType == "1"'>
+					   			<choose>
+					   				<when test="ownerAccs != null and ownerAccs.size() > 0">
+					   					and owner_acc in 
+									 		<foreach collection="ownerAccs" item="acc" open="(" separator="," close=")">
+									 			#{acc} 
+									 		</foreach>
+					   				</when>
+					   				<otherwise>
+					   					and owner_acc = #{ownerAcc} 
+					   				</otherwise>
+					   			</choose>
+						  </if>
+						  <if test='noteType == "2"'>
+						  	and common_acc = #{commonAcc} 
+						  </if>
+					   )
+					</otherwise>
+				</choose> 
+		) T ON COD.ORDER_ID = T.ID ORDER BY COD.INPUTTIME DESC 
+	</select>
+	
+	<resultMap type="map" id="NumsMap">
+		<result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR"/>
+		<result column="CUST_NUMS" property="custNums" jdbcType="DECIMAL"/>
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR"/>
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="findProductChart" parameterType="map" resultMap="NumsMap">
+		SELECT
+			W.PRODUCT_ID,
+			COUNT(*) CUST_NUMS
+		FROM
+			(
+				SELECT T.PRODUCT_ID,
+					C.CUST_ID
+				FROM
+					CONTRACT_ORDER_DETAIL T
+				LEFT JOIN CONTRACT_ORDER C ON C.ORG_ID = #{orgId} AND T.ORDER_ID = C.ID
+				LEFT JOIN TSM_RES_CUST_INFO R ON R.ORG_ID = #{orgId} AND C.CUST_ID = R.RES_CUST_ID
+				WHERE
+					T.ORG_ID = #{orgId} 
+				<if test="ownerAcc != null and ownerAcc != ''">
+					AND R.OWNER_ACC = #{ownerAcc}  
+				</if>
+				<if test="adminAcc != null and adminAcc != ''">
+					AND R.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+			          FROM TSM_GROUP_SHAREINFO TGS
+			         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+			            ON  TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and  TTGM.GROUP_ID = TGS.GROUP_ID
+			         WHERE SHARE_ACC = #{adminAcc} 
+			         <if test="groupId != null and groupId != ''">
+			         	AND TTGM.GROUP_ID = #{groupId} 
+			         </if>
+			         )
+				</if>
+<!-- 				AND C.AUTH_STATE = 2 -->
+				AND C.IS_DEL = 0
+				AND T.IS_DEL = 0
+				AND R.IS_DEL = 0
+				AND R. STATUS = 6
+				GROUP BY
+					T.PRODUCT_ID,
+					C.CUST_ID 
+			) W
+		GROUP BY
+			W.PRODUCT_ID
+	</select>
+	
+	<select id="findProductLayout" parameterType="map" resultMap="NumsMap">
+		SELECT
+			W.PRODUCT_ID,
+			W.GROUP_ID,
+			COUNT(*) CUST_NUMS 
+		 FROM (
+		SELECT T.PRODUCT_ID,
+			   C.CUST_ID,
+			   R.OWNER_ACC,
+			   TTGM.GROUP_ID
+		FROM
+			CONTRACT_ORDER_DETAIL T
+		LEFT JOIN CONTRACT_ORDER C ON T.ORG_ID = #{orgId} 
+			AND C.ORG_ID = #{orgId} 
+			AND T.ORDER_ID = C.ID 
+		LEFT JOIN (SELECT * FROM TSM_RES_CUST_INFO WHERE ORG_ID = #{orgId} AND IS_DEL = 0
+		AND STATUS = 6) R ON C.CUST_ID = R.RES_CUST_ID 
+		LEFT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TTGM.ORG_ID = #{orgId} AND R.OWNER_ACC = TTGM.MEMBER_ACC
+		WHERE
+			T.ORG_ID = #{orgId} 
+		<if test="adminAcc != null and adminAcc != ''">
+			AND R.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+	          FROM TSM_GROUP_SHAREINFO TGS
+	         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+	            ON   TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and  TTGM.GROUP_ID = TGS.GROUP_ID
+	         WHERE SHARE_ACC = #{adminAcc} 
+	         <if test="groupIds != null and groupIds.size > 0">
+	         	<foreach collection="groupIds" item="groupId" open=" AND TTGM.GROUP_ID IN (" separator="," close=")">
+		         	 #{groupId} 
+	         	</foreach>
+	         </if>
+	         )
+		</if>
+<!-- 		AND C.AUTH_STATE = 2 -->
+		AND C.IS_DEL = 0
+		AND T.IS_DEL = 0
+		AND R.IS_DEL = 0
+		AND R. STATUS = 6
+		GROUP BY
+			T.PRODUCT_ID,
+			C.CUST_ID,
+			R.OWNER_ACC) W GROUP BY W.PRODUCT_ID,W.GROUP_ID
+	</select>
+	
+	<select id="findProductMemberLayout" parameterType="map" resultMap="NumsMap">
+		SELECT
+			W.PRODUCT_ID,
+			W.OWNER_ACC,
+			COUNT(*) CUST_NUMS 
+		 FROM (
+		SELECT T.PRODUCT_ID,
+			   C.CUST_ID,
+			   R.OWNER_ACC
+		FROM
+			CONTRACT_ORDER_DETAIL T
+		LEFT JOIN CONTRACT_ORDER C ON T.ORG_ID = #{orgId}  and  C.ORG_ID = #{orgId} 
+		AND T.ORDER_ID = C.ID 
+		LEFT JOIN (SELECT * FROM TSM_RES_CUST_INFO WHERE ORG_ID = #{orgId} AND IS_DEL = 0
+		AND STATUS = 6) R ON C.CUST_ID = R.RES_CUST_ID
+		WHERE
+			T.ORG_ID = #{orgId} 
+		<if test="adminAcc != null and adminAcc != ''">
+			AND R.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+	          FROM TSM_GROUP_SHAREINFO TGS
+	         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+	            ON   TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and  TTGM.GROUP_ID = TGS.GROUP_ID
+	         WHERE SHARE_ACC = #{adminAcc} 
+	         <if test="groupId != null and groupId != ''">
+		         	 AND TTGM.GROUP_ID = #{groupId} 
+	         </if>
+	         )
+		</if>
+<!-- 		AND C.AUTH_STATE = 2 -->
+		AND C.IS_DEL = 0
+		AND T.IS_DEL = 0
+		AND R.IS_DEL = 0
+		AND R. STATUS = 6
+		GROUP BY
+			T.PRODUCT_ID,
+			C.CUST_ID,
+			R.OWNER_ACC) W GROUP BY W.PRODUCT_ID,W.OWNER_ACC
+	</select>
+</mapper>

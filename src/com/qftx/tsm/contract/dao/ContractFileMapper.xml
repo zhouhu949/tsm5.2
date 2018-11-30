@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.contract.dao.ContractFileMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.contract.bean.ContractFileBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+		<result column="CA_ID" property="caId" jdbcType="VARCHAR" />
+		<result column="FILE_ID" property="fileId" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="DECIMAL" />
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.contract.dto.ContractFileDto" id="DtoResultMap" extends="BaseResultMap">
+		<result column="FILE_NAME" property="fileName" jdbcType="VARCHAR" />
+		<result column="FILE_URL" property="fileUrl" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">CONTRACT_FILE</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="caId != null and caId !=''">
+		    AND ca_id = #{caId,jdbcType=VARCHAR} 
+		</if>
+		<if test="fileId != null and fileId !=''">
+		    AND file_id = #{fileId,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null">
+		    AND type = #{type,jdbcType=DECIMAL} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="caId != null">
+			    ca_id = #{caId,jdbcType=VARCHAR},
+			</if>
+			<if test="fileId != null">
+			    file_id = #{fileId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    type = #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="caId != null" >
+			    ca_id,
+			</if>
+			<if test="fileId != null" >
+			    file_id,
+			</if>
+			<if test="type != null">
+			    type,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="caId != null">
+			    #{caId,jdbcType=VARCHAR},
+			</if>
+			<if test="fileId != null">
+			    #{fileId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=DECIMAL},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,CA_ID,FILE_ID,TYPE,UPDATETIME,INPUTTIME,IS_DEL
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<select id="findContractFiles" parameterType="map" resultMap="DtoResultMap">
+		SELECT
+			t.id,
+			t.file_id,
+			t.ca_id,
+			s.file_name,
+			t.org_id,
+			s.file_url
+		FROM
+			contract_file t
+		LEFT JOIN sys_file s ON s.org_id = #{orgId} AND t.file_id = s.id
+		WHERE
+			t.org_id = #{orgId}
+		AND t.ca_id = #{caId} 
+		AND t.is_del = 0 
+		AND s.is_del = 0 
+	</select>
+</mapper>

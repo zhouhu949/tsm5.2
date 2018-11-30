@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.cust.dao.StaffResourceMgMapper">
+
+	<resultMap type="com.qftx.tsm.cust.dto.StaffDto" id="staffListResultMap">
+		<result column="user_id" property="staffId" jdbcType="VARCHAR" />
+		<result column="user_account" property="staffAcc" jdbcType="VARCHAR" />
+		<result column="user_name" property="staffName" jdbcType="VARCHAR" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="group_name" property="teamGroupName" jdbcType="VARCHAR" />
+		<result column="cont" property="staffResourceSum" jdbcType="DATE" />
+		<result column="concatTotal" property="concatTotal" jdbcType="DECIMAL" />
+		<result column="noConcatTotal" property="noConcatTotal" jdbcType="DECIMAL" />
+		<result column="servetime" property="servetime" javaType="DATE"/>		
+	</resultMap>
+
+
+	<!-- 团队分组信息 -->
+	<resultMap type="com.qftx.tsm.cust.dto.StaffDto" id="groupListResultMap">
+		<result column="res_Group_Id" property="resGroupId" jdbcType="VARCHAR" />
+		<result column="Res_Group_Name" property="ResGroupName" jdbcType="VARCHAR" />    
+		<result column="group_id" property="teamGroupId" jdbcType="VARCHAR" />
+		<result column="GROUP_NAME" property="teamGroupName" jdbcType="VARCHAR" />
+		<result column="cont" property="memberCount" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 资源分组信息 -->
+	<resultMap type="com.qftx.tsm.cust.dto.ResourceGroupDto" id="resgroupListResultMap">
+		<result column="res_group_id" property="resGroupId" jdbcType="VARCHAR" />
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+		<result column="cont" property="groupCount" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 资源分配回收 操作记录 -->
+	<resultMap type="com.qftx.tsm.cust.dto.StaffDto" id="resAssgRecyleListResultMap">
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="optor_res_date" property="optorDate" jdbcType="TIMESTAMP" />
+		<result column="optor_quantity" property="resMemain" jdbcType="VARCHAR" />
+		<result column="owner_name" property="staffName" jdbcType="DECIMAL" />
+		<result column="owner_acc" property="staffAcc" jdbcType="DECIMAL" />
+		<result column="optName" property="optName" jdbcType="DECIMAL" />
+	</resultMap>
+ 
+	<!-- 添加实体 -->
+	<insert id="insertOption" parameterType="com.qftx.tsm.cust.dto.StaffDto">
+		insert into tsm_res_allocation_recovered 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		       RES_OPTOR_ID,
+			  <if test="optAcc != null" >
+		        OPTOER_ACC,
+		      </if>
+		        OPTOR_RES_DATE, 
+		       <if test="type != null" >
+		        TYPE,
+		       </if>
+		       <if test="optCount != null" >
+		        OPTOR_QUANTITY,
+		       </if>
+		        <if test="orgId != null" >
+		         ORG_ID,
+		       </if>
+		       
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		   	  <if test="staffId != null" >
+		        #{staffId,jdbcType=VARCHAR},
+		      </if>
+			  <if test="optAcc != null" >
+		        #{optAcc,jdbcType=VARCHAR},
+		      </if>
+		           now(),
+		       <if test="type != null" >
+		         #{type,jdbcType=VARCHAR},
+		       </if>
+		       <if test="optCount != null" >
+		         #{optCount},
+		       </if>
+		        <if test="orgId != null" >
+		         #{orgId},
+		       </if>
+		</trim>
+	</insert>
+	
+	<!-- 查询公司员工资源信息 -->
+	<select id="findStaffListPage" parameterType="com.qftx.tsm.cust.dto.StaffDto" resultMap="staffListResultMap">
+			SELECT
+				IFNULL(cont, 0) cont,
+				au.user_account,
+				au.servetime,
+				if(LENGTH(au.user_name)>0,au.user_name,au.user_account) user_name,
+				IFNULL(contactTotal,0) concatTotal,IFNULL(cont, 0)-IFNULL(contactTotal,0) noConcatTotal
+			FROM
+				auth_user au
+			LEFT JOIN (
+				SELECT
+					r.owner_acc,
+					count(1) cont,sum(IF(r.is_concat=1,1,0)) contactTotal ,sum(IF(r.is_concat !=1,1,0)) nocontactTotal
+				FROM
+					tsm_res_cust_info r
+				WHERE
+					r.ORG_ID = #{orgId}
+				AND r.type = 1
+				AND r.is_del = 0
+				AND r. STATUS = 2
+				<if test="accounts!=null and accounts.size()>0">
+					AND r.owner_acc  in 
+						<foreach collection="accounts" item="account" open="(" separator=","
+							close=")">
+							#{account}
+						</foreach>	
+					
+				</if>	
+				GROUP BY
+	            r.owner_acc
+			) AS tmp_remain_resource ON au.user_account = tmp_remain_resource.owner_acc
+			WHERE
+			 au.org_id = #{orgId}
+	         <if test="queryContition != null and queryContition != ''">
+                  and ( au.user_account LIKE CONCAT('%',#{queryContition,jdbcType=VARCHAR},'%')  or au.user_name LIKE CONCAT('%',#{queryContition,jdbcType=VARCHAR},'%')  )
+	         </if>			 
+			<if test="accounts!=null and accounts.size()>0">
+				AND au.user_account  in 
+					<foreach collection="accounts" item="account" open="(" separator=","
+						close=")">
+						#{account}
+					</foreach>	
+				
+			</if>			
+			AND au.enabled = 1
+			AND au.sys_type = '5'
+			AND au.is_background = 0
+			<if
+				test="queryStartRemain!=null and queryStartRemain!='' ">
+			<![CDATA[
+			   and cont>=#{queryStartRemain} 
+	        ]]>
+			</if>
+			<if
+				test="queryEndRemain!=null and queryEndRemain!=''">
+			<![CDATA[
+	             and cont<=#{queryEndRemain}   						 
+	        ]]>
+			</if>
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+			   		AND str_to_date(date_format(au.servetime,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d')  
+			   ]]>
+			</if>  
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			   		AND str_to_date(date_format(au.servetime,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+				order by cont ASC,user_account asc
+	</select>
+		
+	<!-- 获取资源分组 -->
+	<select id="findResGroupList" parameterType="map"
+		resultMap="resgroupListResultMap">
+		select g.res_group_id, g.group_name
+		from tsm_res_group g
+		where
+		g.is_del = 0
+		and g.org_id = #{orgId}
+		group by g.res_group_id,
+		g.group_name  ORDER BY  CONVERT( g.GROUP_NAME USING gbk) asc
+     </select>	
+     
+	<!-- 获取最大可分配资源数 -->
+	<select id="findResourcemaxSum" parameterType="map" resultType="int">
+		select count(1)
+		from tsm_res_cust_info r
+		where r.org_id = #{orgId}
+		and r.type = 1
+		<if test="deptIds!=null">
+			AND r.import_dept_id IN
+			<foreach collection="deptIds" item="deptId" open="(" separator=","
+				close=")">
+				#{deptId}
+			</foreach>	
+		</if>
+		and r.is_del = 0
+		and r.status=1
+		<if test="groupId!=null and groupId!=''">
+			AND r.RES_GROUP_ID =#{groupId}
+		</if>
+		<if test="starttime!=null and starttime!='' ">
+		<![CDATA[
+		    AND STR_TO_DATE(DATE_FORMAT(r.INPUT_DATE,'%Y-%m-%d %H:%i:%s'),'%Y-%m-%d %H:%i:%s') >= str_to_date(#{starttime},'%Y-%m-%d %H:%i:%s')	       		
+        ]]>
+		</if>
+		<if test="endtime!=null and endtime!=''">
+		<![CDATA[
+              AND STR_TO_DATE(DATE_FORMAT(r.INPUT_DATE,'%Y-%m-%d %H:%i:%s'),'%Y-%m-%d %H:%i:%s') <= str_to_date(#{endtime},'%Y-%m-%d %H:%i:%s') 						 
+        ]]>
+		</if>
+	</select>   
+	
+	<!-- 获取多个用户拥有资源数量最小的资源数 -->
+	<select id="findRecyleMinSum" parameterType="map" resultType="int">
+		select IFNULL(min(cont),0)
+		from (select r.owner_acc, count(1) cont
+		from
+		tsm_res_cust_info r
+		where r.owner_acc in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+			</foreach>
+		and r.type = 1
+		and r.org_id=#{orgId}
+		and r.status = 2
+		and r.is_del = 0
+		) a
+	</select>  	
+</mapper>

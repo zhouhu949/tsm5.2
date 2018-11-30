@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.option.dao.OptionMapper" >
+
+	<!-- 
+	#################################################################################################
+	#########################基础定义配置(需要修改部分)###############################################
+	################################################################################################
+	-->
+	<!-- 基础结果集 -->
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.option.bean.OptionBean" >
+	  <id column="OPTIONLIST_ID" property="optionlistId" jdbcType="VARCHAR" />
+	  <result column="ITEM_CODE" property="itemCode" jdbcType="VARCHAR" />
+	  <result column="OPTION_NAME" property="optionName" jdbcType="VARCHAR" />
+	  <result column="SORT" property="sort" jdbcType="DECIMAL" />
+	  <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+	  <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+	  <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+	  <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+	  <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	  <result column="UNITS" property="units" jdbcType="VARCHAR" />
+	  <result column="TYPE" property="type" jdbcType="VARCHAR" />
+	  <result column="OPTION_VALUE" property="optionValue" jdbcType="VARCHAR" />
+	  <result column="IS_DEFAULT" property="isDefault" jdbcType="DECIMAL" />
+	  <result column="PID" property="pid" jdbcType="VARCHAR" />  
+	  <result column="SUBNAMELIST" property="subNameList" jdbcType="VARCHAR" /><!-- 查询时拓展出来的一个字段 -->
+	  <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+	</resultMap>
+	
+  	<!-- 实体表名 -->
+	<sql id="table_name">TSM_DATA_OPTIONLIST</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="optionlistId != null" >
+		  AND OPTIONLIST_ID = #{optionlistId,jdbcType=VARCHAR}
+		</if>
+		<if test="itemCode != null" >
+		  AND ITEM_CODE = #{itemCode,jdbcType=VARCHAR}
+		</if>
+		<if test="optionName != null" >
+		  AND OPTION_NAME = #{optionName,jdbcType=VARCHAR}
+		</if>
+		<if test="sort != null" >
+		  AND SORT = #{sort,jdbcType=DECIMAL}
+		</if>
+		<if test="inputerAcc != null" >
+		  AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null" >
+		  AND INPUTDATE = #{inputdate,jdbcType=DATE}
+		</if>
+		<if test="modifierAcc != null" >
+		  AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null" >
+		  AND MODIFYDATE = #{modifydate,jdbcType=DATE}
+		</if>
+		<if test="units != null">
+		 AND UNITS = #{units,jdbcType=VARCHAR}
+		</if>
+		<if test="type != null">
+		 AND TYPE = #{type,jdbcType=VARCHAR}
+		</if>
+		<if test="optionValue != null">
+		 AND OPTION_VALUE = #{optionValue,jdbcType=VARCHAR}
+		</if>
+		<if test="isDefault != null">
+		 AND IS_DEFAULT = #{isDefault,jdbcType=DECIMAL}
+		</if>
+		<if test="pid != null">
+		 AND PID = #{pid,jdbcType=VARCHAR}
+		</if>
+		<if test="groupId != null">
+		 AND group_id = #{groupId,jdbcType=VARCHAR}
+		</if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+  	
+  	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="optionlistId != null" >
+			  OPTIONLIST_ID = #{optionlistId,jdbcType=VARCHAR},
+			</if>
+			<if test="itemCode != null" >
+			  ITEM_CODE = #{itemCode,jdbcType=VARCHAR},
+			</if>
+			<if test="optionName != null" >
+			  OPTION_NAME = #{optionName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null" >
+			  SORT = #{sort,jdbcType=DECIMAL},
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="units != null">
+			 UNITS = #{units,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			 TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="optionValue != null">
+			 OPTION_VALUE = #{optionValue,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+			 IS_DEFAULT = #{isDefault,jdbcType=DECIMAL},
+			</if>
+			<if test="pid != null">
+			 PID = #{optionValue,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null" >
+			  GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="optionlistId != null" >
+			  OPTIONLIST_ID = #{optionlistId,jdbcType=VARCHAR},
+			</if>
+			<if test="itemCode != null" >
+			  ITEM_CODE = #{itemCode,jdbcType=VARCHAR},
+			</if>
+			<if test="optionName != null" >
+			  OPTION_NAME = #{optionName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null" >
+			  SORT = #{sort,jdbcType=DECIMAL},
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="units != null">
+			 UNITS = #{units,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			 TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="optionValue != null">
+			 OPTION_VALUE = #{optionValue,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+			 IS_DEFAULT = #{isDefault,jdbcType=DECIMAL},
+			</if>
+			<if test="pid != null">
+			 PID = #{optionValue,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null" >
+			  GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="optionlistId != null" >
+			  OPTIONLIST_ID,
+			</if>
+			<if test="itemCode != null" >
+			  ITEM_CODE,
+			</if>
+			<if test="optionName != null" >
+			  OPTION_NAME,
+			</if>
+			<if test="sort != null" >
+			  SORT,
+			</if>
+			<if test="inputerAcc != null" >
+			  INPUTER_ACC,
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE,
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null" >
+			  MODIFYDATE,
+			</if>
+			<if test="orgId != null" >
+			  ORG_ID,
+			</if>
+			<if test="units != null">
+			 UNITS,
+			</if>
+			<if test="type != null">
+			 TYPE,
+			</if>
+			<if test="optionValue != null">
+			 OPTION_VALUE,
+			</if>
+			<if test="isDefault != null">
+			 IS_DEFAULT,
+			</if>
+			<if test="pid != null">
+			 PID,
+			</if>
+			<if test="groupId != null" >
+			  GROUP_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="optionlistId != null" >
+			  #{optionlistId},
+			</if>
+			<if test="itemCode != null" >
+			  #{itemCode},
+			</if>
+			<if test="optionName != null" >
+			  #{optionName},
+			</if>
+			<if test="sort != null" >
+			  #{sort},
+			</if>
+			<if test="inputerAcc != null" >
+			  #{inputerAcc},
+			</if>
+			<if test="inputdate != null" >
+			  #{inputdate},
+			</if>
+			<if test="modifierAcc != null" >
+			  #{modifierAcc},
+			</if>
+			<if test="modifydate != null" >
+			  #{modifydate},
+			</if>
+			<if test="orgId != null" >
+			  #{orgId},
+			</if>
+			<if test="units != null">
+			 #{units},
+			</if>
+			<if test="type != null">
+			 #{type},
+			</if>
+			<if test="optionValue != null">
+			 #{optionValue},
+			</if>
+			<if test="isDefault != null">
+			 #{isDefault,jdbcType=DECIMAL},
+			</if>
+			<if test="pid != null">
+			 #{pid},
+			</if>
+			<if test="groupId != null" >
+			  #{groupId},
+			</if>
+		</trim>
+	</sql>
+  	
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  OPTIONLIST_ID, ITEM_CODE, OPTION_NAME, SORT, INPUTER_ACC, INPUTDATE, MODIFIER_ACC, 
+	  MODIFYDATE, ORG_ID, UNITS, TYPE, OPTION_VALUE, IS_DEFAULT, PID,GROUP_ID
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			#{item.optionlistId,jdbcType=VARCHAR},#{item.itemCode,jdbcType=VARCHAR},#{item.optionName,jdbcType=VARCHAR},
+			#{item.sort,jdbcType=DECIMAL},#{item.inputerAcc,jdbcType=VARCHAR},#{item.inputdate,jdbcType=TIMESTAMP},#{item.modifierAcc,jdbcType=VARCHAR},
+			#{item.modifydate,jdbcType=TIMESTAMP},#{item.orgId,jdbcType=VARCHAR},#{item.units,jdbcType=VARCHAR},#{item.type,jdbcType=VARCHAR},
+			#{item.optionValue,jdbcType=VARCHAR},#{item.isDefault,jdbcType=DECIMAL},
+			#{item.pid,jdbcType=VARCHAR},#{item.groupId,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+	</select>
+	
+		<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="findAllWithOrgId" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where 1=1 and org_id is not null
+	</select>		
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="getAllOption" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where OPTIONLIST_ID = #{optionlistId}
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKeyAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		  where org_id=#{orgId} and OPTIONLIST_ID = #{optionlistId} 
+	</select>
+		
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.option.bean.OptionBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.option.bean.OptionBean">
+		update <include refid="table_name"/> 
+		<include refid="update_set_sql"/>
+		where ORG_ID = #{orgId} and OPTIONLIST_ID = #{optionlistId}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.option.bean.OptionBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and OPTIONLIST_ID = #{optionlistId}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where OPTIONLIST_ID = #{optionlistId}
+	</delete>
+	
+	<!-- 根据orgId 删除实体 -->
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where ORG_ID=#{orgId}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteByBatch" parameterType="Map">
+		delete from <include refid="table_name"/> where ORG_ID=#{orgId} AND OPTIONLIST_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<select id="findOptionNames" parameterType="Map" resultType ="String">
+		select OPTION_NAME from <include refid="table_name"/> 
+		 where ORG_ID = #{orgId} and OPTIONLIST_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>	
+	</select>
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	 <!-- 自定义拓展结果集 -->
+	 <resultMap id="ExpandMap" type="com.qftx.tsm.option.dto.OptionDto" extends="BaseResultMap">
+	 	<result column="REVIEW_COUNT" jdbcType="DECIMAL" property="reviewCount"/>
+	 	
+	 </resultMap>
+	 
+	 <resultMap id="BaseResultCountMap" type="com.qftx.tsm.option.dto.OptionDto" extends="BaseResultMap">
+	    <result column="TOTAL" jdbcType="DECIMAL" property="totalCount"/>
+	    <result column="trade_money" jdbcType="DECIMAL"  property="signMoney"/>
+	 </resultMap>
+	 
+	 <!-- 单位是否初始化 -->
+	 <select id="findIsUnitInit"  resultType="Integer" parameterType="string">
+	 	SELECT COUNT(1) FROM TSM_DATA_OPTIONLIST T WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+	 </select>
+	 
+	 <!-- 获得原始定义的选项数据 -->
+	 <select id="getOldOptionList" resultMap="BaseResultMap">
+	 	SELECT
+	 		<include refid="Base_Column_List"/>
+	 	FROM TSM_DATA_OPTIONLIST T
+	 	WHERE T.ORG_ID IS NULL
+	 	AND T.ITEM_CODE IN
+	 	('SALES_10001','SALES_10002','SALES_10006','RECORD_1000','SALES_10007','SALES_10008','SALES_10009','SALES_10010','SALES_40001','companyTrade')
+	 	ORDER BY T.ITEM_CODE,T.SORT
+	 </select>
+	 
+	 <!-- 获得原始定义的选项数据 -->
+	 <select id="getOldOptionList1" resultMap="BaseResultMap" parameterType="String">
+	 	SELECT
+	 		<include refid="Base_Column_List"/>
+	 	FROM TSM_DATA_OPTIONLIST T
+	 	WHERE T.ORG_ID = #{orgId}
+	 	AND T.ITEM_CODE IN
+	 	('SALES_10010','SALES_10012')
+	 </select>
+	 
+	 
+	 <!-- 查询录音示范分类带括号统计数量 -->
+	 <select id="findRecordReviewTypeByOrgId" resultMap="ExpandMap" parameterType="com.qftx.tsm.sys.dto.TsmCustReviewDto">
+			SELECT 
+			  o.optionlist_id,
+			  o.option_name,
+			  IFNULL(t.review_count, 0) AS review_count 
+			FROM
+			  tsm_data_optionlist o 
+			  LEFT JOIN 
+			    (SELECT 
+			      t.record_examp_id,
+			      COUNT(t.record_examp_id) AS review_count 
+			    FROM
+			      tsm_cust_review t 
+			    WHERE t.org_id = #{orgId,jdbcType=VARCHAR}
+				<if test="ownerAccs!=null">
+					AND  t.OWNER_ACC IN 		
+					<foreach collection="ownerAccs" item="shareAcc" open="(" separator="," close=")">
+				         #{shareAcc}
+			        </foreach>	
+			    </if>
+			    GROUP BY t.record_examp_id) t 
+			    ON o.optionlist_id = t.record_examp_id 
+			WHERE o.item_code = 'RECORD_1000' 
+			  AND o.org_id = #{orgId,jdbcType=VARCHAR}
+			ORDER BY o.sort ASC,
+			  o.inputdate ASC 
+	 </select>
+	
+	<!-- 系统设置—>客户放弃原因 -->
+	<select id="findOptionGiveUpListPage1" parameterType="com.qftx.tsm.option.bean.OptionBean" resultMap="BaseResultMap">
+		SELECT 
+		tt.optionlist_id,option_name,
+		group_concat(tt.name2) as subnamelist
+		FROM(
+			SELECT t1.optionlist_id,t1.option_name,t2.option_name AS name2,t1.sort,t2.sort AS sort2
+			FROM tsm_data_optionlist t1 left JOIN tsm_data_optionlist t2
+			on  t2.org_id = #{orgId} and t1.optionlist_id = t2.pid
+			where t1.org_id = #{orgId}
+			AND t1.item_code = #{itemCode}
+			GROUP BY t1.optionlist_id,t1.option_name,t1.sort,t2.option_name,t2.sort
+			ORDER BY t2.sort ASC
+		) tt
+		GROUP BY tt.optionlist_id,option_name,tt.sort
+		ORDER BY tt.sort ASC
+	</select>
+	
+		<!-- 系统设置—>客户放弃原因子项 -->
+	<select id="findOptionGiveUp" parameterType="Map" resultMap="BaseResultMap">
+			select tt.pid,group_concat(tt.option_name) as subnamelist from(
+   					SELECT t1.optionlist_id,t1.option_name,t1.pid
+			FROM tsm_data_optionlist t1
+			where t1.org_id =#{orgId}
+			AND t1.pid in(	SELECT t1.optionlist_id
+			FROM tsm_data_optionlist t1
+			where t1.org_id = #{orgId}
+			AND t1.item_code = #{code}))tt 	GROUP BY tt.pid
+	</select>
+	
+	<!-- 系统设置->客户放弃原因查询子项列表 -->
+	<select id="findSubOptionList" parameterType="map" resultMap="BaseResultMap">
+		SELECT t.optionlist_id,t.option_name,t.sort
+		FROM tsm_data_optionlist t
+		WHERE t.org_id = #{orgId}
+		AND t.item_code = #{code}
+		ORDER BY t.sort
+	</select>
+	<!-- 查询所有机构id -->
+	<select id="getOrgIdList" resultType="java.lang.String">
+		SELECT ORG_ID FROM AUTH_ORG
+	</select>
+	<select id="getAllWithOrgId" resultMap="BaseResultMap">
+		SELECT <include refid="Base_Column_List"/>
+		FROM <include refid="table_name"/> WHERE ORG_ID=#{orgId}
+	</select>
+	
+	<select id="findOptionList" parameterType="String" resultMap="BaseResultMap">
+			SELECT
+				*
+			FROM
+				tsm_data_optionlist o
+			WHERE
+				o.ORG_ID = #{orgId}
+			AND o.ITEM_CODE = 'SALES_40001'
+			ORDER BY
+				o.SORT desc,o.OPTIONLIST_ID DESC	   
+	</select>
+	
+	<!-- 判断排序是否唯一 -->
+	<select id="findSortByExists" resultType="Integer" parameterType="com.qftx.tsm.option.bean.OptionBean">
+		select count(1) from tsm_data_optionlist t where t.org_id = #{orgId} and t.sort = #{sort} and t.ITEM_CODE = #{itemCode}
+		<if test="optionlistId !=null and optionlistId !=''">
+			and t.OPTIONLIST_ID != #{optionlistId}
+		</if>
+	</select>
+	
+	<!-- 获得【快话】原始定义的选项数据 -->
+	 <select id="getQcOldOptionList" resultMap="BaseResultMap">
+	 	SELECT
+	 		<include refid="Base_Column_List"/>
+	 	FROM TSM_DATA_OPTIONLIST T
+	 	WHERE T.ORG_ID IS NULL
+	 	AND T.ITEM_CODE IN
+	 	('SALES_10001','SALES_10002','SALES_10006','RECORD_1000','SALES_10007','SALES_10008','SALES_10009','SALES_10010')
+	 	ORDER BY T.ITEM_CODE,T.SORT
+	 </select>
+	 
+	 
+	 	<select id="findOptionListByAccount" parameterType="String" resultMap="BaseResultMap">
+			SELECT
+	            <include refid="Base_Column_List"/>
+            FROM
+	        tsm_data_optionlist
+            WHERE
+	        ORG_ID =#{orgId}
+            AND ITEM_CODE = 'SALES_10001'
+            ORDER BY sort ASC	   
+	</select>	
+	
+	<!-- 变更分组 -->
+	<delete id="updateByIds" parameterType="Map">
+		update tsm_data_optionlist set GROUP_ID = #{groupId} where 
+		  ORG_ID=#{orgId} AND ITEM_CODE = #{itemCode} AND OPTIONLIST_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<!-- 修改分组 -->
+	<delete id="updateByGroupId" parameterType="Map">
+		update tsm_data_optionlist set GROUP_ID = #{newGroupId} where 
+		  ORG_ID=#{orgId} AND ITEM_CODE = #{itemCode} AND GROUP_ID = #{oldGroupId}
+	</delete>
+</mapper>

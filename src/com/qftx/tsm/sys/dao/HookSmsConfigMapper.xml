@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.HookSmsConfigMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.HookSmsConfig" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="send_type" property="sendType" jdbcType="VARCHAR" />
+    <result column="send_condi" property="sendCondi" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="inputAcc" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="updateAcc" property="updateAcc" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="inputtime" property="inputTime" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="ENABLE" property="enable" jdbcType="DECIMAL" />  
+  </resultMap>
+  <resultMap id="DtoResultMap" type="com.qftx.tsm.sys.dto.HookSmsConfigDto" extends="BaseResultMap"></resultMap>
+  	<!-- 实体表名 -->
+	<sql id="table_name">sys_config_sms</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null" >
+	       AND  ID = #{id,jdbcType=VARCHAR}
+	      </if>
+	      <if test="content != null" >
+	       AND  content = #{content,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendType != null" >
+	       AND  send_type = #{sendType,jdbcType=VARCHAR}
+	      </if>
+	      <if test="status != null" >
+	       AND  status = #{status,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendCondi != null" >
+	       AND  send_condi = #{sendCondi,jdbcType=VARCHAR}
+	      </if>
+	      <if test="inputAcc != null" >
+	       AND  inputAcc = #{inputAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="updateAcc != null" >
+	       AND  updateAcc = #{updateAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="updateTime != null" >
+	       AND updatetime = #{updateTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="inputTime != null" >
+	       AND  inputtime = #{inputTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="isDel != null" >
+	       AND  IS_DEL = #{isDel}
+	      </if>
+	      <if test="enable != null" >
+	       AND  ENABLE = #{enable}
+	      </if>
+	      
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+	      <if test="content != null" >
+	        content = #{content,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sendType != null" >
+	        send_type = #{sendType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null" >
+	        status = #{status,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sendCondi != null" >
+	        send_condi = #{sendCondi,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputAcc != null" >
+	        inputAcc = #{inputAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateAcc != null" >
+	       updateAcc = #{updateAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateTime != null" >
+	        updatetime = #{updateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="inputTime != null" >
+	        inputtime = #{inputTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL = #{isDel,jdbcType=DECIMAL},
+	      </if>
+	       <if test="enable != null" >
+	      	ENABLE = #{enable},
+	      </if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  <if test="id != null" >
+	        ID,
+	      </if>
+	      <if test="orgId != null" >
+	        org_id,
+	      </if>
+	      <if test="content != null" >
+	        content,
+	      </if>
+	      <if test="sendType != null" >
+	        send_type,
+	      </if>
+	      <if test="status != null" >
+	        status,
+	      </if>
+	      <if test="sendCondi != null" >
+	        send_condi,
+	      </if>
+	      <if test="inputAcc != null" >
+	        inputAcc,
+	      </if>
+	      <if test="updateAcc != null" >
+	        updateAcc,
+	      </if>
+	      <if test="updateTime != null" >
+	        updatetime,
+	      </if>
+	      <if test="inputTime != null" >
+	        inputtime,
+	      </if>
+	      <if test="isDel != null" >
+	        IS_DEL,
+	      </if>
+	      <if test="enable != null" >
+	      	ENABLE,
+	      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		 <if test="id != null" >
+	      	 #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="orgId != null" >
+	       	#{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="content != null" >
+	       	#{content,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sendType != null" >
+	        #{sendType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="status != null" >
+	        #{status,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sendCondi != null" >
+	        #{sendCondi,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputAcc != null" >
+	        #{inputAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateAcc != null" >
+	      	#{updateAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="updateTime != null" >
+	       #{updateTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="inputTime != null" >
+	        #{inputTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="isDel != null" >
+	        #{isDel,jdbcType=DECIMAL},
+	      </if>
+	      <if test="enable != null" >
+	      	#{enable},
+	      </if>
+		</trim>
+	</sql>
+  	
+    <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  ID, org_id, content, send_type, status, send_condi,inputAcc, updateAcc, updatetime,inputtime, 
+      IS_DEL,ENABLE
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+		    #{item.id,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR},#{item.content,jdbcType=VARCHAR}, 
+	        #{item.sendType,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR}, #{item.sendConid,jdbcType=VARCHAR},
+	        #{item.inputAcc,jdbcType=VARCHAR}, #{item.updateAcc,jdbcType=VARCHAR}, 
+	        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.inputTime,jdbcType=TIMESTAMP}, #{item.isDel,jdbcType=DECIMAL},
+	        #{item.enable,jdbcType=DECIMAL}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where org_id = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where org_id = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where id = #{id}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where org_id = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.HookSmsConfig">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.HookSmsConfig">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where org_id = #{orgId} and ID = #{id}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where ID = #{id}
+	</delete>
+	
+	<!-- 分页查询挂机短信模板 列表-->
+	<select id="findHookTempListPage" parameterType="com.qftx.tsm.sys.dto.HookSmsConfigDto" resultMap="DtoResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where org_id = #{orgId}		
+		<if test="enable != null ">
+			and enable= #{enable}
+		</if>
+		<if test="sendCondi != null and sendCondi != ''">
+			and send_condi like concat('%',#{sendCondi},'%')
+		</if>
+		<if test="status != null and status != ''">
+			and status like concat('%',#{status},'%')
+		</if>
+		<if test="queryText != null and queryText != ''" > <!-- 短信内容 -->
+			and content like concat('%',#{queryText},'%') 
+		</if>
+   		<if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+		   		AND str_to_date(date_format(inputtime,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d')  
+		   ]]>
+		</if>  
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		   		AND str_to_date(date_format(inputtime,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+		order by inputtime desc
+	</select>
+	
+	<!-- 查询 是否存在同一 启用模板 -->
+	<select id="findExistByConfig" parameterType="Map" resultType="Integer">
+		 select count(1) from <include refid="table_name"/> where org_id = #{orgId} and send_condi like concat('%',#{sendCondi},'%')
+		  and status like concat('%',#{status},'%') and send_type like concat('%',#{sendType},'%') and ENABLE = 1 and id != #{id}
+	</select>
+	
+	<!-- 查询 挂机短信模板 -->
+	<select id="getHookSmsTemp" parameterType="Map" resultMap="BaseResultMap">
+		select h.* from <include refid="table_name"/> h where h.org_id = #{orgId} and h.send_condi like concat('%',#{sendCondi},'%')
+		  and h.status like concat('%',#{status},'%') and h.send_type like concat('%',#{sendType},'%') and h.ENABLE = 1
+	</select>
+	
+	<!-- 查询 该单位是否存在挂机设置 -->
+	<select id="findExistByOrgId" parameterType="Map" resultType="Integer">
+		 select count(1) from <include refid="table_name"/> where org_id = #{orgId} and ENABLE = 1
+	</select>
+</mapper>

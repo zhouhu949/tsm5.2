@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.callrecord.dao.MissCallRecordMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.callrecord.bean.MissCallRecordBean">
+		<id column="Id" property="id" jdbcType="VARCHAR" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="region" property="region" jdbcType="VARCHAR" />
+		<result column="inputAcc" property="inputAcc" jdbcType="VARCHAR" />
+		<result column="inputName" property="inputName" jdbcType="VARCHAR" />
+		<result column="input_date" property="inputDate" jdbcType="TIMESTAMP" />
+		<result column="miss_num" property="missNum" jdbcType="DECIMAL" />
+		<result column="status" property="status" jdbcType="DECIMAL" />
+		<result column="email" property="email" jdbcType="VARCHAR" />		
+	</resultMap>
+
+	<!-- 实体表名 -->
+	<sql id="table_name">tsm_record_miss</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+			and id = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="name != null and name !=''">
+			and name = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="region != null and region != ''">
+			and region = #{region,jdbcType=VARCHAR}
+		</if>
+		<if test="inputAcc != null and inputAcc !=''">
+			and inputAcc = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="status != null">
+			and status = #{status,jdbcType=DECIMAL}
+		</if>
+	</sql>
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="name != null and name != ''">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null and phone != ''">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null and region != ''">
+				region = #{region,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null ">
+				status = #{status,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				id,
+			</if>
+			<if test="orgId != null and orgId != '' ">
+				ORG_ID,
+			</if>
+			<if test="name != null and name != '' ">
+				name,
+			</if>
+			<if test="phone != null  and phone !=''">
+				phone,
+			</if>
+			<if test="region != null and region != '' ">
+				region,
+			</if>
+			<if test="inputAcc != null and inputAcc != '' ">
+				inputAcc,
+			</if>
+			<if test="inputName != null and inputName != '' ">
+				inputName,
+			</if>
+			<if test="inputDate != null">
+				input_date,
+			</if>
+			<if test="missNum != null ">
+				miss_num,
+			</if>
+			<if test="status != null ">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id != '' ">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null and orgId  != '' ">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null and name != '' ">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null and phone != '' ">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null and region != '' ">
+				#{region,jdbcType=VARCHAR},
+			</if>
+			<if test="inputAcc != null and inputAcc != '' ">
+				#{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputName != null and inputName != '' ">
+				#{inputName,jdbcType=VARCHAR},
+			</if>
+			<if test="inputDate != null ">
+				#{input_date,jdbcType=TIMESTAMP},
+			</if>
+			<if test="missNum != null ">
+				#{missNum,jdbcType=DECIMAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID, ORG_ID, name, phone, region,inputAcc,inputName,input_date,miss_num,status
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where org_id = #{orgId} 
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where org_id = #{orgId} 
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where org_id = #{orgId}
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrendsByStatus" parameterType="com.qftx.tsm.callrecord.bean.MissCallRecordBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where org_id = #{orgId} and phone = #{phone} and inputAcc = #{inputAcc}
+	</update>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.callrecord.bean.MissCallRecordBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="deleteBy" parameterType="map">
+		delete from 
+		<include refid="table_name" />
+		where org_id = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteBatchBy" parameterType="map">
+		delete from <include refid="table_name" /> where org_id = #{orgId} 
+			and id in 
+			<foreach collection="list" item="ids" open="(" separator="," close=")">
+				#{ids}
+			</foreach>
+	</delete>
+
+	
+	<!-- 分页，获取漏接记录 -->
+	<select id="findMissCallListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.callrecord.dto.MissCallRecordDto">
+			select * from tsm_record_miss trm where trm.org_id = #{orgId}
+			<choose>
+                 	<when test="roleType!= null and roleType == 1"><!-- 管理者 拥有查看所管理部门资源的权限 -->                            		                 		
+                 		<choose>
+                 			<when test="ownerAccs != null"> <!-- 有选择指定拥有者 -->	                            			
+                  					and trm.inputAcc in
+                  					<foreach collection="ownerAccs" index="index" item="item" open="("
+												separator="," close=")">
+												#{item}
+									</foreach>
+							</when>
+							<otherwise>
+								AND trm.inputAcc = #{ownerAcc}
+                 			</otherwise>
+                 		</choose>                       	
+                 	</when>
+                 	<otherwise>
+                 		AND trm.inputAcc = #{ownerAcc}
+                 	</otherwise>
+                 </choose>
+			<if test="queryText!=null and queryText != ''">
+				and (trm.name like concat('%',#{queryText},'%') or trm.phone like concat('%',#{queryText},'%'))
+			</if>
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(trm.input_date,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(trm.input_date,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+			<if test="status != null">
+				and trm.status = #{status}
+			</if>
+			<if test="orderKey != null"> 
+			  ORDER BY ${orderKey}
+		  </if>
+	</select>
+</mapper>

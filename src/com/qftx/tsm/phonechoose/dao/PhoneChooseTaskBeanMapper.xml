@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.phonechoose.dao.PhoneChooseTaskBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.phonechoose.bean.PhoneChooseTaskBean" >
+    <id column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="RES_GROUP_ID" property="resGroupId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" />
+    <result column="PROCESSED_COUNT" property="processedCount" jdbcType="INTEGER" />
+    <result column="TOTAL_COUNT" property="totalCount" jdbcType="INTEGER" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+    <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ACC" property="updateAcc" jdbcType="VARCHAR" />
+    <result column="UNDISPOSED_REASON" property="undisposedReson" jdbcType="VARCHAR" />
+    <result column="MONEY_CONSUME" property="moneyConsume" jdbcType="INTEGER" />
+    <result column="MODULE_ID" property="moduleId" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap type="com.qftx.tsm.phonechoose.dto.PhoneChooseTaskBeanDto" id="DtoResultMap" extends="BaseResultMap"></resultMap>
+  
+  <sql id="Base_Column_List" >
+    TASK_ID, ORG_ID, RES_GROUP_ID, STATUS, PROCESSED_COUNT, TOTAL_COUNT, INPUT_DATE, 
+    INPUT_ACC, UPDATE_DATE, UPDATE_ACC ,UNDISPOSED_REASON,MONEY_CONSUME,MODULE_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tsm_phone_choose_task
+    where TASK_ID = #{taskId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tsm_phone_choose_task
+    where TASK_ID = #{taskId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseTaskBean" >
+    insert into tsm_phone_choose_task (TASK_ID, ORG_ID, RES_GROUP_ID, 
+      STATUS, PROCESSED_COUNT, TOTAL_COUNT, 
+      INPUT_DATE, INPUT_ACC, UPDATE_DATE, 
+      UPDATE_ACC)
+    values (#{taskId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, #{resGroupId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{processedCount,jdbcType=INTEGER}, #{totalCount,jdbcType=INTEGER}, 
+      #{inputDate,jdbcType=TIMESTAMP}, #{inputAcc,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateAcc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseTaskBean" >
+    insert into tsm_phone_choose_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="resGroupId != null" >
+        RES_GROUP_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="processedCount != null" >
+        PROCESSED_COUNT,
+      </if>
+      <if test="totalCount != null" >
+        TOTAL_COUNT,
+      </if>
+      <if test="inputDate != null" >
+        INPUT_DATE,
+      </if>
+      <if test="inputAcc != null" >
+        INPUT_ACC,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="updateAcc != null" >
+        UPDATE_ACC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="resGroupId != null" >
+        #{resGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="processedCount != null" >
+        #{processedCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalCount != null" >
+        #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="inputDate != null" >
+        #{inputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputAcc != null" >
+        #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAcc != null" >
+        #{updateAcc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseTaskBean" >
+    update tsm_phone_choose_task
+    <set >
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="resGroupId != null" >
+        RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="processedCount != null" >
+        PROCESSED_COUNT = #{processedCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalCount != null" >
+        TOTAL_COUNT = #{totalCount,jdbcType=INTEGER},
+      </if>
+      <if test="inputDate != null" >
+        INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inputAcc != null" >
+        INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAcc != null" >
+        UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TASK_ID = #{taskId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qftx.tsm.phonechoose.bean.PhoneChooseTaskBean" >
+    update tsm_phone_choose_task
+    set ORG_ID = #{orgId,jdbcType=VARCHAR},
+      RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      PROCESSED_COUNT = #{processedCount,jdbcType=INTEGER},
+      TOTAL_COUNT = #{totalCount,jdbcType=INTEGER},
+      INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+      INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR}
+    where TASK_ID = #{taskId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  	<!-- 号码筛查-判断客户是否已经筛查 -->
+	<select id="findCountByStatus" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(T.RES_CUST_ID)  
+		  FROM tsm_phone_choose_task T
+		 WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		   AND T.RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR}
+		   AND STATUS = #{status,jdbcType=TINYINT}
+	</select>
+	
+	<!-- 号码筛查-判断客户是否已经筛查 -->
+	<select id="findUnFinishTaskCount" parameterType="map" resultType="java.lang.Integer">
+		SELECT COUNT(T.TASK_ID)  
+		  FROM tsm_phone_choose_task T
+		 WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		   AND T.RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR}
+		   AND STATUS in (1, 2)
+	</select>
+	
+	<!-- 筛查结果 -->
+	<select id="findScreenResult" resultMap="DtoResultMap"  parameterType="com.qftx.tsm.phonechoose.dto.PhoneChooseTaskBeanDto">
+		select * from (
+		select
+		<include refid="Base_Column_List" />
+		from tsm_phone_choose_task 
+		where 1=1
+		and ORG_ID=#{orgId}
+		and MODULE_ID=#{moduleId}
+		<if test="inputDate!=null and inputDate!=''">
+			<![CDATA[
+			   and INPUT_DATE ${symbol} str_to_date(#{inputDate}, '%Y-%m-%d %H:%i:%s')
+			 ]]>
+		</if>
+		<if test="inputAcc != null and inputAcc != ''">
+			and INPUT_ACC = #{inputAcc}
+		</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+		limit 10 )t 
+		order by t.INPUT_DATE desc
+	</select>
+	
+	
+</mapper>

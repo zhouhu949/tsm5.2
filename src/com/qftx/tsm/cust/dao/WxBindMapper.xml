@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.cust.dao.WxBindMapper">
+
+	<!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.cust.bean.WxBindBean" id="BaseResultMap">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+		<result column="org_Id" property="orgId" jdbcType="VARCHAR" />
+		<result column="cust_id" property="custId" jdbcType="VARCHAR" />
+		<result column="link_Name_Id" property="linkNameId" jdbcType="VARCHAR" />
+		<result column="link_Name" property="linkName" jdbcType="VARCHAR" />
+		<result column="wx_Login_Id" property="wxLoginId" jdbcType="VARCHAR" />
+		<result column="wx_Id" property="wxId" jdbcType="VARCHAR" />
+		<result column="wx_Name" property="wxName" jdbcType="VARCHAR" />
+		<result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+		<result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ACC" property="updateAcc" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="DECIMAL" />	
+	</resultMap>
+	
+	<resultMap type="com.qftx.tsm.cust.dto.BindWxDto" id="wxResultDtoMap">
+	  <id column="wx_Id" property="wxId" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">tsm_wx_bind_info</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id!=''">
+			and id = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="account != null and account !=''">
+			and account = #{account,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId !=''">
+			and org_Id = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="custId != null and custId !=''">
+			and cust_id = #{custId,jdbcType=VARCHAR}
+		</if>		
+		<if test="linkNameId != null and linkNameId !=''">
+			and link_Name_Id = #{linkNameId,jdbcType=VARCHAR}
+		</if>
+		<if test="linkName != null and linkName!=''">
+			and link_Name = #{linkName,jdbcType=VARCHAR}
+		</if>
+		<if test="wxLoginId != null and wxLoginId !=''">
+			and wx_Login_Id = #{wxLoginId,jdbcType=VARCHAR}
+		</if>
+		<if test="wxId != null and wxId !=''">
+			and wx_Id = #{wxId,jdbcType=VARCHAR}
+		</if>
+		<if test="wxName != null and wxName !=''">
+			and wx_Name = #{wxName,jdbcType=VARCHAR}
+		</if>
+		<if test="inputDate != null">
+			and INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="inputAcc != null and inputAcc !=''">
+			and INPUT_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="updateDate != null">
+			and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="updateAcc != null and updateAcc !=''">
+			and UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="type != null">
+			and type = #{type,jdbcType=DECIMAL}
+		</if>				
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		
+			<if test="id != null and id!=''">
+				 id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null and account !=''">
+				 account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null and custId !=''">
+				 cust_id = #{custId,jdbcType=VARCHAR},
+			</if>			
+			<if test="linkNameId != null and linkNameId !=''">
+				 link_Name_Id = #{linkNameId,jdbcType=VARCHAR},
+			</if>
+			<if test="linkName != null ">
+				 link_Name = #{linkName,jdbcType=VARCHAR},
+			</if>
+			<if test="wxLoginId != null ">
+				 wx_Login_Id = #{wxLoginId,jdbcType=VARCHAR},
+			</if>
+			<if test="wxId != null ">
+				 wx_Id = #{wxId,jdbcType=VARCHAR},
+			</if>
+			<if test="wxName != null">
+				 wx_Name = #{wxName,jdbcType=VARCHAR},
+			</if>
+			<if test="inputDate != null">
+				 INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				 INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				 UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateAcc != null and updateAcc !=''">
+				 UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				 type = #{type,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null and id!=''">
+				 id ,
+			</if>
+			<if test="account != null and account !=''">
+				 account ,
+			</if>
+			<if test="orgId != null and orgId !=''">
+				 org_Id ,
+			</if>
+			<if test="custId != null and custId !=''">
+				 cust_id ,
+			</if>			
+			<if test="linkNameId != null and linkNameId !=''">
+				 link_Name_Id ,
+			</if>
+			<if test="linkName != null and linkName!=''">
+				 link_Name ,
+			</if>
+			<if test="wxLoginId != null and wxLoginId !=''">
+				 wx_Login_Id ,
+			</if>
+			<if test="wxId != null and wxId !=''">
+				 wx_Id ,
+			</if>
+			<if test="wxName != null and wxName !=''">
+				 wx_Name,
+			</if>
+			<if test="inputDate != null">
+				 INPUT_DATE ,
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				 INPUT_ACC,
+			</if>
+			<if test="updateDate != null">
+				 UPDATE_DATE,
+			</if>
+			<if test="updateAcc != null and updateAcc !=''">
+				 UPDATE_ACC,
+			</if>
+			<if test="type != null">
+				 type ,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null and id!=''">
+				  #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null and account !=''">
+				 #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null and orgId !=''">
+				 #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null and custId !=''">
+				 #{custId,jdbcType=VARCHAR},
+			</if>			
+			<if test="linkNameId != null and linkNameId !=''">
+				 #{linkNameId,jdbcType=VARCHAR},
+			</if>
+			<if test="linkName != null and linkName!=''">
+				  #{linkName,jdbcType=VARCHAR},
+			</if>
+			<if test="wxLoginId != null and wxLoginId !=''">
+				  #{wxLoginId,jdbcType=VARCHAR},
+			</if>
+			<if test="wxId != null and wxId !=''">
+				 #{wxId,jdbcType=VARCHAR},
+			</if>
+			<if test="wxName != null and wxName !=''">
+				 #{wxName,jdbcType=VARCHAR},
+			</if>
+			<if test="inputDate != null">
+				 #{inputDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				 #{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateAcc != null and updateAcc !=''">
+				 #{updateAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				 #{type,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		id,account,org_Id,cust_id,link_Name_Id,link_Name,wx_Login_Id,wx_Id,wx_Name,INPUT_DATE,INPUT_ACC,UPDATE_DATE,UPDATE_ACC,type
+	</sql>
+	<sql id="batch_insert_into_value">
+		select
+		#{item.id,jdbcType=VARCHAR},#{item.account,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.custId,jdbcType=VARCHAR},
+		#{item.linkNameId,jdbcType=VARCHAR},#{item.linkName,jdbcType=VARCHAR},#{item.wxLoginId,jdbcType=VARCHAR},
+		#{item.wxId,jdbcType=VARCHAR},#{item.wxName,jdbcType=VARCHAR},#{item.inputDate,jdbcType=TIMESTAMP},
+		#{item.inputAcc,jdbcType=VARCHAR},#{item.updateDate,jdbcType=TIMESTAMP},#{item.updateAcc,jdbcType=VARCHAR},
+		#{item.type,jdbcType=DECIMAL}
+		from dual
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where   org_id=#{orgId} and id = #{id}
+		 limit 0,1
+		
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.WxBindBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into
+		<include refid="table_name" />
+		(
+		<include refid="Base_Column_List" />
+		)
+		<foreach collection="list" item="item" index="index"
+			separator="union all">
+			<include refid="batch_insert_into_value" />
+		</foreach>
+
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.WxBindBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where id = #{id} and org_id=#{orgId}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.WxBindBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		 where id = #{id} and org_id=#{orgId}
+	</update>
+
+<!--     <select id="findWxBindInfo_p" parameterType="com.qftx.tsm.cust.bean.WxBindBean" resultMap="BaseResultMap">
+			SELECT
+				c. NAME as link_name ,
+				t.link_Name_Id
+				t.wx_id,
+				t.wx_login_id,
+				t.wx_name
+			FROM
+				tsm_wx_bind_info t
+			LEFT JOIN tsm_res_cust_info c ON c.ORG_ID = #{orgId}
+			AND t.link_name_id = c.RES_CUST_ID
+			AND c.IS_DEL = 0
+			WHERE
+			    t.org_id=#{orgId} and t.link_name_id = #{linkNameId}
+    </select> -->
+
+    <select id="findWxBindInfo" parameterType="com.qftx.tsm.cust.bean.WxBindBean" resultMap="BaseResultMap">
+			SELECT
+				t.wx_id,
+				t.wx_login_id,
+				t.wx_name
+			FROM
+				tsm_wx_bind_info t
+			WHERE
+			    t.org_id=#{orgId} and t.link_name_id = #{linkNameId} limit 0 ,1
+    </select>
+    
+    <update id="updateByLinkNameId" parameterType="com.qftx.tsm.cust.bean.WxBindBean">
+      	update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		 where org_id=#{orgId} and link_name_id = #{linkNameId}
+    </update>
+
+    <select id="findWxBindList" parameterType="com.qftx.tsm.cust.bean.WxBindBean" resultMap="wxResultDtoMap">
+			SELECT
+				t.wx_id
+			FROM
+				tsm_wx_bind_info t
+			where
+			    t.org_id=#{orgId} and t.account = #{account}
+    </select>
+  
+     <!-- 判断微信id是否已经绑定 -->
+     <select id="findBindedByWx" parameterType="com.qftx.tsm.cust.bean.WxBindBean" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			tsm_wx_bind_info t
+		where
+		    t.org_id=#{orgId}  and t.wx_Id=#{wxId} and t.wx_Login_Id=#{wxLoginId} limit 0,1
+      </select>      
+
+     <!-- 删除已经绑定的微信 -->
+     <select id="deleteBindedByWxId" parameterType="com.qftx.tsm.cust.bean.WxBindBean" >
+           DELETE  from tsm_wx_bind_info 
+		where
+		     org_id=#{orgId} and  wx_Id=#{wxId} and wx_Login_Id=#{wxLoginId}
+      </select>    
+     <!-- 根据联系人id删除已经绑定的微信 -->
+     <select id="deleteBindedByLinkId" parameterType="com.qftx.tsm.cust.bean.WxBindBean" >
+           DELETE  from tsm_wx_bind_info 
+		where
+		     org_id=#{orgId} and link_name_id = #{linkNameId}
+      </select>            
+</mapper>

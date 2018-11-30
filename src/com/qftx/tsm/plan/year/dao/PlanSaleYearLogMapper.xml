@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.year.dao.PlanSaleYearLogMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.user_id,t.plan_money,t.plan_month,t.plan_year,t.group_id,t.update_reason,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.year.bean.PlanSaleYearLogBean" id="PlanSaleYearLogMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="user_id" property="userId"/>
+		<result column="plan_money" property="planMoney"/>
+		<result column="plan_month" property="planMonth"/>
+		<result column="plan_year" property="planYear"/>
+		<result column="group_id" property="groupId"/>
+		<result column="update_reason" property="updateReason"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanSaleYearLogMap">
+		select
+		<include refid="cols" />
+		from plan_sale_year_log t
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="userId != null">and user_id = #{userId}</if>
+		<if test="planMoney != null">and plan_money = #{planMoney}</if>
+		<if test="planMonth != null">and plan_month = #{planMonth}</if>
+		<if test="planYear != null">and plan_year = #{planYear}</if>
+		<if test="groupId != null">and group_id = #{groupId}</if>
+		<if test="updateReason != null">and update_reason = #{updateReason}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_sale_year_log
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="planMoney != null">plan_money = #{planMoney},</if>
+		<if test="planMonth != null">plan_month = #{planMonth},</if>
+		<if test="planYear != null">plan_year = #{planYear},</if>
+		<if test="groupId != null">group_id = #{groupId},</if>
+		<if test="updateReason != null">update_reason = #{updateReason},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.year.bean.PlanSaleYearLogBean">
+	insert into plan_sale_year_log(id,org_id,user_id,plan_money,plan_month,plan_year,group_id,update_reason,updatetime,inputtime,is_del)
+	values(#{id},#{orgId},#{userId},#{planMoney},#{planMonth},#{planYear},#{groupId},#{updateReason},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_sale_year_log(id,org_id,user_id,plan_money,plan_month,plan_year,group_id,update_reason,updatetime,inputtime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.userId},#{bean.planMoney},#{bean.planMonth},#{bean.planYear},#{bean.groupId},#{bean.updateReason},#{bean.updatetime},#{bean.inputtime},#{bean.isDel})
+    </foreach>
+    </insert>
+
+</mapper>

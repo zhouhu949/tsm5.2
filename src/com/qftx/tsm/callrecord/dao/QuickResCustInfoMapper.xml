@@ -1,0 +1,3001 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.callrecord.dao.QuickResCustInfoMapper">
+    <!-- 鍩虹缁撴灉闆� -->
+    <resultMap type="com.qftx.tsm.cust.bean.ResCustInfoBean" id="BaseResultMap">
+        <id column="RES_CUST_ID" property="resCustId" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR"/>
+        <result column="TELPHONE" property="telphone" jdbcType="VARCHAR"/>
+        <result column="COMPANY" property="company" jdbcType="VARCHAR"/>
+        <result column="DUTY" property="duty" jdbcType="VARCHAR"/>
+        <result column="SEX" property="sex" jdbcType="DECIMAL"/>
+        <result column="COMPANY_ADDR" property="companyAddr" jdbcType="VARCHAR"/>
+        <result column="COMPANY_ORG" property="companyOrg" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="TYPE" property="type" jdbcType="DECIMAL"/>
+        <result column="IS_DEL" property="isDel" jdbcType="DECIMAL"/>
+        <result column="RES_LAST_CALL_DATE" property="resLastCallDate" jdbcType="TIMESTAMP"/>
+        <result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP"/>
+        <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_ACC" property="updateAcc" jdbcType="VARCHAR"/>
+        <result column="IS_MAJOR" property="isMajor" jdbcType="DECIMAL"/>
+        <result column="RES_GROUP_ID" property="resGroupId" jdbcType="VARCHAR"/>
+        <result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR"/>
+        <result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="ORG_ID" property="orgId" jdbcType="VARCHAR"/>
+        <result column="SIGN_DATE" property="signDate" jdbcType="TIMESTAMP"/>
+        <result column="INPUT_STATUS" property="inputStatus" jdbcType="DECIMAL"/>
+        <result column="OWNER_START_DATE" property="ownerStartDate" jdbcType="TIMESTAMP"/>
+        <result column="FILTER_COUNT" property="filterCount" jdbcType="DECIMAL"/>
+        <result column="FILTER_TYPE" property="filterType" jdbcType="DECIMAL"/>
+        <result column="OPREATE_TYPE" property="opreateType" jdbcType="DECIMAL"/>
+        <result column="COORDINATES" property="coordinates" jdbcType="VARCHAR"/>
+        <result column="FAX" property="fax" jdbcType="VARCHAR"/>
+        <result column="EMAIL" property="email" jdbcType="VARCHAR"/>
+        <result column="UNITHOME" property="unithome" jdbcType="VARCHAR"/>
+        <result column="UNITINTRODUCTION" property="unitintroduction" jdbcType="VARCHAR"/>
+        <result column="AMOYTOCUSTOMER_DATE" property="amoytocustomerDate" jdbcType="TIMESTAMP"/>
+        <result column="QQ" property="qq" jdbcType="VARCHAR"/>
+        <result column="KEYWORD" property="keyWord" jdbcType="VARCHAR"/>
+        <result column="CONTRACT_NUMBER" property="contractNumber" jdbcType="VARCHAR"/>
+        <result column="DEFINED1" property="defined1" jdbcType="VARCHAR"/>
+        <result column="DEFINED2" property="defined2" jdbcType="VARCHAR"/>
+        <result column="DEFINED3" property="defined3" jdbcType="VARCHAR"/>
+        <result column="DEFINED4" property="defined4" jdbcType="VARCHAR"/>
+        <result column="SIGN_ACC" property="signAcc" jdbcType="VARCHAR"/>
+        <result column="SIGN_NAME" property="signName" jdbcType="VARCHAR"/>
+        <result column="NEXTFOLLOW_DATE" property="nextFollowDate" jdbcType="TIMESTAMP"/>
+        <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP"/>
+        <result column="CALL_DATE_POSTPONED" property="callDatePostponed" jdbcType="TIMESTAMP"/>
+        <result column="REASON_FOR_CALLDELAY" property="reasonForCalldelay" jdbcType="VARCHAR"/>
+        <result column="DEFINED5" property="defined5" jdbcType="VARCHAR"/>
+        <result column="ALTERNATE_PHONE2" property="alternatePhone2" jdbcType="VARCHAR"/>
+        <result column="RECUCLING_TYPE_DETAILS" property="recuclingTypeDetails" jdbcType="VARCHAR"/>
+        <result column="AGAINWASH_COUNT" property="againwashCount" jdbcType="DECIMAL"/>
+        <result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP"/>
+        <result column="LAST_CUST_FOLLOW_ID" property="lastCustFollowID" jdbcType="VARCHAR"/>
+        <result column="SERVICE_ACC" jdbcType="VARCHAR" property="serviceAcc"/>
+        <result column="SERVICE_NAME" jdbcType="VARCHAR" property="serviceName"/>
+        <result column="SERVICE_LEVEL" jdbcType="VARCHAR" property="serviceLevel"/>
+        <result column="VISITING_DATE" jdbcType="TIMESTAMP" property="visitingDate"/>
+        <result column="NEXT_VISITING_DATE" jdbcType="TIMESTAMP" property="nextVisitingDate"/>
+        <result column="SERVICE_LABEL_CODE" jdbcType="VARCHAR" property="serviceLabelCode"/>
+        <result column="SERVICE_LABEL_NAME" jdbcType="VARCHAR" property="serviceLabelName"/>
+        <result column="IS_PRECEDENCE" jdbcType="DECIMAL" property="isPrecedence"/>
+        <result column="FOR_THE_CUSTOMER_TIME" jdbcType="TIMESTAMP" property="forTheCustomerTime"/>
+        <result column="LAST_VISIT_ACC" jdbcType="VARCHAR" property="lastVisitAcc"/>
+        <!-- 4.0鏂板 -->
+        <result column="STATE" jdbcType="DECIMAL" property="state"/>
+        <result column="PLAN_DATE" jdbcType="TIMESTAMP" property="planDate"/>
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+        <result column="COMPANY_MONEY" jdbcType="VARCHAR" property="companyMoney"/>
+        <result column="COMPANY_USER" jdbcType="VARCHAR" property="companyUser"/>
+        <result column="COMPANY_TRADE" jdbcType="VARCHAR" property="companyTrade"/>
+        <result column="COMPANY_FAX" jdbcType="VARCHAR" property="companyFax"/>
+        <result column="LOSING_ID" jdbcType="VARCHAR" property="losingId"/>
+        <result column="LOSING_REMARK" jdbcType="VARCHAR" property="losingRemark"/>
+        <result column="PROVINCE_ID" jdbcType="DECIMAL" property="provinceId"/>
+        <result column="CITY_ID" jdbcType="DECIMAL" property="cityId"/>
+        <result column="COUNTY_ID" jdbcType="DECIMAL" property="countyId"/>
+        <result column="LAST_LOG_ID" jdbcType="VARCHAR" property="lastLogId"/>
+        <result column="WANGWANG" jdbcType="VARCHAR" property="wangwang"/>
+        <result column="SCOPE" jdbcType="VARCHAR" property="scope"/>
+        <result column="MAIN_LINKMAN" jdbcType="VARCHAR" property="mainLinkman"/>
+        <result column="DEFINED6" property="defined6" jdbcType="VARCHAR"/>
+        <result column="DEFINED7" property="defined7" jdbcType="VARCHAR"/>
+        <result column="DEFINED8" property="defined8" jdbcType="VARCHAR"/>
+        <result column="DEFINED9" property="defined9" jdbcType="VARCHAR"/>
+        <result column="DEFINED10" property="defined10" jdbcType="VARCHAR"/>
+        <result column="TAO_NO" property="taoNo" jdbcType="DECIMAL"/>
+        <result column="SIGN_BEFORE_STATUS" property="signBeforeStatus" jdbcType="DECIMAL"/>
+        <result column="SIGN_BEFORE_TYPE" property="signBeforeType" jdbcType="DECIMAL"/>
+        <result column="IMPORT_DEPT_ID" jdbcType="VARCHAR" property="importDeptId"/>
+        <result column="LIFE_CODE" jdbcType="VARCHAR" property="lifeCode"/>
+        <result column="last_option_id" jdbcType="VARCHAR" property="lastOptionId"/>
+        <!-- 5.0新增 -->
+        <result column="common_acc" jdbcType="VARCHAR" property="commonAcc"/>
+    </resultMap>
+
+    <resultMap type="com.qftx.tsm.cust.dto.ResCustInfoDto" id="DtoResultMap" extends="BaseResultMap">
+        <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+        <result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR"/>
+        <result column="SALE_PROCESS_NAME" property="saleProcessName" jdbcType="VARCHAR"/>
+        <result column="SALE_PROCESS_ID" property="saleProcessId" jdbcType="VARCHAR"/>
+        <result column="CUST_TYPE_ID" property="custTypeId" jdbcType="VARCHAR"/>
+        <result column="CUST_TYPE_NAME" property="custTypeName" jdbcType="VARCHAR"/>
+        <result column="IS_TODAY" property="isToday" jdbcType="DECIMAL"/>
+        <result column="TOTAL_ORDER_AMOUNT" property="totalOrderAmount" jdbcType="DECIMAL"/>
+        <result column="SILENT_DAY" property="silentDay" jdbcType="DECIMAL"/>
+        <result column="CONTRACT_END_DATE" property="contractEndDate" jdbcType="TIMESTAMP"/>
+        <result column="LINK_MAN" property="linkMan" jdbcType="VARCHAR"/>
+        <result column="DAYS" property="days" jdbcType="DECIMAL"/>
+        <result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR"/>
+        <result column="LOSING_REASON" property="losingReason" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 瀹炰綋琛ㄥ悕 -->
+    <sql id="table_name">TSM_RES_CUST_INFO</sql>
+
+    <!-- 瀹炰綋鏉′欢鏌ヨ缁勮 -->
+    <sql id="entity_condition_orderby">
+        <if test="orgId != null and orgId !=''">
+            and ORG_ID = #{orgId,jdbcType=VARCHAR}
+        </if>
+        <if test="resCustId != null and resCustId!=''">
+            and RES_CUST_ID = #{resCustId,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null and name !=''">
+            and NAME like '%'||#{name}||'%'
+        </if>
+        <if test="mobilephone != null and mobilephone !=''">
+            and MOBILEPHONE like '%'||#{mobilephone}||'%'
+        </if>
+        <if test="telphone != null and telphone !=''">
+            and TELPHONE like '%'||#{telphone}||'%'
+        </if>
+        <if test="company != null and company !=''">
+            and COMPANY like '%'||#{company}||'%'
+        </if>
+        <if test="duty != null and duty !=''">
+            and DUTY like '%'||#{duty}||'%'
+        </if>
+        <if test="sex != null and sex !=''">
+            and SEX = #{sex,jdbcType=VARCHAR}
+        </if>
+        <if test="companyAddr != null and companyAddr !=''">
+            and COMPANY_ADDR like '%'||#{companyAddr}||'%'
+        </if>
+        <if test="companyOrg != null and companyOrg !=''">
+            and COMPANY_ORG like '%'||#{companyOrg}||'%'
+        </if>
+        <if test="remark != null and remark !=''">
+            and REMARK like '%'||#{remark}||'%'
+        </if>
+        <if test="type != null">
+            and TYPE = #{type,jdbcType=DECIMAL}
+        </if>
+        <if test="isDel != null">
+            and IS_DEL = #{isDel,jdbcType=DECIMAL}
+        </if>
+        <if test="resLastCallDate != null">
+            and RES_LAST_CALL_DATE =
+            #{resLastCallDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputDate != null">
+            and INPUT_DATE = #{resLastCallDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputAcc != null and inputAcc !=''">
+            and INPUT_ACC = #{inputAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate != null">
+            and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateAcc != null and updateAcc !=''">
+            and UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="isMajor != null">
+            and IS_MAJOR = #{isMajor,jdbcType=DECIMAL}
+        </if>
+        <if test="resGroupId != null and resGroupId !=''">
+            and RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR}
+        </if>
+        <if test="ownerAcc != null and ownerAcc !=''">
+            and OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null">
+            and STATUS = #{status,jdbcType=DECIMAL}
+        </if>
+        <if test="signDate != null">
+            and SIGN_DATE = #{signDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="inputStatus != null">
+            and INPUT_STATUS = #{signDate,jdbcType=DECIMAL}
+        </if>
+        <if test="ownerStartDate != null">
+            and OWNER_START_DATE =
+            #{ownerStartDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="filterCount != null">
+            and FILTER_COUNT = #{filterCount,jdbcType=DECIMAL}
+        </if>
+        <if test="filterType != null">
+            and FILTER_TYPE = #{filterType,jdbcType=DECIMAL}
+        </if>
+        <if test="opreateType != null">
+            and OPREATE_TYPE = #{opreateType,jdbcType=DECIMAL}
+        </if>
+        <if test="fax != null and fax !=''">
+            and FAX = #{fax,jdbcType=VARCHAR}
+        </if>
+        <if test="email != null and email !=''">
+            and EMAIL = #{email,jdbcType=VARCHAR}
+        </if>
+        <if test="unithome != null and unithome !=''">
+            and UNITHOME = #{unithome,jdbcType=VARCHAR}
+        </if>
+        <if test="unitintroduction != null and unitintroduction !=''">
+            and UNITINTRODUCTION =
+            #{unitintroduction,jdbcType=VARCHAR}
+        </if>
+        <if test="amoytocustomerDate != null">
+            and AMOYTOCUSTOMER_DATE =
+            #{amoytocustomerDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="qq != null">
+            and QQ = #{qq,jdbcType=VARCHAR}
+        </if>
+        <if test="keyWord != null">
+            and KEYWORD = #{keyWord,jdbcType=VARCHAR}
+        </if>
+        <if test="contractNumber != null and contractNumber !=''">
+            and CONTRACT_NUMBER like '%'||#{contractNumber}||'%'
+        </if>
+        <if test="defined1 != null">
+            and DEFINED1 = #{defined1,jdbcType=VARCHAR}
+        </if>
+        <if test="defined2 != null">
+            and DEFINED2 = #{defined2,jdbcType=VARCHAR}
+        </if>
+        <if test="defined3 != null">
+            and DEFINED3 = #{defined3,jdbcType=VARCHAR}
+        </if>
+        <if test="defined4 != null">
+            and DEFINED4 = #{defined4,jdbcType=VARCHAR}
+        </if>
+        <if test="defined5 != null">
+            and DEFINED5 = #{defined5,jdbcType=VARCHAR}
+        </if>
+        <if test="defined6 != null">
+            and DEFINED6 = #{defined6,jdbcType=VARCHAR}
+        </if>
+        <if test="defined7 != null">
+            and DEFINED7 = #{defined7,jdbcType=VARCHAR}
+        </if>
+        <if test="defined8 != null">
+            and DEFINED8 = #{defined8,jdbcType=VARCHAR}
+        </if>
+        <if test="defined9 != null">
+            and DEFINED9 = #{defined9,jdbcType=VARCHAR}
+        </if>
+        <if test="defined10 != null">
+            and DEFINED10 = #{defined10,jdbcType=VARCHAR}
+        </if>
+        <if test="alternatePhone2 != null">
+            and ALTERNATE_PHONE2 = #{alternatePhone2,jdbcType=VARCHAR}
+        </if>
+        <if test="signAcc != null">
+            and SIGN_ACC = #{signAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="signName != null">
+            and SIGN_NAME = #{signName,jdbcType=VARCHAR}
+        </if>
+        <if test="nextFollowDate != null">
+            and NEXTFOLLOW_DATE = #{nextFollowDate,jdbcType=VARCHAR}
+        </if>
+        <if test="birthday != null">
+            and BIRTHDAY = #{birthday,jdbcType=VARCHAR}
+        </if>
+        <if test="callDatePostponed != null">
+            and CALL_DATE_POSTPONED =
+            #{callDatePostponed,jdbcType=TIMESTAMP}
+        </if>
+        <if test="reasonForCalldelay != null">
+            and REASON_FOR_CALLDELAY =
+            #{reasonForCalldelay,jdbcType=VARCHAR}
+        </if>
+        <if test="recuclingTypeDetails != null">
+            and RECUCLING_TYPE_DETAILS =
+            #{recuclingTypeDetails,jdbcType=VARCHAR}
+        </if>
+        <if test="againwashCount != null">
+            and AGAINWASH_COUNT = #{againwashCount,jdbcType=DECIMAL}
+        </if>
+        <if test="actionDate != null">
+            and ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastCustFollowID != null">
+            and LAST_CUST_FOLLOW_ID =
+            #{lastCustFollowID,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceAcc != null">
+            and SERVICE_ACC = #{serviceAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceName != null">
+            and SERVICE_NAME = #{serviceName,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceLevel != null">
+            and SERVICE_LEVEL = #{serviceLevel,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceName != null">
+            and VISITING_DATE = #{visitingDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="nextVisitingDate != null">
+            and NEXT_VISITING_DATE =
+            #{nextVisitingDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="serviceLabelCode != null">
+            and SERVICE_LABEL_CODE =
+            #{serviceLabelCode,jdbcType=VARCHAR}
+        </if>
+        <if test="serviceLabelName != null">
+            and SERVICE_LABEL_NAME =
+            #{serviceLabelName,jdbcType=VARCHAR}
+        </if>
+        <if test="isPrecedence != null">
+            and IS_PRECEDENCE =
+            #{isPrecedence,jdbcType=DECIMAL}
+        </if>
+        <if test="forTheCustomerTime != null">
+            and FOR_THE_CUSTOMER_TIME =
+            #{forTheCustomerTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastVisitAcc != null">
+            and LAST_VISIT_ACC =
+            #{lastVisitAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="state != null">
+            and STATE = #{state,jdbcType=DECIMAL}
+        </if>
+        <if test="planDate != null">
+            and PLAN_DATE = #{planDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="address != null">
+            and ADDRESS = #{address,jdbcType=VARCHAR}
+        </if>
+        <if test="companyMoney != null">
+            and COMPANY_MONEY = #{companyMoney,jdbcType=VARCHAR}
+        </if>
+        <if test="companyUser != null">
+            and COMPANY_USER = #{companyUser,jdbcType=VARCHAR}
+        </if>
+        <if test="companyTrade != null">
+            and COMPANY_TRADE = #{companyTrade,jdbcType=VARCHAR}
+        </if>
+        <if test="companyFax != null">
+            and COMPANY_FAX = #{companyFax,jdbcType=VARCHAR}
+        </if>
+        <if test="losingId != null">
+            and LOSING_ID = #{losingId,jdbcType=VARCHAR}
+        </if>
+        <if test="losingRemark != null">
+            and LOSING_REMARK = #{losingRemark,jdbcType=VARCHAR}
+        </if>
+        <if test="provinceId != null">
+            and PROVINCE_ID = #{provinceId,jdbcType=DECIMAL}
+        </if>
+        <if test="cityId != null">
+            and CITY_ID = #{cityId,jdbcType=DECIMAL}
+        </if>
+        <if test="countyId != null">
+            and COUNTY_ID = #{countyId,jdbcType=DECIMAL}
+        </if>
+        <if test="lastLogId != null">
+            and LAST_LOG_ID = #{lastLogId,jdbcType=VARCHAR}
+        </if>
+        <if test="wangwang != null">
+            and WANGWANG = #{wangwang,jdbcType=VARCHAR}
+        </if>
+        <if test="scope != null">
+            and SCOPE = #{scope,jdbcType=VARCHAR}
+        </if>
+        <if test="mainLinkman != null">
+            and MAIN_LINKMAN = #{mainLinkman,jdbcType=VARCHAR}
+        </if>
+        <if test="taoNo != null">
+            and tao_No = #{taoNo,jdbcType=DECIMAL}
+        </if>
+        <if test="importDeptId != null">
+            and IMPORT_DEPT_ID = #{importDeptId,jdbcType=VARCHAR}
+        </if>
+        <if test="lifeCode != null and lifeCode != ''">
+            and LIFE_CODE = #{lifeCode,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    <!-- 淇敼瀹炰綋瀵瑰簲set璇彞 -->
+    <sql id="trents_update_set_sql">
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="mobilephone != null">
+                MOBILEPHONE = #{mobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="telphone != null">
+                TELPHONE = #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                COMPANY = #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="duty != null">
+                DUTY = #{duty,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                SEX = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="companyAddr != null">
+                COMPANY_ADDR = #{companyAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="companyOrg != null">
+                COMPANY_ORG = #{companyOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=DECIMAL},
+            </if>
+            <if test="isDel != null">
+                IS_DEL = #{isDel,jdbcType=DECIMAL},
+            </if>
+            <if test="resLastCallDate != null">
+                RES_LAST_CALL_DATE = #{resLastCallDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputDate != null">
+                INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputAcc != null">
+                INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateAcc != null">
+                UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="isMajor != null">
+                IS_MAJOR = #{isMajor,jdbcType=DECIMAL},
+            </if>
+            <if test="resGroupId != null">
+                RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerAcc != null">
+                OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=DECIMAL},
+            </if>
+            <if test="orgId != null">
+                ORG_ID = #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="signDate != null">
+                SIGN_DATE = #{signDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputStatus != null">
+                INPUT_STATUS = #{inputStatus,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null and status == 4">
+                OWNER_START_DATE = null,
+            </if>
+            <if test="ownerStartDate != null and status != 4">
+                OWNER_START_DATE = #{ownerStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="filterCount != null">
+                FILTER_COUNT = #{filterCount,jdbcType=DECIMAL},
+            </if>
+            <if test="filterType != null">
+                FILTER_TYPE = #{filterType,jdbcType=DECIMAL},
+            </if>
+            <if test="opreateType != null">
+                OPREATE_TYPE = #{opreateType,jdbcType=DECIMAL},
+            </if>
+            <if test="fax != null">
+                FAX = #{fax,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="unithome != null">
+                UNITHOME = #{unithome,jdbcType=VARCHAR},
+            </if>
+            <if test="unitintroduction != null">
+                UNITINTRODUCTION = #{unitintroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="amoytocustomerDate != null">
+                AMOYTOCUSTOMER_DATE = #{amoytocustomerDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qq != null">
+                QQ = #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="keyWord != null">
+                KEYWORD = #{keyWord,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNumber != null">
+                CONTRACT_NUMBER = #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="defined1 != null">
+                DEFINED1 = #{defined1,jdbcType=VARCHAR},
+            </if>
+            <if test="defined2 != null">
+                DEFINED2 = #{defined2,jdbcType=VARCHAR},
+            </if>
+            <if test="defined3 != null">
+                DEFINED3 = #{defined3,jdbcType=VARCHAR},
+            </if>
+            <if test="defined4 != null">
+                DEFINED4 = #{defined4,jdbcType=VARCHAR},
+            </if>
+            <if test="defined5 != null">
+                DEFINED5 = #{defined5,jdbcType=VARCHAR},
+            </if>
+            <if test="defined6 != null">
+                DEFINED6 = #{defined6,jdbcType=VARCHAR},
+            </if>
+            <if test="defined7 != null">
+                DEFINED7 = #{defined7,jdbcType=VARCHAR},
+            </if>
+            <if test="defined8 != null">
+                DEFINED8 = #{defined8,jdbcType=VARCHAR},
+            </if>
+            <if test="defined9 != null">
+                DEFINED9 = #{defined9,jdbcType=VARCHAR},
+            </if>
+            <if test="defined10 != null">
+                DEFINED10 = #{defined10,jdbcType=VARCHAR},
+            </if>
+            <if test="alternatePhone2 != null">
+                ALTERNATE_PHONE2 = #{alternatePhone2,jdbcType=VARCHAR},
+            </if>
+            <if test="signAcc != null">
+                SIGN_ACC = #{signAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="signName != null">
+                SIGN_NAME = #{signName,jdbcType=VARCHAR},
+            </if>
+            <if test="nextFollowDate != null">
+                NEXTFOLLOW_DATE = #{nextFollowDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastCustFollowID != null">
+                LAST_CUST_FOLLOW_ID = #{lastCustFollowID,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAcc != null">
+                SERVICE_ACC = #{serviceAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceName != null">
+                SERVICE_NAME = #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceLevel != null">
+                SERVICE_LEVEL = #{serviceLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="birthday == null">
+                BIRTHDAY = null,
+            </if>
+            <if test="callDatePostponed != null">
+                CALL_DATE_POSTPONED = #{callDatePostponed,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reasonForCalldelay != null">
+                REASON_FOR_CALLDELAY = #{reasonForCalldelay,jdbcType=VARCHAR},
+            </if>
+            <if test="recuclingTypeDetails != null">
+                RECUCLING_TYPE_DETAILS = #{recuclingTypeDetails,jdbcType=VARCHAR},
+            </if>
+            <if test="againwashCount != null">
+                AGAINWASH_COUNT = #{againwashCount,jdbcType=DECIMAL},
+            </if>
+            <if test="actionDate != null">
+                ACTION_DATE = #{actionDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="visitingDate != null">
+                VISITING_DATE = #{visitingDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextVisitingDate != null">
+                NEXT_VISITING_DATE = #{nextVisitingDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="serviceLabelCode != null">
+                SERVICE_LABEL_CODE = #{serviceLabelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceLabelName != null">
+                SERVICE_LABEL_NAME = #{serviceLabelName,jdbcType=VARCHAR},
+            </if>
+            <if test="isPrecedence != null">
+                IS_PRECEDENCE = #{isPrecedence,jdbcType=DECIMAL},
+            </if>
+            <if test="forTheCustomerTime != null">
+                FOR_THE_CUSTOMER_TIME = #{forTheCustomerTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastVisitAcc != null">
+                LAST_VISIT_ACC = #{lastVisitAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=DECIMAL},
+            </if>
+            <if test="planDate != null">
+                PLAN_DATE = #{planDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="companyMoney != null">
+                COMPANY_MONEY = #{companyMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="companyUser != null">
+                COMPANY_USER = #{companyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="companyTrade != null">
+                COMPANY_TRADE = #{companyTrade,jdbcType=VARCHAR},
+            </if>
+            <if test="companyFax != null">
+                COMPANY_FAX = #{companyFax,jdbcType=VARCHAR},
+            </if>
+            <if test="losingId != null">
+                LOSING_ID = #{losingId,jdbcType=VARCHAR},
+            </if>
+            <if test="losingRemark != null">
+                LOSING_REMARK = #{losingRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceId != null">
+                PROVINCE_ID = #{provinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="cityId != null">
+                CITY_ID = #{cityId,jdbcType=DECIMAL},
+            </if>
+            <if test="countyId != null">
+                COUNTY_ID = #{countyId,jdbcType=DECIMAL},
+            </if>
+            <if test="lastLogId != null">
+                LAST_LOG_ID = #{lastLogId,jdbcType=VARCHAR},
+            </if>
+            <if test="wangwang != null">
+                WANGWANG = #{wangwang,jdbcType=VARCHAR},
+            </if>
+            <if test="scope != null">
+                SCOPE = #{scope,jdbcType=VARCHAR},
+            </if>
+            <if test="mainLinkman != null">
+                MAIN_LINKMAN = #{mainLinkman,jdbcType=VARCHAR},
+            </if>
+            <if test="taoNo != null">
+                tao_No = #{taoNo,jdbcType=DECIMAL} ,
+            </if>
+            <if test="signBeforeStatus != null">
+                SIGN_BEFORE_STATUS = #{signBeforeStatus,jdbcType=DECIMAL} ,
+            </if>
+            <if test="signBeforeType != null">
+                SIGN_BEFORE_TYPE = #{signBeforeType,jdbcType=DECIMAL} ,
+            </if>
+            <if test="importDeptId != null">
+                IMPORT_DEPT_ID = #{importDeptId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="lifeCode != null">
+                LIFE_CODE = #{lifeCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+    <!-- bathc update -->
+    <sql id="trents_update_set_sql_batch">
+        <trim prefix="set" suffixOverrides=",">
+            <if test="remark != null">
+                REMARK = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=DECIMAL},
+            </if>
+            <if test="isDel != null">
+                IS_DEL = #{isDel,jdbcType=DECIMAL},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateAcc != null">
+                UPDATE_ACC = #{updateAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="isMajor != null">
+                IS_MAJOR = #{isMajor,jdbcType=DECIMAL},
+            </if>
+            <if test="resGroupId != null">
+                RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status == 4">
+                OWNER_START_DATE = null,
+            </if>
+            <if test="ownerStartDate != null and status != 4">
+                OWNER_START_DATE = #{ownerStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="filterType != null">
+                FILTER_TYPE = #{filterType,jdbcType=DECIMAL},
+            </if>
+            <if test="ownerAcc != null">
+                OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=DECIMAL},
+            </if>
+            <if test="opreateType != null">
+                OPREATE_TYPE = #{opreateType,jdbcType=DECIMAL},
+            </if>
+            <if test="keyWord != null">
+                KEYWORD = #{keyWord,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAcc != null">
+                SERVICE_ACC = #{serviceAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="isPrecedence != null">
+                IS_PRECEDENCE = #{isPrecedence,jdbcType=DECIMAL},
+            </if>
+            <if test="state != null">
+                STATE = #{state,jdbcType=DECIMAL},
+            </if>
+            <if test="planDate != null">
+                PLAN_DATE = #{planDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="losingId != null">
+                LOSING_ID = #{losingId,jdbcType=VARCHAR},
+            </if>
+            <if test="losingRemark != null">
+                LOSING_REMARK = #{losingRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="signBeforeStatus != null">
+                SIGN_BEFORE_STATUS = #{signBeforeStatus,jdbcType=DECIMAL} ,
+            </if>
+            <if test="signBeforeType != null">
+                SIGN_BEFORE_TYPE = #{signBeforeType,jdbcType=DECIMAL} ,
+            </if>
+            <if test='isClean == "1"'>
+                LAST_CUST_FOLLOW_ID = null,
+                LAST_LOG_ID = null,
+                ACTION_DATE = null,
+                PLAN_DATE = null,
+            </if>
+            <if test="taoNo != null">
+                tao_No = #{taoNo,jdbcType=DECIMAL} ,
+            </if>
+            <if test="importDeptId != null">
+                IMPORT_DEPT_ID = #{importDeptId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="lifeCode != null">
+                LIFE_CODE = #{lifeCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 鎻掑叆瀹炰綋瀵瑰簲鐨勫瓧娈佃鍙� -->
+    <sql id="insert_into_field">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resCustId != null">
+                RES_CUST_ID,
+            </if>
+            <if test="name != null">
+                NAME,
+            </if>
+            <if test="mobilephone != null">
+                MOBILEPHONE,
+            </if>
+            <if test="telphone != null">
+                TELPHONE,
+            </if>
+            <if test="company != null">
+                COMPANY,
+            </if>
+            <if test="duty != null">
+                DUTY,
+            </if>
+            <if test="sex != null">
+                SEX,
+            </if>
+            <if test="companyAddr != null">
+                COMPANY_ADDR,
+            </if>
+            <if test="companyOrg != null">
+                COMPANY_ORG,
+            </if>
+            <if test="remark != null">
+                REMARK,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="isDel != null">
+                IS_DEL,
+            </if>
+            <if test="resLastCallDate != null">
+                RES_LAST_CALL_DATE,
+            </if>
+            <if test="inputDate != null">
+                INPUT_DATE,
+            </if>
+            <if test="inputAcc != null">
+                INPUT_ACC,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="updateAcc != null">
+                UPDATE_ACC,
+            </if>
+            <if test="isMajor != null">
+                IS_MAJOR,
+            </if>
+            <if test="resGroupId != null">
+                RES_GROUP_ID,
+            </if>
+            <if test="ownerAcc != null">
+                OWNER_ACC,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="orgId != null">
+                ORG_ID,
+            </if>
+            <if test="signDate != null">
+                SIGN_DATE,
+            </if>
+            <if test="inputStatus != null">
+                INPUT_STATUS,
+            </if>
+            <if test="ownerStartDate != null">
+                OWNER_START_DATE,
+            </if>
+            <if test="filterCount != null">
+                FILTER_COUNT,
+            </if>
+            <if test="filterType != null">
+                FILTER_TYPE,
+            </if>
+            <if test="opreateType != null">
+                OPREATE_TYPE,
+            </if>
+            <if test="fax != null">
+                FAX,
+            </if>
+            <if test="email != null">
+                EMAIL,
+            </if>
+            <if test="unithome != null">
+                UNITHOME,
+            </if>
+            <if test="unitintroduction != null">
+                UNITINTRODUCTION,
+            </if>
+            <if test="amoytocustomerDate != null">
+                AMOYTOCUSTOMER_DATE,
+            </if>
+            <if test="qq != null">
+                QQ,
+            </if>
+            <if test="keyWord != null">
+                KEYWORD,
+            </if>
+            <if test="contractNumber != null">
+                CONTRACT_NUMBER,
+            </if>
+            <if test="defined1 != null">
+                DEFINED1,
+            </if>
+            <if test="defined2 != null">
+                DEFINED2,
+            </if>
+            <if test="defined3 != null">
+                DEFINED3,
+            </if>
+            <if test="defined4 != null">
+                DEFINED4,
+            </if>
+            <if test="defined5 != null">
+                DEFINED5,
+            </if>
+            <if test="defined6 != null">
+                DEFINED6,
+            </if>
+            <if test="defined7 != null">
+                DEFINED7,
+            </if>
+            <if test="defined8 != null">
+                DEFINED8,
+            </if>
+            <if test="defined9 != null">
+                DEFINED9,
+            </if>
+            <if test="defined10 != null">
+                DEFINED10,
+            </if>
+            <if test="alternatePhone2 != null">
+                ALTERNATE_PHONE2,
+            </if>
+            <if test="signAcc != null">
+                SIGN_ACC,
+            </if>
+            <if test="signName != null">
+                SIGN_NAME,
+            </if>
+            <if test="nextFollowDate != null">
+                NEXTFOLLOW_DATE,
+            </if>
+            <if test="birthday != null">
+                BIRTHDAY,
+            </if>
+            <if test="recuclingTypeDetails != null">
+                RECUCLING_TYPE_DETAILS,
+            </if>
+            <if test="callDatePostponed != null">
+                CALL_DATE_POSTPONED,
+            </if>
+            <if test="reasonForCalldelay != null">
+                REASON_FOR_CALLDELAY,
+            </if>
+            <if test="recuclingTypeDetails != null">
+                RECUCLING_TYPE_DETAILS,
+            </if>
+            <if test="againwashCount != null">
+                AGAINWASH_COUNT,
+            </if>
+            <if test="actionDate != null">
+                ACTION_DATE,
+            </if>
+            <if test="lastCustFollowID != null">
+                LAST_CUST_FOLLOW_ID,
+            </if>
+            <if test="serviceAcc != null">
+                SERVICE_ACC,
+            </if>
+            <if test="serviceName != null">
+                SERVICE_NAME,
+            </if>
+            <if test="serviceLevel != null">
+                SERVICE_LEVEL,
+            </if>
+            <if test="visitingDate != null">
+                VISITING_DATE,
+            </if>
+            <if test="nextVisitingDate != null">
+                NEXT_VISITING_DATE,
+            </if>
+            <if test="serviceLabelCode != null">
+                SERVICE_LABEL_CODE,
+            </if>
+            <if test="serviceLabelName != null">
+                SERVICE_LABEL_NAME,
+            </if>
+            <if test="isPrecedence != null">
+                IS_PRECEDENCE,
+            </if>
+            <if test="forTheCustomerTime != null">
+                FOR_THE_CUSTOMER_TIME,
+            </if>
+            <if test="lastVisitAcc != null">
+                LAST_VISIT_ACC,
+            </if>
+            <if test="state != null">
+                STATE,
+            </if>
+            <if test="planDate != null">
+                PLAN_DATE,
+            </if>
+            <if test="address != null">
+                ADDRESS,
+            </if>
+            <if test="companyMoney != null">
+                COMPANY_MONEY,
+            </if>
+            <if test="companyUser != null">
+                COMPANY_USER,
+            </if>
+            <if test="companyTrade != null">
+                COMPANY_TRADE,
+            </if>
+            <if test="companyFax != null">
+                COMPANY_FAX,
+            </if>
+            <if test="losingId != null">
+                LOSING_ID,
+            </if>
+            <if test="losingRemark != null">
+                LOSING_REMARK,
+            </if>
+            <if test="provinceId != null">
+                PROVINCE_ID,
+            </if>
+            <if test="cityId != null">
+                CITY_ID,
+            </if>
+            <if test="countyId != null">
+                COUNTY_ID,
+            </if>
+            <if test="lastLogId != null">
+                LAST_LOG_ID,
+            </if>
+            <if test="wangwang != null">
+                WANGWANG,
+            </if>
+            <if test="scope != null">
+                SCOPE,
+            </if>
+            <if test="mainLinkman != null">
+                MAIN_LINKMAN,
+            </if>
+            <if test="taoNo != null">
+                tao_No ,
+            </if>
+            <if test="importDeptId != null">
+                IMPORT_DEPT_ID,
+            </if>
+            <if test="lifeCode != null">
+                LIFE_CODE,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resCustId != null">
+                #{resCustId,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="mobilephone != null">
+                #{mobilephone,jdbcType=VARCHAR},
+            </if>
+            <if test="telphone != null">
+                #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company,jdbcType=VARCHAR},
+            </if>
+            <if test="duty != null">
+                #{duty,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="companyAddr != null">
+                #{companyAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="companyOrg != null">
+                #{companyOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=DECIMAL},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=DECIMAL},
+            </if>
+            <if test="resLastCallDate != null">
+                #{resLastCallDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputDate != null">
+                #{inputDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputAcc != null">
+                #{inputAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateAcc != null">
+                #{updateAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="isMajor != null">
+                #{isMajor,jdbcType=DECIMAL},
+            </if>
+            <if test="resGroupId != null">
+                #{resGroupId,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerAcc != null">
+                #{ownerAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=DECIMAL},
+            </if>
+            <if test="orgId != null">
+                #{orgId,jdbcType=VARCHAR},
+            </if>
+            <if test="signDate != null">
+                #{signDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="inputStatus != null">
+                #{inputStatus,jdbcType=DECIMAL},
+            </if>
+            <if test="ownerStartDate != null">
+                #{ownerStartDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="filterCount != null">
+                #{filterCount,jdbcType=DECIMAL},
+            </if>
+            <if test="filterType != null">
+                #{filterType,jdbcType=DECIMAL},
+            </if>
+            <if test="opreateType != null">
+                #{opreateType,jdbcType=DECIMAL},
+            </if>
+            <if test="fax != null">
+                #{fax,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="unithome != null">
+                #{unithome,jdbcType=VARCHAR},
+            </if>
+            <if test="unitintroduction != null">
+                #{unitintroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="amoytocustomerDate != null">
+                #{amoytocustomerDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="qq != null">
+                #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="keyWord != null">
+                #{keyWord,jdbcType=VARCHAR},
+            </if>
+            <if test="contractNumber != null">
+                #{contractNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="defined1 != null">
+                #{defined1,jdbcType=VARCHAR},
+            </if>
+            <if test="defined2 != null">
+                #{defined2,jdbcType=VARCHAR},
+            </if>
+            <if test="defined3 != null">
+                #{defined3,jdbcType=VARCHAR},
+            </if>
+            <if test="defined4 != null">
+                #{defined4,jdbcType=VARCHAR},
+            </if>
+            <if test="defined5 != null">
+                #{defined5,jdbcType=VARCHAR},
+            </if>
+            <if test="defined6 != null">
+                #{defined6,jdbcType=VARCHAR},
+            </if>
+            <if test="defined7 != null">
+                #{defined7,jdbcType=VARCHAR},
+            </if>
+            <if test="defined8 != null">
+                #{defined8,jdbcType=VARCHAR},
+            </if>
+            <if test="defined9 != null">
+                #{defined9,jdbcType=VARCHAR},
+            </if>
+            <if test="defined10 != null">
+                #{defined10,jdbcType=VARCHAR},
+            </if>
+            <if test="alternatePhone2 != null">
+                #{alternatePhone2,jdbcType=VARCHAR},
+            </if>
+            <if test="signAcc != null">
+                #{signAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="signName != null">
+                #{signName,jdbcType=VARCHAR},
+            </if>
+            <if test="nextFollowDate != null">
+                #{nextFollowDate,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=VARCHAR},
+            </if>
+            <if test="callDatePostponed != null">
+                #{callDatePostponed,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reasonForCalldelay != null">
+                #{reasonForCalldelay,jdbcType=VARCHAR},
+            </if>
+            <if test="recuclingTypeDetails != null">
+                #{recuclingTypeDetails,jdbcType=VARCHAR},
+            </if>
+            <if test="againwashCount != null">
+                #{againwashCount,jdbcType=VARCHAR},
+            </if>
+            <if test="actionDate != null">
+                #{actionDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastCustFollowID != null">
+                #{lastCustFollowID,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceAcc != null">
+                #{serviceAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceName != null">
+                #{serviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceLevel != null">
+                #{serviceLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="visitingDate != null">
+                #{visitingDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nextVisitingDate != null">
+                #{nextVisitingDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="serviceLabelCode != null">
+                #{serviceLabelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="serviceLabelName != null">
+                #{serviceLabelName,jdbcType=VARCHAR},
+            </if>
+            <if test="isPrecedence != null">
+                #{isPrecedence,jdbcType=DECIMAL},
+            </if>
+            <if test="forTheCustomerTime != null">
+                #{forTheCustomerTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastVisitAcc != null">
+                #{lastVisitAcc,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=DECIMAL},
+            </if>
+            <if test="planDate != null">
+                #{planDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="companyMoney != null">
+                #{companyMoney,jdbcType=VARCHAR},
+            </if>
+            <if test="companyUser != null">
+                #{companyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="companyTrade != null">
+                #{companyTrade,jdbcType=VARCHAR},
+            </if>
+            <if test="companyFax != null">
+                #{companyFax,jdbcType=VARCHAR},
+            </if>
+            <if test="losingId != null">
+                #{losingId,jdbcType=VARCHAR},
+            </if>
+            <if test="losingRemark != null">
+                #{losingRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="provinceId != null">
+                #{provinceId,jdbcType=DECIMAL},
+            </if>
+            <if test="cityId != null">
+                #{cityId,jdbcType=DECIMAL},
+            </if>
+            <if test="countyId != null">
+                #{countyId,jdbcType=DECIMAL},
+            </if>
+            <if test="lastLogId != null">
+                #{lastLogId,jdbcType=VARCHAR},
+            </if>
+            <if test="wangwang != null">
+                #{wangwang,jdbcType=VARCHAR},
+            </if>
+            <if test="scope != null">
+                #{scope,jdbcType=VARCHAR},
+            </if>
+            <if test="mainLinkman != null">
+                #{mainLinkman,jdbcType=VARCHAR},
+            </if>
+            <if test="taoNo != null">
+                #{taoNo,jdbcType=DECIMAL} ,
+            </if>
+            <if test="importDeptId != null">
+                #{importDeptId,jdbcType=VARCHAR} ,
+            </if>
+            <if test="lifeCode != null">
+                #{lifeCode,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+    <!-- 琛ㄥ瓧娈� -->
+    <sql id="Base_Column_List">
+		RES_CUST_ID,NAME,MOBILEPHONE,TELPHONE,COMPANY,DUTY,SEX,COMPANY_ADDR,COMPANY_ORG,
+		REMARK,TYPE,IS_DEL,RES_LAST_CALL_DATE,INPUT_DATE,INPUT_ACC,UPDATE_DATE,UPDATE_ACC,
+		IS_MAJOR,RES_GROUP_ID,OWNER_ACC,STATUS,ORG_ID,SIGN_DATE,INPUT_STATUS,OWNER_START_DATE,
+		FILTER_COUNT,FILTER_TYPE,OPREATE_TYPE,FAX,EMAIL,UNITHOME,UNITINTRODUCTION,AMOYTOCUSTOMER_DATE,QQ,KEYWORD,CONTRACT_NUMBER,
+		DEFINED1,DEFINED2,DEFINED3,DEFINED4,DEFINED5,ALTERNATE_PHONE2,SIGN_ACC,SIGN_NAME,NEXTFOLLOW_DATE,BIRTHDAY,
+		CALL_DATE_POSTPONED,
+		REASON_FOR_CALLDELAY,RECUCLING_TYPE_DETAILS,AGAINWASH_COUNT,ACTION_DATE,LAST_CUST_FOLLOW_ID,
+		SERVICE_ACC, SERVICE_NAME,
+		SERVICE_LEVEL,VISITING_DATE,NEXT_VISITING_DATE,SERVICE_LABEL_CODE,SERVICE_LABEL_NAME,
+		IS_PRECEDENCE,FOR_THE_CUSTOMER_TIME,LAST_VISIT_ACC,STATE,PLAN_DATE,ADDRESS,COMPANY_MONEY,
+		COMPANY_USER,COMPANY_TRADE,COMPANY_FAX,LOSING_ID,LOSING_REMARK,PROVINCE_ID,CITY_ID,COUNTY_ID,LAST_LOG_ID,WANGWANG,SCOPE,MAIN_LINKMAN,
+		DEFINED6,DEFINED7,DEFINED8,DEFINED9,DEFINED10,TAO_NO,SIGN_BEFORE_STATUS,SIGN_BEFORE_TYPE,IMPORT_DEPT_ID,LIFE_CODE,LAST_OPTION_ID
+	</sql>
+    <!-- 鏌ヨ鎵�鏈夊疄浣撲俊鎭紝瀵瑰簲鎺ュ彛涓殑find鏂规硶 -->
+    <select id="find" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="table_name"/>
+    </select>
+
+    <select id="findListPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <include refid="entity_condition_orderby"/>
+    </select>
+
+    <!-- 鏍规嵁鏉′欢鏌ヨ鎵�鏈夊疄浣撲俊鎭紝瀵瑰簲鎺ュ彛涓殑findByCondtion鏂规硶 -->
+    <select id="findByCondtion" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <include refid="entity_condition_orderby"/>
+    </select>
+
+    <!-- 鎸夌紪鍙疯幏鍙栧疄浣撲俊鎭紝瀵瑰簲鎺ュ彛涓殑getByPrimaryKey鏂规硶 -->
+    <select id="getByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,last_Option_Id
+        from
+        <include refid="table_name"/>
+        where ORG_ID = #{orgId} AND RES_CUST_ID = #{resId}
+    </select>
+    <select id="getByResId" parameterType="map" resultMap="DtoResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="table_name"/>
+        where ORG_ID = #{orgId} AND RES_CUST_ID = #{resId}
+    </select>
+    <!-- 鎸夋潯浠舵煡璇㈣幏鍙栧疄浣撲俊鎭紝瀵瑰簲鎺ュ彛涓殑getByCondtion鏂规硶 -->
+    <select id="getByCondtion" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="table_name"/>
+        where 1=1
+        <include refid="entity_condition_orderby"/>
+    </select>
+
+    <!-- 娣诲姞瀹炰綋 -->
+    <insert id="insert" parameterType="com.qftx.tsm.cust.bean.ResCustInfoBean">
+        insert into
+        <include refid="table_name"/>
+        <include refid="insert_into_field"/>
+    </insert>
+
+    <!-- 淇敼瀹炰綋 -->
+    <update id="update" parameterType="com.qftx.tsm.cust.bean.ResCustInfoBean">
+        update
+        <include refid="table_name"/>
+        <include refid="trents_update_set_sql"/>
+        where ORG_ID = #{orgId} and RES_CUST_ID = #{resCustId}
+    </update>
+
+    <!-- 鍔ㄦ�佷慨鏀瑰疄浣� -->
+    <update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.ResCustInfoBean">
+        update
+        <include refid="table_name"/>
+        <include refid="trents_update_set_sql"/>
+        where RES_CUST_ID = #{resCustId}
+    </update>
+
+    <!-- 鍒犻櫎 -->
+    <delete id="delete" parameterType="string">
+        delete
+        <include refid="table_name"/>
+        where RES_CUST_ID = #{resCustId}
+    </delete>
+
+    <!-- 鎵归噺鍒犻櫎 -->
+    <update id="deleteBatch" parameterType="map">
+        update
+        <include refid="table_name"/>
+        set IS_DEL = 1,UPDATE_ACC =#{updateacc},UPDATE_DATE = now ()
+        where
+        RES_CUST_ID in
+        <foreach collection="ids" item="id" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 鎴戠殑瀹㈡埛 璧勬簮 鏌ヨ鍒嗛〉鍒楄〃 -->
+    <select id="findMyResCustListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.NAME,
+        T.RES_CUST_ID,
+        T.COMPANY,
+        T.OWNER_ACC,
+        T.STATUS,
+        T.TYPE,
+        T.OWNER_START_DATE,
+        T.MOBILEPHONE,
+        T.TELPHONE,
+        T.ALTERNATE_PHONE2,
+        T.IS_MAJOR,
+        T.PLAN_DATE,
+        (CASE
+        WHEN G.GROUP_NAME IS NULL THEN
+        '鏈垎缁�'
+        ELSE
+        G.GROUP_NAME
+        END) GROUP_NAME,
+        T.ACTION_DATE,
+        A.USER_NAME AS OWNER_NAME,
+        T.NEXTFOLLOW_DATE,
+        T.IS_PRECEDENCE
+        FROM TSM_RES_CUST_INFO T
+        LEFT JOIN TSM_RES_GROUP G
+        ON G.ORG_ID = #{orgId,jdbcType=VARCHAR} AND T.RES_GROUP_ID = G.RES_GROUP_ID
+        LEFT JOIN AUTH_USER A
+        ON T.OWNER_ACC = A.USER_ACCOUNT
+        WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND T.TYPE IN (1,3)
+        AND T.STATUS IN (2,3)
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAccs!=null">
+            AND T.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="groupId != null and groupId != ''">
+            AND G.RES_GROUP_ID=#{groupId}
+        </if>
+        <if test='noteType != null and noteType == "2"'>
+            AND T.ACTION_DATE IS NULL OR T.ACTION_DATE = ''
+        </if>
+        <if test='noteType != null and noteType == "3"'>
+            AND T.ACTION_DATE IS NOT NULL
+            AND T.ACTION_DATE &lt;&gt; ''
+        </if>
+        <if test='noteType != null and noteType == "4"'>
+            AND T.PLAN_DATE IS NOT NULL
+        </if>
+        <if test='noteType != null and noteType == "5"'>
+            AND T.PLAN_DATE IS NULL
+        </if>
+        <if test="name != null and name != ''">
+            AND T.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (T.MOBILEPHONE = #{telphone} or T.TELPHONE = #{telphone} or T.ALTERNATE_PHONE2 = #{telphone})
+        </if>
+        <if test="pstartDate != null and pstartDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.OWNER_START_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+        </if>
+        <if test="pendDate != null and pendDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.OWNER_START_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+        </if>
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+        <if test="ownerName != null and ownerName != ''">
+            AND A.USER_NAME LIKE CONCAT('%',ownerName,'%')
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR T.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            T.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR T.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <!-- 鏌ヨ缁撴灉鎺掗櫎ids by lizhihui-->
+        <if test="rejectIds != null and rejectIds.size()>0">
+            <foreach collection="rejectIds" item="id">
+                and T.RES_CUST_ID !=#{id}
+            </foreach>
+        </if>
+
+        ORDER BY T.OWNER_START_DATE DESC,T.IS_MAJOR DESC
+    </select>
+
+    <!-- 鎴戠殑瀹㈡埛 鎰忓悜瀹㈡埛 鏌ヨ鍒楄〃 -->
+    <select id="findMyCustListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.NAME,
+        T.RES_CUST_ID,
+        T.COMPANY,
+        T.OWNER_ACC,
+        T.STATUS,
+        T.TYPE,
+        T.OWNER_START_DATE,
+        T.MOBILEPHONE,
+        T.TELPHONE,
+        T.ALTERNATE_PHONE2,
+        T.IS_MAJOR,
+        T.ACTION_DATE,
+        A.USER_NAME AS OWNER_NAME,
+        T.NEXTFOLLOW_DATE,
+        T.AMOYTOCUSTOMER_DATE,
+        TDO.OPTION_NAME AS SALE_PROCESS_NAME,
+        TDO1.OPTION_NAME AS CUST_TYPE_NAME,
+        TCG.CUST_TYPE_ID,
+        (CASE DATE_FORMAT(T.AMOYTOCUSTOMER_DATE, '%Y-%m-%d') WHEN DATE_FORMAT(now(), '%Y-%m-%d') THEN 1 ELSE 0 END)
+        IS_TODAY ,
+        T.MAIN_LINKMAN
+        FROM TSM_RES_CUST_INFO T
+        LEFT JOIN TSM_CUST_FOLLOW F
+        ON F.ORG_ID=#{orgId} AND T.LAST_CUST_FOLLOW_ID = F.CUST_FOLLOW_ID
+        LEFT JOIN TSM_DATA_OPTIONLIST TDO
+        ON TDO.ORG_ID=#{orgId} AND F.SALE_PROCESS_ID = TDO.OPTIONLIST_ID
+        LEFT JOIN TSM_CUST_GUIDE TCG
+        ON T.RES_CUST_ID = TCG.CUST_ID
+        LEFT JOIN TSM_DATA_OPTIONLIST TDO1
+        ON TDO1.ORG_ID=#{orgId} AND TCG.CUST_TYPE_ID = TDO.OPTIONLIST_ID
+        LEFT JOIN AUTH_USER A
+        ON T.OWNER_ACC = A.USER_ACCOUNT
+        WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND T.TYPE = 2
+        AND T.STATUS IN (2,3)
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="ownerAccs!=null">
+            AND T.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test='noteType == "2"'>
+            AND DATE_FORMAT(T.AMOYTOCUSTOMER_DATE,'%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+        </if>
+        <if test='noteType == "3"'>
+            AND DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+        </if>
+        <if test='noteType == "4"'>
+            AND DATE_FORMAT(F.ACTION_DATE,'%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+        </if>
+        <if test='noteType == "5"'>
+            AND DATE_FORMAT(T.AMOYTOCUSTOMER_DATE,'%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+        </if>
+        <if test='noteType == "6"'>
+            AND STR_TO_DATE(DATE_FORMAT(F.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') >=
+            STR_TO_DATE(DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL -WEEKDAY(CURDATE())DAY),'%Y-%m-%d'),'%Y-%m-%d')
+        </if>
+        <if test='noteType == "7"'>
+            AND TIMESTAMPDIFF(DAY,F.ACTION_DATE,NOW()) >= 7
+        </if>
+        <if test='noteType == "8"'>
+            AND TIMESTAMPDIFF(DAY,F.ACTION_DATE,NOW()) >= 30
+        </if>
+        <if test="name != null and name != ''">
+            AND T.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (T.MOBILEPHONE = #{telphone} or T.TELPHONE = #{telphone} or T.ALTERNATE_PHONE2 = #{telphone})
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startDate},'%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endDate},'%Y-%m-%d')
+        </if>
+        <if test="pstartDate != null and pstartDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.AMOYTOCUSTOMER_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+        </if>
+        <if test="pendDate != null and pendDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.AMOYTOCUSTOMER_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+        </if>
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(F.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(F.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+        <if test="custTypeId != null and custTypeId != ''">
+            AND TCG.CUST_TYPE_ID = #{custTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="saleProcessId != null and saleProcessId != ''">
+            AND F.SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+        </if>
+        <if test="mainLinkman != null and mainLinkman != ''">
+            AND T.MAIN_LINKMAN LIKE CONCAT('%',#{mainLinkman,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR T.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            T.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR T.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <if test="isMajor != null and isMajor != ''">
+            AND T.IS_MAJOR = #{isMajor}
+        </if>
+        <!-- 鏌ヨ缁撴灉鎺掗櫎ids-->
+        <if test="rejectIds != null and rejectIds.size()>0">
+            <foreach collection="rejectIds" item="id">
+                and T.RES_CUST_ID !=#{id}
+            </foreach>
+        </if>
+
+        <!-- 鏍囩鍒ゆ柇 -->
+        <if test="labels != null and labels !='' ">
+            AND
+            <foreach collection="labels" index="index" item="item" open="("
+                     separator="OR" close=")">
+                F.LABEL_CODE like '%'||#{item}||'%'
+            </foreach>
+        </if>
+        ORDER BY T.AMOYTOCUSTOMER_DATE desc
+    </select>
+
+    <!-- 鎴戠殑瀹㈡埛  绛剧害瀹㈡埛鍒楄〃鏌ヨ -->
+    <select id="findSignCustListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.NAME,
+        T.RES_CUST_ID,
+        T.COMPANY,
+        T.OWNER_ACC,
+        T.STATUS,
+        T.TYPE,
+        T.OWNER_START_DATE,
+        T.MOBILEPHONE,
+        T.TELPHONE,
+        T.ALTERNATE_PHONE2,
+        T.IS_MAJOR,
+        T.ACTION_DATE,
+        A.USER_NAME AS OWNER_NAME,
+        T.NEXTFOLLOW_DATE,
+        T.SIGN_DATE,
+        CM.MONEY AS TOTAL_ORDER_AMOUNT,
+        TD.CONTRACT_END_DATE,
+        TDO.OPTION_NAME AS CUST_TYPE_NAME,
+        TCG.CUST_TYPE_ID,
+        T.MAIN_LINKMAN
+        FROM TSM_RES_CUST_INFO T
+        LEFT JOIN CONTRACT_MONEY CM
+        ON CM.ORG_ID=#{orgId} AND T.RES_CUST_ID = CM.CUST_ID
+        LEFT JOIN (SELECT CT.CUST_ID,MAX(CT.INVALID_DATE) AS CONTRACT_END_DATE
+        FROM CONTRACT CT
+        WHERE CT.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND CT.AUTH_STATE = 2
+        AND CT.IS_DEL = 0
+        GROUP BY CT.CUST_ID) TD on T.RES_CUST_ID = TD.CUST_ID
+        LEFT JOIN TSM_CUST_GUIDE TCG
+        ON T.RES_CUST_ID = TCG.CUST_ID
+        LEFT JOIN TSM_DATA_OPTIONLIST TDO ON TDO.ORG_ID=#{orgId} AND TCG.CUST_TYPE_ID = TDO.OPTIONLIST_ID
+        LEFT JOIN AUTH_USER A
+        ON T.OWNER_ACC = A.USER_ACCOUNT
+        WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND T.TYPE = 2
+        AND T.STATUS =6
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null and name != ''">
+            AND T.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (T.MOBILEPHONE = #{telphone} or T.TELPHONE = #{telphone} or T.ALTERNATE_PHONE2 = #{telphone})
+        </if>
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.SIGN_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;= STR_TO_DATE(#{startDate},'%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.SIGN_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate},'%Y-%m-%d')
+        </if>
+        <if test="endNextContactDate != null and endNextContactDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startNextContactDate},'%Y-%m-%d')
+        </if>
+        <if test="endNextContactDate != null and endNextContactDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endNextContactDate},'%Y-%m-%d')
+        </if>
+        <if test="startContractEndDate != null and startContractEndDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(TD.CONTRACT_END_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startContractEndDate},'%Y-%m-%d')
+        </if>
+        <if test="endContractEndDate != null and endContractEndDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(TD.CONTRACT_END_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endContractEndDate},'%Y-%m-%d')
+        </if>
+        <if test="mainLinkman != null and mainLinkman != ''">
+            AND T.MAIN_LINKMAN LIKE CONCAT('%',#{mainLinkman,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="custTypeId != null and custTypeId != ''">
+            AND TCG.CUST_TYPE_ID = #{custTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR T.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            T.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR T.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <!-- 鏌ヨ缁撴灉鎺掗櫎ids-->
+        <if test="rejectIds != null and rejectIds.size()>0">
+            <foreach collection="rejectIds" item="id">
+                and T.RES_CUST_ID !=#{id}
+            </foreach>
+        </if>
+
+    </select>
+
+    <resultMap type="map" id="MapResultMap">
+        <result column="sign_num" property="signNum" jdbcType="DECIMAL"/>
+        <result column="today_sign_num" property="todaySignNum" jdbcType="DECIMAL"/>
+        <result column="month_sign_num" property="monthSignNum" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="getSignNum" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="MapResultMap">
+        select count(1) as sign_num,
+        ifnull(sum(case date_format(t.sign_date,'%Y-%m-%d') when date_format(now(),'%Y-%m-%d') then 1 else 0 end),0)
+        today_sign_num,
+        ifnull(sum(case date_format(t.sign_date,'%Y-%m') when date_format(now(),'%Y-%m') then 1 else 0 end),0)
+        month_sign_num
+        from tsm_res_cust_info t
+        where t.org_id = #{orgId}
+        and t.type = 2
+        and t.status =6
+        and t.is_del = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            and t.owner_acc in (select ttgm.member_acc
+            from tsm_group_shareinfo tgs
+            right join tsm_team_group_member ttgm
+            on ttgm.group_id = tgs.group_id
+            where share_acc = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            and t.owner_acc = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!-- 鎴戠殑瀹㈡埛 娌夐粯瀹㈡埛鍒楄〃 -->
+    <select id="findSilentCustListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.NAME,
+        T.RES_CUST_ID,
+        T.COMPANY,
+        T.OWNER_ACC,
+        T.STATUS,
+        T.TYPE,
+        T.OWNER_START_DATE,
+        T.MOBILEPHONE,
+        T.TELPHONE,
+        T.ALTERNATE_PHONE2,
+        T.IS_MAJOR,
+        T.ACTION_DATE,
+        A.USER_NAME AS OWNER_NAME,
+        T.NEXTFOLLOW_DATE,
+        T.SIGN_DATE,
+        TD.CONTRACT_END_DATE,
+        DATEDIFF(NOW(),T.ACTION_DATE) DAYS,
+        T.MAIN_LINKMAN,
+        CM.MONEY AS TOTAL_ORDER_AMOUNT
+        FROM TSM_RES_CUST_INFO T
+        LEFT JOIN CONTRACT_MONEY CM
+        ON CM.ORG_ID=#{orgId} AND T.RES_CUST_ID = CM.CUST_ID
+        LEFT JOIN AUTH_USER A
+        ON T.OWNER_ACC = A.USER_ACCOUNT
+        LEFT JOIN (SELECT CT.CUST_ID,MAX(CT.INVALID_DATE) AS CONTRACT_END_DATE
+        FROM CONTRACT CT
+        WHERE CT.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND CT.AUTH_STATE = 2
+        AND CT.IS_DEL = 0
+        GROUP BY CT.CUST_ID) TD
+        ON T.RES_CUST_ID = TD.CUST_ID
+        WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND T.TYPE = 2
+        AND T.STATUS = 7
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAccs!=null">
+            AND T.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null and name != ''">
+            AND T.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (T.MOBILEPHONE = #{telphone} or T.TELPHONE = #{telphone} or T.ALTERNATE_PHONE2 = #{telphone})
+        </if>
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+        <if test="mainLinkman != null and mainLinkman != ''">
+            AND T.MAIN_LINKMAN LIKE CONCAT('%',#{mainLinkman,jdbcType=VARCHAR},'%')
+        </if>
+        <if test='noteType == "2"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 7
+        </if>
+        <if test='noteType == "3"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 30
+        </if>
+        <if test='noteType == "4"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 90
+        </if>
+        <if test='days != null'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= ${days}
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR T.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            T.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR T.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <!-- 鍚堝悓鎴鏃堕棿 -->
+        <if test="pstartDate != null and pstartDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(TD.CONTRACT_END_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+        </if>
+        <if test="pendDate != null and pendDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(TD.CONTRACT_END_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+        </if>
+        <!-- 鏈�杩戣仈绯绘椂闂� -->
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+    </select>
+
+    <!-- 娴佸け瀹㈡埛鍒楄〃鏌ヨ -->
+    <select id="findLosingCustListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.NAME,
+        T.RES_CUST_ID,
+        T.COMPANY,
+        T.OWNER_ACC,
+        T.STATUS,
+        T.TYPE,
+        T.OWNER_START_DATE,
+        T.MOBILEPHONE,
+        T.TELPHONE,
+        T.ALTERNATE_PHONE2,
+        T.IS_MAJOR,
+        T.ACTION_DATE,
+        A.USER_NAME AS OWNER_NAME,
+        T.NEXTFOLLOW_DATE,
+        T.SIGN_DATE,
+        TD.TOTAL_ORDER_AMOUNT,
+        TD.CONTRACT_END_DATE,
+        DATEDIFF(NOW(),T.ACTION_DATE) DAYS,
+        T.MAIN_LINKMAN,
+        T.LOSING_REMARK,
+        TDO.OPTION_NAME AS LOSING_REASON
+        FROM TSM_RES_CUST_INFO T LEFT JOIN AUTH_USER A
+        ON T.OWNER_ACC = A.USER_ACCOUNT
+        LEFT JOIN TSM_DATA_OPTIONLIST TDO ON TDO.ORG_ID=#{orgId} AND T.LOSING_ID = TDO.OPTIONLIST_ID
+        LEFT JOIN (SELECT CT.CUST_ID,MAX(CT.INVALID_DATE) AS CONTRACT_END_DATE,SUM(CT.MONEY) AS TOTAL_ORDER_AMOUNT
+        FROM CONTRACT CT
+        WHERE CT.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND CT.AUTH_STATE = 2
+        AND CT.IS_DEL = 0
+        GROUP BY CT.CUST_ID) TD
+        ON T.RES_CUST_ID = TD.CUST_ID
+        WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND T.TYPE = 2
+        AND T.STATUS = 8
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAccs!=null">
+            AND T.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null and name != ''">
+            AND T.NAME LIKE CONCAT(#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (T.MOBILEPHONE = #{telphone} or T.TELPHONE = #{telphone} or T.ALTERNATE_PHONE2 = #{telphone})
+        </if>
+        <!-- 鍚堝悓鎴鏃堕棿 -->
+        <if test="pstartDate != null and pstartDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(TD.CONTRACT_END_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+        </if>
+        <if test="pendDate != null and pendDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(TD.CONTRACT_END_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+        </if>
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+        <if test="mainLinkman != null and mainLinkman != ''">
+            AND T.MAIN_LINKMAN LIKE CONCAT('%',#{mainLinkman,jdbcType=VARCHAR},'%')
+        </if>
+        <if test='noteType == "2"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 7
+        </if>
+        <if test='noteType == "3"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 30
+        </if>
+        <if test='noteType == "4"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 90
+        </if>
+        <if test='days != null'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= ${days}
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR T.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            T.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR T.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <if test="losingId != null and losingId != ''">
+            AND T.LOSING_ID = #{losingId}
+        </if>
+    </select>
+
+    <select id="findDeliveryIdsListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.RES_CUST_ID ,
+        T.TYPE,
+        T.STATUS,
+        SALENAME.OPTION_NAME AS SALE_PROCESS_NAME,
+        SALENAME.OPTIONLIST_ID AS SALE_PROCESS_ID,
+        (CASE T.STATUS WHEN 6 THEN T.OWNER_START_DATE ELSE NOW() END) AS OWNER_START_DATE
+        FROM TSM_RES_CUST_INFO T
+        LEFT JOIN (SELECT O.OPTION_NAME, G.CUST_ID, O.OPTIONLIST_ID
+        FROM TSM_CUST_GUIDE G, TSM_DATA_OPTIONLIST O
+        WHERE G.ORG_ID = #{orgId}
+        AND O.ORG_ID = #{orgId}
+        AND G.SALE_PROCESS_ID = O.OPTIONLIST_ID
+        AND O.ITEM_CODE = #{itemCode}) SALENAME
+        ON T.RES_CUST_ID = SALENAME.CUST_ID
+        WHERE T.ORG_ID=#{orgId}
+        AND T.IS_DEL = 0
+        AND T.OWNER_ACC = #{ownerAcc}
+        <if test='custType == null or custType == ""'>
+            AND T.STATUS IN (2,3,6,7,8)
+        </if>
+        <if test='custType == "1"'>
+            AND T.STATUS IN (2,3)
+            AND T.TYPE in (1,3)
+        </if>
+        <if test='custType == "2"'>
+            AND T.STATUS IN (2,3)
+            AND T.TYPE = 2
+        </if>
+        <if test='custType == "3"'>
+            AND T.STATUS = 6
+        </if>
+        <if test='custType == "4"'>
+            AND T.STATUS = 7
+        </if>
+        <if test='custType == "5"'>
+            AND T.STATUS = 8
+        </if>
+    </select>
+
+    <select id="findCustNums" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM
+        TSM_RES_CUST_INFO T
+        WHERE T.ORG_ID=#{orgId}
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="nextFollowDate != null">
+            AND DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d') = DATE_FORMAT(#{nextFollowDate,jdbcType=TIMESTAMP},'%Y-%m-%d')
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test='custType == null or custType == ""'>
+            AND T.STATUS IN (2,3,6,7,8)
+        </if>
+        <if test='custType == "1"'>
+            AND T.STATUS IN (2,3)
+            AND T.TYPE in (1,3)
+        </if>
+        <if test='custType == "2"'>
+            AND T.STATUS IN (2,3)
+            AND T.TYPE = 2
+        </if>
+        <if test='custType == "3"'>
+            AND T.STATUS = 6
+        </if>
+        <if test='custType == "4"'>
+            AND T.STATUS = 7
+        </if>
+        <if test='custType == "5"'>
+            AND T.STATUS = 8
+        </if>
+    </select>
+
+    <select id="findIsPrecedence" resultType="java.lang.Integer">
+		SELECT IS_PRECEDENCE FROM 
+			TSM_RES_CUST_INFO T 
+		  WHERE T.ORG_ID=#{orgId} 
+		  	and t.RES_CUST_ID =#{resCustId}
+		  	AND T.IS_DEL = 0 
+	</select>
+
+    <select id="findAllTypeCustListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT T.NAME,
+        T.RES_CUST_ID,
+        T.COMPANY,
+        T.OWNER_ACC,
+        T.STATUS,
+        T.TYPE,
+        T.OWNER_START_DATE,
+        F.SALE_PROCESS_ID,
+        O.OPTION_NAME AS SALE_PROCESS_NAME,
+        <!-- 		       O.OPTIONLIST_ID, -->
+        T.ACTION_DATE,
+        T.MOBILEPHONE,
+        T.TELPHONE,
+        T.IS_MAJOR,
+        (CASE
+        WHEN G.GROUP_NAME IS NULL
+        THEN '鏈垎缁�'
+        ELSE G.GROUP_NAME
+        END) GROUP_NAME,
+        A.USER_NAME AS OWNER_NAME,
+        T.DEFINED1,
+        T.DEFINED2,
+        T.DEFINED3,
+        T.DEFINED4,
+        T.DEFINED5,
+        T.FILTER_COUNT,
+        TC.CUST_TYPE_ID
+        FROM TSM_RES_CUST_INFO T
+        LEFT JOIN TSM_CUST_FOLLOW F
+        ON F.ORG_ID = #{orgId} AND T.LAST_CUST_FOLLOW_ID = F.CUST_FOLLOW_ID
+        LEFT JOIN TSM_RES_GROUP G
+        ON G.ORG_ID = #{orgId} AND T.RES_GROUP_ID = G.RES_GROUP_ID
+        LEFT JOIN TSM_DATA_OPTIONLIST O
+        ON O.ORG_ID = #{orgId} AND F.SALE_PROCESS_ID = O.OPTIONLIST_ID
+        LEFT JOIN AUTH_USER A
+        ON T.OWNER_ACC = A.USER_ACCOUNT
+        LEFT JOIN TSM_CUST_GUIDE TC
+        ON TC.ORG_ID = #{orgId} AND T.RES_CUST_ID = TC.CUST_ID
+        WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND T.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test='noteType == null or noteType == "" or noteType == "1"'>
+            AND T.STATUS IN (2,3,6,7,8)
+        </if>
+        <if test='custType == "1" or noteType == "2" or noteType == "3"'><!-- 璧勬簮 -->
+            AND T.STATUS IN (2,3)
+            AND T.TYPE in (1,3)
+            <if test='noteType == "2"'>
+                AND (T.ACTION_DATE IS NULL OR T.ACTION_DATE = '')
+            </if>
+            <if test='noteType == "3"'>
+                AND T.ACTION_DATE IS NOT NULL
+                AND T.ACTION_DATE &lt;&gt; ''
+            </if>
+        </if>
+        <if test='custType == "2" or noteType == "4"'><!-- 鎰忓悜瀹㈡埛 -->
+            AND T.STATUS IN (2,3)
+            AND T.TYPE = 2
+        </if>
+        <if test='custType == "3" or noteType == "5"'><!-- 绛剧害瀹㈡埛 -->
+            AND T.STATUS = 6
+        </if>
+        <if test='custType == "4" or noteType == "6"'><!-- 娌夐粯瀹㈡埛 -->
+            AND T.STATUS = 7
+        </if>
+        <if test='custType == "5" or noteType == "7"'><!-- 娴佸け瀹㈡埛 -->
+            AND T.STATUS = 8
+        </if>
+        <if test='custType == "6"'><!-- 鎰忓悜瀹㈡埛 绛剧害瀹㈡埛 -->
+            AND T.STATUS IN (2,3,6)
+            AND T.TYPE = 2
+        </if>
+        <if test="ownerAccs!=null">
+            AND T.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (T.MOBILEPHONE = #{telphone} or T.TELPHONE = #{telphone} or T.ALTERNATE_PHONE2 = #{telphone})
+        </if>
+        <if test='resGroupId != null and resGroupId != "" and resGroupId != "0"'>
+            AND T.RES_GROUP_ID = #{resGroupId}
+        </if>
+        <if test='resGroupId == "0"'>
+            AND T.RES_GROUP_ID IS NULL
+        </if>
+        <if test="saleProcessId != null and saleProcessId != ''">
+            AND F.SALE_PROCESS_ID = #{saleProcessId}
+        </if>
+        <if test="startActionDate != null and startActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{startActionDate},'%Y-%m-%d')
+        </if>
+        <if test="endActionDate != null and endActionDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.ACTION_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{endActionDate},'%Y-%m-%d')
+        </if>
+        <if test="pstartDate != null and pstartDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.OWNER_START_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;=
+            STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+        </if>
+        <if test="pendDate != null and pendDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(T.OWNER_START_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;=
+            STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+        </if>
+        <if test="custTypeId != null and custTypeId != ''">
+            AND TC.CUST_TYPE_ID = #{custTypeId}
+        </if>
+        <if test="nextFollowDate != null">
+            AND DATE_FORMAT(T.NEXTFOLLOW_DATE,'%Y-%m-%d') = DATE_FORMAT(#{nextFollowDate,jdbcType=TIMESTAMP},'%Y-%m-%d')
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR T.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            T.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR T.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+
+        <!-- 鏌ヨ缁撴灉鎺掗櫎ids by lizhihui-->
+        <if test="rejectIds != null and rejectIds.size()>0">
+            <foreach collection="rejectIds" item="id">
+                and T.RES_CUST_ID !=#{id}
+            </foreach>
+        </if>
+
+        ORDER BY T.OWNER_START_DATE DESC,T.RES_CUST_ID DESC
+    </select>
+
+    <select id="findCustPoolListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT R.RES_CUST_ID,
+        R.MOBILEPHONE,
+        R.TELPHONE,
+        R.NAME,
+        R.OPREATE_TYPE,
+        R.IS_MAJOR,
+        R.UPDATE_DATE,
+        R.AMOYTOCUSTOMER_DATE,
+        P.OPTION_NAME AS SALE_PROCESS_NAME,
+        R.COMPANY,
+        R.DUTY,
+        R.TYPE,
+        U.USER_NAME AS OWNER_NAME,
+        R.OWNER_ACC,
+        R.DEFINED1,
+        R.DEFINED2,
+        R.DEFINED3,
+        R.DEFINED4,
+        R.DEFINED5,
+        R.RECUCLING_TYPE_DETAILS,
+        R.ORG_ID
+        FROM TSM_RES_CUST_INFO R
+        LEFT JOIN TSM_RES_GROUP TRG
+        ON TRG.ORG_ID = #{orgId} AND R.RES_GROUP_ID = TRG.RES_GROUP_ID
+        LEFT JOIN TSM_CUST_GUIDE G
+        ON G.ORG_ID = #{orgId} AND R.RES_CUST_ID = G.CUST_ID
+        LEFT JOIN TSM_DATA_OPTIONLIST P
+        ON P.ORG_ID = #{orgId} AND G.SALE_PROCESS_ID = P.OPTIONLIST_ID
+        LEFT JOIN AUTH_USER U
+        ON R.OWNER_ACC = U.USER_ACCOUNT
+        WHERE R.ORG_ID = #{orgId,jdbcType=VARCHAR}
+        AND R.IS_DEL = 0
+        <if test='isShareRes == "1"'>
+            AND (R.STATUS IN (4, 5) OR (R.STATUS = 1 AND R.STATUS = 1 AND TRG.IS_SHARE_POOL = 1))
+        </if>
+        <if test='isShareRes == "0"'>
+            AND R.STATUS IN (4, 5)
+        </if>
+        <if test="ownerAccs!=null">
+            AND R.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="name != null and name != ''">
+            AND R.NAME LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="saleProcessId != null and saleProcessId != ''">
+            AND G.SALE_PROCESS_ID =#{saleProcessId}
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (R.MOBILEPHONE LIKE CONCAT('%',#{telphone},'%') OR R.TELPHONE LIKE CONCAT('%',#{telphone},'%'))
+        </if>
+        <if test="startDate != null and startDate != '' ">
+            AND STR_TO_DATE(DATE_FORMAT(R.UPDATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;= STR_TO_DATE(#{startDate},
+            '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(R.UPDATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        <if test="recuclingTypeDetails != null and recuclingTypeDetails != ''">
+            AND R.RECUCLING_TYPE_DETAILS LIKE CONCAT ('%',#{recuclingTypeDetails},'%')
+        </if>
+        <if test="resGroupId != null and resGroupId != ''">
+            AND R.RES_GROUP_ID = #{resGroupId}
+        </if>
+        <if test="isUnGroup != null and isUnGroup != ''">
+            AND R.RES_GROUP_ID IS NULL
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (R.NAME LIKE CONCAT('%',#{queryText},'%') OR R.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            R.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR R.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <if test="opreateType != null">
+            AND R.OPREATE_TYPE = ${opreateType}
+        </if>
+        ORDER BY R.UPDATE_DATE DESC,R.RES_CUST_ID DESC
+    </select>
+
+    <select id="findClearPoolListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT R.RES_CUST_ID
+        FROM TSM_RES_CUST_INFO R
+        LEFT JOIN TSM_RES_GROUP TRG
+        ON TRG.ORG_ID = #{orgId} AND R.RES_GROUP_ID = TRG.RES_GROUP_ID
+        LEFT JOIN TSM_CUST_GUIDE G
+        ON G.ORG_ID = #{orgId, jdbcType = VARCHAR} AND R.RES_CUST_ID = G.CUST_ID
+        LEFT JOIN TSM_DATA_OPTIONLIST P
+        ON P.ORG_ID = #{orgId, jdbcType = VARCHAR} AND G.SALE_PROCESS_ID = P.OPTIONLIST_ID
+        WHERE R.ORG_ID = #{orgId, jdbcType = VARCHAR}
+        AND R.IS_DEL = 0
+        <if test='isShareRes == "1"'>
+            AND (R.STATUS IN (4, 5) OR (R.STATUS = 1 AND R.STATUS = 1 AND TRG.IS_SHARE_POOL = 1))
+        </if>
+        <if test='isShareRes == "0"'>
+            AND R.STATUS IN (4, 5)
+        </if>
+        <if test="ownerAccs!=null">
+            AND R.OWNER_ACC IN
+            <foreach collection="ownerAccs" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="name != null and name != ''">
+            AND R.NAME LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="saleProcessId != null and saleProcessId != ''">
+            AND G.SALE_PROCESS_ID =#{saleProcessId}
+        </if>
+        <if test="telphone != null and telphone != ''">
+            AND (R.MOBILEPHONE LIKE CONCAT('%',#{telphone},'%') OR R.TELPHONE LIKE CONCAT('%',#{telphone},'%'))
+        </if>
+        <if test="startDate != null and startDate != '' ">
+            AND STR_TO_DATE(DATE_FORMAT(R.UPDATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') &gt;= STR_TO_DATE(#{startDate},
+            '%Y-%m-%d')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(R.UPDATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d')
+        </if>
+        <if test="recuclingTypeDetails != null and recuclingTypeDetails != ''">
+            AND R.RECUCLING_TYPE_DETAILS LIKE CONCAT ('%',#{recuclingTypeDetails},'%')
+        </if>
+        <if test="resGroupId != null and resGroupId != ''">
+            AND R.RES_GROUP_ID = #{resGroupId}
+        </if>
+        <if test="isUnGroup != null and isUnGroup != ''">
+            AND R.RES_GROUP_ID IS NULL
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (R.NAME LIKE CONCAT('%',#{queryText},'%') OR R.TELPHONE LIKE CONCAT('%',#{queryText},'%') OR
+            R.MOBILEPHONE LIKE CONCAT('%',#{queryText},'%') OR R.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <if test="opreateType != null">
+            AND R.OPREATE_TYPE = ${opreateType}
+        </if>
+        ORDER BY R.UPDATE_DATE DESC,R.RES_CUST_ID DESC
+    </select>
+
+    <!-- 鎵归噺璁剧疆浼樺厛绾�  -->
+    <update id="setPrecedenceBatch" parameterType="map">
+        UPDATE
+        <include refid="table_name"/>
+        SET UPDATE_ACC =#{updateAcc,jdbcType=VARCHAR},UPDATE_DATE = NOW(),IS_PRECEDENCE=#{isPrecedence,jdbcType=DECIMAL}
+        WHERE RES_CUST_ID
+        IN
+        <foreach collection="ids" item="id" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="findTeamCustByCustId" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+		SELECT C.RES_CUST_ID,
+		       C.NAME,
+		       C.MOBILEPHONE,
+		       C.TELPHONE,
+		       C.COMPANY,
+		       C.DUTY,
+		       C.SEX,
+		       C.COMPANY_ADDR,
+		       C.COMPANY_ORG,
+		       C.REMARK,
+		       C.TYPE,
+		       C.IS_DEL,
+		       C.RES_LAST_CALL_DATE,
+		       C.INPUT_DATE,
+		       C.INPUT_ACC,
+		       C.UPDATE_DATE,
+		       C.UPDATE_ACC,
+		       C.IS_MAJOR,
+		       C.RES_GROUP_ID,
+		       C.OWNER_ACC,
+		       C.STATUS,
+		       C.ORG_ID,
+		       C.SIGN_DATE,
+		       C.INPUT_STATUS,
+		       U.USER_NAME AS OWNER_NAME,
+		       SALENAME.OPTION_NAME AS SALE_PROCESS_NAME,
+		       SALENAME.OPTIONLIST_ID AS SALE_PROCESS_ID
+		  FROM TSM_RES_CUST_INFO C
+		  LEFT JOIN AUTH_USER U
+		    ON U.ORG_ID = #{orgId} AND C.OWNER_ACC = U.USER_ACCOUNT
+		  LEFT JOIN (SELECT O.OPTION_NAME, G.CUST_ID, O.OPTIONLIST_ID
+		               FROM TSM_CUST_GUIDE G, TSM_DATA_OPTIONLIST O
+		              WHERE O.ORG_ID = #{orgId} AND G.SALE_PROCESS_ID = O.OPTIONLIST_ID
+		                AND O.ITEM_CODE = #{itemCode}) SALENAME 
+		    ON C.RES_CUST_ID = SALENAME.CUST_ID
+		 WHERE C.ORG_ID = #{orgId} AND C.RES_CUST_ID = #{resCustId} 
+	</select>
+
+    <!-- 鎵归噺瀹㈡埛浜ゆ帴锛堟煇涓鎴蜂氦鎺ョ粰鍙︿竴涓汉鍘昏窡杩涳級 -->
+    <update id="updateMoveCust" parameterType="map">
+        update
+        <include refid="table_name"/>
+        set UPDATE_ACC =#{logAct},UPDATE_DATE =
+        now(),OWNER_ACC=#{ownerAcc},OWNER_START_DATE=now()
+        where
+        RES_CUST_ID in
+        <foreach collection="ids" item="id" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 鎵归噺瀹㈡埛浜ゆ帴锛堟煇涓绾﹀鎴蜂氦鎺ョ粰鍙︿竴涓鎴峰幓璺熻繘锛� -->
+    <update id="updateMoveSignCust" parameterType="map">
+        update
+        <include refid="table_name"/>
+        set UPDATE_ACC =#{logAct},UPDATE_DATE = now(),OWNER_ACC=#{ownerAcc}
+        where RES_CUST_ID in
+        <foreach collection="ids" item="id" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 鎵归噺鏀惧純瀹㈡埛锛堝皢璇ュ鎴锋斁鍒板叕娴峰鎴锋睜涓級 -->
+    <update id="updateBatchCust" parameterType="map">
+        update
+        <include refid="table_name"/>
+        set STATUS=${status},UPDATE_ACC =#{logAct},UPDATE_DATE =
+        now(),OPREATE_TYPE = 12,OWNER_START_DATE=null
+        where RES_CUST_ID in
+        <foreach collection="ids" item="id" open="(" separator=","
+                 close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 璧勬簮瀹㈡埛鍛煎彨鏁扮粺璁� 娓呴櫎 -->
+    <select id="cleanCallCustCountByCustId" parameterType="map">
+        DELETE FROM TSM_CALL_COUNT_CUST WHERE CUST_ID IN
+        <foreach collection="custIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!-- 鏍规嵁Id鎵归噺淇敼 -->
+    <update id="updateByIds" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto">
+        UPDATE
+        <include refid="table_name"/>
+        <include refid="trents_update_set_sql_batch"/>
+        WHERE ORG_ID=#{orgId} AND RES_CUST_ID IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <!-- 鍙栧緱涓汉鍓╀綑璧勬簮鏁� -->
+    <select id="findMyResSum" parameterType="string" resultType="Integer">
+		SELECT COUNT(1) 
+			FROM TSM_RES_CUST_INFO A 
+		  WHERE A.STATUS = 2 
+		 	AND A.IS_DEL = 0 
+		 	AND A.TYPE IN (1,3) 
+			AND A.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+	</select>
+    <update id="updatePlanDate" parameterType="map">
+		UPDATE TSM_RES_CUST_INFO SET PLAN_DATE = #{planDate,jdbcType=TIMESTAMP} 
+			WHERE ORG_ID = #{orgId,jdbcType=VARCHAR} AND RES_CUST_ID = #{custId,jdbcType=VARCHAR} 
+	</update>
+
+    <!-- 寤跺悗鍛煎彨鎻愰啋 -->
+    <select id="findDelayCallAlert" parameterType="map" resultMap="BaseResultMap">
+		SELECT T.RES_CUST_ID,T.ORG_ID,T.OWNER_ACC,T.NAME,T.COMPANY,T.REASON_FOR_CALLDELAY,T.CALL_DATE_POSTPONED,
+	       NVL(T.MOBILEPHONE, T.TELPHONE) AS TELPHONE
+	  FROM TSM_RES_CUST_INFO T
+	 WHERE T.ORG_ID = #{orgId} and T.CALL_DATE_POSTPONED <![CDATA[ >= ]]> str_to_date(#{start_time,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s')
+	   AND T.CALL_DATE_POSTPONED <![CDATA[ < ]]> str_to_date(#{end_time,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s')
+	</select>
+
+    <!-- 娌夐粯瀹㈡埛绛涢�� -->
+    <select id="silentCustsSxListPage" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT
+        T.RES_CUST_ID,
+        T.NAME,
+        C.CODE AS CONTRACT_CODE,
+        DATEDIFF(NOW(),T.ACTION_DATE) DAYS,
+        C.INVALID_DATE AS CONTRACT_END_DATE
+        FROM
+        TSM_RES_CUST_INFO T
+        LEFT JOIN CONTRACT C ON T.ORG_ID=#{orgId} AND T.RES_CUST_ID = C.CUST_ID
+        WHERE
+        T.ORG_ID = #{orgId}
+        AND T.STATUS = 6
+        AND T.TYPE = 2
+        AND T.IS_DEL = 0
+        AND C.IS_DEL = 0
+        <if test="adminAcc != null and adminAcc != ''">
+            AND T.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+            FROM TSM_GROUP_SHAREINFO TGS
+            RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+            ON TTGM.GROUP_ID = TGS.GROUP_ID
+            WHERE SHARE_ACC = #{adminAcc,jdbcType=VARCHAR})
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc}
+        </if>
+        <if test='noteType == "2"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 7
+        </if>
+        <if test='noteType == "3"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 30
+        </if>
+        <if test='noteType == "4"'>
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= 90
+        </if>
+        <if test="days != null">
+            AND DATEDIFF(NOW(),T.ACTION_DATE) >= ${days}
+        </if>
+        <if test="queryText != null and queryText != ''">
+            AND (T.NAME LIKE CONCAT('%',#{queryText},'%') OR C.CODE LIKE CONCAT('%',#{queryText},'%'))
+        </if>
+        <if test="pstartDate != null and pstartDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(C.INVALID_DATE,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+        </if>
+        <if test="pendDate != null and pendDate != ''">
+            AND STR_TO_DATE(DATE_FORMAT(C.INVALID_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+        </if>
+        ORDER BY C.INVALID_DATE ASC
+    </select>
+
+    <update id="rebackSignBeforeStatus" parameterType="com.qftx.tsm.cust.bean.ResCustInfoBean">
+		UPDATE TSM_RES_CUST_INFO SET TYPE=${signBeforeType},STATUS=#{signBeforeStatus},UPDATE_DATE=NOW(),
+			UPDATE_ACC=#{updateAcc},SIGN_DATE=null,SIGN_ACC=null,SIGN_BEFORE_TYPE=null,SIGN_BEFORE_STATUS=NULL 
+		 WHERE ORG_ID = #{orgId} AND RES_CUST_ID = #{resCustId} 
+	</update>
+
+    <update id="modifyQuHui" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto">
+		UPDATE TSM_RES_CUST_INFO SET  
+			OWNER_ACC=#{ownerAcc,jdbcType=VARCHAR},
+			TYPE=1,
+			STATUS=2,
+			OWNER_START_DATE=NOW(),
+			OPREATE_TYPE=3,
+			IS_PRECEDENCE=0,
+			LIFE_CODE=#{lifeCode,jdbcType=VARCHAR},
+			UPDATE_DATE=NOW(),
+			UPDATE_ACC=#{updateAcc,jdbcType=VARCHAR} 
+		WHERE ORG_ID = #{orgId,jdbcType=VARCHAR} 
+			AND RES_CUST_ID = #{resCustId,jdbcType=VARCHAR} 
+	</update>
+
+    <!-- 查询前十条-->
+    <select id="findTenCust" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT
+        t.*,
+        IF (
+        u.USER_NAME,
+        u.USER_NAME,
+        u.USER_ACCOUNT
+        ) as OWNER_NAME
+        FROM
+        tsm_res_cust_info t
+        LEFT JOIN auth_user u ON t.OWNER_ACC = u.USER_ACCOUNT
+        <if test="orgId != null and orgId != ''">
+            AND T.ORG_ID = #{orgId}
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc}
+        </if>
+        WHERE
+        t.IS_DEL = 0
+        <if test="type != null and type == 1">
+            and type =1 and status in (2,3)
+        </if>
+        <if test="type != null and type ==2">
+            and type =2 and status in (3)
+        </if>
+        <if test="orgId != null and orgId != ''">
+            AND T.ORG_ID = #{orgId}
+        </if>
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND T.OWNER_ACC = #{ownerAcc}
+        </if>
+        AND (t.MOBILEPHONE is not NULL OR t.TELPHONE is not null)
+        AND (length(MOBILEPHONE)!=0 or length(TELPHONE)!=0)
+        <!--         <if test="startDate!=null and startDate!=''"> -->
+        <!--             and t.OWNER_START_DATE>STR_TO_DATE(#{startDate},'%Y-%m-%d %H:%i:%s') -->
+        <!--         </if> -->
+        ORDER BY
+        t.OWNER_START_DATE asc, t.RES_CUST_ID DESC
+        limit 0,2000
+    </select>
+    <!-- 根据电话号码查询资源 -->
+    <select id="findCustByTelPhone" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT
+        t.RES_CUST_ID,
+		t.DUTY,
+		t.OWNER_ACC,
+		t.COMMON_ACC,
+		t.STATUS,
+		t.TYPE,
+		t.is_concat,
+		t.MOBILEPHONE,
+		t.TELPHONE,
+		t.state,
+		t.`NAME`,
+		t.last_Option_Id,
+		t.COMPANY,
+		t.main_linkman,
+		t.OWNER_START_DATE
+        FROM
+        (select 
+        RES_CUST_ID,
+		DUTY,
+		OWNER_ACC,
+		COMMON_ACC,
+		STATUS,
+		TYPE,
+		is_concat,
+		MOBILEPHONE,
+		TELPHONE,
+		state,
+		`NAME`,
+		last_Option_Id,
+		COMPANY,
+		main_linkman,
+		OWNER_START_DATE
+         from tsm_res_cust_info
+        where ORG_ID = #{orgId}  and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND OWNER_ACC = #{ownerAcc}
+        </if>
+        AND ( MOBILEPHONE=#{telphone})
+        UNION
+        select 
+        RES_CUST_ID,
+		DUTY,
+		OWNER_ACC,
+		COMMON_ACC,
+		STATUS,
+		TYPE,
+		is_concat,
+		MOBILEPHONE,
+		TELPHONE,
+		state,
+		`NAME`,
+		last_Option_Id,
+		COMPANY,
+		main_linkman,
+		OWNER_START_DATE
+         from tsm_res_cust_info
+        where ORG_ID = #{orgId}  and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND OWNER_ACC = #{ownerAcc}
+        </if>
+        AND (TELPHONE=#{telphone}  )
+        )t
+        ORDER BY
+        t.OWNER_START_DATE asc,
+        t.RES_CUST_ID DESC
+    </select>
+
+	<select id="findCustBeanByTelPhone" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+	SELECT
+        t.RES_CUST_ID,
+		t.DUTY,
+		t.OWNER_ACC,
+		t.COMMON_ACC,
+		t.STATUS,
+		t.TYPE,
+		t.is_concat,
+		t.MOBILEPHONE,
+		t.TELPHONE,
+		t.state,
+		t.NAME,
+		t.last_Option_Id,
+		t.COMPANY,
+		t.main_linkman,
+		t.OWNER_START_DATE
+        FROM
+        (select 
+        RES_CUST_ID,
+		DUTY,
+		OWNER_ACC,
+		COMMON_ACC,
+		STATUS,
+		TYPE,
+		is_concat,
+		MOBILEPHONE,
+		TELPHONE,
+		state,
+		NAME,
+		last_Option_Id,
+		COMPANY,
+		main_linkman,
+		OWNER_START_DATE
+         from tsm_res_cust_info
+        where ORG_ID = #{orgId}  and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND OWNER_ACC = #{ownerAcc}
+        </if>
+        AND ( MOBILEPHONE=#{telphone})
+        UNION
+        select 
+        RES_CUST_ID,
+		DUTY,
+		OWNER_ACC,
+		COMMON_ACC,
+		STATUS,
+		TYPE,
+		is_concat,
+		MOBILEPHONE,
+		TELPHONE,
+		state,
+		NAME,
+		last_Option_Id,
+		COMPANY,
+		main_linkman,
+		OWNER_START_DATE
+         from tsm_res_cust_info
+        where ORG_ID = #{orgId}  and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND OWNER_ACC = #{ownerAcc}
+        </if>
+        AND (TELPHONE=#{telphone}  )
+        )t
+	</select>
+
+    <select id="findCustDetailByTelPhone" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+       select 
+        RES_CUST_ID,
+		DUTY,
+		OWNER_ACC,
+		COMMON_ACC,
+		STATUS,
+		TYPE,
+		is_concat,
+		MOBILEPHONE,
+		TELPHONE,
+		state,
+		`NAME`,
+		last_Option_Id,
+		COMPANY,
+		main_linkman,
+		OWNER_START_DATE
+        from tsm_res_cust_info where ORG_ID = #{orgId} and IS_DEL = 0
+       <if test="ownerAcc != null and ownerAcc != ''"> AND OWNER_ACC = #{ownerAcc} </if>
+        and res_cust_id in (select rci_id as  res_cust_id1 from tsm_res_cust_info_detail  where ORG_ID = #{orgId}  and IS_DEL = 0  AND  telphone=#{telphone})
+        UNION
+        select 
+        RES_CUST_ID,
+		DUTY,
+		OWNER_ACC,
+		COMMON_ACC,
+		STATUS,
+		TYPE,
+		is_concat,
+		MOBILEPHONE,
+		TELPHONE,
+		state,
+		`NAME`,
+		last_Option_Id,
+		COMPANY,
+		main_linkman,
+		OWNER_START_DATE
+         from tsm_res_cust_info where ORG_ID = #{orgId} and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''"> AND OWNER_ACC = #{ownerAcc}</if>
+        and res_cust_id in (select rci_id as res_cust_id1 from tsm_res_cust_info_detail  where ORG_ID = #{orgId}  and IS_DEL = 0  AND  telphonebak=#{telphone})
+        ORDER BY  OWNER_START_DATE asc,RES_CUST_ID DESC
+    </select>
+
+
+    <select id="findCustDetailIDByTelPhone" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+       select tscid_id as defined1 , rci_id  as res_cust_id from tsm_res_cust_info_detail s
+ join tsm_res_cust_info t
+on t.org_id= #{orgId}  and  s.rci_id=t.res_cust_id  and t.IS_DEL = 0
+<if test="ownerAcc != null and ownerAcc != ''"> AND t.OWNER_ACC = #{ownerAcc}</if>
+where s.ORG_ID =  #{orgId}  and s.IS_DEL = 0 AND( s.telphonebak=#{telphone}  )
+UNION
+select tscid_id as defined1, rci_id as res_cust_id from tsm_res_cust_info_detail s
+ join tsm_res_cust_info t
+on t.org_id= #{orgId}  and  s.rci_id=t.res_cust_id  and t.IS_DEL = 0
+ <if test="ownerAcc != null and ownerAcc != ''"> AND t.OWNER_ACC = #{ownerAcc}</if>
+where s.ORG_ID =  #{orgId}  and s.IS_DEL = 0 AND( s.telphone=#{telphone} )
+order by res_cust_id DESC
+
+    </select>
+    <select id="findCustDetailInputIdByTelPhone" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+         select tscid_id as res_cust_id from tsm_res_cust_info_detail  where ORG_ID = #{orgId}  and IS_DEL = 0  AND  telphone=#{telphone}
+        UNION
+        select tscid_id as res_cust_id from tsm_res_cust_info_detail  where ORG_ID = #{orgId}  and IS_DEL = 0  AND  telphonebak=#{telphone}
+        order by rci_id DESC;
+
+    </select>
+    <!-- 根据电话号码查询资源 -->
+    <select id="findCustByTel" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        SELECT
+        t.*,
+        IF (
+        u.USER_NAME,
+        u.USER_NAME,
+        u.USER_ACCOUNT
+        ) as OWNER_NAME,
+        p.OPTIONLIST_ID as SALE_PROCESS_ID,p.option_name as SALE_PROCESS_NAME
+        FROM
+        (select * from tsm_res_cust_info
+        where ORG_ID = #{orgId}  and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND OWNER_ACC = #{ownerAcc}
+        </if>
+        AND ( MOBILEPHONE=#{telphone})
+        UNION
+        select * from tsm_res_cust_info
+        where ORG_ID = #{orgId}  and IS_DEL = 0
+        <if test="ownerAcc != null and ownerAcc != ''">
+            AND OWNER_ACC = #{ownerAcc}
+        </if>
+        AND (TELPHONE=#{telphone}  )
+        )t
+        LEFT JOIN auth_user u ON t.OWNER_ACC = u.USER_ACCOUNT
+        AND u.ORG_ID = #{orgId}
+        LEFT JOIN TSM_DATA_OPTIONLIST P
+        ON P.ORG_ID = #{orgId} AND t.last_option_id = P.OPTIONLIST_ID
+        ORDER BY
+        t.OWNER_START_DATE asc,
+        t.RES_CUST_ID DESC
+    </select>
+
+     <!-- 根据电话号码查询资源 -->
+    <select id="findCustByPhone" parameterType="com.qftx.tsm.cust.dto.ResCustInfoDto" resultMap="DtoResultMap">
+        <choose>
+            <when test="state==1">
+                SELECT
+                t.RES_CUST_ID,
+				t.`NAME`,
+				t.state,
+				t.`STATUS`,
+				t.main_linkman,
+				t.MOBILEPHONE,
+				t.TELPHONE,
+				t.DUTY,
+				t.COMPANY,
+				t.last_Option_Id,
+				t.OWNER_ACC
+                FROM
+                (
+                SELECT
+                rci_id
+                FROM
+                tsm_res_cust_info_detail d
+                WHERE
+                d.org_id = #{orgId}
+                AND (
+                d.telphone = #{telphone}
+
+                )
+                UNION
+                SELECT
+                rci_id
+                FROM
+                tsm_res_cust_info_detail d
+                WHERE
+                d.org_id = #{orgId}
+                AND (
+                d.telphonebak = #{telphone}
+                )
+
+                ) s
+                LEFT JOIN tsm_res_cust_info t ON t.org_id =  #{orgId}
+                AND s.rci_id = t.res_cust_id
+                where
+                is_del=0
+                <if test='ownerAcc!=null and  ownerAcc!=""'>
+                    AND t.OWNER_ACC = #{ownerAcc}
+                </if>
+                ORDER BY t.status desc
+            </when>
+            <otherwise>
+                SELECT 
+	                RES_CUST_ID,
+					`NAME`,
+					state,
+					`STATUS`,
+					main_linkman,
+					MOBILEPHONE,
+					TELPHONE,
+					DUTY,
+					COMPANY,
+					last_Option_Id,
+					OWNER_ACC
+                from (
+                SELECT
+	                t.RES_CUST_ID,
+					t.`NAME`,
+					t.state,
+					t.`STATUS`,
+					t.main_linkman,
+					t.MOBILEPHONE,
+					t.TELPHONE,
+					t.DUTY,
+					t.COMPANY,
+					t.last_Option_Id,
+					t.OWNER_ACC
+                FROM
+                tsm_res_cust_info t
+                WHERE t.ORG_ID =#{orgId}
+                <if test='ownerAcc!=null and  ownerAcc!=""'>
+                    AND t.OWNER_ACC = #{ownerAcc}
+                </if>
+                AND t.IS_DEL = 0
+                AND ( t.MOBILEPHONE = #{telphone}
+                )
+                UNION
+                SELECT
+                	t.RES_CUST_ID,
+					t.`NAME`,
+					t.state,
+					t.`STATUS`,
+					t.main_linkman,
+					t.MOBILEPHONE,
+					t.TELPHONE,
+					t.DUTY,
+					t.COMPANY,
+					t.last_Option_Id,
+					t.OWNER_ACC
+                FROM
+                tsm_res_cust_info t
+                WHERE t.ORG_ID =#{orgId}
+                <if test='ownerAcc!=null and  ownerAcc!=""'>
+                    AND t.OWNER_ACC = #{ownerAcc}
+                </if>
+                AND t.IS_DEL = 0
+                AND ( t.TELPHONE = #{telphone}
+                )
+                UNION
+                SELECT
+                	t.RES_CUST_ID,
+					t.`NAME`,
+					t.state,
+					t.`STATUS`,
+					t.main_linkman,
+					t.MOBILEPHONE,
+					t.TELPHONE,
+					t.DUTY,
+					t.COMPANY,
+					t.last_Option_Id,
+					t.OWNER_ACC
+                FROM
+                tsm_res_cust_info t
+                WHERE t.ORG_ID =#{orgId}
+                <if test='ownerAcc!=null and  ownerAcc!=""'>
+                    AND t.OWNER_ACC = #{ownerAcc}
+                </if>
+                AND t.IS_DEL = 0
+                AND (  t.ALTERNATE_PHONE2 = #{telphone}
+                )) s
+                ORDER BY s.status desc
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findCustByIds" resultMap="DtoResultMap" parameterType="map">
+		SELECT
+			t.RES_CUST_ID,
+			t.state,
+			t.STATUS,
+			t.NAME,
+			t.COMPANY,
+			t.type,
+			t.last_Option_Id,
+			t.OWNER_ACC,
+			t.main_linkman,
+			t.MOBILEPHONE,
+			t.TELPHONE,
+			t.DUTY			
+		FROM
+			tsm_res_cust_info t
+		WHERE
+			t.ORG_ID = #{orgId}
+		AND t.OWNER_ACC = #{account}
+        <if test="ids!=null">
+            AND t.RES_CUST_ID IN 
+            <foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>					
+        <choose>
+	      <when test='pool=="1"'>
+	             order by ${orderType} , t.RES_CUST_ID desc 
+	      </when>
+	      <when test='pool=="2"'>
+	             order by ${willOrder} 
+	      </when>
+	      <when test='pool=="3"'>
+	             order by ${signOrder} 
+	      </when>				      
+	   </choose>     
+    </select>
+    
+    <select id="findCustByFollowDate" resultMap="DtoResultMap" parameterType="map">
+        select * from tsm_res_cust_info t where t.org_id=#{orgId}  and t.owner_acc=#{account} and type=2 and status=3 and t.is_del=0
+         and (t.MOBILEPHONE is not null  || t.TELPHONE is not null )
+        <if test='currDate!=null and currDate!=""'>
+            AND t.NEXTFOLLOW_DATE &gt; STR_TO_DATE(#{currDate},'%Y-%m-%d %H:%i:%s') 
+        </if>
+        order by  NEXTFOLLOW_DATE asc
+        limit 0,11
+    </select>
+</mapper>

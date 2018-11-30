@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sms.dao.TsmMessageSendMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sms.bean.TsmMessageSend" >
+    <id column="MESSAGE_ID" property="messageId" jdbcType="VARCHAR" />
+    <result column="SEND_DATE" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SUBMIT_STATUS" property="submitStatus" jdbcType="VARCHAR" />
+    <result column="SEND_FROM" property="sendFrom" jdbcType="VARCHAR" />
+    <result column="SEND_TO" property="sendTo" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="MESSAGE_CONTENT" property="messageContent" jdbcType="VARCHAR" />
+    <result column="MSG_CENTER_CONTENT" property="msgCenterContent" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MSG_TYPE" property="msgType" jdbcType="DECIMAL" />
+    <result column="CONTRACT_TYPE" property="contractType" jdbcType="DECIMAL" />
+    <result column="IS_READ" property="isRead" jdbcType="DECIMAL" />
+   	<result column="BUSSINESS_ID" property="businessId" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />   
+  </resultMap>
+  
+  <resultMap id="DtoMap" type="com.qftx.tsm.sms.dto.TsmMessageSendDto" extends="BaseResultMap">
+    <result column="cust_num" property="custNum" jdbcType="INTEGER" />
+    <result column="bbs_num" property="bbsNum" jdbcType="INTEGER" />
+   	<result column="call_num" property="callNum" jdbcType="INTEGER" />
+   	<result column="date_num" property="dateNum" jdbcType="INTEGER" />
+   	<result column="notice_num" property="noticeNum" jdbcType="INTEGER" />
+   	<result column="auth_num" property="authNum" jdbcType="INTEGER" />
+   	<result column="sys_num" property="sysNum" jdbcType="INTEGER" />
+    <result column="other_num" property="otherNum" jdbcType="INTEGER" />
+   	<result column="dto_title" property="dtoTitle" jdbcType="VARCHAR" />
+   	<result column="dto_context" property="dtoContext" jdbcType="VARCHAR" />  
+   	<result column="send_acc" property="sendAcc" jdbcType="VARCHAR" /> 
+   	<result column="phone" property="phone" jdbcType="VARCHAR" />
+   	<result column="status" property="status" jdbcType="INTEGER" /> 	  	 	
+  </resultMap>
+  
+  <resultMap id="FollowResultMap" type="com.qftx.tsm.follow.dto.CustFollowDto">
+  	<result column="CUST_FOLLOW_ID" property="custFollowId" jdbcType="VARCHAR" />
+  	<result column="RES_CUST_ID" property="resCustId" jdbcType="VARCHAR" />
+	<result column="NAME" property="custName" jdbcType="VARCHAR" />
+	<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+	<result column="MOBILEPHONE" property="custMobilephone" jdbcType="VARCHAR" />
+	<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+	<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	<result column="ACTION_TYPE" property="actionType" jdbcType="VARCHAR" />
+	<result column="ACTION_DATE" property="actionDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 实体表名 -->
+	<sql id="table_name">TSM_MESSAGE_SEND</sql>
+  
+  <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		  <if test="messageId != null and messageId !=''" >
+			  AND MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+		  </if>
+  		  <if test="sendDate != null" >
+	         AND SEND_DATE = #{sendDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="updateDate != null" >
+	         AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="isDel != null" >
+	         AND IS_DEL = #{isDel,jdbcType=DECIMAL}
+	      </if>
+	      <if test="submitStatus != null" >
+	         AND SUBMIT_STATUS = #{submitStatus,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendFrom != null" >
+	         AND SEND_FROM = #{sendFrom,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sendTo != null" >
+	         AND SEND_TO = #{sendTo,jdbcType=VARCHAR}
+	      </if>
+	      <if test="title != null" >
+	         AND TITLE = #{title,jdbcType=VARCHAR}
+	      </if>
+	      <if test="messageContent != null" >
+	         AND MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR}
+	      </if>
+	      <if test="msgCenterContent != null" >
+	         AND MSG_CENTER_CONTENT = #{msgCenterContent,jdbcType=VARCHAR}
+	      </if>	      
+	      <if test="startTime != null" >
+	         AND START_TIME = #{startTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="endTime != null" >
+	         AND END_TIME = #{endTime,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="remark != null" >
+	         AND REMARK = #{remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="msgType != null" >
+	        AND MSG_TYPE = #{msgType,jdbcType=DECIMAL}
+	      </if>
+	      <if test="isRead != null" >
+	        AND IS_READ = #{isRead,jdbcType=DECIMAL}
+	      </if>
+	      <if test="businessId != null" >
+	        AND BUSSINESS_ID = #{businessId,jdbcType=VARCHAR}
+	      </if>	      
+	      <if test="orderKey != null"> 
+			  ORDER BY ${orderKey}
+		  </if>
+  	</sql>
+
+  <!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="sendDate != null and sendDate != ''" >
+		        SEND_DATE = #{sendDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="updateDate != null and updateDate != ''" >
+		        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="isDel != null and isDel != ''" >
+		        IS_DEL = #{isDel,jdbcType=DECIMAL},
+		      </if>
+		      <if test="submitStatus != null and submitStatus != ''" >
+		        SUBMIT_STATUS = #{submitStatus,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sendFrom != null and sendFrom != ''" >
+		        SEND_FROM = #{sendFrom,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sendTo != null and sendTo != ''" >
+		        SEND_TO = #{sendTo,jdbcType=VARCHAR},
+		      </if>
+		      <if test="title != null and title != ''" >
+		        TITLE = #{title,jdbcType=VARCHAR},
+		      </if>
+		      <if test="messageContent != null and messageContent != ''" >
+		        MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+		      </if>
+		      <if test="msgCenterContent != null and msgCenterContent !=''" >
+	         	MSG_CENTER_CONTENT = #{msgCenterContent,jdbcType=VARCHAR},
+	     	 </if>	   
+		      <if test="startTime != null" >
+		        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="endTime != null" >
+		        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="remark != null and remark != ''" >
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="isRead != null" >
+	           	IS_READ = #{isRead,jdbcType=DECIMAL},
+	          </if>		
+	          <if test="businessId != null" >
+	        	 BUSSINESS_ID = #{businessId,jdbcType=VARCHAR},
+	      	  </if>
+		</trim>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="sendDate != null " >
+		        SEND_DATE = #{sendDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="updateDate != null " >
+		        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="isDel != null and isDel != ''" >
+		        IS_DEL = #{isDel,jdbcType=DECIMAL},
+		      </if>
+		      <if test="submitStatus != null and submitStatus != ''" >
+		        SUBMIT_STATUS = #{submitStatus,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sendFrom != null and sendFrom != ''" >
+		        SEND_FROM = #{sendFrom,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sendTo != null and sendTo != ''" >
+		        SEND_TO = #{sendTo,jdbcType=VARCHAR},
+		      </if>
+		      <if test="title != null and title != ''" >
+		        TITLE = #{title,jdbcType=VARCHAR},
+		      </if>
+		      <if test="messageContent != null and messageContent != ''" >
+		        MESSAGE_CONTENT = #{messageContent,jdbcType=VARCHAR},
+		      </if>
+		       <if test="msgCenterContent != null and msgCenterContent !=''" >
+	         	MSG_CENTER_CONTENT = #{msgCenterContent,jdbcType=VARCHAR},
+	     	 </if>	
+		      <if test="startTime != null" >
+		        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="endTime != null" >
+		        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="remark != null and remark != ''" >
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="isRead != null" >
+	           	IS_READ = #{isRead,jdbcType=DECIMAL},
+	          </if>	
+		      <if test="businessId != null" >
+	        	 BUSSINESS_ID = #{businessId,jdbcType=VARCHAR},
+	      	  </if>
+		</trim>
+	</sql>
+  
+  <sql id="insert_into_field">
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        MESSAGE_ID,
+      </if>
+      <if test="sendDate != null" >
+        SEND_DATE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="isRead != null" >
+        IS_READ,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="submitStatus != null" >
+        SUBMIT_STATUS,
+      </if>
+      <if test="sendFrom != null" >
+        SEND_FROM,
+      </if>
+      <if test="sendTo != null" >
+        SEND_TO,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="messageContent != null" >
+        MESSAGE_CONTENT,
+      </if>
+       <if test="msgCenterContent != null and msgCenterContent !=''" >
+	      MSG_CENTER_CONTENT,
+	   </if>	
+      <if test="msgType != null" >
+        MSG_TYPE,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="businessId != null" >
+	      BUSSINESS_ID,
+	   </if>
+	   <if test="content != null and content !=''" >
+	      CONTENT,
+	   </if>	  
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=DECIMAL},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="submitStatus != null" >
+        #{submitStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sendFrom != null" >
+        #{sendFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="sendTo != null" >
+        #{sendTo,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="messageContent != null" >
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="msgCenterContent != null and msgCenterContent !=''" >
+	     #{msgCenterContent,jdbcType=VARCHAR},
+	  </if>	
+      <if test="msgType != null" >
+         #{msgType,jdbcType=DECIMAL},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="businessId != null" >
+	      #{businessId,jdbcType=VARCHAR},
+	  </if>
+	    <if test="content != null and content !=''" >
+	      #{content,jdbcType=VARCHAR},
+	   </if>	
+    </trim>
+  </sql>
+	
+  <!-- 批量插入实体对应的字段语句 -->
+  <sql id="Base_Column_List" >
+    MESSAGE_ID, SEND_DATE, UPDATE_DATE, IS_DEL, ORG_ID, SUBMIT_STATUS, SEND_FROM, SEND_TO, 
+    TITLE, MESSAGE_CONTENT, START_TIME, END_TIME, REMARK,BUSSINESS_ID,MSG_CENTER_CONTENT,
+    CONTENT
+  </sql>
+  <sql id="batch_insert_into_value">
+	   insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+	   	values
+			<foreach collection="list" item="item" index="index" separator=",">
+	        	(
+		        	#{item.messageId,jdbcType=VARCHAR},
+			   		#{item.sendDate,jdbcType=TIMESTAMP},
+			   		#{item.updateDate,jdbcType=TIMESTAMP},
+			   		#{item.isDel,jdbcType=DECIMAL},
+			   		#{item.orgId,jdbcType=VARCHAR},
+			   		#{item.submitStatus,jdbcType=VARCHAR},
+			   		#{item.sendFrom,jdbcType=VARCHAR},
+			   		#{item.sendTo,jdbcType=VARCHAR},
+			   		#{item.title,jdbcType=VARCHAR},
+			   		#{item.messageContent,jdbcType=VARCHAR},
+			   		#{item.startTime,jdbcType=TIMESTAMP},
+			   		#{item.endTime,jdbcType=TIMESTAMP},
+			   		#{item.remark,jdbcType=VARCHAR},
+			   		#{item.businessId,jdbcType=VARCHAR},
+			   		#{item.msgCenterContent,jdbcType=VARCHAR},
+			   		#{item.content,jdbcType=VARCHAR}		   		
+		   		)
+	    	</foreach>
+  </sql>
+  
+  <!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<select id="findMsgList" parameterType="map" resultMap="DtoMap">
+	SELECT tt.MESSAGE_ID,tt.REMARK,tt.NAME,tt.COMPANY,tt.SEND_DATE,tt.MOBILE,tt.MESSAGE_CONTENT,tt.MSG_CENTER_CONTENT,tt.TITLE,tt.CONTRACT_TYPE,tt.MSG_TYPE,
+		tt.ORG_ID, tt.SEND_TO,tt.IS_READ, ROWNUM FROM (
+		SELECT T.MESSAGE_ID,T.REMARK,R.NAME,R.COMPANY,T.SEND_DATE, ifnull(R.MOBILEPHONE, R.TELPHONE) AS MOBILE,T.MESSAGE_CONTENT,t.MSG_CENTER_CONTENT,T.TITLE,
+       		T.CONTRACT_TYPE,T.MSG_TYPE,T.ORG_ID,T.SEND_TO,T.IS_READ FROM <include refid="table_name"/> T,TSM_RES_CUST_INFO R 
+       		WHERE T.IS_DEL = 0 AND T.REMARK = R.RES_CUST_ID(+)
+		<if test="isRead != null and isRead != ''">
+			AND T.IS_READ = #{isRead,jdbcType=DECIMAL}
+		</if>
+		<if test="orgId != null and orgId != ''" >
+			AND T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="userAcc != null" >
+	         AND T.SEND_TO = #{userAcc,jdbcType=VARCHAR}
+	     </if>
+	     <if test="list != null">
+		     <choose>
+		     	<when test="isSvcGrp != null">
+		     		AND T.MSG_TYPE = 4
+		     	</when>
+		     	<otherwise>
+		     		AND T.MSG_TYPE IN
+			     	<foreach collection="list" item="id" open="(" separator="," close=")">
+						#{id}
+					</foreach>
+		     	</otherwise>
+		     </choose>
+	     </if>
+	     AND T.MESSAGE_ID <![CDATA[ >= ]]> TO_CHAR(TRUNC(SYSDATE-7),'yyyyMMdd')||'000000%'
+	     ORDER BY T.IS_READ,T.SEND_DATE DESC) tt WHERE ROWNUM <![CDATA[ <= ]]> 100
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sms.bean.TsmMessageSend">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		<include refid="batch_insert_into_value"/>		
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sms.bean.TsmMessageSend">
+		update <include refid="table_name"/>
+		<include refid="update_set_sql"/>
+		where  ORG_ID = #{orgId} and MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sms.bean.TsmMessageSend">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete <include refid="table_name"/> where MESSAGE_ID = #{messageId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<update id="deleteBatchBy" parameterType="Map">
+		update <include refid="table_name"/> set IS_DEL=1 where  ORG_ID = #{orgId} and MESSAGE_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+
+	<!-- 跟进警报消息提醒  -->
+	<select id="findFollowAlert" parameterType="com.qftx.tsm.sms.bean.TsmMessageSend" resultMap="FollowResultMap">
+		SELECT TRCI.RES_CUST_ID, TRCI.NAME, TRCI.COMPANY,
+             ifnull(TRCI.MOBILEPHONE,TRCI.TELPHONE) AS MOBILEPHONE,
+             FCF.ACTION_TYPE,FCF.CUST_FOLLOW_ID, TRCI.OWNER_ACC, TRCI.ORG_ID,
+             DATE_FORMAT(TRCI.OWNER_START_DATE + 1 +
+             ifnull((CASE WHEN CE.STATUS_EXTENDED = 1 THEN CE.DAYS_EXTENSION ELSE NULL END), 0) +
+             (SELECT cast(DICTIONARY_VALUE as unsigned int)
+                 FROM TSM_DT_DATADICTIONARY
+                WHERE DICTIONARY_CODE = 'DATA_10001'
+                  AND ORG_ID = #{orgId}),'%Y-%m-%d') AS ACTION_DATE
+        FROM TSM_RES_CUST_INFO TRCI
+       INNER JOIN (SELECT FCF.CUST_ID, FCF.CUST_FOLLOW_ID, FCF.ACTION_TYPE
+                    FROM TSM_CUST_FOLLOW FCF
+                   WHERE FCF.ORG_ID = #{orgId}) FCF
+          ON TRCI.RES_CUST_ID = FCF.CUST_ID
+         AND TRCI.LAST_CUST_FOLLOW_ID = FCF.CUST_FOLLOW_ID
+        LEFT JOIN (select cust_id,DAYS_EXTENSION,STATUS_EXTENDED,max(application_time_extension) as application_time_extension from tsm_cust_extension where org_id = #{orgId} group by cust_id) CE
+          ON CE.CUST_ID = FCF.CUST_ID
+       WHERE TRCI.IS_DEL = 0 AND TRCI.TYPE = 2
+         AND TRCI.STATUS IN (2, 3) AND TRCI.NEXTFOLLOW_DATE IS NOT NULL
+         AND TRCI.ORG_ID = #{orgId}
+         AND DATE_FORMAT(TRCI.OWNER_START_DATE + 1 +
+             ifnull((CASE WHEN CE.STATUS_EXTENDED = 1 THEN CE.DAYS_EXTENSION ELSE NULL END), 0) +
+             (SELECT cast(DICTIONARY_VALUE as unsigned int)
+                 FROM TSM_DT_DATADICTIONARY
+                WHERE DICTIONARY_CODE = 'DATA_10001'
+                  AND ORG_ID = #{orgId} ),'%Y-%m-%d') = DATE_FORMAT(now() + #{isFollow,jdbcType=DECIMAL},'%Y-%m-%d')
+	</select>
+	
+	<!-- 统计未来半小时每账号消息量 -->
+	<select id="findHalfHourExtend" resultMap="BaseResultMap" parameterType="String">
+		select b.userAcc as SEND_TO,b.n as MSG_TYPE from (
+		select sum(a.d) as n, a.userAcc from (
+		select t.org_id, t.follow_acc as userAcc, count(1) as d
+		  from tsm_cust_follow t
+		 where t.org_id = #{orgId} and t.follow_date between now() and now() + 0.02083
+		 group by t.follow_acc
+		 union 
+		 select c.org_id,c.owner_acc as userAcc,count(1) as m from tsm_res_cust_info c 
+		 where c.org_id = #{orgId} and c.call_date_postponed between now() and now() + 0.02083
+		 and c.owner_acc is not null and c.is_del=0
+		 group by c.owner_acc
+		 ) a group by a.userAcc) b where b.n <![CDATA[ >= ]]> 7
+	</select>
+			
+	<select id="findNoReadByCount"  resultMap="DtoMap" parameterType="com.qftx.tsm.sms.dto.TsmMessageSendDto">
+			SELECT  sum(case when  MSG_TYPE IN(1,2,3,4) then 1 else 0 END) as cust_num, <!-- 1:客户跟进 ,2:延后呼叫,3:跟进警报,4:客户回访-->
+			             sum(case when  MSG_TYPE IN(10,11,12,13) then 1 else 0 END) as bbs_num, <!-- 10:工作点评 ,11:工作日报点评,12: 工作日报点评回复,13:月度计划点评-->
+			             sum(case when  MSG_TYPE = 9 then 1 else 0 END) as call_num, <!-- 9:未接来电-->
+			             sum(CASE WHEN  T.MSG_TYPE = 18 THEN 1 ELSE 0 END) AS notice_num, 
+			             sum(case when  MSG_TYPE in(5,6,7,14,21,22,23) then 1 else 0 END) as date_num, <!-- 5:短信不足,6:坐席到期,7:通信时长不足,14:计划未提交到期提醒,21:订单到期提醒,22:意向已经放公海提醒,23:签约客户已经放公海提醒-->
+			             sum(case when  MSG_TYPE IN(8,15,16,17,19,20,28) then 1 else 0 END) as auth_num, <!-- 8:订单审核,15:月度计划审核,16:日计划审核,17:延期审核 -->
+			             sum(case when  MSG_TYPE IN(24,25) then 1 else 0 END) as sys_num, <!-- 24:系统维护消息,25:钱包通知 -->
+			             sum(case when  MSG_TYPE IN(26,29) then 1 else 0 END) as other_num <!-- 26:第三方平台消息 -->
+			      FROM TSM_MESSAGE_SEND T
+			      WHERE T.IS_DEL = 0
+           AND T.IS_READ = 0
+           AND T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+           AND T.SEND_TO = #{sendTo,jdbcType=VARCHAR}
+           AND T.MESSAGE_ID <![CDATA[ >= ]]> concat(date_format(date_sub(now(),interval 7 day),'%Y%m%d'),'000000%') 
+	</select>
+	
+	
+		<select id="findNoReadByCount2"  resultMap="DtoMap" parameterType="com.qftx.tsm.sms.dto.TsmMessageSendDto">
+			SELECT  sum(case when  MSG_TYPE IN(1,2,3,4) then 1 else 0 END) as cust_num, <!-- 1:客户跟进 ,2:延后呼叫,3:跟进警报,4:客户回访-->
+			             sum(case when  MSG_TYPE IN(10,11,12,13) then 1 else 0 END) as bbs_num, <!-- 10:工作点评 ,11:工作日报点评,12: 工作日报点评回复,13:月度计划点评-->
+			             sum(case when  MSG_TYPE = 9 then 1 else 0 END) as call_num, <!-- 9:未接来电-->
+			             sum(CASE WHEN  T.MSG_TYPE = 18 THEN 1 ELSE 0 END) AS notice_num, 
+			             sum(case when  MSG_TYPE in(5,6,7,14,21,22,23,51) then 1 else 0 END) as date_num, <!-- 5:短信不足,6:坐席到期,7:通信时长不足,14:计划未提交到期提醒,21:订单到期提醒,22:意向已经放公海提醒,23:签约客户已经放公海提醒-->
+			             sum(case when  MSG_TYPE IN(8,15,16,17,19,20,24,25,26,28,29) then 1 else 0 END) as auth_num <!-- 8:订单审核,15:月度计划审核,16:日计划审核,17:延期审核,24:系统维护消息,25:钱包通知 ,26:第三方平台消息-->
+			      FROM TSM_MESSAGE_SEND T
+			      WHERE T.IS_DEL = 0
+           AND T.IS_READ = 0
+           AND T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+           AND T.SEND_TO = #{sendTo,jdbcType=VARCHAR}
+           AND T.MESSAGE_ID <![CDATA[ >= ]]> concat(date_format(date_sub(now(),interval 7 day),'%Y%m%d'),'000000%') 
+	</select>
+	
+	<!-- 查询对应分类消息列表 -->
+	<select id="findMessageByList" resultMap="DtoMap" parameterType="com.qftx.tsm.sms.dto.TsmMessageSendDto" >
+		SELECT 
+		    t.MESSAGE_ID,
+	        t.SEND_DATE,
+	        t.UPDATE_DATE,
+	        t.IS_DEL,
+	        t.ORG_ID,
+	        t.SUBMIT_STATUS,
+	        t.SEND_FROM,
+	        t.SEND_TO,
+            t.TITLE,
+            t.MESSAGE_CONTENT,
+            t.MSG_CENTER_CONTENT,
+            t.START_TIME,
+            t.END_TIME,
+            t.REMARK,
+            t.MSG_TYPE,
+            t.CONTRACT_TYPE,
+            t.IS_READ,
+            t.BUSSINESS_ID,
+            t.CONTENT
+		<if test="state != null and state == 5"> <!-- 公告需要关联公告表 -->
+			, anno.title as dto_title,anno.content as dto_context,anno.INPUTER_ACC as send_acc
+		</if>
+		<if test="state != null and state == 7"> <!-- 系统消息，钱包不需要关联公告表 -->
+			, t.TITLE as dto_title,t.MSG_CENTER_CONTENT AS dto_context,t.SEND_FROM as send_acc
+		</if>
+		<if test="state != null and state == 8"> <!-- 其他消息不需要关联公告表 -->
+			, t.TITLE as dto_title,t.MSG_CENTER_CONTENT AS dto_context,t.SEND_FROM as send_acc
+		</if>
+		<if test="state != null and state == 3"> <!-- 需要关联未接来电记录表 -->
+			, trm.phone as phone ,trm.status as status
+		</if>
+		 FROM TSM_MESSAGE_SEND T
+		<if test="state != null and state == 5"> <!-- 公告需要关联公告表 -->
+			right join sys_announcement anno on anno.org_id = #{orgId} and anno.is_del = 0 and anno.ANNOUNCE_ID = t.BUSSINESS_ID 
+		</if>
+		<if test="state != null and state == 3"> <!-- 需要关联未接来电记录表 -->
+			left join tsm_record_miss trm on trm.org_id = #{orgId} and trm.id = t.BUSSINESS_ID
+		</if>
+         WHERE T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+          <if test="isRead != null">
+          	 AND T.IS_READ = #{isRead}
+          </if>
+           AND T.SEND_TO = #{sendTo,jdbcType=VARCHAR}
+           <if test="state != null and state != 5"> <!-- 公告需要关联公告表 -->
+           AND T.MESSAGE_ID <![CDATA[ >= ]]> concat(date_format(date_sub(now(),interval 7 day),'%Y%m%d'),'000000%')
+          </if>
+          <choose>
+           	<when test="state != null and state == 1">
+           		 AND T.MSG_TYPE IN(1,2,3,4) <!-- 1:客户跟进 ,2:延后呼叫,3:跟进警报,4:客户回访-->
+           	</when>
+           	<when test="state != null and state == 2">
+           		AND T.MSG_TYPE IN(10,11,12,13) <!-- 10:工作点评 ,11:工作日报点评,12: 工作日报点评回复,13:月度计划点评-->
+           	</when>
+           	<when test="state != null and state == 3">
+           		AND T.MSG_TYPE = 9 <!-- 9:未接来电-->
+           	</when>
+           	<when test="state != null and state == 4">
+           		AND T.MSG_TYPE in(5,6,7,14,21,22,23,51) <!-- 5:短信不足,6:坐席到期,7:通信时长不足,14:计划未提交到期提醒,21:订单到期提醒,22:意向已经放公海提醒,23:签约客户已经放公海提醒,51:资源回收提醒-->
+           	</when>
+           	<when test="state != null and state == 5">
+           		 AND T.MSG_TYPE = 18 <!-- 18:通知公告 -->
+           	</when>
+           	<when test="state != null and state == 6">
+           		AND T.MSG_TYPE in(8,15,16,17,19,20,28)<!-- 8:订单审核,15:月度计划审核,16:日计划审核,17:延期审核 -->
+           	</when>
+           	<when test="state != null and state == 7">
+           		AND T.MSG_TYPE in(24,25)<!-- 24:系统维护消息,25:钱包通知 -->
+           	</when>
+           	<when test="state != null and state == 8">
+           		AND T.MSG_TYPE in(26,29)<!-- 26:第三方平台消息 -->
+           	</when>
+           </choose> 
+           order by  T.IS_READ asc, T.SEND_DATE desc        
+	</select>
+	
+	<!-- 清空已读消息 -->
+	<delete id="deleteByMessage" parameterType="com.qftx.tsm.sms.dto.TsmMessageSendDto">
+		delete from <include refid="table_name"/> WHERE ORG_ID = #{orgId,jdbcType=VARCHAR}
+           AND IS_READ = 1
+           AND SEND_TO = #{sendTo,jdbcType=VARCHAR}
+		<choose>
+           	<when test="state != null and state == 1">
+           		 AND MSG_TYPE IN(1,2,3,4) <!-- 1:客户跟进 ,2:延后呼叫,3:跟进警报,4:客户回访-->
+           	</when>
+           	<when test="state != null and state == 2">
+           		AND MSG_TYPE IN(10,11,12,13) <!-- 10:工作点评 ,11:工作日报点评,12: 工作日报点评回复,13:月度计划点评-->
+           	</when>
+           	<when test="state != null and state == 3">
+           		AND MSG_TYPE = 9 <!-- 9:未接来电-->
+           	</when>
+           	<when test="state != null and state == 4">
+           		AND MSG_TYPE in(5,6,7,14,21,22,23,51) <!-- 5:短信不足,6:坐席到期,7:通信时长不足,14:计划未提交到期提醒,21:订单到期提醒,22:意向已经放公海提醒,23:签约客户已经放公海提醒,51:资源回收提醒-->
+           	</when>
+           	<when test="state != null and state == 5">
+           		 AND MSG_TYPE = 18 <!-- 18:通知公告 -->
+           	</when>
+           	<when test="state != null and state == 6">
+           		AND MSG_TYPE in(8,15,16,17,19,20,28)<!-- 8:订单审核,15:月度计划审核,16:日计划审核,17:延期审核 -->
+           	</when>
+           </choose> 
+	</delete>
+	
+	<!-- 查询7天内的未读消息 -->
+	<select id="findNotReadNum" resultType="Integer" parameterType="Map">
+		SELECT COUNT(*) AS notice_num 
+          	FROM TSM_MESSAGE_SEND T
+         	WHERE T.IS_DEL = 0
+           AND T.IS_READ = 0
+           AND T.ORG_ID = #{orgId}
+           AND T.SEND_TO = #{sendTo}
+           AND T.MESSAGE_ID <![CDATA[ >= ]]> concat(date_format(date_sub(now(),interval 7 day),'%Y%m%d'),'000000%')
+	</select>
+	
+		<!-- 查询用户未读消息列表 -->
+	<select id="findNOReadMessageByList" resultMap="DtoMap" parameterType="com.qftx.tsm.sms.dto.TsmMessageSendDto" >
+		SELECT 
+           	T.MESSAGE_ID,
+	        t.SEND_DATE,
+	        t.UPDATE_DATE,
+	        t.IS_DEL,
+	        t.ORG_ID,
+	        t.SUBMIT_STATUS,
+	        t.SEND_FROM,
+	        t.SEND_TO,
+            t.TITLE,
+            t.MESSAGE_CONTENT,
+            t.MSG_CENTER_CONTENT,
+            t.START_TIME,
+            t.END_TIME,
+            t.REMARK,
+            t.MSG_TYPE,
+            t.IS_READ,
+            t.BUSSINESS_ID,
+            t.CONTENT,
+            u.INPUTER_ACC as send_acc
+        FROM
+	        TSM_MESSAGE_SEND T RIGHT JOIN sys_announcement u ON 
+          u.org_id = t.ORG_ID
+          AND u.is_del = 0
+          AND u.ANNOUNCE_ID = t.BUSSINESS_ID
+        WHERE 
+               T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+            AND T.SEND_TO = #{sendTo,jdbcType=VARCHAR}
+            AND t.MSG_TYPE IN (18,24,25)
+            AND t.IS_READ = '0'
+        order by  T.SEND_DATE desc        
+	</select>
+	
+		<!-- 查询系统版本信息 -->
+	<select id="findSysVersion" resultMap="DtoMap" parameterType="com.qftx.tsm.sms.dto.TsmMessageSendDto" >
+				SELECT 
+           	T.MESSAGE_ID,
+	        t.SEND_DATE,
+	        t.UPDATE_DATE,
+	        t.IS_DEL,
+	        t.ORG_ID,
+	        t.SUBMIT_STATUS,
+	        t.SEND_FROM,
+	        t.SEND_TO,
+            t.TITLE,
+            t.MESSAGE_CONTENT,
+            t.MSG_CENTER_CONTENT,
+            t.START_TIME,
+            t.END_TIME,
+            t.REMARK,
+            t.MSG_TYPE,
+            t.IS_READ,
+            t.BUSSINESS_ID,
+            t.CONTENT
+        FROM
+	        TSM_MESSAGE_SEND T 
+        WHERE 
+                t.ORG_ID = #{orgId,jdbcType=VARCHAR}
+            AND t.SEND_TO = #{sendTo,jdbcType=VARCHAR}
+            AND t.MSG_TYPE = 27
+            AND t.IS_READ = '0'
+         ORDER BY t.SEND_DATE DESC
+         LIMIT 1
+	</select>
+	
+	
+		<!-- 修改F2机器人消息状态 -->
+	<update id="updateRobotMessageState" parameterType="com.qftx.tsm.sms.bean.TsmMessageSend">
+		update <include refid="table_name"/> M
+		set M.IS_READ = 1 
+		WHERE 1=1
+			and M.ORG_ID = #{orgId}
+		<if test="sendTo != null and sendTo != ''">
+			and M.SEND_TO =  #{sendTo}
+		</if> 
+		AND M.IS_READ = 0 AND M.MSG_TYPE in (26,29)
+	</update>
+</mapper>

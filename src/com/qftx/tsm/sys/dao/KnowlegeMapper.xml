@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.KnowlegeMapper">
+	<!-- ################################################################################################# 
+		#########################基础定义配置(需要修改部分)############################################### 
+		################################################################################################ -->
+	<resultMap id="BaseknowlegeResultMap" type="com.qftx.tsm.sys.bean.Knowlege">
+		<id column="KNOWLEGE_ID" property="knowlegeId" jdbcType="VARCHAR" />
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" />
+		<result column="QUESTION" property="question" jdbcType="VARCHAR" />
+		<result column="ANSWER" property="answer" jdbcType="VARCHAR" />
+		<result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+		<result column="INPUTDATE" property="inputdate" jdbcType="DATE" />
+		<result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+		<result column="MODIFYDATE" property="modifydate" jdbcType="DATE" />
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+		<result column="SORT" property="sort" jdbcType="INTEGER" />
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 实体表名 -->
+	<sql id="table_name">sys_knowlege</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="knowlegeId != null and knowlegeId != ''">
+			AND KNOWLEGE_ID = #{knowlegeId,jdbcType=VARCHAR}
+		</if>
+		<if test="groupId != null and groupId != ''">
+			AND GROUP_ID = #{groupId,jdbcType=VARCHAR}
+		</if>
+
+		<if test="orgId != null and orgId != ''">
+			AND ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>		
+		<if test="inputerAcc != null and inputerAcc != ''">
+			AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null and inputdate != ''">
+			AND INPUTDATE = #{inputdate,jdbcType=DATE}
+		</if>
+		<if test="modifierAcc != null and modifierAcc != ''">
+			AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null and modifydate != ''">
+			AND MODIFYDATE = #{modifydate,jdbcType=DATE}
+		</if>
+		AND IS_DEL = 0
+		<if test="orderKey != null and orderKey != ''">
+			ORDER BY ${orderKey}
+		</if>
+		<if test="isUnGroup != null and isUnGroup != ''">
+			AND GROUP_ID is null
+		</if>
+		<if test="qKeyWordId!=null and qKeyWordId!=''">
+		    and QUESTION like  CONCAT('%',#{qKeyWordId},'%' )
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="knowlegeId != null">
+				KNOWLEGE_ID = #{knowlegeId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+				GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="question != null">
+				QUESTION = #{question,jdbcType=VARCHAR},
+			</if>
+			<if test="answer != null">
+				ANSWER = #{answer,jdbcType=CLOB},
+			</if>
+			<if test="inputerAcc != null">
+				INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null">
+				INPUTDATE = #{inputdate,jdbcType=DATE},
+			</if>
+			<if test="modifierAcc != null">
+				MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				MODIFYDATE = #{modifydate,jdbcType=DATE},
+			</if>
+			<if test="isDel != null">
+				IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="sort != null">
+				SORT = #{sort,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="knowlegeId != null">
+				KNOWLEGE_ID = #{knowlegeId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+				GROUP_ID = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="question != null">
+				QUESTION = #{question,jdbcType=VARCHAR},
+			</if>
+			<if test="answer != null">
+				ANSWER = #{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="inputerAcc != null">
+				INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null">
+				INPUTDATE = #{inputdate,jdbcType=DATE},
+			</if>
+			<if test="modifierAcc != null">
+				MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null">
+				MODIFYDATE = #{modifydate,jdbcType=DATE},
+			</if>
+			<if test="isDel != null">
+				IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="sort != null">
+				SORT = #{sort,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="knowlegeId != null">
+				KNOWLEGE_ID,
+			 </if>
+			<if test="groupId != null">
+				GROUP_ID,
+			 </if>
+			<if test="question != null">
+				QUESTION,
+			 </if>
+			<if test="answer != null">
+				ANSWER,
+			 </if>
+			<if test="inputerAcc != null">
+				INPUTER_ACC,
+			 </if>
+			<if test="inputdate != null">
+				INPUTDATE,
+			 </if>
+			<if test="modifierAcc != null">
+				MODIFIER_ACC,
+			 </if>
+			<if test="modifydate != null">
+				MODIFYDATE,
+			 </if>
+			<if test="isDel != null">
+				IS_DEL,
+			 </if>
+			<if test="orgId != null">
+				org_id,
+			 </if>	
+			 <if test="sort != null">
+				SORT,
+			 </if>			 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="knowlegeId != null">
+				#{knowlegeId},
+			</if>
+			<if test="groupId != null">
+				#{groupId},
+			</if>
+			<if test="question != null">
+				#{question},
+			</if>
+			<if test="answer != null">
+				#{answer,jdbcType=CLOB},
+			</if>
+			<if test="inputerAcc != null">
+				#{inputerAcc},
+			</if>
+			<if test="inputdate != null">
+				#{inputdate},
+			</if>
+			<if test="modifierAcc != null">
+				#{modifierAcc},
+			</if>
+			<if test="modifydate != null">
+				#{modifydate},
+			</if>
+			<if test="isDel != null">
+				#{isDel},
+			</if>
+			<if test="orgId != null">
+				#{orgId},
+			 </if>		
+			 <if test="sort != null">
+				#{sort},
+			 </if>			
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		KNOWLEGE_ID, GROUP_ID, QUESTION, ANSWER, INPUTER_ACC, INPUTDATE, MODIFIER_ACC,
+		MODIFYDATE,SORT,ORG_ID,	
+		IS_DEL
+	</sql>
+	<sql id="batch_insert_into_value">
+		SELECT
+		#{item.knowlegeId},#{item.groupId},#{item.question},#{item.answer},#{item.inputerAcc},#{item.inputdate},#{item.modifierAcc},
+		#{item.modifydate},#{item.isDel}
+		FROM DUAL
+	</sql>
+
+	<!-- ############################################################################################ 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ########################################################################################### -->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseknowlegeResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法 -->
+	<select id="findListPage" resultMap="BaseknowlegeResultMap"
+		parameterType="com.qftx.tsm.sys.dto.KnowlegeDto">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+		ORDER BY INPUTDATE desc
+	</select>
+	
+		<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage_new方法 -->
+	<select id="findListPage_new" resultMap="BaseknowlegeResultMap"
+		parameterType="com.qftx.tsm.sys.dto.KnowlegeDto">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+		ORDER BY SORT asc
+	</select>
+	
+			<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage_new方法 -->
+	<select id="getListPageDto" resultMap="BaseknowlegeResultMap"
+		parameterType="com.qftx.tsm.sys.dto.KnowlegeDto">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+		ORDER BY SORT asc
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseknowlegeResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string"
+		resultMap="BaseknowlegeResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where KNOWLEGE_ID = #{knowlegeId}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseknowlegeResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.Knowlege">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into
+		<include refid="table_name" />
+		(
+		<include refid="Base_Column_List" />
+		)
+		<foreach collection="list" item="item" index="index"
+			separator="union all">
+			<include refid="batch_insert_into_value" />
+		</foreach>
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.Knowlege">
+		update
+		<include refid="table_name" />
+		<include refid="update_set_sql" />
+		where org_id=#{orgId} and  KNOWLEGE_ID = #{knowlegeId}
+	</update>
+	
+		<!-- 修改实体 -->
+	<update id="update_new" parameterType="com.qftx.tsm.sys.bean.Knowlege">
+		update
+		<include refid="table_name" />
+		set sort=#{sort}
+		where org_id=#{orgId} and  KNOWLEGE_ID = #{knowlegeId}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.Knowlege">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where KNOWLEGE_ID = #{knowlegeId}
+	</update>
+
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where KNOWLEGE_ID = #{knowlegeId}
+	</delete>
+
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatch" parameterType="list">
+		delete
+		<include refid="table_name" />
+		where KNOWLEGE_ID in
+		<foreach collection="list" item="ids" open="(" separator=","
+			close=")">
+			#{ids}
+		</foreach>
+	</delete>
+
+	<!-- ############################################################################################ 
+		#########################自定义个性配置 以下添加非基础部分################################## 
+		########################################################################################### -->
+	<!-- 批量伪删除实体 -->
+	<update id="deleteKnowlegeBatch" parameterType="map">
+		update
+		<include refid="table_name" />
+		set IS_DEL = 1
+		,modifier_acc =#{updateacc},modifydate = NOW()
+		where
+		KNOWLEGE_ID in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<!-- 通过知识id获取知识 -->
+	<select id="findKnowlegeById" parameterType="map"
+		resultMap="BaseknowlegeResultMap">
+		  select * from sys_knowlege k where org_id=#{orgId} and k.KNOWLEGE_ID=#{knowlegeId}
+	</select>
+</mapper>

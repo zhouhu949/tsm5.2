@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.callrecord.dao.CallRecordBlackMapper">
+    <!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.callrecord.bean.CallRecordBlack" id="BaseResultMap">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="inputAcc" property="inputAcc" jdbcType="VARCHAR" />
+		<result column="inputDate" property="inputDate" jdbcType="TIMESTAMP" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="DECIMAL" />
+		
+	</resultMap>	
+	
+  <!-- 实体表名 -->
+	<sql id="table_name">tsm_record_black</sql>
+ 	
+ 	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		  <if test="phone != null and phone !=''" >
+			  AND phone = #{phone,jdbcType=VARCHAR}
+		  </if>
+	      <if test="inputAcc != null and inputAcc != ''" >
+	         AND inputAcc = #{inputAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="remark != null and remark != ''" >
+	         AND remark = #{remark,jdbcType=VARCHAR}
+	      </if>
+	      <if test="reason != null">
+	   		AND reason = #{reason,jdbcType=DECIMAL}
+	      </if>
+	      <if test="orderKey != null"> 
+			  ORDER BY ${orderKey}
+		  </if>
+  	</sql>
+  	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null and id != ''" >
+		        id = #{id,jdbcType=VARCHAR},
+		      </if>
+		      <!--<if test="orgId != null and orgId != ''" >
+		        org_id = #{orgId},
+		      </if>-->
+		      <if test="phone != null and phone != ''" >
+		        phone = #{phone},
+		      </if>		      
+		     <if test="inputAcc != null and inputAcc != ''" >
+		        inputAcc = #{inputAcc},
+		      </if>	
+		      <if test="inputDate != null" >
+		        inputDate = #{inputDate,jdbcType=TIMESTAMP},
+		      </if>	
+		      <if test="remark != null and remark != ''" >
+		        remark = #{remark},
+		      </if>	
+		       <if test="reason != null">
+	   			 reason = #{reason,jdbcType=DECIMAL},
+	      		</if>
+		</trim>
+	</sql>
+  
+  <sql id="insert_into_field">
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="inputAcc != null" >
+        inputAcc,
+      </if>
+      <if test="inputDate != null" >
+        inputDate,
+      </if>
+      <if test="remark != null and remark != ''" >
+        remark,
+      </if>
+       <if test="reason != null">
+	   	 reason,
+	   </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+       <if test="phone != null and phone != ''" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="inputAcc != null and inputAcc != ''" >
+        #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="inputDate != null" >
+        #{inputDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null and remark != ''" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+       <if test="reason != null">
+	   	#{reason,jdbcType=DECIMAL},
+	   </if>
+    </trim>
+  </sql>
+  
+  <!-- 批量插入实体对应的字段语句 -->
+  <sql id="Base_Column_List" >
+    id, org_id, phone, inputAcc, inputDate, remark, reason
+  </sql>
+  <sql id="batch_insert_into_value">
+   (
+   		#{item.id,jdbcType=VARCHAR},
+   		#{item.orgId,jdbcType=VARCHAR},
+   		#{item.phone,jdbcType=VARCHAR},
+   		#{item.inputAcc,jdbcType=VARCHAR},
+   		#{item.inputDate,jdbcType=TIMESTAMP},
+   		#{item.remark,jdbcType=VARCHAR},
+   		#{item.reason,jdbcType=VARCHAR}
+   		)
+  </sql>
+  
+  <!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where org_id = #{orgId}
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.callrecord.bean.CallRecordBlack">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.callrecord.bean.CallRecordBlack">
+		update <include refid="table_name"/>
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.callrecord.bean.CallRecordBlack">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="deleteBy" parameterType="map">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatchBy" parameterType="Map">
+		delete from <include refid="table_name"/>where  ORG_ID = #{orgId} and id in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<!-- 查询黑名单 -->
+	<select id="findCallRecordBlackListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.callrecord.dto.CallRecordBlackDto">
+		select trb.* from tsm_record_black trb where trb.org_id = #{orgId}
+		<if test="phone != null and phone != ''">
+			and trb.phone = #{phone}
+		</if>
+		<if test="reason != null">
+			and trb.reason = #{reason}
+		</if>
+		<if test="startDate!=null and startDate!=''">
+	       <![CDATA[
+             AND str_to_date(date_format(trb.inputDate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+		   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+		   <![CDATA[
+		     AND str_to_date(date_format(trb.inputDate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+		   ]]>
+		</if>
+     	<if test="ownerAccs != null"> <!-- 指定举报人 -->                         			
+       			and trb.inputAcc in
+       			<foreach collection="ownerAccs" index="index" item="item" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+			ORDER BY trb.inputDate desc
+	</select>
+	
+</mapper>

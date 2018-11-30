@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.worklog.dao.WorkLogInfoMapper">
+	<sql id="cols">
+	t.wli_id,t.org_id,t.group_id,t.user_id,t.log_date,t.context,t.work_plan,t.dev_type,t.imgs,t.files,t.files_size,t.record,t.record_time,t.inputdate,t.updatedate,t.status,t.is_del,t.comment_num,t.share_num,t.favour_num
+	</sql>
+
+	<resultMap type="com.qftx.tsm.worklog.bean.WorkLogInfoBean" id="WorkLogInfoMap">
+		<result column="wli_id" property="wliId"/>
+		<result column="org_id" property="orgId"/>
+		<result column="group_id" property="groupId"/>
+		<result column="user_id" property="userId"/>
+		<result column="log_date" property="logDate"/>
+		<result column="context" property="context"/>
+		<result column="work_plan" property="workPlan"/>
+		<result column="dev_type" property="devType"/>
+		<result column="imgs" property="imgs"/>
+		<result column="files" property="files"/>
+		<result column="files_size" property="filesSize"/>
+		<result column="record" property="record"/>
+		<result column="record_time" property="recordTime"/>
+		<result column="inputdate" property="inputdate"/>
+		<result column="updatedate" property="updatedate"/>
+		<result column="status" property="status"/>
+		<result column="is_del" property="isDel"/>
+		<result column="comment_num" property="commentNum"/>
+		<result column="share_num" property="shareNum"/>
+		<result column="favour_num" property="favourNum"/>
+		
+		
+		
+		<result column="user_account" property="userAccount"/>
+		<result column="user_name" property="userName"/>
+		<result column="IMG_URL" property="imgUrl"/>
+    </resultMap>
+
+	<!-- 查询是否已经存在日志 -->
+	<select id="queryCountByUserAndDate"  resultType="int">
+		select  count(1) from work_log_info 
+		where 1=1 
+		<if test="orgId != null">and org_id=#{orgId}</if>
+		and date(log_date) =  date(#{date}) and is_del = 0 
+		<if test="userId != null">and user_id=#{userId}</if>
+	</select>
+	
+	<!-- 查询存在已提交日志的用户-->
+	<select id="findHaveLogUsers"  resultType="String">
+		select user_id from work_log_info  
+		where 
+		1=1 
+		and org_id=#{orgId}
+		and status = 1 and is_del =0
+		<foreach collection="userIds" item="uid"  open="and(" close=")" separator="or">
+			user_id=#{uid}
+		</foreach>
+		and log_date &gt;=#{fromDate}
+		and log_date &lt;=#{toDate}
+	</select>
+	
+	<!-- 查询当前月份已存在的日志 -->
+	<select id="queryWorkLogByMonth"  resultType="Date">
+		select log_date from work_log_info 
+		where 
+		1=1 
+		and org_id=#{orgId}
+		and status = 1
+		and is_del =0
+		and user_id=#{userId}
+		and log_date &gt;=#{monthBegin}
+		and log_date &lt;=#{monthEnd}
+		order by log_date
+	</select>
+	
+	<!-- 查询当前月份已存在的日志 -->
+	<select id="queryManagerCalendarState"  resultType="Date">
+		select DATE_FORMAT(log_date,'%Y-%m-%d') from work_log_info  
+		where 
+		1=1 
+		and org_id=#{orgId}
+		and status = 1 and is_del =0
+		<foreach collection="userIds" item="uid"  open="and(" close=")" separator="or">
+			user_id=#{uid}
+		</foreach>
+		and log_date &gt;=#{fromDate}
+		and log_date &lt;=#{toDate}
+		group by DATE_FORMAT(log_date,'%Y-%m-%d')
+		having count(1)>=${userIds.length}
+		order by log_date
+	</select>
+ 
+ 	<select id="findShareLogByPage"  resultMap="WorkLogInfoMap">
+ 		select * from (
+		select <include refid="cols"/> ,t1.user_account,t1.user_name,t1.IMG_URL
+		from work_log_info t
+		left join auth_user t1 on t1.org_id=#{orgId} and t.user_id = t1.user_id
+		where 1=1 and t.org_id=#{orgId}
+		and t.is_del =0 and t.status=1
+		<choose>
+			<when test="groupIds != null and groupIds.length>0">
+			and( t.user_id in 
+			(select t3.user_id from tsm_team_group_member t3 where t3.org_id = #{orgId} <foreach collection="groupIds" item="gid" open="and(" close=")" separator="or"> t3.group_id= #{gid}</foreach>)
+			
+			<if test="!isAll">
+				or t.wli_id  in (select wli_id from work_log_share t2 where  t2.org_id = #{orgId} AND t2.is_del = 0 <if test="userId != null">and t2.share_userid =#{userId}</if>)
+	      		or t.user_id in (select def.user_id from work_log_default def where def.org_id = #{orgId} AND def.is_del = 0 <if test="userId != null">and def.default_share_userid =#{userId}</if>)
+			</if>
+			)
+			</when>
+			<otherwise>
+				AND (
+				t.wli_id  in (select wli_id from work_log_share t2 where  t2.org_id = #{orgId} AND t2.is_del = 0 <if test="userId != null">and t2.share_userid =#{userId}</if>)
+	      		or t.user_id in (select def.user_id from work_log_default def where def.org_id = #{orgId} AND def.is_del = 0 <if test="userId != null">and def.default_share_userid =#{userId}</if>)
+				)
+			</otherwise>
+		</choose>
+		and t.user_id !=#{userId}
+		
+		<if test="logDate != null">and t.log_date ${symbol} #{logDate}</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+		limit 10)tt
+		order by log_date desc 
+	</select>
+		
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="WorkLogInfoMap">
+		select
+		<include refid="cols" /> from work_log_info t
+		where 1=1
+		<if test="wliId != null">and t.wli_id = #{wliId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="logDate != null">and t.log_date = #{logDate}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="workPlan != null">and t.work_plan = #{workPlan}</if>
+		<if test="devType != null">and t.dev_type = #{devType}</if>
+		<if test="inputdate != null">and t.inputdate = #{inputdate}</if>
+		<if test="updatedate != null">and t.updatedate = #{updatedate}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="commentNum != null">and t.comment_num = #{commentNum}</if>
+		<if test="shareNum != null">and t.share_num = #{shareNum}</if>
+		
+		<if test="fromDate != null">and t.log_date <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.log_date <![CDATA[ <= ]]> #{toDate}</if>
+		
+		<if test="orderKey != null">order by  ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByPage" resultMap="WorkLogInfoMap">
+		select * from (
+		select
+		<include refid="cols" />,t1.user_account,t1.user_name,t1.IMG_URL
+		from work_log_info t
+		left join auth_user t1 on t1.org_id = #{orgId} and t1.user_id = t.user_ID
+		where 1=1
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="shareUserId != null">and t.user_id = #{shareUserId}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="logDate != null">and t.log_date ${symbol} #{logDate}</if>
+		<if test="queryText !=null">and (t1.user_account like CONCAT('%',#{queryText},'%') or t1.user_name like CONCAT('%',#{queryText},'%'))</if>
+		<if test="userIds!=null and userIds.length >0">
+			<foreach collection="userIds" item="userId" open="and t.user_id in (" close=")" separator=",">
+				#{userId}
+			</foreach>
+		</if>
+		<if test="rejectUserId != null">and t.user_id != #{rejectUserId}</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+		limit 10)tt
+		order by log_date desc 
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="WorkLogInfoMap">
+		select
+		<include refid="cols" />,t1.user_account,t1.user_name 
+		from work_log_info t
+		left join auth_user t1 on t1.org_id = #{orgId} and t1.user_id = t.user_ID
+		where 1=1
+		<if test="wliId != null">and t.wli_id = #{wliId}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="logDate != null">and t.log_date = #{logDate}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="inputdate != null">and t.inputdate = #{inputdate}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="commentNum != null">and t.comment_num = #{commentNum}</if>
+		<if test="shareNum != null">and t.share_num = #{shareNum}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update work_log_info
+		<set>
+		<if test="context != null">context = #{context},</if>
+		<if test="workPlan != null">work_plan = #{workPlan},</if>
+		<if test="devType != null">dev_type = #{devType},</if>
+		<if test="inputdate != null">inputdate = #{inputdate},</if>
+		<if test="updatedate != null">updatedate = #{updatedate},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="commentNum != null">comment_num = #{commentNum},</if>
+		<if test="shareNum != null">share_num = #{shareNum},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="wliId != null">and wli_id = #{wliId}</if>
+	</update>	
+
+	<!-- 更新评论数 -->
+	<update id="updateNum">
+		update work_log_info set ${colName} = (ifnull(${colName},0)+${num})
+		where 1 = 1 
+		<if test="orgId != null">and org_id=#{orgId}</if>
+		and wli_id = #{wliId}
+	</update>
+	 
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.worklog.bean.WorkLogInfoBean">
+	insert into work_log_info(wli_id,org_id,group_id,user_id,log_date,context,work_plan,dev_type,imgs,files,files_size,record,record_time,inputdate,updatedate,status,is_del,comment_num,share_num,favour_num)
+	values(#{wliId},#{orgId},#{groupId},#{userId},#{logDate},#{context},#{workPlan},#{devType},#{imgs},#{files},#{filesSize},#{record},#{recordTime},#{inputdate},#{updatedate},#{status},#{isDel},#{commentNum},#{shareNum},#{favourNum})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into work_log_info(wli_id,org_id,group_id,user_id,log_date,context,work_plan,dev_type,imgs,files,files_size,record,record_time,inputdate,updatedate,status,is_del,comment_num,share_num,favour_num)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.wliId},#{bean.orgId},#{bean.groupId},#{bean.userId},#{bean.logDate},#{bean.context},#{bean.workPlan},#{bean.devType},#{bean.imgs},#{bean.files},#{bean.filesSize},#{bean.record},#{bean.recordTime},#{bean.inputdate},#{bean.updatedate},#{bean.status},#{bean.isDel},#{bean.commentNum},#{bean.shareNum},#{bean.favourNum})
+    </foreach>
+    </insert>
+</mapper>

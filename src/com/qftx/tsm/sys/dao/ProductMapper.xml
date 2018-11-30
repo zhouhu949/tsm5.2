@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.ProductMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.Product" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="DECIMAL" />
+    <result column="is_default" property="isDefault" jdbcType="DECIMAL" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="units" property="units" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />    
+    <result column="context" property="context" jdbcType="VARCHAR" />
+    <result column="INPUTER_ACC" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="inputtime" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="updatetime" property="modifydate" jdbcType="TIMESTAMP" />
+	<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+  </resultMap>
+  
+   <!-- 实体表名 -->
+   <sql id="table_name">sys_product</sql>
+   <!-- 实体条件查询组装 -->
+   	<sql id="entity_condition_orderby">
+		<if test="id != null" >
+		  AND ID = #{id,jdbcType=VARCHAR}
+		</if>
+		<if test="sort != null" >
+		  AND sort = #{sort,jdbcType=DECIMAL}
+		</if>
+		<if test="isDefault != null" >
+		  AND is_default = #{isDefault,jdbcType=DECIMAL}
+		</if>
+		<if test="name != null" >
+		  AND name = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="model != null" >
+		  AND model = #{model,jdbcType=VARCHAR}
+		</if>
+		<if test="type != null" >
+		  AND type = #{type,jdbcType=VARCHAR}
+		</if>
+		<if test="units != null" >
+		  AND units = #{units,jdbcType=VARCHAR}
+		</if>
+		<if test="price != null" >
+		  AND price = #{price,jdbcType=DECIMAL}
+		</if>
+		<if test="context != null" >
+		  AND context = #{context,jdbcType=VARCHAR}
+		</if>
+		<if test="inputAcc != null" >
+		  AND INPUTER_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null" >
+		  AND inputtime = #{inputdate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifierAcc != null" >
+		  AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null" >
+		  AND updatetime = #{modifydate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null" >
+		  AND IS_DEL = #{isDel}
+		</if>
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null" >
+			  	ID = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null" >
+			   sort = #{sort,jdbcType=DECIMAL},
+			</if>
+			<if test="isDefault != null" >
+			  is_default = #{isDefault,jdbcType=DECIMAL},
+			</if>
+			<if test="name != null" >
+			  name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="model != null" >
+			  model = #{model,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+			  type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="units != null" >
+			  units = #{units,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null" >
+			  price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="context != null" >
+			  context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputAcc != null" >
+			 INPUTER_ACC = #{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  inputtime = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  updatetime = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL = #{isDel},
+			</if>
+		</trim>
+	</sql>
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  ID, ORG_ID,sort,is_default,name,model,type,units,price,context, INPUTER_ACC, inputtime, MODIFIER_ACC, 
+	  updatetime,IS_DEL
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			#{item.id,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.sort,jdbcType=DECIMAL},
+			#{item.isDefault,jdbcType=DECIMAL},#{item.name,jdbcType=VARCHAR},#{item.model,jdbcType=VARCHAR},
+			#{item.type,jdbcType=VARCHAR},#{item.units,jdbcType=VARCHAR},#{item.price,jdbcType=DECIMAL},#{item.context,jdbcType=VARCHAR},
+			#{item.inputAcc,jdbcType=VARCHAR},#{item.inputdate,jdbcType=TIMESTAMP},
+			#{item.modifierAcc,jdbcType=VARCHAR},
+			#{item.modifydate,jdbcType=TIMESTAMP},#{item.isDel,jdbcType=DECIMAL}
+		)
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null" >
+			  	ID,
+			</if>
+			<if test="orgId != null" >
+		 		ORG_ID,
+			</if>
+			<if test="sort != null" >
+			   sort,
+			</if>
+			<if test="isDefault != null" >
+			  is_default,
+			</if>
+			<if test="name != null" >
+			  name,
+			</if>
+			<if test="model != null" >
+			  model,
+			</if>
+			<if test="type != null" >
+			  type,
+			</if>
+			<if test="units != null" >
+			  units,
+			</if>
+			<if test="price != null" >
+			  price,
+			</if>
+			<if test="context != null" >
+			  context,
+			</if>
+			<if test="inputAcc != null" >
+			 INPUTER_ACC,
+			</if>
+			<if test="inputdate != null" >
+			  inputtime,
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null" >
+			  updatetime,
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null" >
+			  #{id},
+			</if>
+			<if test="orgId != null" >
+		 		#{orgId},
+			</if>
+			<if test="sort != null" >
+			   #{sort},
+			</if>
+			<if test="isDefault != null" >
+			  #{isDefault},
+			</if>
+			<if test="name != null" >
+			  #{name},
+			</if>
+			<if test="model != null" >
+			  #{model},
+			</if>
+			<if test="type != null" >
+			  #{type},
+			</if>
+			<if test="units != null" >
+			  #{units},
+			</if>
+			<if test="price != null" >
+			  #{price},
+			</if>
+			<if test="context != null" >
+			  #{context},
+			</if>
+			<if test="inputAcc != null" >
+			 #{inputAcc},
+			</if>
+			<if test="inputdate != null" >
+			  #{inputdate},
+			</if>
+			<if test="modifierAcc != null" >
+			 #{modifierAcc},
+			</if>
+			<if test="modifydate != null" >
+			  #{modifydate},
+			</if>
+			<if test="isDel != null" >
+			  #{isDel},
+			</if>
+		</trim>
+	</sql>
+  	
+  	
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ID = #{id}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.Product">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.Product">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and ID = #{id}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.Product">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and ID = #{id}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="deleteBy" parameterType="Map">
+		delete from<include refid="table_name"/> where ORG_ID = #{orgId} and ID = #{id}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteByBatch" parameterType="Map">
+		update <include refid="table_name"/> set
+		 IS_DEL = 1,updatetime = now(),MODIFIER_ACC = #{modifierAcc}
+		 where ORG_ID = #{orgId} and ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+
+	<select id="findProductNames" parameterType="Map" resultType ="String">
+		select name from sys_product 
+		 where ORG_ID = #{orgId} and ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	
+	</select>
+
+	<!-- 判断排序是否唯一 -->
+	<select id="findSortByExists" resultType="Integer" parameterType="com.qftx.tsm.sys.bean.Product">
+		select count(1) from sys_product t where t.org_id = #{orgId} and t.sort = #{sort} and t.is_del = 0
+		<if test="id !=null and id !=''">
+			and t.id != #{id}
+		</if>
+	</select>
+</mapper>

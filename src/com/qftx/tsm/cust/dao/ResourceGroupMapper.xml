@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.ResourceGroupMapper" >
+  <resultMap id="BaseResGroupResultMap" type="com.qftx.tsm.cust.bean.ResourceGroupBean" >
+    <id column="RES_GROUP_ID" property="resGroupId" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+    <result column="GROUP_INDEX" property="groupIndex" jdbcType="DECIMAL" />
+    <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="DATE" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="DATE" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="is_share_pool" property="isSharePool" jdbcType="DECIMAL" />
+      <result column="type" property="type" jdbcType="VARCHAR" />
+      <result column="level" property="level" jdbcType="VARCHAR" />
+      <result column="pid" property="pid" jdbcType="VARCHAR" />
+    
+  </resultMap>
+
+	<resultMap type="com.qftx.tsm.cust.dto.ResourceGroupDto" id="resGroupDtoResultMap">
+		<result column="res_group_id" property="resGroupId" jdbcType="VARCHAR" />
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+		<result column="CONT" property="groupCount" jdbcType="VARCHAR" />
+	    <result column="is_share_pool" property="isSharePool" jdbcType="DECIMAL" />
+	</resultMap>
+	  
+  	<!-- 实体表名 -->
+	<sql id="table_name">tsm_res_group</sql>
+
+
+<!-- 插入实体对应的字段语句 -->
+  <insert id="insert" parameterType="com.qftx.tsm.cust.bean.ResourceGroupBean" >
+    insert into TSM_RES_GROUP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resGroupId != null" >
+        RES_GROUP_ID,
+      </if>
+      <if test="groupName != null" >
+        GROUP_NAME,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="groupIndex != null" >
+        GROUP_INDEX,
+      </if>
+      <if test="inputAcc != null" >
+        INPUT_ACC,
+      </if>
+      <if test="inputdate != null" >
+        INPUTDATE,
+      </if>
+      <if test="modifierAcc != null" >
+        MODIFIER_ACC,
+      </if>
+      <if test="modifydate != null" >
+        MODIFYDATE,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+       <if test="isSharePool != null" >
+        is_share_pool,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>  
+       <if test="level != null" >
+        level,
+      </if>  
+       <if test="pid != null" >
+        pid,
+      </if>  
+           
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resGroupId != null" >
+        #{resGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=DECIMAL},
+      </if>
+      <if test="groupIndex != null" >
+        #{groupIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="inputAcc != null" >
+        #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null" >
+        #{inputdate,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="modifierAcc != null" >
+        #{modifierAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+        #{modifydate,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+       <if test="isSharePool != null" >
+            #{isSharePool,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>      
+      <if test="level != null" >
+        #{level,jdbcType=DECIMAL},
+      </if> 
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>       
+    </trim>
+  </insert>
+  
+  <!-- 修改 -->
+  <update id="update" parameterType="com.qftx.tsm.cust.bean.ResourceGroupBean" >
+    update TSM_RES_GROUP
+    <set >
+      <if test="groupName != null" >
+        GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=DECIMAL},
+      </if>
+      <if test="groupIndex != null" >
+        GROUP_INDEX = #{groupIndex,jdbcType=DECIMAL},
+      </if>
+      <if test="inputAcc != null" >
+        INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="inputdate != null" >
+        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}, 
+      </if>
+      <if test="modifierAcc != null" >
+        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+         MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}, 
+      </if>
+       <if test="isSharePool != null" >
+           is_share_pool= #{isSharePool,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>      
+       <if test="level != null" >
+        level = #{level,jdbcType=DECIMAL},
+      </if>    
+       <if test="pid != null" >
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>           
+    </set>
+    where RES_GROUP_ID = #{resGroupId,jdbcType=VARCHAR}
+  </update>
+
+	<sql id="count_sum_condition">
+		      <if test="resType == 1" >
+		      		and t.type=1
+		            and  t.status= 1
+		      </if>	
+		      <if test="resType == 2" >
+		            and t.type=1
+		            and  t.status= 2
+		            and t.OWNER_ACC is not null 
+		      </if>	
+		      <if test="resType == 3" >
+		            and t.type=1
+		            and  t.status= 5
+		      </if>	
+		      <if test="resType == 4" >
+				 <if test='isShareRes == "0"'>
+				   and t.status IN (4, 5) 
+				   <if test="authGroupIds != null and authGroupIds.size() > 0">
+					 	AND t.OWNER_ACC IN (
+					 		SELECT 
+							  member_acc
+							FROM
+							  tsm_team_group_member 
+							WHERE org_id = #{orgId} 
+							AND group_id IN 
+					 		<foreach collection="authGroupIds" item="authGroupId" open="(" separator="," close=")">
+					 			#{authGroupId}
+					 		</foreach>
+					 	)
+					</if>
+				 </if>
+				 <if test='isShareRes == "1"'>
+				   and t.type=1
+		           and t.status= 1 
+		           <if test="authGroupIds != null and authGroupIds.size() > 0">
+					 	AND t.import_dept_id IN 
+				 		<foreach collection="authGroupIds" item="authGroupId" open="(" separator="," close=")">
+				 			#{authGroupId}
+				 		</foreach>
+				 	</if>
+				 </if>
+		      </if>	 		       
+	</sql>
+	<!-- 获得分组下相应的分组资源数量 -->
+	<select id="getResSumList" resultMap="resGroupDtoResultMap"
+		parameterType="map">
+			SELECT
+				count(1) as cont,
+				t.RES_GROUP_ID as res_group_id
+			FROM
+				tsm_res_cust_info t
+			WHERE
+			t.ORG_ID = #{orgId}
+			AND t.IS_DEL = 0
+	    	<if test="deptIds!=null">
+				AND t.import_dept_id IN 
+					<foreach collection="deptIds" item="deptId" open="(" separator=","
+						close=")">
+						#{deptId}
+					</foreach>	
+			</if>
+			<if test="deptIds==null and inputAcc != null">
+				AND t.status = 2 and t.type=1 and t.owner_acc=#{inputAcc}
+			</if>			
+	    	<if test="groupIds !=null">
+				AND t.RES_GROUP_ID  IN 
+					<foreach collection="groupIds" item="groupId" open="(" separator=","
+						close=")">
+						#{groupId}
+					</foreach>	
+			</if>
+			<if test="ownerAccs!=null">
+				AND t.OWNER_ACC IN 
+						<foreach collection="ownerAccs" item="shareAcc" open="(" separator=","
+							close=")">
+							#{shareAcc}
+						</foreach>
+					
+			</if>	
+			<include refid="count_sum_condition"/>
+			GROUP BY
+			t.RES_GROUP_ID
+	</select>
+
+	<!-- 获得所有资源 -->
+	<select id="getComResSumByOrgID" resultType="int" parameterType="map">
+		select count(1)
+		from 
+		(
+			select  r.res_group_id,
+	    			r.status,
+	    			r.type,
+	    			r.import_dept_id,
+	    			r.res_cust_id  
+	    		from tsm_res_cust_info r 
+	    	where r.org_id=#{orgId} 
+	    	 and r.is_del=0 
+	    	 <if test="deptIds!=null">
+				AND r.import_dept_id IN 
+					<foreach collection="deptIds" item="deptId" open="(" separator=","
+						close=")">
+						#{deptId}
+					</foreach>	
+			 </if>
+			 <if test="deptIds==null and inputAcc != null">
+				AND r.status = 2 and r.type=1 and r.owner_acc=#{inputAcc}
+			</if>			
+			<if test="ownerAccs!=null">
+				AND r.OWNER_ACC IN 
+						<foreach collection="ownerAccs" item="shareAcc" open="(" separator=","
+							close=")">
+							#{shareAcc}
+						</foreach>
+					
+			</if>	
+	        <include refid="count_sum_condition"/>
+		 ) r 
+		 <choose>
+		 	<when test="resType == 4">
+		 		<if test='isShareRes == "1"'>
+		 			inner join 
+		 		</if>
+		 		<if test='isShareRes == "0"'>
+		 			left join 
+		 		</if>
+		 	</when>
+		 	<otherwise>
+		 		left join 
+		 	</otherwise>
+		 </choose>
+		 (
+		 	select 
+		    	g1.group_name,
+		    	g1.res_group_id,
+		    	g1.is_share_pool,
+		    	g1.type  
+		    	from tsm_res_group g1 
+		    where g1.org_id=#{orgId} 
+		    	and g1.is_del = 0 
+		    	<if test="resType == 4">
+			    	<if test='isShareRes == "1"'>
+					    and g1.is_share_pool = 1 
+				     </if>
+			    </if>
+		  ) g  
+		on r.res_group_id = g.res_group_id 
+	</select>
+
+	<!-- 获得未分组资源 -->
+	<select id="getComResNOTGroupSumByOrgID" resultType="int"
+		parameterType="map">
+		select count(1)
+		from tsm_res_cust_info r
+		where r.org_id =
+		#{orgId}
+		and r.is_del = 0
+         <include refid="count_sum_condition"/>   
+		and r.type=1
+	</select>
+
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="map"
+		resultMap="BaseResGroupResultMap">
+		select *
+		from
+		<include refid="table_name" />
+		where org_id=#{orgId} and RES_GROUP_ID=#{groupId}  and is_Del=0
+	</select>
+	
+	<!-- 查找未分类 -->
+	<select id="findUnClassById" parameterType="com.qftx.tsm.cust.bean.ResourceGroupBean"
+		resultMap="BaseResGroupResultMap">
+		select *
+		from
+		<include refid="table_name" />
+		where org_id=#{orgId} and is_Del=0 and group_name = '未分类' and level = 0
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+<!-- 	<select id="findGroupByIdAndOrgId" parameterType="map" -->
+<!-- 		resultMap="BaseResGroupResultMap"> -->
+<!-- 		select RES_GROUP_ID, GROUP_NAME, IS_DEL -->
+<!-- 		from -->
+<!-- 		<include refid="table_name" /> -->
+<!-- 		where RES_GROUP_ID=#{groupId} and org_id=#{orgId} and is_Del=0  -->
+<!-- 	</select> -->
+	
+	<!-- 根据分组名称模糊查询资源分组信息 -->
+	<select id="findGrpListByGrpName" parameterType="com.qftx.tsm.cust.bean.ResourceGroupBean"
+		resultMap="BaseResGroupResultMap">
+		select * from tsm_res_group g
+		where
+		IS_DEL=0
+		<if test="level!=null">
+			AND g.level = #{level}
+		</if>
+		<if test="groupName!=null and groupName!=''">
+			AND g.group_name = #{groupName}
+		</if>
+		<if test="orgId!=null and orgId!=''">
+			AND g.ORG_ID = #{orgId}
+		</if>
+	</select>
+	
+	<!-- 删除资源组 -->
+	<delete id="updateResGroupByResId" parameterType="map">
+		update  tsm_res_group t set t.is_del=1 where t.res_group_id=#{groupId}  and t.org_id=#{orgId}
+	</delete>
+	
+	<delete id="deleteByResGroupByResId" parameterType="map">
+		delete from tsm_res_group  where org_id=#{orgId} and res_group_id=#{groupId}  
+	</delete>
+	
+	<!-- 将所属组的资源id置空 -->
+	<update id="updateResourceByGroupId">
+	    update tsm_res_cust_info r set  r.res_group_id= #{unGroupId} where  r.org_id=#{orgId}
+		and r.res_group_id = #{groupId}
+	</update>
+	
+   
+   <!-- 获取资源组 -->
+   <select id="findResGroup" parameterType="string" resultMap="BaseResGroupResultMap">
+	    select g.*
+			  from tsm_res_group g
+			 where g.org_id = #{orgId}
+			   and g.is_del = 0
+			 ORDER BY g.group_index asc, CONVERT( g.GROUP_NAME USING gbk) asc
+   </select>
+    <!-- 获取资源组 -->
+   <select id="findOnlyResGroup" parameterType="string" resultMap="BaseResGroupResultMap">
+	    select g.*
+			  from tsm_res_group g
+			 where g.org_id = #{orgId}
+			   and g.is_del = 0
+				and level = 1
+   </select>
+   
+   <select id="findResGroupForShare"  parameterType="string" resultMap="BaseResGroupResultMap">
+   		select g.*
+			  from tsm_res_group g
+			 where g.org_id = #{orgId}
+			   and g.is_del = 0 
+			   and g.is_share_pool = 1 
+			   and g.LEVEL = 1 
+			 ORDER BY g.group_index asc, CONVERT( g.GROUP_NAME USING gbk) asc
+   </select>
+   
+   <select id="getByIds" parameterType="map" resultMap="BaseResGroupResultMap">
+		 select res_group_id,
+				group_name,
+				type,
+				level,
+				group_index,
+				pid 
+		from tsm_res_group 
+			where org_id = #{orgId} and is_del = 0 and res_group_id in 
+		<foreach collection="groupIds" item="groupId" open="(" separator="," close=")">
+			#{groupId}
+		</foreach>
+		 ORDER BY group_index asc, CONVERT( group_name USING gbk) asc
+	</select>
+   
+   <select id="findByGroupIds"  parameterType="map" resultMap="BaseResGroupResultMap">
+   		select res_group_Id,group_name
+			  from tsm_res_group 
+			 where org_id = #{orgId}
+			   and is_del = 0
+			   <choose>
+					<when test="groupIds != null">
+						AND RES_GROUP_ID IN
+						<foreach collection="groupIds" item="groupId" open="(" separator="," close=")">
+							#{groupId}
+						</foreach>
+					</when>
+					<otherwise>
+						AND RES_GROUP_ID = ''
+					</otherwise>
+				</choose>
+   </select>
+   
+   <!-- 获得我的资源分组数据 -->
+   <select id="getMyResGroupAndNum" parameterType="map" resultMap="resGroupDtoResultMap">
+		  select g.group_name, g.res_group_id, count(r.res_cust_id) cont
+		  from tsm_res_group g
+		  left join tsm_res_cust_info r
+		    on g.res_group_id = r.res_group_id
+		   and r.is_del = 0
+		   AND r.owner_acc = #{account}
+		   AND r.type = 1
+		   AND r.status = 2
+		 where g.is_del = 0
+		   and g.org_id = #{orgId}
+		 group by r.res_group_id, g.group_name, g.res_group_id
+		 order by g.group_name
+	</select>
+	
+	<!-- 获得我的未分组资源数和总的资源数 -->
+	<select id="getMyResNums" parameterType="string" resultType="map">
+		 SELECT 
+		   COUNT(CASE WHEN t.res_group_id IS NULL THEN 1 END) AS notgroupnum,
+		   COUNT(1) AS groupsum
+		 FROM tsm_res_cust_info t
+		 WHERE t.is_del = 0
+		   AND t.owner_acc = #{account}
+		   AND t.type = 1
+		   AND t.status = 2
+	</select>
+ 
+    <!-- 判断是否存在资源未分组 -->
+    <select id="findUnGroup" parameterType="String" resultType="String" >
+		SELECT
+			g.RES_GROUP_ID
+		FROM
+			tsm_res_group g
+		WHERE
+			g.ORG_ID = #{orgId}
+		AND g.type = 1  and g.is_del = 0 and level = 1      
+    </select>
+     <!-- 判断是否存在资源未分类 -->
+    <select id="findUnClass" parameterType="String" resultType="String" >
+		SELECT
+			g.RES_GROUP_ID
+		FROM
+			tsm_res_group g
+		WHERE
+			g.ORG_ID = #{orgId}
+		AND g.type = 1  and g.is_del = 0 and level = 0      
+    </select>
+    
+    <select id="findShareGroupList" resultMap="BaseResGroupResultMap" parameterType="map">
+			SELECT
+				g.GROUP_NAME,
+				g.RES_GROUP_ID
+			FROM
+				tsm_res_group g
+			LEFT JOIN (
+				SELECT
+					t.res_group_id,
+					t.import_dept_id,
+					t.org_id
+				FROM
+					tsm_res_cust_info t
+				WHERE
+					t.org_id = #{orgId}
+				AND t.is_del = 0
+				GROUP BY
+					t.res_group_id,
+					t.import_dept_id
+			) t ON g.ORG_ID = #{orgId}
+			AND g.RES_GROUP_ID = t.RES_GROUP_ID
+			LEFT JOIN tsm_group_shareinfo s ON s.ORG_ID = #{orgId}
+			AND t.import_dept_id = s.GROUP_ID
+			WHERE
+				g.ORG_ID = #{orgId}
+			AND g.is_del = 0
+			AND s.SHARE_ACC = #{account}
+			GROUP BY
+				g.RES_GROUP_ID,
+				g.GROUP_NAME
+    </select>
+    
+    <update id="initResGroup" parameterType="com.qftx.tsm.cust.bean.ResourceGroupBean">
+     update TSM_RES_GROUP
+     <set >
+      <if test="modifierAcc != null" >
+        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="modifydate != null" >
+         MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}, 
+      </if>
+       <if test="level != null" >
+        level = #{level,jdbcType=DECIMAL},
+      </if> 
+       <if test="pid != null" >
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>         
+    </set>
+    where org_id = #{orgId,jdbcType=VARCHAR} 
+    </update>
+    
+     <!-- 获取资源分类 -->
+   <select id="findResClassList" parameterType="string" resultMap="BaseResGroupResultMap">
+	    select g.*
+			  from tsm_res_group g
+			 where g.org_id = #{orgId}
+			   and g.is_del = 0
+			   and g.level = 0
+			 ORDER BY group_index asc
+   </select>
+   
+        <!-- 获取资源分类 -->
+   <select id="findResClassList2" parameterType="map" resultMap="BaseResGroupResultMap">
+	    select g.*
+			  from tsm_res_group g
+			 where g.org_id = #{orgId}
+			   and g.is_del = 0
+			   and g.level = 0
+			   <if test="groupIds != null" >
+			   AND res_group_id IN 
+			   (SELECT tsg.PID FROM  tsm_res_group tsg WHERE tsg.ORG_ID=g.org_id 
+			   and res_group_id in 
+		      <foreach collection="groupIds" item="groupId" open="(" separator="," close=")">
+			   #{groupId}
+		      </foreach>
+              )
+             </if>
+			 ORDER BY  CONVERT( g.GROUP_NAME USING gbk) DESC
+   </select>
+   
+           <!-- 获取分类下面所有的分组 -->
+   <select id="findGroupList" parameterType="map" resultMap="BaseResGroupResultMap">
+	    select g.*
+			  from tsm_res_group g
+			 where g.org_id = #{orgId}
+			   and g.is_del = 0
+			   and g.level = 1
+			   AND g.PID=#{pId}
+			 ORDER BY  CONVERT( g.GROUP_NAME USING gbk) DESC
+   </select>
+   
+   <!-- 将所属组的资源id置空 -->
+	<update id="updateGroupPid">
+	    update tsm_res_group r set  r.pid= #{pid} where  r.org_id=#{orgId}
+	    and r.res_group_id in 
+	    <foreach collection="groupIds" item="gId" open="(" separator="," close=")">
+			#{gId}
+		</foreach>
+	</update>
+       <!-- 获取单位下所有资源组 -->
+   <select id="findAllGroup" parameterType="string" resultType="String">
+		SELECT
+			g.RES_GROUP_ID
+		FROM
+			tsm_res_group g
+		WHERE
+			g.org_id =#{orgId}
+		AND g.is_del = 0
+		AND g.`LEVEL`=1
+   </select>
+    
+</mapper>

@@ -1,0 +1,81 @@
+/*头部菜单颜色 */
+#nav li:hover{background:#469bff;}
+#nav li ul li:hover{background:#469bff;}
+#nav li a:hover,#nav li ul li a:hover{color:#fff;}
+
+.sty-bgcolor-a{background-color:#469bff;}
+.sty-bgcolor-b{background-color:#f5f6f7;}
+
+.sty-color-a{color:#fff;}
+.sty-color-b{color:#469bff;}
+
+.sty-borcolor-a{border-color:#469bff;}
+.sty-borcolor-b,.sty-borcolor-c td{border-color:#dadbdc;}
+.sty-borcolor-d{border-color:#469bff;}
+.sty-borcolor-e{border-color:#f5f6f7;}
+
+.sty-btna{background-color:#039eea;color:#fff;}
+
+
+.date-picker-wrapper .drp_top-bar .apply-btn:hover,.date-picker-wrapper .drp_top-bar .apply-btn.disabled:hover{background-color:#039eea;color:#fff;}
+
+.hyx-wlm-left-btn .btn-hover{width:145px;height:144px;background-color:#469bff;border-color:#204e84;border-width:1px 1px 1px 1px;border-style:solid;}
+.hyx-wlm-left-btn .btn-hover label{display:inline-block;width:100%;text-align:center;color:#fff;}
+.hyx-wlm-left-btn .btn-hover .a{font-size:22px;margin-top:26px;}
+.hyx-wlm-left-btn .btn-hover .b{font-size:26px;margin-top:31px;}
+
+.hyx-wlm-cent-timeline .timeline .li-hover .left{border-color:#215189;background-color:#469bff;color:#fff;}
+.hyx-wlm-cent-timeline .timeline .li-hover .cir{border-color:#215189;background-color:#469bff;-moz-box-shadow:0 0 1px #215189; -webkit-box-shadow:0 0 1px #215189; box-shadow:0 0 1px #215189;}
+.hyx-wlm-cent-timeline .timeline .li-hover .right{border-color:#469bff;-moz-box-shadow:0 0 1px #83bafb;; -webkit-box-shadow:0 0 1px #83bafb;; box-shadow:0 0 1px #83bafb;}
+.hyx-wlm-cent-timeline .timeline .li-hover .arrow em{color:#187ff8;}
+
+.tree-node-selected{background:#469bff !important;color:#fff  !important;}
+
+.i-dialog .i-target{background:#469bff !important;}
+
+/*----------------------客户管理（我的客户）------------------------*/
+.hyx-cm-right .hyx-cfu-card,.hyx-cm-new{border:solid #469bff 1px;}
+.hyx-cfu-card .more{border-color:#469bff;}
+.hyx-cm-new .top,.hyx-cm-box .tabTagBox li.current span{background-color:#469bff;}
+.hyx-cm-box .tabTagBox{border-right:solid #469bff 1px;}
+.hyx-cm-box .tabTagBox li{border:solid #9b9b9b 1px;border-right:solid #469bff 1px;}
+.hyx-cm-box .tabTagBox li.current{border:solid #469bff 1px;border-right:solid #fff 1px;}
+/*----------------------弹框------------------------*/
+.bomp_mess_right .dd_a:hover{color:#469bff;border:solid #469bff 1px;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;}
+.bomp-amcd .li-click .cir{border-color:#215189;background-color:#469bff;-moz-box-shadow:0 0 1px #215189; -webkit-box-shadow:0 0 1px #215189; box-shadow:0 0 1px #215189;}
+.bomp-amcd .li-click .right{border-color:#469bff;-moz-box-shadow:0 0 1px #83bafb;; -webkit-box-shadow:0 0 1px #83bafb;; box-shadow:0 0 1px #83bafb;}
+.bomp-amcd .li-click .right .arrow em{color:#187ff8;}
+
+
+
+/*-----------------月计划------部门----------*/
+
+	/*-----------------月计划----------*/
+
+.month-anal-chart .hyx-anal-p {border-bottom:2px solid #23a6fe;}
+
+/*-----------------月计划------部门结束----------*/
+
+	/*-----------------月计划结束----------*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

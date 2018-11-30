@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.email.dao.TsmEmailTempMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.email.bean.TsmEmailTemp" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="context" property="context" jdbcType="VARCHAR" />
+    <result column="input_acc" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="update_acc" property="updateAcc" jdbcType="VARCHAR" />
+    <result column="inputtime" property="inputtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  	<!-- 实体表名 -->
+	<sql id="table_name">sys_email_temp</sql>
+ 
+ 		<!-- 实体条件查询组装 -->
+		<sql id="entity_condition_orderby">
+		  <if test="title != null and title !=''" >
+			  AND title = #{title,jdbcType=VARCHAR}
+		  </if>
+	      <if test="orderKey != null"> 
+			  ORDER BY ${orderKey}
+		  </if>
+  		</sql>
+ 
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="title != null and title != ''" >
+		        title = #{title,jdbcType=VARCHAR},
+		      </if>
+		      <if test="context != null and context != ''" >
+		        context = #{context,jdbcType=VARCHAR},
+		      </if>
+		      <if test="isDel != null" >
+		        IS_DEL = #{isDel},
+		      </if>
+		      <if test="updateAcc != null and updateAcc != ''" >
+		        update_acc = #{updateAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="updatetime != null" >
+		        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+		      </if>
+		</trim>
+	</sql>
+  
+  <sql id="insert_into_field">
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="context != null" >
+        context,
+      </if>
+      <if test="inputtime != null" >
+        inputtime,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="inputAcc != null" >
+        input_acc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+       <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="context != null" >
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="inputtime != null" >
+        #{inputtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=DECIMAL},
+      </if>
+      <if test="inputAcc != null" >
+        #{inputAcc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 批量插入实体对应的字段语句 -->
+  <sql id="Base_Column_List" >
+    id, org_id, title, context, is_del, input_acc, inputtime
+  </sql>
+  <sql id="batch_insert_into_value">
+   (
+   		#{item.id,jdbcType=VARCHAR},
+   		#{item.orgId,jdbcType=VARCHAR},
+   		#{item.title,jdbcType=VARCHAR},
+   		#{item.context,jdbcType=VARCHAR},
+   		#{item.isDel,jdbcType=DECIMAL},
+   		#{item.inputAcc,jdbcType=VARCHAR},  		
+   		#{item.inputtime,jdbcType=TIMESTAMP}  		
+   		)
+  </sql>
+  
+  <!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where  ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.email.bean.TsmEmailTemp">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.email.bean.TsmEmailTemp">
+		update <include refid="table_name"/>
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.email.bean.TsmEmailTemp">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  ORG_ID = #{orgId} and id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete <include refid="table_name"/> where id = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<update id="deleteBatchBy" parameterType="Map">
+		update <include refid="table_name"/> set IS_DEL=1 where  ORG_ID = #{orgId} and id in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</update>
+
+</mapper>

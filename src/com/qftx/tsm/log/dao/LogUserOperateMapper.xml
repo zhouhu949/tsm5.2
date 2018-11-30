@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.log.dao.LogUserOperateMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.log.bean.LogUserOperateBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR" /> <!-- 操作人 -->
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" /> <!-- 操作人姓名 -->
+		<result column="INPUTTIME" property="inputTime" jdbcType="TIMESTAMP" /> <!-- 操作时间 -->
+		<result column="MODULE_ID" property="moduleId" jdbcType="VARCHAR" /> <!-- 模块id -->
+		<result column="MODULE_NAME" property="moduleName" jdbcType="VARCHAR" /> <!-- 模块名称 -->
+		<result column="OPERATE_ID" property="operateId" jdbcType="VARCHAR" /> <!-- 操作类型id -->
+		<result column="OPERATE_NAME" property="operateName" jdbcType="VARCHAR" /> <!-- 操作名称-->
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" /> <!-- 描述 -->
+		<result column="SYSTEM_OPERATE_ID" property="systemOperateId" jdbcType="VARCHAR" /> <!-- 系统操作id，销售管理记录id -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">LOG_USER_OPERATE</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="userName != null and userName !=''">
+		    AND USER_NAME = #{userName,jdbcType=VARCHAR} 
+		</if>
+		<if test="userAccount != null and userAccount !=''">
+		    AND USER_ACCOUNT = #{userAccount,jdbcType=VARCHAR} 
+		</if>
+		<if test="moduleId != null and moduleId !=''">
+		    AND MODULE_ID = #{moduleId,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="operateId != null and operateId !=''">
+		    AND OPERATE_ID = #{operateId,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    ID,
+			</if>
+			<if test="orgId != null" >
+			    ORG_ID,
+			</if>
+			<if test="userAccount != null" >
+			    USER_ACCOUNT,
+			</if>
+			<if test="userName != null" >
+			    USER_NAME,
+			</if>
+
+			    INPUTTIME,
+
+			<if test="moduleId != null" >
+			    MODULE_ID,
+			</if>
+			<if test="moduleName != null" >
+			    MODULE_NAME,
+			</if>
+			<if test="operateId != null" >
+			    OPERATE_ID,
+			</if>
+			<if test="operateName != null" >
+			    OPERATE_NAME,
+			</if>
+			<if test="content != null" >
+			    CONTENT,
+			</if>
+			<if test="systemOperateId != null" >
+			    SYSTEM_OPERATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userAccount != null">
+			    #{userAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+			    #{userName,jdbcType=VARCHAR},
+			</if>
+			 SYSDATE() ,
+			<if test="moduleId != null">
+			    #{moduleId,jdbcType=VARCHAR},
+			</if>
+			<if test="moduleName != null">
+			    #{moduleName,jdbcType=VARCHAR},
+			</if>
+			<if test="operateId != null">
+			    #{operateId,jdbcType=VARCHAR},
+			</if>
+			<if test="operateName != null">
+			    #{operateName,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+			    #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="systemOperateId != null">
+			    #{systemOperateId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,ORG_ID,USER_ACCOUNT,USER_NAME,INPUTTIME,MODULE_ID,MODULE_NAME,OPERATE_ID,OPERATE_NAME,CONTENT,SYSTEM_OPERATE_ID  
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+
+	<!-- 添加实体 -->
+	<insert id="insertlogUserOperate" parameterType="com.qftx.tsm.log.bean.LogUserOperateBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+		<select id="findlogUserOperateListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.log.dto.DtoLogUserOperateBean">
+		 SELECT 
+		 ID,ORG_ID,USER_ACCOUNT,USER_NAME,INPUTTIME,MODULE_ID,MODULE_NAME,OPERATE_ID,OPERATE_NAME,CONTENT,SYSTEM_OPERATE_ID  
+	     FROM LOG_USER_OPERATE 
+	     WHERE ORG_ID = #{orgId}
+				<if test="ids != null">
+				    AND id IN 
+				    <foreach collection="ids" item="id" open="(" separator="," close=")" index="index">
+				    	#{id} 
+				    </foreach> 
+				</if>
+		 ORDER BY INPUTTIME DESC
+	 </select>
+<!--  
+	<select id="findlogUserOperateListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.log.dto.DtoLogUserOperateBean">
+		 SELECT 
+		 ID,ORG_ID,USER_ACCOUNT,USER_NAME,INPUTTIME,MODULE_ID,MODULE_NAME,OPERATE_ID,OPERATE_NAME,CONTENT,SYSTEM_OPERATE_ID  
+	     FROM LOG_USER_OPERATE 
+	     WHERE ORG_ID = #{orgId}
+				<if test="startDate!=null and startDate!=''">
+		           AND STR_TO_DATE(DATE_FORMAT(INPUTTIME,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{startDate}, '%Y-%m-%d') 	       
+				</if>
+				<if test="endDate!=null and endDate!=''">
+				   AND STR_TO_DATE(DATE_FORMAT(INPUTTIME,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d') 
+				</if>
+				<if test="accounts != null">
+				    AND USER_ACCOUNT IN 
+				    <foreach collection="accounts" item="account" open="(" separator="," close=")" index="index">
+				    	#{account} 
+				    </foreach> 
+				</if>
+				<if test="modules != null">
+				    AND MODULE_ID IN 
+				    <foreach collection="modules" item="module" open="(" separator="," close=")" index="index">
+				    	#{module} 
+				    </foreach> 
+				</if>
+				<if test="queryText != null and queryText != ''">
+					AND USER_NAME LIKE CONCAT('%',#{queryText },'%') 
+				</if>
+				ORDER BY INPUTTIME DESC
+	 </select>
+	 -->
+	 	 <select id="findlogUserOperateCount" resultType="Integer" parameterType="com.qftx.tsm.log.dto.DtoLogUserOperateBean">
+		 SELECT 
+		 COUNT(ID)
+		 FROM LOG_USER_OPERATE 
+	     WHERE ORG_ID = #{orgId}
+				<if test="startDate!=null and startDate!=''">
+		           AND STR_TO_DATE(DATE_FORMAT(INPUTTIME,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{startDate}, '%Y-%m-%d') 	       
+				</if>
+				<if test="endDate!=null and endDate!=''">
+				   AND STR_TO_DATE(DATE_FORMAT(INPUTTIME,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d') 
+				</if>
+				<if test="accounts != null">
+				    AND USER_ACCOUNT IN 
+				    <foreach collection="accounts" item="account" open="(" separator="," close=")" index="index">
+				    	#{account} 
+				    </foreach> 
+				</if>
+				<if test="modules != null">
+				    AND MODULE_ID IN 
+				    <foreach collection="modules" item="module" open="(" separator="," close=")" index="index">
+				    	#{module} 
+				    </foreach> 
+				</if>
+				<if test="queryText != null and queryText != ''">
+					AND USER_NAME LIKE CONCAT('%',#{queryText },'%') 
+				</if>
+	 </select>
+	 
+	 	<select id="findlogUserOperateIds" resultType="String" parameterType="com.qftx.tsm.log.dto.DtoLogUserOperateBean">
+		 SELECT 
+		 ID
+		 FROM LOG_USER_OPERATE 
+	     WHERE ORG_ID = #{orgId}
+				<if test="startDate!=null and startDate!=''">
+		           AND STR_TO_DATE(DATE_FORMAT(INPUTTIME,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{startDate}, '%Y-%m-%d') 	       
+				</if>
+				<if test="endDate!=null and endDate!=''">
+				   AND STR_TO_DATE(DATE_FORMAT(INPUTTIME,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d') 
+				</if>
+				<if test="accounts != null">
+				    AND USER_ACCOUNT IN 
+				    <foreach collection="accounts" item="account" open="(" separator="," close=")" index="index">
+				    	#{account} 
+				    </foreach> 
+				</if>
+				<if test="modules != null">
+				    AND MODULE_ID IN 
+				    <foreach collection="modules" item="module" open="(" separator="," close=")" index="index">
+				    	#{module} 
+				    </foreach> 
+				</if>
+				<if test="queryText != null and queryText != ''">
+					AND USER_NAME LIKE CONCAT('%',#{queryText },'%') 
+				</if>
+	 </select>
+	 
+	 	<select id="findlogUserOperateData" resultMap="BaseResultMap" parameterType="com.qftx.tsm.log.bean.LogUserOperateBean">
+		 SELECT 
+		 ID,ORG_ID,USER_ACCOUNT,USER_NAME,INPUTTIME,MODULE_ID,MODULE_NAME,OPERATE_ID,OPERATE_NAME,CONTENT,SYSTEM_OPERATE_ID  
+	     FROM LOG_USER_OPERATE 
+	     WHERE 
+	     ORG_ID = #{orgId}
+	     AND id =#{id}
+	 </select>
+</mapper>

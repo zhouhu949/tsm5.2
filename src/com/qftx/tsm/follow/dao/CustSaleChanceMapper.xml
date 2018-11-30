@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.follow.dao.CustSaleChanceMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.follow.bean.CustSaleChanceBean" >
+    <id column="SALE_CHANCE_ID" property="saleChanceId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SALE_CHANCE_NAME" property="saleChanceName" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="THEORY_SIGN_MONEY" property="theorySignMoney" jdbcType="DECIMAL" />
+    <result column="THEORY_SUCCESS_RATE" property="theorySuccessRate" jdbcType="INTEGER" />
+    <result column="THEORY_SIGN_DATE" property="theorySignDate" jdbcType="TIMESTAMP" />
+    <result column="SIGN_PLAN" property="signPlan" jdbcType="VARCHAR" />
+    <result column="RIVAL" property="rival" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="INPUT_DATE" property="inputDate" jdbcType="TIMESTAMP" />
+    <result column="IS_DEL" property="isDel" jdbcType="TIMESTAMP" />
+    <result column="IS_FOLLOW" property="isFollow" jdbcType="TIMESTAMP" />
+    <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="DtoResultMap" type="com.qftx.tsm.follow.dto.CustSaleChanceDto" extends="BaseResultMap">
+		<result column="RES_CUST_ID" property="resCustId" jdbcType="VARCHAR" />
+		<result column="NAME" property="custName" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="COMPANY" property="company" jdbcType="VARCHAR" />
+		<result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR" />
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="DECIMAL" />
+		<result column="LAST_CUST_FOLLOW_ID" property="followId" jdbcType="VARCHAR" />
+	</resultMap>
+  
+  <!-- 实体表名 -->
+  <sql id="table_name">TSM_SALE_CHANCE</sql>
+  
+  <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="saleChanceId != null and saleChanceId !=''">
+			and SALE_CHANCE_ID = #{saleChanceId,jdbcType=VARCHAR}
+		</if>
+		<if test="orgId != null and orgId !=''">
+			and ORG_ID = #{orgId,jdbcType=VARCHAR}
+		</if>
+		<if test="saleChanceName != null and saleChanceName !=''">
+			and SALE_CHANCE_NAME = #{saleChanceName,jdbcType=VARCHAR}
+		</if>
+		<if test="custId != null and custId !=''">
+			and CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="theorySignMoney != null and theorySignMoney !=''">
+		    AND THEORY_SIGN_MONEY = #{theorySignMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="theorySuccessRate != null">
+			and THEORY_SUCCESS_RATE = #{theorySuccessRate,jdbcType=DECIMAL}
+		</if>
+		<if test="theorySignDate != null ">
+			and THEORY_SIGN_DATE = #{theorySignDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="signPlan != null and signPlan !=''">
+			and SIGN_PLAN = #{signPlan,jdbcType=VARCHAR}
+		</if>
+		<if test="rival != null and rival !=''">
+			and RIVAL = #{rival,jdbcType=VARCHAR}
+		</if>
+		<if test="remark != null and remark !=''">
+			and REMARK = #{remark,jdbcType=VARCHAR}
+		</if>
+		<if test="updateDate != null ">
+			and UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="inputDate != null ">
+			and INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null">
+			and IS_DEL = #{isDel,jdbcType=DECIMAL}
+		</if>
+		<if test="isFollow != null">
+			and IS_FOLLOW = #{isFollow,jdbcType=DECIMAL}
+		</if>
+		<if test="inputAcc != null">
+			and INPUT_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="orderKey != null and orderKey != ''">
+			order by ${orderKey}
+		</if>
+	</sql>
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		<!-- <if test="saleChanceId != null and saleChanceId !=''">
+			SALE_CHANCE_ID = #{saleChanceId,jdbcType=VARCHAR},
+		</if>
+		<if test="orgId != null and orgId !=''">
+			ORG_ID = #{orgId,jdbcType=VARCHAR},
+		</if> -->
+		<if test="saleChanceName != null and saleChanceName !=''">
+			SALE_CHANCE_NAME = #{saleChanceName,jdbcType=VARCHAR},
+		</if>
+		<if test="custId != null and custId !=''">
+			CUST_ID = #{custId,jdbcType=VARCHAR},
+		</if>
+		<if test="theorySignMoney != null and theorySignMoney !=''">
+		    THEORY_SIGN_MONEY = #{theorySignMoney,jdbcType=DECIMAL} ,
+		</if>
+		<if test="theorySuccessRate != null">
+			THEORY_SUCCESS_RATE = #{theorySuccessRate,jdbcType=DECIMAL},
+		</if>
+		<if test="theorySignDate != null ">
+			THEORY_SIGN_DATE = #{theorySignDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="signPlan != null and signPlan !=''">
+			SIGN_PLAN = #{signPlan,jdbcType=VARCHAR},
+		</if>
+		<if test="rival != null and rival !=''">
+			RIVAL = #{rival,jdbcType=VARCHAR},
+		</if>
+		<if test="remark != null and remark !=''">
+			REMARK = #{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="updateDate != null ">
+			UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="inputDate != null ">
+			INPUT_DATE = #{inputDate,jdbcType=TIMESTAMP},
+		</if>
+		<if test="isDel != null">
+			IS_DEL = #{isDel,jdbcType=DECIMAL},
+		</if>
+		<if test="isFollow != null">
+			IS_FOLLOW = #{isFollow,jdbcType=DECIMAL},
+		</if>
+		<if test="inputAcc != null">
+			INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+		</if>
+		</trim>
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="saleChanceId != null and saleChanceId !=''">
+				SALE_CHANCE_ID,
+			</if>
+			<if test="orgId != null and orgId !=''">
+				ORG_ID,
+			</if>
+			<if test="saleChanceName != null and saleChanceName !=''">
+				SALE_CHANCE_NAME,
+			</if>
+			<if test="custId != null and custId !=''">
+				CUST_ID,
+			</if>
+			<if test="theorySignMoney != null and theorySignMoney !=''">
+			    THEORY_SIGN_MONEY,
+			</if>
+			<if test="theorySuccessRate != null">
+				THEORY_SUCCESS_RATE,
+			</if>
+			<if test="theorySignDate != null ">
+				THEORY_SIGN_DATE,
+			</if>
+			<if test="signPlan != null and signPlan !=''">
+				SIGN_PLAN,
+			</if>
+			<if test="rival != null and rival !=''">
+				RIVAL,
+			</if>
+			<if test="remark != null and remark !=''">
+				REMARK,
+			</if>
+			<if test="updateDate != null ">
+				UPDATE_DATE,
+			</if>
+			<if test="inputDate != null ">
+				INPUT_DATE,
+			</if>
+			<if test="isDel != null">
+				IS_DEL,
+			</if>
+			<if test="isFollow != null">
+				IS_FOLLOW,
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				INPUT_ACC,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="saleChanceId != null and saleChanceId !=''">
+				#{saleChanceId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null and orgId !=''">
+				#{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="saleChanceName != null and saleChanceName !=''">
+				#{saleChanceName,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null and custId !=''">
+				#{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="theorySignMoney != null and theorySignMoney !=''">
+			    #{theorySignMoney,jdbcType=DECIMAL} ,
+			</if>
+			<if test="theorySuccessRate != null">
+				#{theorySuccessRate,jdbcType=DECIMAL},
+			</if>
+			<if test="theorySignDate != null ">
+				#{theorySignDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="signPlan != null and signPlan !=''">
+				#{signPlan,jdbcType=VARCHAR},
+			</if>
+			<if test="rival != null and rival !=''">
+				#{rival,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null and remark !=''">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="updateDate != null ">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputDate != null ">
+				#{inputDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+				#{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="isFollow != null">
+				#{isFollow,jdbcType=DECIMAL},
+			</if>
+			<if test="inputAcc != null and inputAcc !=''">
+				#{inputAcc,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		SALE_CHANCE_ID,ORG_ID,SALE_CHANCE_NAME,CUST_ID,THEORY_SIGN_MONEY,THEORY_SUCCESS_RATE,
+		THEORY_SIGN_DATE,SIGN_PLAN,RIVAL,REMARK,UPDATE_DATE,IS_DEL,IS_FOLLOW,INPUT_DATE,INPUT_ACC
+	</sql>
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where SALE_CHANCE_ID = #{saleChanceId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+	
+	
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.follow.bean.CustSaleChanceBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.follow.bean.CustSaleChanceBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} and SALE_CHANCE_ID = #{saleChanceId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.follow.bean.CustSaleChanceBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID = #{orgId,jdbcType=VARCHAR} and SALE_CHANCE_ID = #{saleChanceId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where SALE_CHANCE_ID = #{saleChanceId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 根据资源IDS 查询资源信息 -->
+	<select id="findResCustsByCustIds"  parameterType="com.qftx.tsm.follow.dto.CustSaleChanceDto"  resultMap="DtoResultMap">
+		select
+		trci.RES_CUST_ID,
+		trci.NAME,         	
+		trci.COMPANY,
+		trci.STATUS,
+		trci.type,
+		trci.LAST_CUST_FOLLOW_ID,
+		trci.owner_acc
+		FROM TSM_RES_CUST_INFO trci 
+		WHERE trci.ORG_ID = #{orgId} and trci.IS_DEL = 0
+		 and trci.RES_CUST_ID in
+		<foreach collection="resCustIds" item="custId" open="(" separator="," close=")">
+				#{custId}
+		</foreach>
+	</select>
+	
+	
+	<!-- 分页查询销售机会 -->
+	<select id="queryCustSaleChanceListPage" parameterType="com.qftx.tsm.follow.dto.CustSaleChanceDto"  resultMap="DtoResultMap">
+		select
+		tsc.SALE_CHANCE_ID,tsc.ORG_ID,tsc.SALE_CHANCE_NAME,tsc.CUST_ID,tsc.THEORY_SIGN_MONEY,tsc.THEORY_SUCCESS_RATE,
+		tsc.THEORY_SIGN_DATE,tsc.SIGN_PLAN,tsc.RIVAL,tsc.REMARK,tsc.UPDATE_DATE,tsc.IS_DEL,tsc.IS_FOLLOW,tsc.INPUT_DATE,tsc.INPUT_ACC 
+		from tsm_sale_chance tsc
+		left join tsm_res_cust_info trci on tsc.cust_id = trci.res_cust_id and trci.org_id = #{orgId}
+		where tsc.ORG_ID = #{orgId}
+		and tsc.is_del = 0
+		and trci.is_del = 0
+		<!-- and tsc.cust_id in(
+			select trci.res_cust_id 
+			from tsm_res_cust_info trci -->
+			<!-- where trci.org_id = #{orgId}  -->
+        <if test="queryType == 2 and queryText != null and queryText != ''">
+           	<choose>
+           		<when test="isState != null and isState == 1"><!-- 企业客户 -->
+           			and trci.name like concat('%',#{queryText},'%')
+           		</when>
+           		<when test="isState != null and isState == 0"><!-- 个人客户 -->
+           			and trci.COMPANY like concat('%',#{queryText},'%')
+           		</when>
+           	</choose>
+        </if>
+		<!-- ) -->
+		<choose>
+            <when test="roleType!= null and roleType == 1"><!-- 管理者 拥有查看所管理部门资源的权限 -->                            		                   		
+               	<choose>
+               		<when test="inputAccs != null"> <!-- 有选择指定责任人 -->	                            			
+                		and tsc.INPUT_ACC in
+                		<foreach collection="inputAccs" index="index" item="item" open="(" separator="," close=")">
+							#{item}
+						</foreach>
+		    		</when>
+		   			<otherwise>
+						AND tsc.INPUT_ACC = #{ownerAcc}
+               		</otherwise> 
+               	</choose>                       	
+             </when>
+             <otherwise><!-- 只能查看自己的资源 -->
+                AND tsc.INPUT_ACC = #{ownerAcc}
+             </otherwise>
+        </choose>
+		<if test="queryType == 1 and queryText != null and queryText != ''">
+			and tsc.sale_chance_name like concat('%',#{queryText},'%')
+        </if>
+        <!--  是否作废 -->
+		<if test="isFollow != null">
+			AND tsc.is_follow = #{isFollow}
+		</if>
+        <!--  成功率 -->
+		<if test=" theorySuccessRate != null ">
+			AND tsc.theory_success_rate = #{theorySuccessRate,jdbcType=DECIMAL}
+		</if>
+		<!-- 预计签单时间 -->
+		<if test=" theoryStartSignDate != null and theoryStartSignDate !='' ">
+			AND tsc.theory_sign_date >=str_to_date(#{theoryStartSignDate}, '%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test=" theoryEndSignDate != null and theoryEndSignDate !='' ">
+			AND tsc.theory_sign_date <![CDATA[ <= ]]> str_to_date(#{theoryEndSignDate},'%Y-%m-%d %H:%i:%s')
+		</if>
+		<if test=" orderKey != null and orderKey != '' ">
+				ORDER BY ${orderKey}
+		</if>
+	</select>
+	
+	<update id="delSaleChance" parameterType="com.qftx.tsm.follow.dto.CustSaleChanceDto">
+		update
+		<include refid="table_name" />
+		set is_follow = 1,update_date = #{updateDate}
+		where ORG_ID = #{orgId,jdbcType=VARCHAR}
+		and SALE_CHANCE_ID IN 
+		<foreach collection="saleChanceIds" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<select id="findTodayWillSignMoney" parameterType="map" resultType="java.math.BigDecimal">
+			SELECT
+				IFNULL(SUM(THEORY_SIGN_MONEY),0) THEORY_SIGN_MONEY 
+			FROM
+				TSM_SALE_CHANCE
+			WHERE 
+			 ORG_ID = #{orgId} 
+			AND IS_DEL = 0 
+			AND INPUT_ACC = #{userAccount} 
+			AND THEORY_SIGN_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			AND THEORY_SIGN_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	</select>
+	
+	<resultMap type="map" id="SignMoneyMap">
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR"/>
+		<result column="MONEY" property="money" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<select id="findTodayWillSignMoneyByAccs" parameterType="map" resultMap="SignMoneyMap">
+			SELECT
+				INPUT_ACC,
+				IFNULL(SUM(THEORY_SIGN_MONEY),0) MONEY 
+			FROM
+				TSM_SALE_CHANCE
+			WHERE 
+			 ORG_ID = #{orgId}
+			AND THEORY_SIGN_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			AND THEORY_SIGN_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			AND INPUT_ACC IN 
+			<foreach collection="ownerAccs" item="ownerAcc" open="(" separator="," close=")">
+				#{ownerAcc}
+			</foreach> 
+			GROUP BY INPUT_ACC 
+	</select>
+	
+	<select id="getBySalechanceId" parameterType="com.qftx.tsm.follow.bean.CustSaleChanceBean" resultMap="DtoResultMap">
+		select tsc.*,trci.owner_acc owner_name
+		from tsm_sale_chance tsc
+		left join tsm_res_cust_info trci on tsc.cust_id = trci.res_cust_id and trci.org_id = #{orgId}
+		where tsc.org_id = #{orgId} and tsc.sale_chance_id = #{saleChanceId}
+	</select>
+	
+	
+	<select id="getSaleChanceByCustId" parameterType="com.qftx.tsm.follow.dto.CustSaleChanceDto" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where org_id = #{orgId} 
+		and cust_id = #{custId} 
+		and is_follow = 0
+		and is_del = 0
+		<choose>
+            <when test="roleType!= null and roleType == 1"><!-- 管理者 拥有查看所管理部门资源的权限 -->                            		                   		
+               	<choose>
+               		<when test="inputAccs != null"> <!-- 有选择指定责任人 -->	                            			
+                		and INPUT_ACC in
+                		<foreach collection="inputAccs" index="index" item="item" open="(" separator="," close=")">
+							#{item}
+						</foreach>
+		    		</when>
+		   			<otherwise>
+						AND INPUT_ACC = #{ownerAcc}
+               		</otherwise> 
+               	</choose>                       	
+             </when>
+             <otherwise><!-- 只能查看自己的资源 -->
+                AND INPUT_ACC = #{ownerAcc}
+             </otherwise>
+        </choose>
+	</select>
+	
+	<update id="updateIsDelByCustIds" parameterType="map">
+		update
+		<include refid="table_name" />
+		set is_follow = 1,update_date = NOW() 
+		where ORG_ID = #{orgId}
+		and CUST_ID IN 
+		<foreach collection="custIds" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+</mapper>

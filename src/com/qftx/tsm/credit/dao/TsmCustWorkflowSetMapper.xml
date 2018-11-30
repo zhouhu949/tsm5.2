@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.credit.dao.TsmCustWorkflowSetMapper">
+	<sql id="cols">
+		t.workflow_id,t.workflow_name,t.workflow_describe,t.org_id,t.type,t.audit_num,t.auditor_acc1,t.auditor_acc2,t.auditor_acc3,t.inputer_acc,t.inputtime
+	</sql>
+	
+	<sql id="tableName">
+		tsm_cust_workflow_set
+	</sql>
+
+	<sql id="setSql">
+		<set>
+			<if test="workflowName != null">workflow_name = #{workflowName},</if>
+			<if test="workflowDescribe != null">workflow_describe = #{workflowDescribe},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="auditNum != null">audit_num = #{auditNum},</if>
+			<if test="auditorAcc1 != null">auditor_acc1 = #{auditorAcc1},</if>
+			<if test="auditorAcc2 != null">auditor_acc2 = #{auditorAcc2},</if>
+			<if test="auditorAcc3 != null">auditor_acc3 = #{auditorAcc3},</if>
+			<if test="inputerAcc != null">inputer_acc = #{inputerAcc},</if>
+			<if test="inputtime != null">inputtime = #{inputtime},</if>
+		</set>
+	</sql>
+	
+		<sql id="setSql2">
+		<set>
+			<if test="workflowName != null">workflow_name = #{workflowName},</if>
+			<if test="workflowDescribe != null">workflow_describe = #{workflowDescribe},</if>
+			<if test="type != null">type = #{type},</if>
+			<if test="auditNum != null">audit_num = #{auditNum},</if>
+			<if test="auditorAcc1 != null">auditor_acc1 = #{auditorAcc1},</if>
+			<if test="auditorAcc1 == null">auditor_acc1 = NULL,</if>
+			<if test="auditorAcc2 != null">auditor_acc2 = #{auditorAcc2},</if>
+			<if test="auditorAcc2 == null">auditor_acc2 = NULL,</if>
+			<if test="auditorAcc3 != null">auditor_acc3 = #{auditorAcc3},</if>
+			<if test="auditorAcc3 == null">auditor_acc3 = NULL,</if>
+			<if test="inputerAcc != null">inputer_acc = #{inputerAcc},</if>
+			<if test="inputtime != null">inputtime = #{inputtime},</if>
+		</set>
+	</sql>
+	
+	<sql id="whereSql">
+		<if test="orgId != null and orgId != ''">and t.org_id = #{orgId}</if>
+		<if test="workflowId != null and workflowId != ''">and t.workflow_id = #{workflowId}</if>
+		<if test="workflowName != null and workflowName != ''">and t.workflow_name = #{workflowName}</if>
+		<if test="workflowDescribe != null and workflowDescribe != ''">and t.workflow_describe = #{workflowDescribe}</if>
+		<if test="type != null">and t.type = #{type}</if>
+		<if test="auditNum != null">and t.audit_num = #{auditNum}</if>
+		<if test="auditorAcc1 != null and auditorAcc1 != ''">and t.auditor_acc1 = #{auditorAcc1}</if>
+		<if test="auditorAcc2 != null and auditorAcc2 != ''">and t.auditor_acc2 = #{auditorAcc2}</if>
+		<if test="auditorAcc3 != null and auditorAcc3 != ''">and t.auditor_acc3 = #{auditorAcc3}</if>
+		<if test="inputerAcc != null and inputerAcc != ''">and t.inputer_acc = #{inputerAcc}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+	</sql>
+	
+	<resultMap type="com.qftx.tsm.credit.bean.TsmCustWorkflowSetBean" id="TsmCustWorkflowSetMap">
+		<id column="workflow_id" property="workflowId"/>
+		<result column="workflow_name" property="workflowName"/>
+		<result column="workflow_describe" property="workflowDescribe"/>
+		<result column="org_id" property="orgId"/>
+		<result column="type" property="type"/>
+		<result column="audit_num" property="auditNum"/>
+		<result column="auditor_acc1" property="auditorAcc1"/>
+		<result column="auditor_acc2" property="auditorAcc2"/>
+		<result column="auditor_acc3" property="auditorAcc3"/>
+		<result column="inputer_acc" property="inputerAcc"/>
+		<result column="inputtime" property="inputtime"/>
+	</resultMap>
+	
+	<!-- 查询全部-->
+	<select id="find" resultMap="TsmCustWorkflowSetMap">
+		select
+		<include refid="cols"/>
+		from <include refid="tableName"/> t
+	</select>
+	
+	<!-- 列表查询-->
+	<select id="findByCondtion" resultMap="TsmCustWorkflowSetMap">
+		select
+		<include refid="cols"/>
+		from <include refid="tableName"/> t
+		where 1=1
+		<include refid="whereSql"/>
+		<if test="orderKey != null and orderKey != ''">order by ${orderKey}</if>
+	</select>
+	
+	
+	<!-- 单个查询-->
+	<select id="getByCondtion" resultMap="TsmCustWorkflowSetMap">
+		select
+		<include refid="cols"/>
+		from <include refid="tableName"/> t
+		where 1=1
+		<include refid="whereSql"/>
+	</select>
+	
+	<!-- 主键查询-->
+	<select id="getByPrimaryKey" resultMap="TsmCustWorkflowSetMap">
+		select
+		<include refid="cols"/>
+		from <include refid="tableName"/> t
+		where 1=1
+		<if test="orgId != null and orgId != ''">and t.org_id = #{orgId}</if>
+		<if test="workflowId != null">and workflow_id = #{workflowId}</if>
+	</select>
+	
+	<!-- 录入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.credit.bean.TsmCustWorkflowSetBean">
+	insert into <include refid="tableName"/>(workflow_id,workflow_name,workflow_describe,org_id,type,audit_num,auditor_acc1,auditor_acc2,auditor_acc3,inputer_acc,inputtime)
+	values(#{workflowId},#{workflowName},#{workflowDescribe},#{orgId},#{type},#{auditNum},#{auditorAcc1},#{auditorAcc2},#{auditorAcc3},#{inputerAcc},#{inputtime})
+	</insert>
+	
+	<!-- 批量录入 -->
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into <include refid="tableName"/>(workflow_id,workflow_name,workflow_describe,org_id,type,audit_num,auditor_acc1,auditor_acc2,auditor_acc3,inputer_acc,inputtime)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.workflowId},#{bean.workflowName},#{bean.workflowDescribe},#{bean.orgId},#{bean.type},#{bean.auditNum},#{bean.auditorAcc1},#{bean.auditorAcc2},#{bean.auditorAcc3},#{bean.inputerAcc},#{bean.inputtime})
+    </foreach>
+    </insert>
+    
+    <!-- 动态更新 -->
+	<update id="update">
+		update <include refid="tableName"/>
+		<include refid="setSql"/>
+		where 1=1
+		<if test="orgId != null and orgId != ''">and org_id = #{orgId}</if>
+		<if test="workflowId != null">and workflow_id = #{workflowId}</if>
+	</update>
+	
+	    <!-- 动态更新 -->
+	<update id="updateWorkset">
+		update <include refid="tableName"/>
+		<include refid="setSql2"/>
+		where 1=1
+		<if test="orgId != null and orgId != ''">and org_id = #{orgId}</if>
+		<if test="workflowId != null">and workflow_id = #{workflowId}</if>
+	</update>
+	
+	<!-- 根据企业id查询-->
+	<select id="getByOrgId" resultMap="TsmCustWorkflowSetMap">
+		select
+		<include refid="cols"/>
+		from <include refid="tableName"/> t
+		where 1=1
+		<if test="orgId != null and orgId != ''">and t.org_id = #{orgId}</if>
+	</select>
+</mapper>

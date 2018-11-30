@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.contract.dao.ContractOrderAuthlogMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.contract.bean.ContractOrderAuthlogBean">
+		<result column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+		<result column="USER_ACC" property="userAcc" jdbcType="VARCHAR" /> <!-- 审核人帐号 -->
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" /> <!-- 审核人 -->
+		<result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" /> <!-- 订单ID -->
+		<result column="AUTH_STATE" property="authState" jdbcType="VARCHAR" /> <!-- 审核状态(2通过，3拒绝) -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 审核备注 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 录入时间 -->
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 册除状态1-删除，0-未删除 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">CONTRACT_ORDER_AUTHLOG</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="userAcc != null and userAcc !=''">
+		    AND user_acc = #{userAcc,jdbcType=VARCHAR} 
+		</if>
+		<if test="userName != null and userName !=''">
+		    AND user_name = #{userName,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderId != null and orderId !=''">
+		    AND order_id = #{orderId,jdbcType=VARCHAR} 
+		</if>
+		<if test="authState != null and authState !=''">
+		    AND auth_state = #{authState,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null and isDel !=''">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		ORDER BY inputtime desc 
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="userAcc != null">
+			    user_acc = #{userAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+			    user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+			    order_id = #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="authState != null">
+			    auth_state = #{authState,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="userAcc != null" >
+			    user_acc,
+			</if>
+			<if test="userName != null" >
+			    user_name,
+			</if>
+			<if test="orderId != null" >
+			    order_id,
+			</if>
+			<if test="authState != null" >
+			    auth_state,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userAcc != null">
+			    #{userAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+			    #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="orderId != null">
+			    #{orderId,jdbcType=VARCHAR},
+			</if>
+			<if test="authState != null">
+			    #{authState,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,USER_ACC,USER_NAME,ORDER_ID,AUTH_STATE,CONTEXT,INPUTTIME,IS_DEL 
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractOrderAuthlogBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractOrderAuthlogBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractOrderAuthlogBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+</mapper>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.ResCustinfoLogMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.ResCustinfoLogBean">
+		<result column="TRCL_ID" property="trclId" jdbcType="VARCHAR" /> <!-- trcl_id -->
+		<result column="SES_ID" property="sesId" jdbcType="VARCHAR" /> <!-- 资源ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" /> <!-- 用户ID -->
+		<result column="NAME" property="name" jdbcType="VARCHAR" /> <!-- 姓名 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 备注内容 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 输入时间 -->
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+		<result column="INPUT_NAME" property="inputName" jdbcType="VARCHAR"/> <!-- 录入人姓名 -->
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 是否删除：0-否，1-是 -->
+		<result column="next_Concat_Time" property="nextConcatTime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+	</resultMap>
+	
+	<!-- 显示联系信息 -->
+	<resultMap id="concatListId" type="com.qftx.tsm.cust.dto.ResCustinfoLogDto" extends="BaseResultMap">
+		<result column="SALE_NAME" property="saleName" jdbcType="VARCHAR" /> <!-- 销售人名称 -->
+		<result column="MAIN_LINKMAN" property="mainLinkman" jdbcType="VARCHAR" /> <!-- 客户主要联系人 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 资源备注（跟进小计） -->
+		<result column="FOLLOW_DATE" property="followDate" jdbcType="TIMESTAMP" /> <!-- 下次跟进时间 -->
+		<result column="OPTION_NAME" property="optionName" jdbcType="VARCHAR" /> <!-- 进程id -->
+		<result column="mark" property="mark" jdbcType="VARCHAR" /> <!-- 1-资源备注-2跟进小计 -->
+	</resultMap>	
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_RES_CUSTINFO_LOG</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="trclId != null and trclId !=''">
+		    AND trcl_id = #{trclId,jdbcType=VARCHAR} 
+		</if>
+		<if test="sesId != null and sesId !=''">
+		    AND ses_id = #{sesId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId != null and userId !=''">
+		    AND user_id = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="name != null and name !=''">
+		    AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="inputName != null and inputName !=''">
+		    AND INPUT_NAME = #{inputName,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null and isDel !=''">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="nextConcatTime != null and nextConcatTime !=''">
+		    AND next_Concat_Time = #{nextConcatTime,jdbcType=TIMESTAMP} 
+		</if>	
+		<if test="orderKey != null and orderKey != ''">
+			ORDER BY ${orderKey }
+		</if>	
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="trclId != null">
+			    trcl_id = #{trclId,jdbcType=VARCHAR},
+			</if>
+			<if test="sesId != null">
+			    ses_id = #{sesId,jdbcType=VARCHAR},
+			</if>
+			<!--<if test="orgId != null">
+			    org_id = #{orgId,jdbcType=VARCHAR},
+			</if>-->
+			<if test="userId != null">
+			    user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputName != null">
+			    INPUT_NAME = #{inputName,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="nextConcatTime != null and nextConcatTime !=''">
+			    next_Concat_Time = #{nextConcatTime,jdbcType=TIMESTAMP} ,
+			</if>			
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="trclId != null" >
+			    trcl_id,
+			</if>
+			<if test="sesId != null" >
+			    ses_id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="userId != null" >
+			    user_id,
+			</if>
+			<if test="name != null" >
+			    name,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="inputName != null">
+			    INPUT_NAME,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+			<if test="nextConcatTime != null" >
+			    next_Concat_Time,
+			</if>			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="trclId != null">
+			    #{trclId,jdbcType=VARCHAR},
+			</if>
+			<if test="sesId != null">
+			    #{sesId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+			    #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputName != null">
+			    #{inputName,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="nextConcatTime != null">
+			    #{nextConcatTime,jdbcType=TIMESTAMP},
+			</if>			
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		 TRCL_ID,SES_ID,ORG_ID,USER_ID,NAME,CONTEXT,INPUTTIME,UPDATETIME,INPUT_NAME,IS_DEL,next_Concat_Time
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where TRCL_ID = #{trclId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getByPrimaryKeyAndOrgId" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID=#{orgId} AND TRCL_ID = #{trclId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.ResCustinfoLogBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.ResCustinfoLogBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where TRCL_ID = #{trclId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.ResCustinfoLogBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where TRCL_ID = #{trclId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where TRCL_ID = #{trclId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteCustLogs" parameterType="map">
+		delete from <include refid="table_name" /> where org_id = #{orgId} 
+			and  ses_id in 
+			<foreach collection="custIds" item="custId" open="(" separator="," close=")">
+				#{custId}
+			</foreach>
+	</delete>
+	
+	<!-- 获取最新一条-->
+	<select id="findTopConcat" parameterType="map" resultType="map">
+
+				SELECT
+					a.context, date_format(next_concat_time,'%Y-%m-%d %H:%i:%s')  as nextConcatTime
+				FROM
+					tsm_res_custinfo_log a
+				WHERE
+					a.org_id = #{orgId}
+				AND a.ses_id =#{custId}
+				AND a.is_del = 0
+				ORDER BY
+					a.inputtime DESC
+				LIMIT 0,
+				 1
+	</select>	
+    <!-- 总资源备注数量 -->
+	<select id="findTotalLog" parameterType="map" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			tsm_res_custinfo_log a
+		WHERE
+			a.org_id = #{orgId}
+		AND a.ses_id =#{custId}
+		AND a.is_del = 0
+	</select>	
+	
+		<select id="findRemarkList" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			t.context,
+			t.inputtime,
+			t.next_concat_time
+		FROM
+			TSM_RES_CUSTINFO_LOG t
+		WHERE
+			t.org_id = #{orgId}
+		AND t.ses_id = #{id}	 order by     inputtime  desc 
+</select>
+</mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.cust.dao.TaoTagMapper">
+
+	<!-- 基础结果集 -->
+	<resultMap type="com.qftx.tsm.cust.bean.TaoTagBean" id="BaseResultMap">
+		<id column="ACCOUNT" property="account" jdbcType="VARCHAR" />
+		<result column="GROUPID" property="groupId" jdbcType="VARCHAR" />
+		<result column="ORDERTYPE" property="orderType" jdbcType="VARCHAR" />
+		<result column="RESOURCEID" property="resourceId" jdbcType="VARCHAR" />
+		<result column="is_concat" property="isConcat" jdbcType="DECIMAL" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_TAO_TAG</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="account != null and account!=''">
+			and account = #{account,jdbcType=VARCHAR}
+		</if>
+		<if test="groupId != null and groupId !=''">
+			and groupId = #{groupId,jdbcType=VARCHAR}
+		</if>
+		<if test="orderType != null and orderType !=''">
+			and orderType = #{orderType,jdbcType=VARCHAR}
+		</if>
+		<if test="resourceId != null and resourceId !=''">
+			and resourceId = #{resourceId,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="account != null and account!=''">
+				account = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null and groupId!=''">
+				groupId = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null and orderType!=''">
+				orderType = #{orderType,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceId != null">
+				resourceId = #{resourceId,jdbcType=VARCHAR},
+			</if>
+			<if test="isConcat != null and isConcat!=''">
+				is_Concat = #{isConcat,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="account != null and account!=''">
+				account,
+			</if>
+			<if test="groupId != null and groupId!=''">
+				groupId,
+			</if>
+			<if test="orderType != null and orderType!=''">
+				orderType,
+			</if>
+			<if test="resourceId != null and resourceId!=''">
+				resourceId,
+			</if>
+			<if test="isConcat != null and isConcat!=''">
+				is_Concat,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="account != null and account!=''">
+				#{account,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null and groupId!=''">
+				#{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null and orderType!=''">
+				#{orderType,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceId != null and resourceId!=''">
+				#{resourceId,jdbcType=VARCHAR},
+			</if>
+			<if test="isConcat != null and isConcat!=''">
+				#{isConcat,jdbcType=DECIMAL},
+			</if>
+			<if test="orgId != null">
+				 #{orgId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		account,groupId,orderType,resourceId,is_concat,org_id
+	</sql>
+	<sql id="batch_insert_into_value">
+		select
+		#{item.account,jdbcType=VARCHAR},#{item.groupId,jdbcType=VARCHAR},#{item.orderType,jdbcType=VARCHAR},
+		#{item.resourceId,jdbcType=VARCHAR},#{item.isConcat,jdbcType=DECIMAL},#{item.orgId,jdbcType=VARCHAR}
+		from dual
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where   org_id=#{orgId} and account = #{account}
+		 limit 0,1
+		
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.TaoTagBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into
+		<include refid="table_name" />
+		(
+		<include refid="Base_Column_List" />
+		)
+		<foreach collection="list" item="item" index="index"
+			separator="union all">
+			<include refid="batch_insert_into_value" />
+		</foreach>
+
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.TaoTagBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where account = #{account} and org_id=#{orgID}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.TaoTagBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where RESOURCEID = #{resourceId}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from 
+		<include refid="table_name" />
+		where RESOURCEID = #{resCustId}
+	</delete>
+
+	<!-- 批量删除 -->
+	<update id="deleteBatch" parameterType="map">
+		update
+		<include refid="table_name" />
+		set IS_DEL = 1,UPDATE_ACC =#{updateacc},UPDATE_DATE = now()
+		where
+		RES_CUST_ID in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</update>
+	
+	<!-- 将资源置空 -->
+	<update id="updateResIdByAcc" parameterType="map" >
+	   update tsm_tao_tag t set
+	          t.resourceid = null  where t.account =#{account,jdbcType=VARCHAR} and orgId=#{orgId} limit 0,1
+	</update>
+	
+	<!-- 修改标示 -->
+	<update id="updateTagByAcc" parameterType="com.qftx.tsm.cust.bean.TaoTagBean">
+	    update tsm_tao_tag t set
+	          t.resourceid = #{resourceId}, GROUPID=#{groupId},ordertype=#{orderType},is_concat=#{isConcat} 
+	    where org_Id=#{orgId} and t.account =#{account,jdbcType=VARCHAR} 
+	</update>
+</mapper>

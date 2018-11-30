@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.cust.dao.AllocatRecycleLogBeanMapper">
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.AllocatRecycleLogBean">
+    <id column="RES_OPTOR_ID" jdbcType="VARCHAR" property="resOptorId" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="OPTOR_RES_DATE" jdbcType="TIMESTAMP" property="optorResDate" />
+    <result column="OPTOR_QUANTITY" jdbcType="DECIMAL" property="optorQuantity" />
+    <result column="OPTOER_ACC" jdbcType="VARCHAR" property="optoerAcc" />
+    <result column="OWNER_ACC" jdbcType="VARCHAR" property="ownerAcc" />
+    <result column="OWNER_NAME" jdbcType="VARCHAR" property="ownerName" />
+    <result column="ORG_ID" jdbcType="VARCHAR" property="orgId" />
+    <result column="OPTOER_NAME" jdbcType="VARCHAR" property="optoerName" />
+  </resultMap>
+     <!-- 实体表名 -->
+  <sql id="table_name">TSM_RES_ALLOCATION_RECOVERED</sql>
+
+  <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	  <if test="resOptorId != null and resOptorId != ''" >
+        and RES_OPTOR_ID=#{resOptorId,jdbcType=VARCHAR}
+      </if>
+	  <if test="type != null and type != ''" >
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="optorResDate != null" >
+        and OPTOR_RES_DATE = #{optorResDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="optorQuantity != null and optorQuantity != ''" >
+        and OPTOR_QUANTITY = #{optorQuantity,jdbcType=VARCHAR}
+      </if>
+      <if test="optoerAcc != null and optoerAcc != ''" >
+        and OPTOER_ACC = #{optoerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="ownerAcc != null and ownerAcc != ''" >
+        and OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="ownerName != null and ownerAcc != ''"  >
+        and OWNER_NAME = #{ownerName,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId != null and orgId != ''" >
+        and ORG_ID = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="optoerName != null and optoerName != ''" >
+        and OPTOER_NAME = #{optoerName,jdbcType=VARCHAR}
+      </if>
+	</sql>
+	
+<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+     <if test="resOptorId != null">
+        RES_OPTOR_ID = #{resOptorId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="optorResDate != null">
+        OPTOR_RES_DATE = #{optorResDate,jdbcType=DATE},
+      </if>
+      <if test="optorQuantity != null">
+        OPTOR_QUANTITY = #{optorQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="optoerAcc != null">
+        OPTOER_ACC = #{optoerAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAcc != null">
+        OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerName != null">
+        OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
+      </if>
+     <!-- <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>-->
+      <if test="optoerName != null">
+        OPTOER_NAME = #{optoerName,jdbcType=VARCHAR},
+      </if>
+		</trim>
+	</sql>
+  
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resOptorId != null">
+        RES_OPTOR_ID,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="optorResDate != null">
+        OPTOR_RES_DATE,
+      </if>
+      <if test="optorQuantity != null">
+        OPTOR_QUANTITY,
+      </if>
+      <if test="optoerAcc != null">
+        OPTOER_ACC,
+      </if>
+      <if test="ownerAcc != null">
+        OWNER_ACC,
+      </if>
+      <if test="ownerName != null">
+        OWNER_NAME,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="optoerName != null">
+        OPTOER_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resOptorId != null">
+        #{resOptorId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="optorResDate != null">
+        #{optorResDate,jdbcType=DATE},
+      </if>
+      <if test="optorQuantity != null">
+        #{optorQuantity,jdbcType=DECIMAL},
+      </if>
+      <if test="optoerAcc != null">
+        #{optoerAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAcc != null">
+        #{ownerAcc,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerName != null">
+        #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="optoerName != null">
+        #{optoerName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+	</sql>
+	
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	  <sql id="Base_Column_List">
+	    RES_OPTOR_ID, TYPE, OPTOR_RES_DATE, OPTOR_QUANTITY, OPTOER_ACC, OWNER_ACC, OWNER_NAME, 
+	    ORG_ID, OPTOER_NAME
+	  </sql>
+	<sql id="batch_insert_into_value">
+	      (#{item.resOptorId,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, #{item.optorResDate,jdbcType=TIMESTAMP}, 
+             #{item.optorQuantity,jdbcType=DECIMAL}, #{item.optoerAcc,jdbcType=VARCHAR}, #{item.ownerAcc,jdbcType=VARCHAR}, 
+             #{item.ownerName,jdbcType=VARCHAR}, #{item.orgId,jdbcType=VARCHAR}, #{item.optoerName,jdbcType=VARCHAR})
+	</sql>
+	
+	
+	<!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where RES_OPTOR_ID =  #{resOptorId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.AllocatRecycleLogBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.AllocatRecycleLogBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  RES_OPTOR_ID =  #{resOptorId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.AllocatRecycleLogBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where  RES_OPTOR_ID =  #{resOptorId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete <include refid="table_name"/> where  RES_OPTOR_ID =  #{resOptorId,jdbcType=VARCHAR}
+	</delete>
+	
+</mapper>

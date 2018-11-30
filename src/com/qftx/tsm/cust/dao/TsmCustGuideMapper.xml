@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.TsmCustGuideMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.TsmCustGuide" >
+    <id column="CUST_GUIDE_ID" property="custGuideId" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="CUST_TYPE_ID" property="custTypeId" jdbcType="VARCHAR" />
+    <result column="SALE_PROCESS_ID" property="saleProcessId" jdbcType="VARCHAR" />
+    <result column="EXPECT_DATE" property="expectDate" jdbcType="TIMESTAMP" />
+    <result column="EXPECT_SALE" property="expectSale" jdbcType="DECIMAL" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="CUST_INTEREST" property="custInterest" jdbcType="VARCHAR" />
+    <result column="CUST_ARGUE" property="custArgue" jdbcType="VARCHAR" />
+    <result column="COMPETITOR" property="competitor" jdbcType="VARCHAR" />
+    <result column="SALE_WAY" property="saleWay" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="OTHER_PROD" property="otherProd" jdbcType="VARCHAR" />
+    <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+   <!-- 实体表名 -->
+  <sql id="table_name">TSM_CUST_GUIDE</sql>
+  
+
+ <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	  <if test="custGuideId != null and custGuideId != ''" >
+		and CUST_GUIDE_ID = #{custGuideId,jdbcType=VARCHAR}
+	   </if>
+	  <if test="custId != null and custId != ''" >
+        and CUST_ID = #{custId,jdbcType=VARCHAR}
+      </if>
+      <if test="custTypeId != null and custTypeId != ''" >
+        and CUST_TYPE_ID = #{custTypeId,jdbcType=VARCHAR}
+      </if>
+      <if test="saleProcessId != null and saleProcessId != ''" >
+        and SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+      </if>
+      <if test="expectDate != null" >
+        and EXPECT_DATE = #{expectDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="expectSale != null and expectSale != ''" >
+        and EXPECT_SALE = #{expectSale,jdbcType=DECIMAL}
+      </if>
+      <if test="custInterest != null and custInterest != ''" >
+        and CUST_INTEREST = #{custInterest,jdbcType=VARCHAR}
+      </if>
+      <if test="custArgue != null and custArgue != ''" >
+        and CUST_ARGUE = #{custArgue,jdbcType=VARCHAR}
+      </if>
+      <if test="competitor != null and competitor != ''" >
+        and COMPETITOR = #{competitor,jdbcType=VARCHAR}
+      </if>
+      <if test="saleWay != null and saleWay != ''" >
+        and SALE_WAY = #{saleWay,jdbcType=VARCHAR}
+      </if>
+      <if test="remark != null and remark != ''" >
+        and REMARK = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="otherProd != null and otherProd != ''" >
+        and OTHER_PROD = #{otherProd,jdbcType=VARCHAR}
+      </if>
+      <if test="inputerAcc != null and inputerAcc != ''" >
+        and INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="inputdate != null" >
+        and INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="modifierAcc != null and modifierAcc != ''" >
+        and MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="modifydate != null" >
+        and MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+      </if>
+	</sql>
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		      <if test="custId != null and custId != '' " >
+		        CUST_ID = #{custId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custTypeId != null and custTypeId != '' " >
+		        CUST_TYPE_ID = #{custTypeId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="saleProcessId != null and saleProcessId != '' " >
+		        SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="expectDate != null" >
+		        EXPECT_DATE = #{expectDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="expectSale != null and expectSale != '' " >
+		        EXPECT_SALE = #{expectSale,jdbcType=DECIMAL},
+		      </if>
+<!-- 		      <if test="orgId != null and orgId != '' " > -->
+<!-- 		        ORG_ID = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 		      </if> -->
+		      <if test="custInterest != null and custInterest != '' " >
+		        CUST_INTEREST = #{custInterest,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custArgue != null and custArgue != '' " >
+		        CUST_ARGUE = #{custArgue,jdbcType=VARCHAR},
+		      </if>
+		      <if test="competitor != null and competitor != '' " >
+		        COMPETITOR = #{competitor,jdbcType=VARCHAR},
+		      </if>
+		      <if test="saleWay != null and saleWay != '' " >
+		        SALE_WAY = #{saleWay,jdbcType=VARCHAR},
+		      </if>
+		      <if test="remark != null and remark != '' " >
+		        REMARK = #{remark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="otherProd != null and otherProd != '' " >
+		        OTHER_PROD = #{otherProd,jdbcType=VARCHAR},
+		      </if>
+		      <if test="inputerAcc != null and inputerAcc != '' " >
+		        INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="inputdate != null" >
+		        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="modifierAcc != null and modifierAcc != '' " >
+		        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="modifydate != null" >
+		        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+		      </if>
+		</trim>
+	</sql>
+  
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			  <if test="custGuideId != null" >
+		        CUST_GUIDE_ID,
+		      </if>
+		      <if test="custId != null" >
+		        CUST_ID,
+		      </if>
+		      <if test="custTypeId != null" >
+		        CUST_TYPE_ID,
+		      </if>
+		      <if test="saleProcessId != null" >
+		        SALE_PROCESS_ID,
+		      </if>
+		      <if test="expectDate != null" >
+		        EXPECT_DATE,
+		      </if>
+		      <if test="expectSale != null" >
+		        EXPECT_SALE,
+		      </if>
+		      <if test="orgId != null" >
+		        ORG_ID,
+		      </if>
+		      <if test="custInterest != null" >
+		        CUST_INTEREST,
+		      </if>
+		      <if test="custArgue != null" >
+		        CUST_ARGUE,
+		      </if>
+		      <if test="competitor != null" >
+		        COMPETITOR,
+		      </if>
+		      <if test="saleWay != null" >
+		        SALE_WAY,
+		      </if>
+		      <if test="remark != null" >
+		        REMARK,
+		      </if>
+		      <if test="otherProd != null" >
+		        OTHER_PROD,
+		      </if>
+		      <if test="inputerAcc != null" >
+		        INPUTER_ACC,
+		      </if>
+		      <if test="inputdate != null" >
+		        INPUTDATE,
+		      </if>
+		      <if test="modifierAcc != null" >
+		        MODIFIER_ACC,
+		      </if>
+		      <if test="modifydate != null" >
+		        MODIFYDATE,
+		      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="custGuideId != null" >
+		        #{custGuideId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custId != null" >
+		        #{custId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custTypeId != null" >
+		        #{custTypeId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="saleProcessId != null" >
+		        #{saleProcessId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="expectDate != null" >
+		        #{expectDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="expectSale != null" >
+		        #{expectSale,jdbcType=DECIMAL},
+		      </if>
+		      <if test="orgId != null" >
+		        #{orgId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custInterest != null" >
+		        #{custInterest,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custArgue != null" >
+		        #{custArgue,jdbcType=VARCHAR},
+		      </if>
+		      <if test="competitor != null" >
+		        #{competitor,jdbcType=VARCHAR},
+		      </if>
+		      <if test="saleWay != null" >
+		        #{saleWay,jdbcType=VARCHAR},
+		      </if>
+		      <if test="remark != null" >
+		        #{remark,jdbcType=VARCHAR},
+		      </if>
+		      <if test="otherProd != null" >
+		        #{otherProd,jdbcType=VARCHAR},
+		      </if>
+		      <if test="inputerAcc != null" >
+		        #{inputerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="inputdate != null" >
+		        #{inputdate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="modifierAcc != null" >
+		        #{modifierAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="modifydate != null" >
+		        #{modifydate,jdbcType=TIMESTAMP},
+		      </if>
+		</trim>
+	</sql>
+	
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	    CUST_GUIDE_ID, CUST_ID, CUST_TYPE_ID, SALE_PROCESS_ID, EXPECT_DATE, EXPECT_SALE, 
+        ORG_ID, CUST_INTEREST, CUST_ARGUE, COMPETITOR, SALE_WAY, REMARK, OTHER_PROD, 
+        INPUTER_ACC, INPUTDATE, MODIFIER_ACC, MODIFYDATE
+  	</sql>
+  	
+	<sql id="batch_insert_into_value">
+		 select 
+		      #{item.custGuideId,jdbcType=VARCHAR}, #{item.custId,jdbcType=VARCHAR}, #{item.custTypeId,jdbcType=VARCHAR}, 
+		      #{item.saleProcessId,jdbcType=VARCHAR}, #{item.expectDate,jdbcType=TIMESTAMP}, #{item.expectSale,jdbcType=DECIMAL}, 
+		      #{item.orgId,jdbcType=VARCHAR}, #{item.custInterest,jdbcType=VARCHAR}, #{item.custArgue,jdbcType=VARCHAR}, 
+		      #{item.competitor,jdbcType=VARCHAR}, #{item.saleWay,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, 
+		      #{item.otherProd,jdbcType=VARCHAR}, #{item.inputerAcc,jdbcType=VARCHAR}, #{item.inputdate,jdbcType=TIMESTAMP}, 
+		      #{item.modifierAcc,jdbcType=VARCHAR}, #{item.modifydate,jdbcType=TIMESTAMP}
+		 from dual
+	</sql>
+	
+	
+ <!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where CUST_GUIDE_ID = #{custGuideId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.TsmCustGuide">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator="union all">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+		
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.TsmCustGuide">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and CUST_GUIDE_ID = #{custGuideId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.TsmCustGuide">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and  CUST_GUIDE_ID = #{custGuideId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where CUST_GUIDE_ID = #{custGuideId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 
+	##################################################################################################
+	#########################客户跟进操作方法 开始。。。。。。。。          ##################################
+	##################################################################################################
+	 -->
+	
+    <resultMap id="BaseResultMapAll" type="com.qftx.tsm.cust.dto.TsmCustGuideDto" extends="BaseResultMap" >
+         <result column="CUSTTYPE_NAME" property="custTypeName" jdbcType="VARCHAR" /> 
+         <result column="SALEPROCESS_NAME" property="saleProcessName" jdbcType="VARCHAR" />      
+	</resultMap>
+	
+	<select id="findCustGuideByCustId" parameterType="com.qftx.tsm.cust.dto.TsmCustGuideDto" resultMap="BaseResultMapAll" >
+			select CUST_GUIDE_ID,CUST_ID,CUST_TYPE_ID,SALE_PROCESS_ID,EXPECT_DATE,
+			       EXPECT_SALE,CUST_INTEREST,CUST_ARGUE,COMPETITOR,SALE_WAY,
+			       REMARK,OTHER_PROD,g.INPUTER_ACC,g.INPUTDATE,g.MODIFIER_ACC,g.MODIFYDATE,
+			       (select o.option_name from tsm_data_optionlist o 
+					  where o.item_code=#{saleProcessCode} and o.org_id=#{orgId}
+			      and SALE_PROCESS_ID=o.optionlist_id) SALEPROCESS_NAME,
+			      (select o.option_name from tsm_data_optionlist o 
+					  where o.item_code=#{custTypeCode} and o.org_id=#{orgId}
+			      and CUST_TYPE_ID=o.optionlist_id) CUSTTYPE_NAME		
+		    from tsm_cust_guide      g  
+		    where  g.org_id = #{orgId} and g.cust_id = #{custId}
+	</select>
+	
+	<delete id="removeByCustId" parameterType="map">
+	        delete from tsm_cust_guide   where cust_id=#{custId} and org_id=#{orgId}
+	</delete>
+	
+	<delete id="deleteCustGuids" parameterType="map">
+		delete from <include refid="table_name" /> where org_id = #{orgId} 
+			and  cust_id in 
+			<foreach collection="custIds" item="custId" open="(" separator="," close=")">
+				#{custId}
+			</foreach>
+	</delete>
+		
+	<update id="updateByCustId" parameterType="com.qftx.tsm.cust.bean.TsmCustGuide">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where cust_id = #{custId,jdbcType=VARCHAR}
+	</update>
+</mapper>

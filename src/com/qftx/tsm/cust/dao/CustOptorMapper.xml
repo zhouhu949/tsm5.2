@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.cust.dao.CustOptorMapper" >
+                                        
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.cust.bean.CustOptorBean" >
+    <id column="CUST_OPTOR_ID" property="custOptorId" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="DECIMAL" />
+    <result column="TRANSFER_ACC" property="transferAcc" jdbcType="VARCHAR" />
+    <result column="TRANSFERED_ACC" property="transferedAcc" jdbcType="VARCHAR" />
+    <result column="SALE_PROCESS_ID" property="saleProcessId" jdbcType="VARCHAR" />
+    <result column="OPTOR_RES_DATE" property="optorResDate" jdbcType="TIMESTAMP" />
+    <result column="OPTOER_ACC" property="optoerAcc" jdbcType="VARCHAR" />
+    <result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" />
+    <result column="OWNER_NAME" property="ownerName" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <resultMap id="DtoResultMap" type="com.qftx.tsm.cust.dto.CustOptorDto" extends="BaseResultMap">
+  	<result column="OPTION_NAME" property="optionName" jdbcType="VARCHAR" />
+  	<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+  	<result column="NAME" property="custName" jdbcType="VARCHAR" />
+  	<result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR" />
+  	<result column="TELPHONE" property="telphone" jdbcType="VARCHAR" />
+  	<result column="IS_MAJOR" property="isMajor" jdbcType="DECIMAL" />
+  	<result column="TRANSFER_TYPE" property="transferType" jdbcType="INTEGER" />
+  	<result column="OPTOER_NAME" property="optoerName" jdbcType="VARCHAR"/>
+  	<result column="CUST_TYPE_ID" property="custTypeId" jdbcType="VARCHAR" />
+  	<result column="MAIN_LINKMAN" property="mainLinkman" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+   <!-- 实体表名 -->
+  <sql id="table_name">TSM_CUST_OPTOR</sql>
+  
+  <!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+	  <if test="custOptorId != null and custOptorId != ''" >
+        and CUST_OPTOR_ID=#{custOptorId,jdbcType=VARCHAR}
+      </if>
+	  <if test="custId != null and custId != ''" >
+        and CUST_ID = #{custId,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+        and TYPE = #{type,jdbcType=DECIMAL}
+      </if>
+      <if test="transferAcc != null and transferAcc != ''" >
+        and TRANSFER_ACC = #{transferAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="transferedAcc != null and transferedAcc != ''" >
+        and TRANSFERED_ACC = #{transferedAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="saleProcessId != null and saleProcessId != ''" >
+        and SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+      </if>
+      <if test="optorResDate != null" >
+        and OPTOR_RES_DATE = #{optorResDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="optoerAcc != null and optoerAcc != ''" >
+        and OPTOER_ACC = #{optoerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="ownerAcc != null and ownerAcc != ''" >
+        and OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+      </if>
+      <if test="orgId !=null and orgId !=''">
+        and ORG_ID = #{orgId,jdbcType=VARCHAR}
+      </if>
+      <if test="reason != null and reason != ''">
+      	and REASON = #{reason,jdbcType=VARCHAR}
+      </if>
+	</sql>
+	
+	
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			  <if test="custId != null" >
+		        CUST_ID = #{custId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="type != null" >
+		        TYPE = #{type,jdbcType=DECIMAL},
+		      </if>
+		      <if test="transferAcc != null" >
+		        TRANSFER_ACC = #{transferAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="transferedAcc != null" >
+		        TRANSFERED_ACC = #{transferedAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="saleProcessId != null" >
+		        SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="optorResDate != null" >
+		        OPTOR_RES_DATE = #{optorResDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="optoerAcc != null" >
+		        OPTOER_ACC = #{optoerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="ownerAcc != null" >
+		        OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+		      </if>
+		     <!-- <if test="orgId !=null">
+		        ORG_ID = #{orgId,jdbcType=VARCHAR},
+		      </if>-->
+		      <if test="reason != null">
+		      	REASON = #{reason,jdbcType=VARCHAR},
+		      </if>
+		</trim>
+	</sql>
+  
+  
+   <!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			  <if test="custOptorId != null" >
+		        CUST_OPTOR_ID,
+		      </if>
+		      <if test="custId != null" >
+		        CUST_ID,
+		      </if>
+		      <if test="type != null" >
+		        TYPE,
+		      </if>
+		      <if test="transferAcc != null" >
+		        TRANSFER_ACC,
+		      </if>
+		      <if test="transferedAcc != null" >
+		        TRANSFERED_ACC,
+		      </if>
+		      <if test="saleProcessId != null" >
+		        SALE_PROCESS_ID,
+		      </if>
+		      <if test="optorResDate != null" >
+		        OPTOR_RES_DATE,
+		      </if>
+		      <if test="optoerAcc != null" >
+		        OPTOER_ACC,
+		      </if>
+		      <if test="ownerName != null" >
+		        OWNER_NAME,
+		      </if>
+		      <if test="ownerAcc != null" >
+		        OWNER_ACC,
+		      </if>
+		      <if test="orgId !=null">
+		        ORG_ID,
+		      </if>
+		      <if test="reason != null">
+		      	REASON,
+		      </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="custOptorId != null" >
+		        #{custOptorId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="custId != null" >
+		        #{custId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="type != null" >
+		        #{type,jdbcType=DECIMAL},
+		      </if>
+		      <if test="transferAcc != null" >
+		        #{transferAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="transferedAcc != null" >
+		        #{transferedAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="saleProcessId != null" >
+		        #{saleProcessId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="optorResDate != null" >
+		        #{optorResDate,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="optoerAcc != null" >
+		        #{optoerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="ownerName != null" >
+		        #{ownerName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="ownerAcc != null" >
+		        #{ownerAcc,jdbcType=VARCHAR},
+		      </if>
+		      <if test="orgId !=null">
+		        #{orgId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="reason != null">
+		      	#{reason,jdbcType=VARCHAR},
+		      </if>
+		</trim>
+	</sql>
+	
+	
+	 <!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	     CUST_OPTOR_ID, CUST_ID, TYPE, 
+         TRANSFER_ACC, TRANSFERED_ACC, SALE_PROCESS_ID, 
+         OPTOR_RES_DATE, OPTOER_ACC, OWNER_ACC,ORG_ID,OWNER_NAME,REASON 
+  	</sql>
+	<sql id="batch_insert_into_value">
+		      (#{item.custOptorId,jdbcType=VARCHAR}, #{item.custId,jdbcType=VARCHAR}, #{item.type,jdbcType=DECIMAL}, 
+              #{item.transferAcc,jdbcType=VARCHAR}, #{item.transferedAcc,jdbcType=VARCHAR}, #{item.saleProcessId,jdbcType=VARCHAR}, 
+              #{item.optorResDate,jdbcType=TIMESTAMP}, #{item.optoerAcc,jdbcType=VARCHAR}, #{item.ownerAcc,jdbcType=VARCHAR},
+              #{item.orgId,jdbcType=VARCHAR},#{item.ownerName,jdbcType=VARCHAR},#{item.reason,jdbcType=VARCHAR})
+	</sql>
+	
+	
+	<!-- 
+	##################################################################################################
+	#########################基础定义配置   通用脚本（无需修改，单resultType需要替换）#############
+	##################################################################################################
+	 -->
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>	
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where CUST_OPTOR_ID =  #{custOptorId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+		where 1=1
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.cust.bean.CustOptorBean">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.cust.bean.CustOptorBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where CUST_OPTOR_ID =  #{custOptorId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.cust.bean.CustOptorBean">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where CUST_OPTOR_ID =  #{custOptorId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete <include refid="table_name"/> where CUST_OPTOR_ID = #{custOptorId,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 
+	##################################################################################################
+	#########################客户跟进操作方法 开始。。。。。。。。          ##################################
+	##################################################################################################
+	 -->
+	 <!-- 客户转入 -->
+	 <sql id="findCustIncomeList">
+	 	SELECT 
+	 		   T.OPTOR_RES_DATE,
+		       C.NAME,
+		       C.COMPANY,
+		       C.MOBILEPHONE,
+		       C.TELPHONE,
+		       C.IS_MAJOR,
+		       C.LAST_CUST_TYPE_ID AS CUST_TYPE_ID,
+		       C.OWNER_ACC,
+		       T.SALE_PROCESS_ID,
+		       T.TYPE,
+		       T.OWNER_NAME,<!-- 历史所有人 -->
+		       T.TRANSFER_ACC,<!-- 当前所有人 -->
+		       T.OPTOER_ACC,<!-- 操作人 -->
+		       C.RES_CUST_ID AS CUST_ID,
+<!-- 		       C.MAIN_LINKMAN, -->
+		       T.REASON,
+		       1 AS TRANSFER_TYPE 
+		  FROM (
+		  	SELECT 
+			  	T1.SALE_PROCESS_ID,
+			  	T1.CUST_ID,
+			  	T1.TYPE,
+			    T1.OWNER_NAME,
+			    T1.TRANSFER_ACC,
+			    T1.OPTOER_ACC,
+			    T1.REASON,
+			  	T1.OPTOR_RES_DATE 
+		  	FROM TSM_CUST_OPTOR T1 
+		  	WHERE T1.ORG_ID =#{orgId, jdbcType=VARCHAR} 
+		  	   AND T1.TYPE = 14  
+		  	   <if test="custIds != null and custIds.size() > 0">
+		  	   		AND T1.CUST_ID IN 
+		  	   		<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+		  	   			#{cid} 
+		  	   		</foreach>
+		  	   </if>
+			   <if test="transferAcc != null and transferAcc != ''">
+				   AND T1.TRANSFER_ACC = #{transferAcc, jdbcType=VARCHAR} 
+			   </if>
+			   <if test="shareAcc != null and shareAcc != '' ">
+			   	   AND T1.TRANSFER_ACC IN (SELECT TTGM.MEMBER_ACC
+			          FROM TSM_GROUP_SHAREINFO TGS
+			         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+			            ON   TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and  TTGM.GROUP_ID = TGS.GROUP_ID
+			         WHERE SHARE_ACC = #{shareAcc,jdbcType=VARCHAR}) 
+			   </if>
+			   <if test="ownerAccs != null">
+			   		AND T1.TRANSFER_ACC IN 
+			   		<foreach collection="ownerAccs" item="item" open="(" separator="," close=")" index="index">
+			   			#{item}
+			   		</foreach>
+			   </if>
+			   <if test="startDate != null and startDate != ''">
+					AND  T1.OPTOR_RES_DATE >= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			   </if>
+			   <if test="endDate != null and endDate != ''">
+					AND  T1.OPTOR_RES_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			   </if>
+			   <if test="saleProcessId != null and saleProcessId != ''">
+					AND T1.SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+			   </if>
+		  ) T
+		  LEFT JOIN (
+		  	SELECT 
+		  		C1.RES_CUST_ID,
+		  		C1.NAME,
+			    C1.COMPANY,
+			    C1.MOBILEPHONE,
+			    C1.TELPHONE,
+			    C1.IS_MAJOR,
+			    C1.LAST_CUST_TYPE_ID,
+			    C1.MAIN_LINKMAN,
+			    C1.OWNER_ACC   
+			  	FROM  TSM_RES_CUST_INFO C1 
+			  	WHERE C1.ORG_ID = #{orgId, jdbcType=VARCHAR} 
+			  	AND C1.RES_CUST_ID IN (
+				  	SELECT 
+					  	T1.CUST_ID
+				  	FROM TSM_CUST_OPTOR T1 
+				  	WHERE T1.ORG_ID =#{orgId, jdbcType=VARCHAR} 
+				  	   AND T1.TYPE = 14  
+				  	   <if test="custIds != null and custIds.size() > 0">
+				  	   		AND T1.CUST_ID IN 
+				  	   		<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+				  	   			#{cid} 
+				  	   		</foreach>
+				  	   </if>
+					   <if test="transferAcc != null and transferAcc != ''">
+						   AND T1.TRANSFER_ACC = #{transferAcc, jdbcType=VARCHAR} 
+					   </if>
+					   <if test="shareAcc != null and shareAcc != '' ">
+					   	   AND T1.TRANSFER_ACC IN (SELECT TTGM.MEMBER_ACC
+					          FROM TSM_GROUP_SHAREINFO TGS
+					         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+					            ON   TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and  TTGM.GROUP_ID = TGS.GROUP_ID
+					         WHERE SHARE_ACC = #{shareAcc,jdbcType=VARCHAR}) 
+					   </if>
+					   <if test="ownerAccs != null">
+					   		AND T1.TRANSFER_ACC IN 
+					   		<foreach collection="ownerAccs" item="item" open="(" separator="," close=")" index="index">
+					   			#{item}
+					   		</foreach>
+					   </if>
+					   <if test="startDate != null and startDate != ''">
+							AND  T1.OPTOR_RES_DATE >= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+					   </if>
+					   <if test="endDate != null and endDate != ''">
+							AND  T1.OPTOR_RES_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+					   </if>
+					   <if test="saleProcessId != null and saleProcessId != ''">
+							AND T1.SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+					   </if>
+			  	)
+			  ) C ON T.CUST_ID = C.RES_CUST_ID 
+			  WHERE 1=1 
+			  <if test="queryText != null and queryText != ''"> 
+			  		<choose>
+			  			<when test='queryType != null and queryType== "1"'>
+			  				AND C.NAME LIKE CONCAT('%',#{queryText},'%')
+			  			</when>
+			  			<when test='queryType != null and queryType== "2"'>
+			  				AND C.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%')
+			  			</when>
+			  			<when test='queryType != null and queryType== "3"'>
+			  				AND (C.TELPHONE = #{queryText} OR C.MOBILEPHONE = #{queryText})
+			  			</when>
+			  			<otherwise>
+			  				AND C.COMPANY LIKE CONCAT('%',#{queryText},'%')
+			  			</otherwise>
+			  		</choose>
+			    </if>
+			    <if test="custTypeId != null and custTypeId != ''">
+			   		AND C.LAST_CUST_TYPE_ID = #{custTypeId,jdbcType=VARCHAR} 
+			   </if>
+	 </sql>
+	 <!--  客户转出 -->
+	 <sql id="findCustOutList">
+	 	SELECT T.OPTOR_RES_DATE,
+		       C.NAME,
+		       C.COMPANY,
+		       C.MOBILEPHONE,
+		       C.TELPHONE,
+		       C.IS_MAJOR,
+		       C.LAST_CUST_TYPE_ID AS CUST_TYPE_ID,
+		       C.OWNER_ACC,
+		       T.SALE_PROCESS_ID,
+		       T.TYPE,
+		       T.OWNER_NAME,<!-- 历史所有人 -->
+		       T.TRANSFER_ACC,<!-- 当前所有人 -->
+		       T.OPTOER_ACC,<!-- 操作人 -->
+		       C.RES_CUST_ID AS CUST_ID,
+<!-- 		       C.MAIN_LINKMAN, -->
+		       T.REASON,
+		       2 AS TRANSFER_TYPE 
+		  FROM 
+		  (SELECT 
+		  	T1.SALE_PROCESS_ID,
+		  	T1.CUST_ID,
+		  	T1.TYPE,
+		    T1.OWNER_NAME,
+		    T1.TRANSFER_ACC,
+		    T1.OPTOER_ACC,
+		    T1.REASON,
+		  	T1.OPTOR_RES_DATE 
+		  	FROM TSM_CUST_OPTOR T1 
+		  	WHERE T1.ORG_ID =#{orgId, jdbcType=VARCHAR} 
+		  		<if test="custIds != null and custIds.size() > 0">
+		  	   		AND T1.CUST_ID IN 
+		  	   		<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+		  	   			#{cid} 
+		  	   		</foreach>
+		  	   </if>
+		  		<if test="ownerAcc != null and ownerAcc != ''">
+				   AND T1.OWNER_ACC = #{ownerAcc, jdbcType=VARCHAR} 
+			    </if>
+			   <if test="shareAcc != null and shareAcc != '' ">
+			   	   AND T1.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+			          FROM TSM_GROUP_SHAREINFO TGS
+			         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+			            ON  TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+			         WHERE SHARE_ACC = #{shareAcc,jdbcType=VARCHAR}) 
+			   </if>
+			   <if test="ownerAccs != null">
+			   		AND T1.TRANSFER_ACC IN 
+			   		<foreach collection="ownerAccs" item="item" open="(" separator="," close=")" index="index">
+			   			#{item}
+			   		</foreach>
+			   </if>
+			   <if test="type == null">
+					AND T1.TYPE = 14 
+			   </if>
+			   <if test="type != null">
+					AND T1.TYPE = #{type,jdbcType=DECIMAL}
+			   </if>
+			   <if test="startDate != null and startDate != ''">
+					AND  T1.OPTOR_RES_DATE >= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+			   </if>
+			   <if test="endDate != null and endDate != ''">
+					AND  T1.OPTOR_RES_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+			   </if>
+			   <if test="saleProcessId != null and saleProcessId != ''">
+				AND T1.SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+		   	   </if>
+		  ) T
+		  LEFT JOIN (
+		  	SELECT 
+		  		C1.RES_CUST_ID,
+		  		C1.NAME,
+			    C1.COMPANY,
+			    C1.MOBILEPHONE,
+			    C1.TELPHONE,
+			    C1.IS_MAJOR,
+			    C1.LAST_CUST_TYPE_ID,
+			    C1.MAIN_LINKMAN,
+			    C1.OWNER_ACC   
+			  	FROM  TSM_RES_CUST_INFO C1 
+			  	WHERE C1.ORG_ID = #{orgId, jdbcType=VARCHAR} 
+			  	AND C1.RES_CUST_ID IN (
+			  		SELECT 
+					  	T1.CUST_ID 
+					  	FROM TSM_CUST_OPTOR T1 
+					  	WHERE T1.ORG_ID =#{orgId, jdbcType=VARCHAR} 
+					  		<if test="custIds != null and custIds.size() > 0">
+					  	   		AND T1.CUST_ID IN 
+					  	   		<foreach collection="custIds" item="cid" open="(" separator="," close=")">
+					  	   			#{cid} 
+					  	   		</foreach>
+					  	   </if>
+					  		<if test="ownerAcc != null and ownerAcc != ''">
+							   AND T1.OWNER_ACC = #{ownerAcc, jdbcType=VARCHAR} 
+						    </if>
+						   <if test="shareAcc != null and shareAcc != '' ">
+						   	   AND T1.OWNER_ACC IN (SELECT TTGM.MEMBER_ACC
+						          FROM TSM_GROUP_SHAREINFO TGS
+						         RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM
+						            ON  TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+						         WHERE SHARE_ACC = #{shareAcc,jdbcType=VARCHAR}) 
+						   </if>
+						   <if test="ownerAccs != null">
+						   		AND T1.TRANSFER_ACC IN 
+						   		<foreach collection="ownerAccs" item="item" open="(" separator="," close=")" index="index">
+						   			#{item}
+						   		</foreach>
+						   </if>
+						   <if test="type == null">
+								AND T1.TYPE = 14 
+						   </if>
+						   <if test="type != null">
+								AND T1.TYPE = #{type,jdbcType=DECIMAL}
+						   </if>
+						   <if test="startDate != null and startDate != ''">
+								AND  T1.OPTOR_RES_DATE >= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+						   </if>
+						   <if test="endDate != null and endDate != ''">
+								AND  T1.OPTOR_RES_DATE &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+						   </if>
+						   <if test="saleProcessId != null and saleProcessId != ''">
+							AND T1.SALE_PROCESS_ID = #{saleProcessId,jdbcType=VARCHAR}
+					   	   </if>
+			  	)
+			  ) C ON T.CUST_ID = C.RES_CUST_ID 
+			  WHERE 1=1 
+			  <if test="queryText != null and queryText != ''"> 
+			  		<choose>
+			  			<when test='queryType != null and queryType== "1"'>
+			  				AND C.NAME LIKE CONCAT('%',#{queryText},'%')
+			  			</when>
+			  			<when test='queryType != null and queryType== "2"'>
+			  				AND C.MAIN_LINKMAN LIKE CONCAT('%',#{queryText},'%')
+			  			</when>
+			  			<when test='queryType != null and queryType== "3"'>
+			  				AND (C.TELPHONE = #{queryText} OR C.MOBILEPHONE = #{queryText})
+			  			</when>
+			  			<otherwise>
+			  				AND C.COMPANY LIKE CONCAT('%',#{queryText},'%')
+			  			</otherwise>
+			  		</choose>
+			    </if>
+			    <if test="custTypeId != null and custTypeId != ''">
+			   		AND C.LAST_CUST_TYPE_ID = #{custTypeId,jdbcType=VARCHAR} 
+			   </if>
+	 </sql>
+	 
+	<!-- 客户交接记录 -->
+	 <select id="findCustInOutListPage" resultMap="DtoResultMap" parameterType="com.qftx.tsm.cust.dto.CustOptorDto">
+		<choose>
+			<when test="transferType != null and transferType==1">
+				<include refid="findCustIncomeList"/> 
+				ORDER BY T.OPTOR_RES_DATE DESC,C.RES_CUST_ID DESC
+			</when>
+			<when test="type != null or transferType==2">
+				<include refid="findCustOutList"/>
+				ORDER BY T.OPTOR_RES_DATE DESC,C.RES_CUST_ID DESC
+			</when>
+			<otherwise>
+				SELECT 
+				   W.OPTOR_RES_DATE,
+			       W.NAME,
+			       W.COMPANY,
+			       W.MOBILEPHONE,
+			       W.TELPHONE,
+			       W.IS_MAJOR,
+			       W.CUST_TYPE_ID,
+			       W.OWNER_ACC,
+			       W.SALE_PROCESS_ID,
+			       W.TYPE,
+			       W.OWNER_NAME,<!-- 历史所有人 -->
+			       W.TRANSFER_ACC,<!-- 当前所有人 -->
+			       W.OPTOER_ACC,<!-- 操作人 -->
+			       W.CUST_ID,
+	<!-- 		       C.MAIN_LINKMAN, -->
+			       W.REASON,
+			       W.TRANSFER_TYPE 
+				FROM (<include refid="findCustIncomeList"/>
+				UNION
+				<include refid="findCustOutList"/>) W ORDER BY W.OPTOR_RES_DATE DESC,W.CUST_ID DESC
+			</otherwise>
+		</choose>
+<!-- 		ORDER BY A.OPTOR_RES_DATE DESC -->
+	</select>
+	
+	<!-- 客户转入数信息 -->
+	<select id="findCustIncomeNum" resultType="integer" parameterType="string">
+		SELECT COUNT(1)
+		FROM TSM_CUST_OPTOR T
+		WHERE
+			T.TRANSFER_ACC = #{transferAcc,jdbcType=VARCHAR}
+			AND T.TYPE IN (13,14)
+			AND STR_TO_DATE(DATE_FORMAT(T.OPTOR_RES_DATE, '%Y-%m-%d'),'%Y-%m-%d') = STR_TO_DATE(DATE_FORMAT(NOW(),'%Y-%m-%d'),'%Y-%m-%d')
+	</select>
+	
+	<!-- 客户转出数信息 -->
+	<select id="findCustOutNum" resultType="integer" parameterType="string">
+		SELECT COUNT(1)
+		FROM TSM_CUST_OPTOR T
+		WHERE
+			T.OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR}
+			AND T.TYPE IN (11,12,14)
+	</select>
+	
+	<delete id="deleteCustOptors" parameterType="map">
+		delete <include refid="table_name" /> where org_id = #{orgId} 
+			and  cust_id in 
+			<foreach collection="custIds" item="custId" open="(" separator="," close=")">
+				#{custId}
+			</foreach>
+	</delete>
+</mapper>

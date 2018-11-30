@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.main.dao.MainInfoMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.main.bean.MainInfoBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID编码 -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+		<result column="TYPE" property="type" jdbcType="VARCHAR" /> <!-- 类型(0资源，1意向) -->
+		<result column="ACCOUNT" property="account" jdbcType="VARCHAR" /> <!-- 账户 -->
+		<result column="TOTAL_NUM" property="totalNum" jdbcType="DECIMAL" /> <!-- 总数 -->
+		<result column="SIGN_NUM" property="signNum" jdbcType="DECIMAL" /> <!-- 转签约 -->
+		<result column="CUST_NUM" property="custNum" jdbcType="DECIMAL" /> <!-- 转意向 -->
+		<result column="POOL_NUM" property="poolNum" jdbcType="DECIMAL" /> <!-- 公海池 -->
+		<result column="NO_NUM" property="noNum" jdbcType="DECIMAL" /> <!-- 无进展 -->
+		<result column="CALL_NUM" property="callNum" jdbcType="DECIMAL" /> <!-- 时长 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 录入时间 -->
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" /> <!-- 更新时间 -->
+		<result column="IS_SET" property="isSet" jdbcType="DECIMAL" /> <!-- 录音主机设置：0-未设置，1-设置 -->
+		
+		<result column="dateFmt" property="dateFmt" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="UserContactDTOMap" type="com.qftx.tsm.report.dto.UserContactDTO" extends="BaseResultMap">
+		<result column="will_ID" property="will_id" jdbcType="VARCHAR" /> <!-- ID编码 -->
+		<result column="will_ORG_ID" property="will_orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+		<result column="will_TYPE" property="will_type" jdbcType="VARCHAR" /> <!-- 类型(0资源，1意向) -->
+		<result column="will_ACCOUNT" property="will_account" jdbcType="VARCHAR" /> <!-- 账户 -->
+		<result column="will_TOTAL_NUM" property="will_totalNum" jdbcType="DECIMAL" /> <!-- 总数 -->
+		<result column="will_SIGN_NUM" property="will_signNum" jdbcType="DECIMAL" /> <!-- 转签约 -->
+		<result column="will_CUST_NUM" property="will_custNum" jdbcType="DECIMAL" /> <!-- 转意向 -->
+		<result column="will_POOL_NUM" property="will_poolNum" jdbcType="DECIMAL" /> <!-- 公海池 -->
+		<result column="will_NO_NUM" property="will_noNum" jdbcType="DECIMAL" /> <!-- 无进展 -->
+		<result column="will_CALL_NUM" property="will_callNum" jdbcType="DECIMAL" /> <!-- 时长 -->
+		<result column="will_INPUTTIME" property="will_inputtime" jdbcType="TIMESTAMP" /> <!-- 录入时间 -->
+		<result column="will_UPDATE_DATE" property="will_updateDate" jdbcType="TIMESTAMP" /> <!-- 更新时间 -->
+		<result column="will_IS_SET" property="will_isSet" jdbcType="DECIMAL" /> <!-- 录音主机设置：0-未设置，1-设置 -->
+		
+		<result column="res_planCount" property="resPlanCount" jdbcType="DECIMAL" /> <!-- 录音主机设置：0-未设置，1-设置 -->
+		<result column="res_noContact" property="resNoContact" jdbcType="DECIMAL" /> <!-- 录音主机设置：0-未设置，1-设置 -->
+		<result column="will_planCount" property="willPlanCount" jdbcType="DECIMAL" /> <!-- 录音主机设置：0-未设置，1-设置 -->
+		<result column="will_noContact" property="willNoContact" jdbcType="DECIMAL" /> <!-- 录音主机设置：0-未设置，1-设置 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">TSM_MAIN_INFO</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND ID = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type !=''">
+		    AND TYPE = #{type,jdbcType=VARCHAR} 
+		</if>
+		<if test="account != null and account !=''">
+		    AND ACCOUNT = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="totalNum != null">
+		    AND total_num = #{totalNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="signNum != null">
+		    AND sign_num = #{signNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="custNum != null">
+		    AND cust_num = #{custNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="poolNum != null">
+		    AND pool_num = #{poolNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="noNum != null">
+		    AND no_num = #{noNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="callNum != null">
+		    AND call_num = #{callNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="inputtime != null">
+		    AND DATE_FORMAT(INPUTTIME,'%Y-%m-%d') = DATE_FORMAT(#{inputtime,jdbcType=TIMESTAMP},'%Y-%m-%d')
+		</if>
+		<if test="updateDate != null">
+		    AND UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isSet != null">
+		    AND IS_SET = #{isSet,jdbcType=DECIMAL} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    ID = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    ACCOUNT = #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="totalNum != null">
+			    total_num = #{totalNum,jdbcType=DECIMAL},
+			</if>
+			<if test="signNum != null">
+			    sign_num = #{signNum,jdbcType=DECIMAL},
+			</if>
+			<if test="custNum != null">
+			    cust_num = #{custNum,jdbcType=DECIMAL},
+			</if>
+			<if test="poolNum != null">
+			    pool_num = #{poolNum,jdbcType=DECIMAL},
+			</if>
+			<if test="noNum != null">
+			    no_num = #{noNum,jdbcType=DECIMAL},
+			</if>
+			<if test="callNum != null">
+			    call_num = #{callNum,jdbcType=DECIMAL},
+			</if>
+			<if test="inputtime != null">
+			    INPUTTIME = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+			    UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isSet != null">
+			    IS_SET = #{isSet,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    ID,
+			</if>
+			<if test="orgId != null" >
+			    ORG_ID,
+			</if>
+			<if test="type != null" >
+			    TYPE,
+			</if>
+			<if test="account != null" >
+			    ACCOUNT,
+			</if>
+			<if test="totalNum != null" >
+			    total_num,
+			</if>
+			<if test="signNum != null" >
+			    sign_num,
+			</if>
+			<if test="custNum != null" >
+			    cust_num,
+			</if>
+			<if test="poolNum != null" >
+			    pool_num,
+			</if>
+			<if test="noNum != null" >
+			    no_num,
+			</if>
+			<if test="callNum != null" >
+			    call_num,
+			</if>
+			<if test="inputtime != null" >
+			    INPUTTIME,
+			</if>
+			<if test="updateDate != null" >
+			    UPDATE_DATE,
+			</if>
+			<if test="isSet != null" >
+			    IS_SET,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="account != null">
+			    #{account,jdbcType=VARCHAR},
+			</if>
+			<if test="totalNum != null">
+			    #{totalNum,jdbcType=DECIMAL},
+			</if>
+			<if test="signNum != null">
+			    #{signNum,jdbcType=DECIMAL},
+			</if>
+			<if test="custNum != null">
+			    #{custNum,jdbcType=DECIMAL},
+			</if>
+			<if test="poolNum != null">
+			    #{poolNum,jdbcType=DECIMAL},
+			</if>
+			<if test="noNum != null">
+			    #{noNum,jdbcType=DECIMAL},
+			</if>
+			<if test="callNum != null">
+			    #{callNum,jdbcType=DECIMAL},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+			    #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isSet != null">
+			    #{isSet,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,ORG_ID,TYPE,ACCOUNT,TOTAL_NUM,SIGN_NUM,CUST_NUM,POOL_NUM,NO_NUM,CALL_NUM,INPUTTIME,UPDATE_DATE,IS_SET
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.main.bean.MainInfoBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.main.bean.MainInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.main.bean.MainInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from 
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- 首页查询 -->
+	<select id="findReportData" parameterType="map" resultMap="BaseResultMap">
+		SELECT
+			T.TYPE,
+			SUM(T.TOTAL_NUM) AS TOTAL_NUM,
+			SUM(T.SIGN_NUM) AS SIGN_NUM,
+			SUM(T.CUST_NUM) AS CUST_NUM,
+			SUM(T.POOL_NUM) AS POOL_NUM,
+			SUM(T.NO_NUM) AS NO_NUM,
+			SUM(T.CALL_NUM) AS CALL_NUM 
+		FROM
+			TSM_MAIN_INFO T
+		WHERE
+			T.ORG_ID = #{orgId,jdbcType=VARCHAR}
+		AND	T.ACCOUNT IN 
+		<foreach collection="accs" item="acc" open="(" separator="," close=")">
+			#{acc} 
+		</foreach>
+		AND DATE_FORMAT(T.INPUTTIME, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+		GROUP BY T.TYPE 
+	</select>
+	
+	
+	
+	<!-- 个人统计分析，日统计分析客户-->
+	<select id="findUserWillSignCust" resultMap="UserContactDTOMap">
+		select date_format(t1.INPUTTIME,'${groupKey}') as dateFmt,sum(t1.SIGN_NUM) as SIGN_NUM
+		,sum( case when t1.TYPE=1 then 0 else t1.CUST_NUM end) as CUST_NUM	from tsm_main_info t1 
+		where 1=1
+		<if test="orgId != null and orgId !=''">AND t1.ORG_ID = #{orgId,jdbcType=VARCHAR} </if>
+		<if test="account != null and account !=''"> AND t1.ACCOUNT = #{account,jdbcType=VARCHAR} </if>
+		<if test="fromDate != null">AND t1.INPUTTIME <![CDATA[ >=]]> #{fromDate,jdbcType=TIMESTAMP} </if>
+		<if test="toDate != null">AND t1.INPUTTIME <![CDATA[ <=]]> #{toDate,jdbcType=TIMESTAMP} </if>
+		group by date_format(t1.INPUTTIME,'${groupKey}')
+		order by t1.INPUTTIME
+	</select>
+	
+	<!-- 个人统计分析，销售结果统计-->
+	<select id="findUserContactDTO" resultMap="UserContactDTOMap">
+		select t1.ID,t1.ORG_ID,t1.TYPE,t1.ACCOUNT,t1.TOTAL_NUM,t1.SIGN_NUM,t1.CUST_NUM,t1.POOL_NUM,t1.NO_NUM,t1.CALL_NUM,t1.INPUTTIME,t1.UPDATE_DATE,t1.IS_SET
+		,t2.ID as will_ID,t2.ORG_ID as will_ORG_ID,t2.TYPE as will_TYPE,t2.ACCOUNT as will_ACCOUNT,t2.TOTAL_NUM as will_TOTAL_NUM,t2.SIGN_NUM as will_SIGN_NUM,t2.CUST_NUM as will_CUST_NUM,t2.POOL_NUM as will_POOL_NUM,t2.NO_NUM as will_NO_NUM,t2.CALL_NUM as will_CALL_NUM,t2.INPUTTIME as will_INPUTTIME,t2.UPDATE_DATE as will_UPDATE_DATE,t2.IS_SET as will_IS_SET
+		,tt5.res_planCount,tt5.res_noContact,tt5.will_planCount,tt5.will_noContact
+		from tsm_main_info t1
+		join tsm_main_info t2 on 1=1
+		<if test="orgId != null and orgId !=''">
+		    AND t1.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		    AND t2.ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		and t1.TYPE = 0
+		and t2.TYPE = 1
+		<if test="account != null and account !=''">
+		    AND t1.ACCOUNT = #{account,jdbcType=VARCHAR} 
+		    AND t2.ACCOUNT = #{account,jdbcType=VARCHAR} 
+		</if>
+		<if test="fromDate != null">
+		    AND t1.INPUTTIME <![CDATA[ >=]]> #{fromDate,jdbcType=TIMESTAMP} 
+		    AND t2.INPUTTIME <![CDATA[ >=]]> #{fromDate,jdbcType=TIMESTAMP} 
+		</if>
+		
+		<if test="toDate != null">
+		    AND t1.INPUTTIME <![CDATA[ <=]]> #{toDate,jdbcType=TIMESTAMP} 
+		    AND t2.INPUTTIME <![CDATA[ <=]]> #{toDate,jdbcType=TIMESTAMP} 
+		</if>
+		and date_format(t1.INPUTTIME,'%Y-%m-%d')  = date_format(t2.INPUTTIME,'%Y-%m-%d')
+		<if test="groupId !=null or groupIds!=null">
+			join tsm_team_group_member t3 on 1=1
+			<if test="orgId != null and orgId !=''">AND t3.ORG_ID = #{orgId,jdbcType=VARCHAR} </if>
+			AND t1.ACCOUNT = t3.MEMBER_ACC 
+			<if test="groupId !=null"> and t3.GROUP_ID = #{groupId}</if>
+			<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and(" close=")" separator="or">
+			t3.GROUP_ID = #{gid}
+			</foreach>
+			</if>
+		</if>
+		
+		left join (
+		 select tt.id,tt.plan_date,tt2.res_planCount,tt2.res_noContact,tt4.will_planCount,tt4.will_noContact
+		from plan_userday tt 
+		left join (select tt1.sud_id ,sum(1) as res_planCount, sum(case when tt1.status=0 then 1 else 0 end) as res_noContact from plan_userday_resource tt1  where tt1.org_id=#{orgId} and tt1.is_del=0  group by tt1.sud_id)tt2
+		on tt.id = tt2.sud_id
+		left join (select tt3.sud_id ,sum(1) as will_planCount,sum(case when  tt3.status=0 then 1 else 0 end) as will_noContact from plan_userday_willcust tt3 where tt3.org_id=#{orgId} and tt3.is_del=0  group by tt3.sud_id)tt4 
+		on tt.id = tt4.sud_id
+		where tt.org_id=#{orgId} and tt.is_del = 0 
+		<if test="userId != null">and tt.user_id=#{userId}</if>
+		<if test="groupId != null">and tt.group_id=#{groupId}</if>
+		<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and(" close=")" separator="or">
+			tt.GROUP_ID = #{gid}
+			</foreach>
+		</if>
+		<if test="fromDate != null">AND tt.plan_date <![CDATA[ >=]]> #{fromDate,jdbcType=TIMESTAMP} </if>
+		<if test="toDate != null">AND tt.plan_date <![CDATA[ <=]]> #{toDate,jdbcType=TIMESTAMP} </if>
+		
+		)tt5
+		on date_format(tt5.plan_date,'%Y-%m-%d')  = date_format(t1.INPUTTIME,'%Y-%m-%d')
+	</select>
+	
+	<resultMap type="com.qftx.tsm.report.dto.TeamTodayContractDto" id="ReportDto" extends="BaseResultMap">
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+		<result column="CONTACT_COUNT" property="contactCount" jdbcType="DECIMAL"/>
+		<result column="NO_ONTRACT_COUNT" property="noContactCount" jdbcType="DECIMAL"/>
+		<result column="PLAN_NUM" property="planNum" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<select id="findTeamTodayContractReport" parameterType="map" resultMap="ReportDto">
+		SELECT
+			W.MEMBER_ACC ACCOUNT,
+			W.USER_NAME,
+			W.GROUP_NAME,
+			IFNULL(Z.CONTACT_COUNT, 0) CONTACT_COUNT,
+			IFNULL(Z.NO_ONTRACT_COUNT, 0) NO_ONTRACT_COUNT,
+			IFNULL(Z.PLAN_NUM, 0) PLAN_NUM,
+			IFNULL(G.SIGN_NUM, 0) SIGN_NUM,
+			IFNULL(G.CALL_NUM, 0) CALL_NUM,
+			IFNULL(G.CUST_NUM, 0) CUST_NUM,
+			IFNULL(G.TOTAL_NUM, 0) TOTAL_NUM,
+			IFNULL(G.POOL_NUM, 0) POOL_NUM,
+			IFNULL(G.NO_NUM, 0) NO_NUM 
+		FROM
+			(
+				SELECT
+					TTGM.MEMBER_ACC,
+					TTGM.USER_ID,
+					IFNULL(
+						AU.USER_NAME,
+						AU.USER_ACCOUNT
+					) USER_NAME,
+					TTG.GROUP_ID,
+					TTG.GROUP_NAME
+				FROM
+					TSM_GROUP_SHAREINFO TGS
+				RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+				LEFT JOIN AUTH_USER AU ON TTGM.MEMBER_ACC = AU.USER_ACCOUNT
+				LEFT JOIN TSM_TEAM_GROUP TTG ON TGS.GROUP_ID = TTG.GROUP_ID
+				WHERE
+					SHARE_ACC = #{userId} 
+				<if test="groupId != null and groupId != ''">
+					AND TTGM.GROUP_ID = #{groupId} 
+				</if>
+				AND AU.USER_ACCOUNT IS NOT NULL
+			) W
+		LEFT JOIN (
+			SELECT
+				PW.USER_ID,
+				COUNT(1) PLAN_NUM,
+				SUM((CASE P.STATUS WHEN 1 THEN 1 ELSE 0 END)) CONTACT_COUNT,
+				SUM((CASE P.STATUS WHEN 0 THEN 1 ELSE 0 END)) NO_ONTRACT_COUNT 
+			FROM 
+				<choose>
+					<when test='type == "0"'>
+						PLAN_USERDAY_RESOURCE P
+					</when>
+					<otherwise>
+						PLAN_USERDAY_WILLCUST P
+					</otherwise>
+				</choose>
+				 LEFT JOIN (
+				SELECT
+					PU.USER_ID,
+					PU.ID
+				FROM
+					PLAN_USERDAY PU
+				WHERE PU.ORG_ID = #{orgId} 
+				AND	DATE_FORMAT(PU.PLAN_DATE, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+				AND PU.USER_ID IN (
+					SELECT
+						TTGM.USER_ID
+					FROM
+						TSM_GROUP_SHAREINFO TGS
+					RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+					WHERE
+						SHARE_ACC = #{userId} 
+					<if test="groupId != null and groupId != ''">
+						AND TTGM.GROUP_ID = #{groupId} 
+					</if>
+				)
+			) PW ON P.SUD_ID = PW.ID 
+			WHERE 
+				P.ORG_ID = #{orgId} 
+			GROUP BY PW.USER_ID 
+		) Z ON W.USER_ID = Z.USER_ID
+		LEFT JOIN (
+			SELECT
+				TMI.ACCOUNT,
+				TMI.CALL_NUM,
+				TMI.CUST_NUM,
+				TMI.TOTAL_NUM,
+				TMI.POOL_NUM,
+				TMI.NO_NUM,
+				TMI.SIGN_NUM
+			FROM
+				TSM_MAIN_INFO TMI
+			WHERE TMI.ORG_ID = #{orgId}  
+				AND TMI.TYPE = #{type}
+				AND DATE_FORMAT(TMI.INPUTTIME, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+		) G ON W.MEMBER_ACC = G.ACCOUNT 
+		ORDER BY W.MEMBER_ACC ASC 		
+	</select>
+</mapper>

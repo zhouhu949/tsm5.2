@@ -1,0 +1,24 @@
+/*日志的弹框*/
+
+
+body, ul, li, div, h1, h2{padding:0;margin:0;}
+ul{list-style:none;}
+a{text-decoration:none;}
+.clr{clear:both;overflow:hidden;height:0;}
+
+/*body{padding:10px 20px 200px;}*/
+.blk{width:400px;position:relative;}
+.blk .head, .blk .head-right, .blk .foot, .blk .foot-right{background:url(../../../images/pop_up_bg.png);overflow:hidden;height:4px;}
+.blk .head{padding-left:4px;}
+.blk .head-right{background-position:right top;}
+.blk .foot{padding-left:4px;background-position:left bottom;_height:3px;}
+.blk .foot-right{background-position:right bottom;*background-position:right;}
+.blk .main{border-left:2px solid #85B6E2;border-right:2px solid #85B6E2;position:relative;background:#fff;}
+
+.t5 .blk .head, .t5 .blk .head-right, .t5 .blk .foot, .t5 .blk .foot-right{background:url(../../../images/pop_up_bg2.png);}
+
+* html .popup_iframe{
+	width:expression(this.previousSibling.style.width);
+	height:expression(this.previousSibling.style.height);
+}
+

@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.credit.dao.CustSearchSetQupaiMapper" >
+
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.CustSearchSet" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ENABLE" property="enable" jdbcType="DECIMAL" />
+    <result column="SEARCH_MODULE" property="searchModule" jdbcType="VARCHAR" />
+    <result column="SEARCH_NAME" property="searchName" jdbcType="VARCHAR" />
+    <result column="IS_QUERY" property="isQuery" jdbcType="DECIMAL" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="INPUTER_ACC" property="inputerAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP"/>
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="SEARCH_CODE" property="searchCode" jdbcType="VARCHAR" />
+    <result column="IS_SHOW" property="isShow" jdbcType="DECIMAL" />
+    <result column="IS_DISABLED" property="isDisabled" jdbcType="DECIMAL" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="DECIMAL" />
+    <result column="IS_FILED_SET" property="isFiledSet" jdbcType="DECIMAL" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+   	<result column="DEVELOP_CODE" property="developCode" jdbcType="VARCHAR" />
+   	<result column="LIST_CODE" property="listCode" jdbcType="VARCHAR" />    	
+  </resultMap>
+  	
+  	
+  <resultMap id="BaseResultDtoMap" type="com.qftx.tsm.sys.dto.SearchSetSortDto" >
+    <result column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="DECIMAL" />
+    <result column="SEARCH_MODULE" property="moduleCode" jdbcType="VARCHAR" />
+    <result column="query_count" property="queryCount" jdbcType="DECIMAL" />
+    
+  </resultMap>
+  	<!-- 实体表名 -->
+	<sql id="table_name">tsm_cust_search_set_qupai</sql>
+	
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		  <if test="id != null" >
+	        AND ID = #{id,jdbcType=VARCHAR}
+	      </if>
+	      <if test="enable != null" >
+	        AND ENABLE = #{enable,jdbcType=DECIMAL}
+	      </if>
+	      <if test="searchModule != null" >
+	        AND SEARCH_MODULE = #{searchModule,jdbcType=VARCHAR}
+	      </if>
+	      <if test="searchName != null" >
+	        AND SEARCH_NAME = #{searchName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="isQuery != null" >
+	        AND IS_QUERY = #{isQuery,jdbcType=DECIMAL}
+	      </if>
+	      <if test="sort != null" >
+	        AND SORT = #{sort,jdbcType=DECIMAL}
+	      </if>
+	      <if test="inputerAcc != null" >
+	        AND INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="inputdate != null" >
+	        AND INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="modifierAcc != null" >
+	        AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+	      </if>
+	      <if test="modifydate != null" >
+	        AND MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+	      </if>
+	      <if test="searchCode != null" >
+	        AND SEARCH_CODE = #{searchCode,jdbcType=VARCHAR}
+	      </if>	   	      
+	      <if test="isShow != null" >
+	        AND IS_SHOW = #{isShow,jdbcType=DECIMAL}
+	      </if>
+	      <if test="isDisabled != null" >
+	        AND IS_DISABLED = #{isDisabled,jdbcType=DECIMAL}
+	      </if>		 	      
+	      <if test="dataType!= null" >
+	        AND DATA_TYPE = #{dataType,jdbcType=DECIMAL}
+	      </if> 	    
+	      <if test="isFiledSet!= null" >
+	        AND IS_FILED_SET = #{isFiledSet,jdbcType=DECIMAL}
+	      </if> 	  
+	      <if test="state!= null" >
+	        AND STATE = #{state,jdbcType=DECIMAL}
+	      </if> 	
+	      <if test="developCode != null" >
+	        AND DEVELOP_CODE = #{developCode,jdbcType=VARCHAR}
+	      </if> 	  
+	       <if test="listCode != null" >
+	        AND LIST_CODE = #{listCode,jdbcType=VARCHAR}
+	      </if>          
+		<if test="orderKey != null"> 
+		  ORDER BY ${orderKey}
+		</if>
+	</sql>
+
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+		  <if test="id != null" >
+	        ID = #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="enable != null" >
+	        ENABLE = #{enable,jdbcType=DECIMAL},
+	      </if>
+	      <if test="searchModule != null" >
+	        SEARCH_MODULE = #{searchModule,jdbcType=VARCHAR},
+	      </if>
+	      <if test="searchName != null" >
+	        SEARCH_NAME = #{searchName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isQuery != null" >
+	        IS_QUERY = #{isQuery,jdbcType=DECIMAL},
+	      </if>
+	      <if test="sort != null" >
+	        SORT = #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC = #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="searchCode != null" >
+	        SEARCH_CODE = #{searchCode,jdbcType=VARCHAR},
+	      </if>	       
+	      <if test="isShow != null" >
+	         IS_SHOW = #{isShow,jdbcType=DECIMAL},
+	      </if>
+	      <if test="isDisabled != null" >
+	         IS_DISABLED = #{isDisabled,jdbcType=DECIMAL},
+	      </if>
+     	  <if test="dataType!= null" >
+	        DATA_TYPE = #{dataType,jdbcType=DECIMAL},
+	      </if> 
+	       <if test="isFiledSet !=null" >
+	        IS_FILED_SET = #{isFiledSet,jdbcType=DECIMAL},
+	      </if> 
+	      <if test="state!= null" >
+	        STATE = #{state,jdbcType=DECIMAL},
+	      </if>
+	      <if test="developCode!= null" >
+	        DEVELOP_CODE = #{developCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="listCode != null" >
+	        LIST_CODE = #{listCode,jdbcType=VARCHAR},
+	      </if>
+		</trim>		
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  <if test="id != null" >
+	        ID,
+	      </if>
+	      <if test="enable != null" >
+	        ENABLE,
+	      </if>
+	      <if test="searchModule != null" >
+	        SEARCH_MODULE,
+	      </if>
+	      <if test="searchName != null" >
+	        SEARCH_NAME,
+	      </if>
+	      <if test="isQuery != null" >
+	        IS_QUERY,
+	      </if>
+	      <if test="sort != null" >
+	        SORT,
+	      </if>
+	      <if test="inputerAcc != null" >
+	        INPUTER_ACC,
+	      </if>
+	      <if test="inputdate != null" >
+	        INPUTDATE,
+	      </if>
+	      <if test="modifierAcc != null" >
+	        MODIFIER_ACC,
+	      </if>
+	      <if test="modifydate != null" >
+	        MODIFYDATE,
+	      </if>
+	      <if test="orgId != null" >
+	        ORG_ID,
+	      </if>
+	      <if test="searchCode != null" >
+	        SEARCH_CODE,
+	      </if>	      	    
+	      <if test="isShow != null" >
+	         IS_SHOW ,
+	      </if>	
+	      <if test="isDisabled != null" >
+	         IS_DISABLED ,
+	      </if>      
+	      <if test="dataType!= null" >
+	         DATA_TYPE,
+	      </if> 
+	      <if test="isFiledSet!= null" >
+	         IS_FILED_SET,
+	      </if> 
+	      <if test="state!= null" >
+	        STATE,
+	      </if>
+	      <if test="developCode!= null" >
+	        DEVELOP_CODE,
+	      </if>
+	      <if test="listCode != null" >
+	        LIST_CODE,
+	      </if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		  <if test="id != null" >
+	        #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="enable != null" >
+	        #{enable,jdbcType=DECIMAL},
+	      </if>
+	      <if test="searchModule != null" >
+	        #{searchModule,jdbcType=VARCHAR},
+	      </if>
+	      <if test="searchName != null" >
+	        #{searchName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isQuery != null" >
+	        #{isQuery,jdbcType=DECIMAL},
+	      </if>
+	      <if test="sort != null" >
+	        #{sort,jdbcType=DECIMAL},
+	      </if>
+	      <if test="inputerAcc != null" >
+	        #{inputerAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inputdate != null" >
+	        #{inputdate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="modifierAcc != null" >
+	        #{modifierAcc,jdbcType=VARCHAR},
+	      </if>
+	      <if test="modifydate != null" >
+	        #{modifydate,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="orgId != null" >
+	        #{orgId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="searchCode != null" >
+	        #{searchCode,jdbcType=VARCHAR},
+	      </if>	          
+	      <if test="isShow != null" >
+	        #{isShow,jdbcType=DECIMAL},
+	      </if>	 
+	      <if test="isDisabled != null" >
+	        #{isDisabled,jdbcType=DECIMAL},
+	      </if>	 
+	      <if test="dataType!= null" >
+	        #{dataType,jdbcType=DECIMAL},
+	      </if>    	
+	      <if test="isFiledSet!= null" >
+	        #{isFiledSet,jdbcType=DECIMAL},
+	      </if>          
+	      <if test="state!= null" >
+	        #{state,jdbcType=DECIMAL},
+	      </if>  
+	      <if test="developCode!= null" >
+	        #{developCode,jdbcType=VARCHAR},
+	      </if>  
+	      <if test="listCode != null" >
+	        #{listCode,jdbcType=VARCHAR},
+	      </if> 
+		</trim>
+	</sql>	    
+	      	      		  
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  ID, ENABLE,SEARCH_MODULE, SEARCH_NAME, IS_QUERY, SORT, INPUTER_ACC, INPUTDATE, MODIFIER_ACC, 
+      MODIFYDATE, ORG_ID,SEARCH_CODE,IS_SHOW,IS_DISABLED,DATA_TYPE,IS_FILED_SET,STATE,DEVELOP_CODE,LIST_CODE
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			  #{item.id,jdbcType=VARCHAR}, #{item.enable,jdbcType=DECIMAL},#{item.searchModule,jdbcType=VARCHAR}, #{item.searchName,jdbcType=VARCHAR}, 
+		      #{item.isQuery,jdbcType=DECIMAL}, #{item.sort,jdbcType=DECIMAL}, #{item.inputerAcc,jdbcType=VARCHAR}, 
+		      #{item.inputdate,jdbcType=TIMESTAMP}, #{item.modifierAcc,jdbcType=VARCHAR}, #{item.modifydate,jdbcType=TIMESTAMP}, 
+		      #{item.orgId,jdbcType=VARCHAR},#{item.searchCode,jdbcType=VARCHAR},
+		      #{item.isShow,jdbcType=DECIMAL},#{item.isDisabled,jdbcType=DECIMAL},
+		      #{item.dataType,jdbcType=DECIMAL},#{item.isFiledSet,jdbcType=DECIMAL},#{item.state,jdbcType=DECIMAL},
+		      #{item.developCode,jdbcType=VARCHAR},#{item.listCode,jdbcType=VARCHAR}
+		)
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="findAllWithOrgId" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> where org_id is not null
+	</select>	
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	
+		<!-- 订正数据 -->
+	<select id="findSjdz" resultMap="BaseResultMap">
+
+		SELECT <include refid="Base_Column_List"/> FROM tsm_cust_search_set_qupai WHERE
+		ORG_ID is null
+		AND ID in 
+		(
+			'ec7a2507530a40df82572a4727d53271',
+			'c8be9bac48094d5887b93a6428fcaa10',
+			'bb334739b3cd4e22bb906c8bf7a10362',
+			'cec4a02cbf3943f38ce09d1ce887ce84',
+			'fb7206759d77415bae40dff3073b0e4a',
+			'4aeff62dddf34866a98bd58d715e8233',
+			'4e94b192b5424846846b761aa22f65b5',
+			'e34e8eb730154efb916348e8d8aac9e1',
+			'2fcae32345614cd9ac06c1ac33f1d539',
+			'953750efe82d494788e4612e966b0c22',
+			'c7cfc63a3f164ef68ab33600fd3355c5',
+			'0afc32d0f82e42f8af5a2ecc4c550c0e',
+			'3e590a36a0124f42b89283ac7d4936d7',
+			'2c75c493f86d438b9bc25ade0d2166c8',
+			'5d1a9e5b78754559a32af4f8eb88bf1b',
+			'b95dd2b5985e4743b525ef99ff11c44d',
+			'0f5401a0ddda4bb882c51f431fde7a41',
+			'e4ac3a6799584cb3a122dc124e05b9eb',
+			'cbd0b2cc914445618ff6fd83ea55af1a',
+			'bf983de097a947bab4264faac0a69d0a',
+			
+			'c7ea85d9d8fd4b69bef312d8cef93c9c',
+			'af6763abf3454e79935da59debd14b41',
+			'968ad24877a44f518a9c70dd030594f5',
+			'b7539e94939e4cb58f3960cc008079ef',
+		
+			'14ccab1cb012465f8e01b8c6ac97aac7',
+			'33481321e2864be9a96555ec8daf067f',
+			'b7a34fc35d1f45ab8db1b5f150cc14ef',
+			'42b5fca28b0048839db686e68276f825',
+			'3c5500311daf4b8ab2468bf1fffcdbad',
+			'338b1032500d4fed85f196ecd4b55235',
+			'82d5c42945f64612930afc638d0dc46a',
+			'aa24f3e7790043af98fbb840521778dd',
+			'2e3be233a0404387a138ec28eb6ec177',
+			'4a44abd2292c47bba95acbbf932daf76',
+			'5b328dc8b55f4dd491da53ea05fbb97a',
+			'0d06dc207fed46738d5a3f69c672d45b',
+			'90b53f16847a4e2db924b3c6d22a69b3',
+			'57cefb4bbcf047f8a4c6abb41dab2804',
+			'12c9b1326ddc4a679513c82db4f4eaa9',
+			'aa858bec1b63446589dfabd8f504d303',
+			'ccaa089e32104686ac2f9a452db6e149',
+			'2c6dbf99d183419d8cf50ac942d9e018',
+		  '20ae31d3e3b14f439a99489f01ddefc4',
+		  '7d61796ce30c4402ad467c811301a832',
+		  '5af483a2c3714f0e868e49bb268d0a60'
+		
+		)
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where FIELD_ID = #{fieldId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.CustSearchSet">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.CustSearchSet">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and ID = #{id}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where ID = #{id}
+	</delete>
+	
+	<!-- 根据orgId 删除实体 -->
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId}
+	</delete>
+	
+	<!-- 根据orgId 删除实体 -->
+	<delete id="deleteByDevelopCode" parameterType="Map">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId} and DEVELOP_CODE = #{developCode}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatch" parameterType="list">
+		delete from <include refid="table_name"/> where ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<!-- 
+	############################################################################################
+	#########################自定义个性配置      以下添加非基础部分##################################
+	###########################################################################################
+	 -->
+	 <!-- 查询原始自定义字段设置数据 -->
+	 <select id="findOldCustSearchSetList" resultMap="BaseResultMap" parameterType="Map">
+	 	select <include refid="Base_Column_List"/> from tsm_cust_search_set_qupai
+	 	  WHERE org_id IS NULL
+	 	  and STATE in (2 
+	 	  <if test="state!= null" >
+	 	  		,#{state}
+	 	  </if>
+	 	  )
+	 </select>
+	
+	<!-- 查询最大排序值按模块分组 -->
+	 <select id="findMaxSortByModuleGroup" resultMap="BaseResultDtoMap" parameterType="Map">
+	 	select ID,SEARCH_MODULE,max(sort) as sort from 
+	 	tsm_cust_search_set_qupai
+	 	WHERE org_id = #{orgId}
+	 	<if test="developCode != null" >
+	        AND DEVELOP_CODE = #{developCode}
+	     </if>
+	     AND ENABLE = 1	   	      
+	 	group by SEARCH_MODULE
+	 </select>
+	
+	<!-- 查询 非文本项 查询项COUNT -->
+	 <select id="findQueryCountByModuleGroup" resultMap="BaseResultDtoMap" parameterType="Map">
+	 	select ID,SEARCH_MODULE,count(1) as query_count from 
+	 	tsm_cust_search_set_qupai
+	 	WHERE org_id = #{orgId}
+	     AND ENABLE = 1	   	      
+	     and data_type in (2,3,4,5)   
+       and is_query = 1  
+       <if test="developCode != null" >
+	        AND DEVELOP_CODE = #{developCode}
+	     </if>
+	 	group by SEARCH_MODULE
+	 </select>
+	
+	 <!-- 批量修改 -->
+	<update id="batchUpdate" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update
+            <include refid="table_name"/>
+            <set>
+            <if test="item.modifydate != null" >
+		        MODIFYDATE = #{item.modifydate,jdbcType=TIMESTAMP}
+		      </if>
+            <if test="item.modifierAcc != null" >
+		        ,MODIFIER_ACC = #{item.modifierAcc,jdbcType=VARCHAR}
+		      </if>		      
+              <if test="item.enable != null" >
+		        ,ENABLE = #{item.enable,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.searchModule != null" >
+		        ,SEARCH_MODULE = #{item.searchModule,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.searchName != null" >
+		        ,SEARCH_NAME = #{item.searchName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.isQuery != null" >
+		        ,IS_QUERY = #{item.isQuery,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.sort != null" >
+		        ,SORT = #{item.sort,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.inputerAcc != null" >
+		        ,INPUTER_ACC = #{item.inputerAcc,jdbcType=VARCHAR}
+		      </if>
+		      <if test="item.inputdate != null" >
+		        ,INPUTDATE = #{item.inputdate,jdbcType=TIMESTAMP}
+		      </if>
+		      <if test="item.searchCode != null" >
+		        ,SEARCH_CODE = #{item.searchCode,jdbcType=VARCHAR}
+		      </if>	 
+		      <if test="item.listCode != null" >
+		        ,LIST_CODE = #{item.listCode,jdbcType=VARCHAR}
+		      </if>	        
+		      <if test="item.isShow != null" >
+		         ,IS_SHOW = #{item.isShow,jdbcType=DECIMAL}
+		      </if>
+		      <if test="item.isDisabled != null" >
+		         ,IS_DISABLED = #{item.isDisabled,jdbcType=DECIMAL}
+		      </if>
+	     	  <if test="item.dataType!= null" >
+		       , DATA_TYPE = #{item.dataType,jdbcType=DECIMAL}
+		      </if> 
+		       <if test="item.isFiledSet !=null" >
+		        ,IS_FILED_SET = #{item.isFiledSet,jdbcType=DECIMAL}
+		      </if> 
+            </set>
+            where org_id = #{item.orgId} and ID = #{item.id} 
+        </foreach>
+    </update>
+	
+	 <!-- 查询排序区间的数据 -->
+	 <select id="findAllBySortInterval" resultMap="BaseResultMap" parameterType="map">
+	 	SELECT <include refid="Base_Column_List"/> FROM <include refid="table_name"/> 
+	 	WHERE ORG_ID=#{orgId}
+	 	<if test="minSort !=null">
+	 		 and  sort >= #{minSort}
+	 	</if>
+	 	AND ENABLE = 1	   
+	 	and SEARCH_MODULE = #{searchModule}
+	 </select>
+	
+</mapper>

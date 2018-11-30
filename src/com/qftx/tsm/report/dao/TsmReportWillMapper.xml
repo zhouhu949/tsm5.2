@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.TsmReportWillMapper">
+    <resultMap type="com.qftx.tsm.report.bean.TsmReportWillBean" id="BaseMap">
+		<result column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="inputedate" property="inputeDate" jdbcType="TIMESTAMP"/>
+		<result column="new_will_sum" property="newWillSum" jdbcType="DECIMAL"/>
+		<result column="OPTIONLIST_ID" property="optionlistId" jdbcType="VARCHAR"/>
+		<result column="OPTION_NAME" property="optionName" jdbcType="VARCHAR"/>
+		<result column="OPTION_SUM" property="optionSum" jdbcType="DECIMAL"/>
+		<result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR"/>
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR"/>
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR"/>
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+		<result column="TYPE" property="type" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="newWillSum != null" >
+			    new_will_sum,
+			</if>
+			<if test="optionlistId != null" >
+			    OPTIONLIST_ID,
+			</if>
+			    inputedate,
+			<if test="optionName != null" >
+			    OPTION_NAME,
+			</if>
+			<if test="optionSum != null" >
+			    OPTION_SUM,
+			</if>
+			<if test="userAccount != null" >
+			    USER_ACCOUNT,
+			</if>
+			<if test="userName != null" >
+			    USER_NAME,
+			</if>
+			<if test="groupId != null" >
+			    GROUP_ID,
+			</if>
+			<if test="groupName != null" >
+			    GROUP_NAME,
+			</if>
+			<if test="type != null" >
+			    TYPE,
+			</if>		
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="newWillSum != null">
+			    #{newWillSum,jdbcType=DECIMAL},
+			</if>
+			<if test="optionlistId != null">
+			    #{optionlistId,jdbcType=VARCHAR},
+			</if>
+            SYSDATE(),
+			<if test="optionName != null" >
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="optionSum != null" >
+			    #{optionSum,jdbcType=DECIMAL},
+			</if>
+			<if test="userAccount != null" >
+			    #{userAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null" >
+			    #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null" >
+			    #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null" >
+			    #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null" >
+			    #{type,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	    </sql>
+
+
+	    <!-- 实体表名 -->
+	    <sql id="table_name">tsm_report_willreport</sql>
+	
+		<select id="insertTsmReportNewWill" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean">
+        INSERT INTO tsm_report_willreport
+		<include refid="insert_into_field" />
+	    </select>
+	    
+	    
+		 <select id="findTsmNewWillCountData" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultType="String">
+          SELECT
+          new_will_sum
+          FROM
+	      tsm_report_willreport 
+          WHERE
+	      org_id =#{orgId}
+          AND USER_ACCOUNT =#{userAccount}
+          AND TYPE=0
+          AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	      </select>
+	
+	
+	     <select id="updateNum" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean">
+          UPDATE 
+	      tsm_report_willreport 
+          SET new_will_sum=#{newWillSum}
+          WHERE
+	      org_id =#{orgId}
+          AND USER_ACCOUNT =#{userAccount}
+          AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	      </select>
+	      
+	      <select id="findTsmNewWillOptincount" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultType="String">
+          SELECT
+          OPTION_SUM
+          FROM
+	      tsm_report_willreport 
+          WHERE
+	      org_id =#{orgId}
+          AND USER_ACCOUNT =#{userAccount}
+          AND optionlist_id=#{optionlistId}
+          AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	      </select>
+	      
+	      <select id="updateOptionNum" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean">
+          UPDATE 
+	      tsm_report_willreport 
+          SET OPTION_SUM=#{optionSum}
+          WHERE
+	      org_id =#{orgId}
+          AND USER_ACCOUNT =#{userAccount}
+          AND optionlist_id=#{optionlistId}
+          AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+	      </select>
+	      
+	     <select id="findNewWillAllByAccount" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap" >
+			SELECT
+			t.USER_ACCOUNT,t.USER_NAME,t.new_will_sum,t.OPTIONLIST_ID,t.OPTION_NAME,t.OPTION_SUM,t.TYPE,g.GROUP_ID,
+            u.GROUP_NAME
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId}
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			WHERE
+				t.ORG_ID =#{orgId}
+			AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+		    GROUP BY
+			t.USER_ACCOUNT,
+		    t.OPTIONLIST_ID
+			ORDER BY
+			t.new_will_sum,
+			t.OPTION_SUM
+	       </select>
+	       
+	       	<select id="findNewWillAllUser" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultType="String">
+			SELECT
+			t.USER_ACCOUNT
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON t.org_id = g.org_id
+            AND t.USER_ACCOUNT = g.MEMBER_ACC				
+			WHERE
+			t.ORG_ID = #{orgId}
+			AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			GROUP BY t.USER_ACCOUNT
+	       </select>
+	      
+	     <select id="findNewWillUserByGroupByDay" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap">
+					SELECT
+				t.USER_ACCOUNT,t.USER_NAME,t.OPTIONLIST_ID,g.GROUP_ID,u.GROUP_NAME
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId}
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			WHERE
+				t.ORG_ID = #{orgId}
+			AND t.TYPE=1
+			AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			GROUP BY t.USER_ACCOUNT
+	       </select>
+	       
+	       	<select id="findNewWilldateByUser" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap">
+			SELECT
+			t.USER_ACCOUNT,t.OPTIONLIST_ID,g.GROUP_ID,
+			t.OPTION_SUM
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON t.org_id = g.org_id
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			WHERE
+				t.ORG_ID = #{orgId}
+			AND t.TYPE=1
+		    AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			GROUP BY t.USER_ACCOUNT
+	       </select>
+	       
+	       	<select id="findNewWilldateCount" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap">
+			SELECT
+			  t.USER_ACCOUNT,
+			  t.new_will_sum,
+			  g.GROUP_ID,
+              u.GROUP_NAME
+			  
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId}
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			WHERE
+				t.ORG_ID =#{orgId}
+			AND t.TYPE=0
+		    AND inputedate &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			GROUP BY t.USER_ACCOUNT
+	       </select>
+	       
+	       
+	       	<select id="findNewWilldate" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultType="String">
+	      	SELECT
+	        distinct	DATE_FORMAT(t.inputedate,'%Y-%m-%d') inputedate
+	        FROM
+		    tsm_report_willreport t
+	        WHERE
+	        ORG_ID=#{orgId}
+	              <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+			<if test="userAccount != null">
+			 AND  USER_ACCOUNT= #{userAccount,jdbcType=VARCHAR}
+			</if>
+	        GROUP BY
+	        DATE_FORMAT(t.inputedate,'%Y-%m-%d') 
+	        ORDER BY t.inputedate ASC
+	</select>
+	
+    <select id="findNewWillBydate" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap">
+		SELECT DISTINCT
+			DATE_FORMAT(t.inputedate, '%Y-%m-%d') inputedate,
+			SUM((t.new_will_sum)) new_will_sum,
+			t.OPTIONLIST_ID,
+			SUM(t.OPTION_SUM) OPTION_SUM,
+			t.TYPE
+		FROM
+			tsm_report_willreport t
+		WHERE
+			t.ORG_ID =#{orgId}
+	     <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+		</if>
+		<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+		</if>
+		<if test="userAccount != null">
+			 AND  USER_ACCOUNT= #{userAccount,jdbcType=VARCHAR}
+		</if>
+		GROUP BY
+			DATE_FORMAT(t.inputedate, '%Y-%m-%d'),
+			t.OPTIONLIST_ID
+		ORDER BY
+			t.new_will_sum,
+			t.OPTION_SUM
+	</select>
+	
+	    <select id="findNewWillByGroup" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap">
+				SELECT 
+				SUM((t.new_will_sum)) new_will_sum,
+				SUM(t.OPTION_SUM) OPTION_SUM,
+				t.OPTIONLIST_ID,
+			    g.GROUP_ID,
+				t.TYPE
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON t.org_id = g.org_id
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			WHERE
+			t.ORG_ID =#{orgId}
+	        <if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+		    </if>
+		    <if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+		    </if>
+			GROUP BY
+				g.GROUP_ID,
+				t.OPTIONLIST_ID
+			ORDER BY
+				t.new_will_sum,
+				t.OPTION_SUM
+	</select>
+	
+			<select id="findNewWillUserByGroup" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+			SELECT 
+			t.USER_ACCOUNT,
+			t.USER_NAME
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON t.org_id = g.org_id
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			WHERE
+		    t.ORG_ID=#{orgId}
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+		    </if>
+		    <if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+		    </if>
+
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			GROUP BY
+            t.USER_ACCOUNT
+	</select>
+	
+			<select id="findNewWillUserByGroupAndUser" parameterType="com.qftx.tsm.report.bean.NewWillBean" resultMap="BaseMap">
+			SELECT
+			  t.USER_ACCOUNT,
+				SUM((t.new_will_sum)) new_will_sum,
+				SUM(t.OPTION_SUM) OPTION_SUM,
+				t.OPTIONLIST_ID,
+				g.GROUP_ID,
+				t.TYPE
+			FROM
+				tsm_report_willreport t
+			LEFT JOIN tsm_team_group_member g ON t.org_id = g.org_id
+			AND t.USER_ACCOUNT = g.MEMBER_ACC
+			WHERE
+		    t.ORG_ID=#{orgId}
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+		    </if>
+		    <if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(t.inputedate,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+		    </if>
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			GROUP BY
+			  t.USER_ACCOUNT,
+				g.GROUP_ID,
+				t.OPTIONLIST_ID
+			ORDER BY
+				t.new_will_sum,
+				t.OPTION_SUM
+	</select>
+	
+		  <select id="findAllUser" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap">
+			SELECT
+			t.USER_ACCOUNT,t.USER_NAME,g.GROUP_ID,u.GROUP_NAME
+			FROM
+			auth_user t
+			LEFT JOIN tsm_team_group_member g
+			ON g.org_id=#{orgId} AND t.USER_ID=g.user_id
+			LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			WHERE
+			t.ORG_ID = #{orgId}
+			<if test="groupIds != null">                			
+              AND  g.GROUP_ID in 
+              <foreach collection="groupIds" index="index"   item="groupIdList" open="(" separator="," close=")">
+			 #{groupIdList}
+			</foreach>
+			 </if>
+			 ORDER BY 	t.USER_ACCOUNT
+	       </select>
+	       
+	       
+	       
+	    	<select id="findNewWillAllByAccount_new_2" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap" >
+			SELECT
+				t.owner_acc as USER_ACCOUNT,
+			  COUNT(t.curr_process_id) as new_will_sum,
+			  '0' as type
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_team_group_member g ON t.org_id = g.org_id
+			AND t.owner_acc = g.MEMBER_ACC
+			WHERE
+				t.ORG_ID =#{orgId}
+			AND t.status =3
+			AND t.init_type !=2
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			GROUP BY 	
+			    t.owner_acc
+	       </select>	       
+	       
+	       <select id="findNewWillAllByAccount_new" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap" >
+			SELECT
+				t.owner_acc as USER_ACCOUNT,
+				t.curr_process_id as OPTIONLIST_ID,
+			    COUNT(t.curr_process_id) as  OPTION_SUM,
+			    '1' as type,
+				g.GROUP_ID,
+                u.GROUP_NAME
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_team_group_member g ON g.org_id=#{orgId}
+			AND t.owner_acc = g.MEMBER_ACC
+			LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			WHERE
+				t.ORG_ID =#{orgId}
+			AND t.status =3
+            AND t.init_type in (3,4)
+            AND t.init_status=3
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			GROUP BY 	
+			    t.owner_acc,
+				t.curr_process_id
+	       </select>
+	       
+	       
+	       	       <select id="findNewWillAllByAccount_new_3" parameterType="com.qftx.tsm.report.bean.TsmReportWillBean" resultMap="BaseMap" >
+			SELECT
+				t.owner_acc as USER_ACCOUNT,
+				t.curr_process_id as OPTIONLIST_ID,
+			    COUNT(t.curr_process_id) as  OPTION_SUM,
+			    '1' as type,
+				g.GROUP_ID,
+                u.GROUP_NAME
+			FROM
+				log_contact_day_data t
+			LEFT JOIN tsm_team_group_member g ON  g.org_id=#{orgId}
+			AND t.owner_acc = g.MEMBER_ACC
+			LEFT JOIN tsm_team_group u ON u.ORG_ID=#{orgId} AND u.GROUP_ID=g.GROUP_ID
+			WHERE
+				t.ORG_ID =#{orgId}
+			AND t.type in (1,2)
+			AND t.status = 3
+			AND t.init_type not  in (3,4)
+			AND t.init_process_id!=t.curr_process_id
+			AND t.curr_date &gt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			GROUP BY 	
+			    t.owner_acc,
+				t.curr_process_id
+	       </select>    
+
+	</mapper>

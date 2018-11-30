@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.year.dao.PlanSaleYearMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.user_id,t.plan_money,t.fact_money,t.plan_month,t.plan_year,t.group_id,t.updatetime,t.inputtime,t.is_del,t.init
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.year.bean.PlanSaleYearBean" id="PlanSaleYearMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="user_id" property="userId"/>
+		<result column="plan_money" property="planMoney"/>
+		<result column="fact_money" property="factMoney"/>
+		<result column="plan_month" property="planMonth"/>
+		<result column="plan_year" property="planYear"/>
+		<result column="group_id" property="groupId"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="init" property="init"/>
+		<result column="group_name" property="groupName"/>
+    </resultMap>
+    
+    <resultMap type="com.qftx.tsm.plan.year.bean.PlanSaleTrendBean" id="PlanSaleTrend">
+    	<result column="plan_money_all" property="planMoneyAll"/>
+    	<result column="plan_money" property="planMoney"/>
+		<result column="fact_money" property="factMoney"/>
+		<result column="plan_year" property="planYear"/>
+    </resultMap>
+	
+	<select id="getPlanYearProgress" resultMap="PlanSaleTrend">
+		SELECT t.plan_money_all,t1.plan_money,t1.fact_money FROM
+  	   (SELECT sum(plan_money) AS plan_money_all FROM plan_sale_year where org_id=#{orgId} and plan_year =#{planYear}) t,
+       (SELECT sum(plan_money) AS plan_money,sum(fact_money) as fact_money FROM plan_sale_year where org_id=#{orgId} and plan_year =#{planYear} and (plan_month+0) &lt;=#{planMonth}) t1
+	</select>
+	
+	<select id="queryPlanMoneyByYear" resultType="double">
+		select sum(plan_money) from plan_sale_year t
+		where 1=1
+		<if test="orgId != null">and t.org_id=#{orgId}</if>
+		<if test="groupId != null">and t.group_id=#{groupId}</if>
+		<if test="planYear != null">and t.plan_year=#{planYear}</if>
+		group by plan_year
+	</select>
+	
+	<select id="queryPlanSaleTrend" resultMap="PlanSaleTrend">
+		select sum(t.plan_money) as plan_money,sum(t.fact_money)as fact_money ,t.plan_year 
+		from plan_sale_year t where 1=1 
+		and t.org_id=#{orgId}
+		<if test="groupId != null">and t.group_id=#{groupId}</if>
+		and t.plan_year &gt;= #{fromYear} 
+		and t.plan_year &lt;=  #{toYear}
+		group by t.plan_year
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanSaleYearMap">
+		select
+		<include refid="cols" />,t1.group_name
+		from plan_sale_year t
+		left join tsm_team_group t1 on t1.org_id = #{orgId} and t1.group_id = t.group_id
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="init != null">and t.init = #{init}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByCondtion" resultMap="PlanSaleYearMap">
+		select sum(t.plan_money) as plan_money,sum(t.fact_money) as fact_money,t.plan_month,t.plan_year ,t1.group_name
+		from plan_sale_year t
+		left join tsm_team_group t1 on t1.org_id = #{orgId} and t1.group_id = t.group_id
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		
+		<if test="groupKey != null">
+		group by  ${groupKey}
+		</if>
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="getSumByCondtion" resultMap="PlanSaleYearMap">
+		select sum(t.plan_money) as plan_money,sum(t.fact_money) as fact_money
+		from plan_sale_year t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and(" close=")" separator="or" >
+				t.group_id = #{gid}
+			</foreach>
+		</if>
+		
+		<if test="groupKey != null">
+		group by  ${groupKey}
+		</if>
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanSaleYearMap">
+		select
+		<include refid="cols" />,t1.group_name
+		from plan_sale_year t
+		left join tsm_team_group t1 on t1.org_id = #{orgId} and t1.group_id = t.group_id
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="init != null">and t.init = #{init}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_sale_year
+		<set>
+		<if test="planMoney != null">plan_money = #{planMoney},</if>
+		<if test="factMoney != null">fact_money = #{factMoney},</if>
+		<if test="init != null">init = #{init},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</update>
+	
+	<!-- 更新总数值 -->
+	<update id="updateFactNum">
+		update plan_sale_year
+		<set>
+		<if test="factMoney != null">fact_money =fact_money + #{factMoney},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.year.bean.PlanSaleYearBean">
+	insert into plan_sale_year(id,org_id,user_id,plan_money,fact_money,plan_month,plan_year,group_id,updatetime,inputtime,is_del,init)
+	values(#{id},#{orgId},#{userId},#{planMoney},#{factMoney},#{planMonth},#{planYear},#{groupId},#{updatetime},#{inputtime},#{isDel},#{init})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_sale_year(id,org_id,user_id,plan_money,fact_money,plan_month,plan_year,group_id,updatetime,inputtime,is_del,init)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.userId},#{bean.planMoney},#{bean.factMoney},#{bean.planMonth},#{bean.planYear},#{bean.groupId},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.init})
+    </foreach>
+    </insert>
+</mapper>

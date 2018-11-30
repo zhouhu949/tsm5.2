@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.rest.dao.CallRecordMapper">
+    <sql id="cols">
+     call_id as callId,
+     call_type as callType,
+     caller_num as callerNum,
+     called_num as calledNum,
+     start_time as startTime,
+     time_elngth as timeElngth,
+     input_date as inputDate,
+     is_del as isDel,
+     code as code,
+     record_url as recordUrl,
+     input_acc as inputAcc,
+     org_id as orgId,
+     modifier_acc as modifier_acc,
+     cust_id as custId,
+     owner_acc as ownerAcc,
+     dataresource as dataresource,
+     communication_no as communicationNo,
+     uploaded as uploaded
+     </sql>
+    <resultMap type="com.qftx.tsm.rest.bean.CallRecordBean" id="CallRecordBeanMap">
+        <result column="call_id" property="callId"/>
+        <result column="call_type" property="callType"/>
+        <result column="caller_num" property="callerNum"/>
+        <result column="called_num" property="calledNum"/>
+
+        <result column="start_time" property="startTime"/>
+        <result column="time_elngth" property="timeElngth"/>
+        <result column="input_date" property="inputDate"/>
+        <result column="is_del" property="isDel"/>
+        <result column="code" property="code"/>
+        <result column="record_url" property="recordUrl"/>
+        <result column="input_acc" property="inputAcc"/>
+        <result column="org_id" property="orgId"/>
+        <result column="modifier_acc" property="modifierAcc"/>
+        <result column="modifydate" property="modifydate"/>
+        <result column="cust_id" property="custId"/>
+        <result column="owner_acc" property="ownerAcc"/>
+        <result column="dataresource" property="dataresource"/>
+        <result column="communication_no" property="communicationNo"/>
+        <result column="uploaded" property="uploaded"/>
+    </resultMap>
+
+    <select id="get" parameterType="String" resultMap="CallRecordBeanMap">
+		select <include refid="cols"/> from tsm_record_call where org_id = #{id}
+	</select>
+    <select id="query" parameterType="com.qftx.tsm.rest.bean.CallRecordBean" resultMap="CallRecordBeanMap">
+        select <include refid="cols"/> from tsm_record_call  where 1=1
+        <if test="orgId != null">and org_id like  CONCAT('%',#{orgId},'%' )</if>
+        <if test="callId != null">and call_id in (#{callId})</if>
+        limit 0,10
+    </select>
+    <select id="queryAll" parameterType="com.qftx.tsm.rest.bean.CallRecordBean" resultMap="CallRecordBeanMap">
+        select <include refid="cols"/> from tsm_record_call  where 1=1
+        <if test="orgId != null">and org_id=#{orgId}</if>
+        <if test="ids != null">and call_id in
+            <foreach item="item" index="index" collection="ids"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        limit 0,10
+    </select>
+    <!-- 分页获取菜单信息 -->
+    <select id="findListPage" parameterType="com.qftx.tsm.rest.bean.CallRecordBean"  resultMap="CallRecordBeanMap">
+        select  <include refid="cols"/> from tsm_record_call  where 1=1
+        <if test="orgId != null and orgId != ''">and org_id=#{orgId}</if>
+        <if test="callId != null and callId != ''">and call_id in (#{callId})</if>
+    </select>
+
+    <select id="findAll" parameterType="com.qftx.tsm.rest.bean.CallRecordBean" resultMap="CallRecordBeanMap">
+        select <include refid="cols"/> from tsm_record_call limit 0,10
+    </select>
+    <insert id="insert"  parameterType="com.qftx.tsm.rest.bean.CallRecordBean">
+        INSERT INTO tsm_record_call (id, user_id, org_id,call_info,inputdate,updateDate) VALUES (#{id}, #{userId}, #{orgId}, #{callInfo},#{inputDate},#{updateDate})
+    </insert>
+</mapper>

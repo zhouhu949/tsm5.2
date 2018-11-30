@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.group.month.dao.PlanGroupmonthMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.group_id,t.group_type,t.plan_month,t.plan_year,t.plan_money,t.plan_signcustnum,t.plan_willcustnum,t.fact_money,t.fact_signcustnum,t.fact_willcustnum,t.plan_desc,t.warp_signcustnum,t.warp_willcustnum,t.warp_money,t.warp_desc,t.plan_money_state,t.plan_signcustnum_state,t.plan_willcustnum_state,t.auth_state,t.auth_userid,t.auth_time,t.last_commont_id,t.auth_desc,t.status,t.plan_status,t.context,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.group.month.bean.PlanGroupmonthBean" id="PlanGroupmonthMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="group_id" property="groupId"/>
+		<result column="group_type" property="groupType"/>
+		<result column="plan_month" property="planMonth"/>
+		<result column="plan_year" property="planYear"/>
+		<result column="plan_money" property="planMoney"/>
+		<result column="plan_signcustnum" property="planSigncustnum"/>
+		<result column="plan_willcustnum" property="planWillcustnum"/>
+		<result column="fact_money" property="factMoney"/>
+		<result column="fact_signcustnum" property="factSigncustnum"/>
+		<result column="fact_willcustnum" property="factWillcustnum"/>
+		<result column="plan_desc" property="planDesc"/>
+		<result column="warp_signcustnum" property="warpSigncustnum"/>
+		<result column="warp_willcustnum" property="warpWillcustnum"/>
+		<result column="warp_money" property="warpMoney"/>
+		<result column="warp_desc" property="warpDesc"/>
+		<result column="plan_money_state" property="planMoneyState"/>
+		<result column="plan_signcustnum_state" property="planSigncustnumState"/>
+		<result column="plan_willcustnum_state" property="planWillcustnumState"/>
+		<result column="auth_state" property="authState"/>
+		<result column="auth_userid" property="authUserid"/>
+		<result column="auth_username" property="authUsername"/>
+		<result column="auth_time" property="authTime"/>
+		<result column="last_commont_id" property="lastCommontId"/>
+		<result column="auth_desc" property="authDesc"/>
+		<result column="status" property="status"/>
+		<result column="plan_status" property="planStatus"/>
+		<result column="context" property="context"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		
+		<result column="group_name" property="groupName"/>
+		<result column="last_commont" property="lastCommont"/>
+		<result column="last_commont_user_name" property="lastCommontUserName"/>
+	</resultMap>
+
+	<resultMap type="com.qftx.tsm.plan.group.month.dto.PlanGroupmonthReportDto" id="ReportDtoMap" extends="PlanGroupmonthMap">
+		<result column="GROUP_NAME" property="groupName"/>
+	</resultMap>
+	
+	<select id="findNoReportGroups" resultType="String">
+		select t.GROUP_ID from tsm_team_group t
+		where 1=1
+		and t.org_id=#{orgId}
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="item"  open="and ("  separator="or" close=")">
+				t.group_id=#{item}
+			</foreach>
+		</if>
+		and t.GROUP_ID not in (
+		select t1.group_id from plan_groupmonth t1 
+		where 1=1
+		and t1.org_id=#{orgId}
+		and t1.is_del = 0
+		<if test="planMonth != null">and t1.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t1.plan_year = #{planYear}</if>
+		<if test="status != null">and t1.status=#{status}</if>
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="item"  open="and ("  separator="or" close=")">
+				t1.group_id=#{item}
+			</foreach>
+		</if>
+		)
+	</select>
+	
+	<!-- 查询部门下所有团队计划总和-->
+	<select id="querySumByGroups" resultMap="PlanGroupmonthMap">
+		select sum(t.plan_money) as plan_money,sum(t.plan_signcustnum) as plan_signcustnum,sum(t.plan_willcustnum) as plan_willcustnum,sum(t.fact_signcustnum) as fact_signcustnum,sum(t.fact_willcustnum) as fact_willcustnum,sum(t.fact_money) as fact_money
+		from plan_groupmonth t 
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="item"  open="and ("  separator="or" close=")">
+				t.group_id=#{item}
+			</foreach>
+		</if>
+		<if test="planMonth != null">and plan_month = #{planMonth}</if>
+		<if test="planYear != null">and plan_year = #{planYear}</if>
+		<if test="status != null">and status = #{status}</if>
+		<if test="authState != null">and auth_state = #{authState}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</select>
+	
+	<select id="queryHistory" resultMap="PlanGroupmonthMap">
+		select
+		<include refid="cols" />
+		from plan_groupmonth t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.is_del = 0
+		and t.group_id=#{groupId}
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="querys!=null and querys.size() >0">
+			<foreach collection="querys" item="query"  open="and ("  separator="or" close=")">
+				(t.plan_year =#{query.year} and t.plan_month =#{query.month})
+			</foreach>
+		</if>
+		 order by --plan_year,--plan_month
+		
+	</select>
+	<select id="findListPage" resultMap="PlanGroupmonthMap">
+		<include refid="query"></include>
+	</select>
+	
+	<!--查询团队多月的计划总合
+	<select id="findSumOrderByGroup" resultMap="PlanGroupmonthMap">
+		select t.group_id,t1.group_name as group_name,
+		sum(t.plan_money) as plan_money,sum(t.plan_signcustnum) as plan_signcustnum,sum(t.plan_willcustnum) as plan_willcustnum,sum(t.fact_signcustnum) as fact_signcustnum,sum(t.fact_willcustnum) as fact_willcustnum,sum(t.fact_money) as fact_money
+		from plan_groupmonth t
+		left join tsm_team_group t1 on t1.org_id = #{orgId} and t1.GROUP_ID = t.group_id
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.is_del = 0
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="gid"  open="and ("  separator="or" close=")">
+				t.group_id =#{gid}
+			</foreach>
+		</if>
+		<if test="querys!=null and querys.size() >0">
+			<foreach collection="querys" item="query"  open="and ("  separator="or" close=")">
+				(t.plan_year =#{query.year} and t.plan_month =#{query.month})
+			</foreach>
+		</if>
+		
+		group by t.group_id,t1.group_name
+		order by group_name
+		
+	</select> -->
+	
+	<select id="queryHistoryByGroupIds" resultMap="PlanGroupmonthMap">
+		select
+		t.plan_month,t.plan_year,
+		sum(t.plan_money)as plan_money,sum(t.plan_signcustnum) as plan_signcustnum,sum(t.plan_willcustnum) as plan_willcustnum,sum(t.fact_money) as fact_money,sum(t.fact_signcustnum) as fact_signcustnum,sum(t.fact_willcustnum) as fact_willcustnum
+		from plan_groupmonth t
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.is_del = 0
+		<if test="groupId!=null ">
+			and t.group_id=#{groupId}
+		</if>
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="gid"  open="and ("  separator="or" close=")">
+				t.group_id =#{gid}
+			</foreach>
+		</if>
+		<if test="querys!=null and querys.size() >0">
+			<foreach collection="querys" item="query"  open="and ("  separator="or" close=")">
+				(t.plan_year =#{query.year} and t.plan_month =#{query.month})
+			</foreach>
+		</if>
+		
+		
+		
+		group by t.plan_month,t.plan_year
+		order by --plan_year,--plan_month
+		
+	</select>
+	
+	<!-- 更新总数值 -->
+	<update id="updatePlanNum">
+		update plan_groupmonth
+		<set>
+			plan_money = plan_money + #{planMoney},
+			plan_signcustnum = plan_signcustnum + #{planSigncustnum},
+			plan_willcustnum = plan_willcustnum + #{planWillcustnum},
+			
+			<if test="planDesc !=null">plan_desc = #{planDesc}</if>
+		</set>
+		where 1=1
+		and org_id=#{orgId}
+		and id = #{id}
+	</update>
+	
+	<!-- 更新总数值 -->
+	<update id="updateFactNum">
+		update plan_groupmonth
+		<set>
+			<if test="factMoney !=null">fact_money =fact_money + #{factMoney},</if>
+			<if test="factSigncustnum !=null">fact_signcustnum =fact_signcustnum + #{factSigncustnum},</if>
+			<if test="factWillcustnum !=null">fact_willcustnum =fact_willcustnum + #{factWillcustnum},</if>
+		
+			<if test="planMoneyState != null">plan_money_state = #{planMoneyState},</if>
+			<if test="planSigncustnumState != null">plan_signcustnum_state = #{planSigncustnumState},</if>
+			<if test="planWillcustnumState != null">plan_willcustnum_state = #{planWillcustnumState},</if>
+			<if test="planStatus != null">plan_status = #{planStatus},</if>
+		</set>
+		where 1=1
+		and org_id=#{orgId}
+		and id = #{id}
+	</update>
+	
+	<!-- 更新调整数值 -->
+	<update id="updatePlanAddNum">
+		update plan_groupmonth
+		<set>
+			warp_signcustnum = #{warpSigncustnum},
+			warp_willcustnum = #{warpWillcustnum},
+			warp_money = #{warpMoney},
+			<if test="warpDesc !=null">warp_desc = #{warpDesc}</if>
+		</set>
+		where 1=1
+		and org_id=#{orgId}
+		and id = #{id}
+	</update>
+	
+	<sql id="query">
+		select
+		<include refid="cols" />,t1.context as last_commont,t2.user_name as last_commont_user_name,t3.group_name as group_name,t4.user_name as auth_username
+		from plan_groupmonth t
+		left join plan_groupmonth_commont t1 on t1.org_id = #{orgId} and t1.id = t.last_commont_id
+		left join auth_user t2 on t2.org_id = #{orgId} and t2.user_id = t1.commont_user_id 
+		left join tsm_team_group t3 on t3.org_id = #{orgId} and t3.GROUP_ID = t.group_id
+		left join auth_user t4 on t4.org_id = #{orgId} and t4.user_id = t.auth_userid 
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="groupType != null">and t.group_type = #{groupType}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="planSigncustnum != null">and t.plan_signcustnum = #{planSigncustnum}</if>
+		<if test="planWillcustnum != null">and t.plan_willcustnum = #{planWillcustnum}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="factSigncustnum != null">and t.fact_signcustnum = #{factSigncustnum}</if>
+		<if test="factWillcustnum != null">and t.fact_willcustnum = #{factWillcustnum}</if>
+		<if test="planDesc != null">and t.plan_desc = #{planDesc}</if>
+		<if test="warpSigncustnum != null">and t.warp_signcustnum = #{warpSigncustnum}</if>
+		<if test="warpWillcustnum != null">and t.warp_willcustnum = #{warpWillcustnum}</if>
+		<if test="warpMoney != null">and t.warp_money = #{warpMoney}</if>
+		<if test="warpDesc != null">and t.warp_desc = #{warpDesc}</if>
+		<if test="planMoneyState != null">and t.plan_money_state = #{planMoneyState}</if>
+		<if test="planSigncustnumState != null">and t.plan_signcustnum_state = #{planSigncustnumState}</if>
+		<if test="planWillcustnumState != null">and t.plan_willcustnum_state = #{planWillcustnumState}</if>
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="authUserid != null">and t.auth_userid = #{authUserid}</if>
+		<if test="authUsername != null">and t.auth_username = #{authUsername}</if>
+		<if test="authTime != null">and t.auth_time = #{authTime}</if>
+		<if test="lastCommontId != null">and t.last_commont_id = #{lastCommontId}</if>
+		<if test="authDesc != null">and t.auth_desc = #{authDesc}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="planStatus != null">and t.plan_status = #{planStatus}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="item"  open="and ("  separator="or" close=")">
+				t.group_id=#{item}
+			</foreach>
+		</if>
+		<if test="authUserIds!=null and authUserIds.length >0">
+			<foreach collection="authUserIds" item="item"  open="and ("  separator="or" close=")">
+				t.auth_userid=#{item}
+			</foreach>
+		</if>
+		
+		<if test="startInputtime != null and startInputtime != ''">
+       		AND STR_TO_DATE(DATE_FORMAT(t.inputtime,'%Y-%m-%d'),'%Y-%m-%d') &gt;= STR_TO_DATE(#{startInputtime},'%Y-%m-%d')
+       </if>
+       <if test="endInputtime != null and endInputtime != ''">
+       		AND STR_TO_DATE(DATE_FORMAT(t.inputtime,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endInputtime},'%Y-%m-%d')
+       </if>
+		order by t3.group_index
+	</sql>
+	
+	<select id="findNoAuthPlan" resultMap="PlanGroupmonthMap">
+		select <include refid="cols" />
+		from plan_groupmonth t where 1=1
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="groupIds!=null and groupIds.length >0">
+			<foreach collection="groupIds" item="item"  open="and ("  separator="or" close=")">
+				t.group_id=#{item}
+			</foreach>
+		</if>
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanGroupmonthMap">
+		<include refid="query"></include>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanGroupmonthMap">
+		select
+		<include refid="cols" />,t1.context as last_commont,t2.user_name as last_commont_user_name,t3.group_name as group_name,t4.user_name as auth_username
+		from plan_groupmonth t
+		left join plan_groupmonth_commont t1 on t1.org_id = #{orgId} and t1.id = t.last_commont_id
+		left join auth_user t2 on t2.org_id = #{orgId} and t2.user_id = t1.commont_user_id 
+		left join tsm_team_group t3 on t3.org_id = #{orgId} and t3.GROUP_ID = t.group_id
+		left join auth_user t4 on t4.org_id = #{orgId} and t4.user_id = t.auth_userid 
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="groupType != null">and t.group_type = #{groupType}</if>
+		<if test="planMonth != null">and t.plan_month = #{planMonth}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="planSigncustnum != null">and t.plan_signcustnum = #{planSigncustnum}</if>
+		<if test="planWillcustnum != null">and t.plan_willcustnum = #{planWillcustnum}</if>
+		<if test="factMoney != null">and t.fact_money = #{factMoney}</if>
+		<if test="factSigncustnum != null">and t.fact_signcustnum = #{factSigncustnum}</if>
+		<if test="factWillcustnum != null">and t.fact_willcustnum = #{factWillcustnum}</if>
+		<if test="planDesc != null">and t.plan_desc = #{planDesc}</if>
+		<if test="warpSigncustnum != null">and t.warp_signcustnum = #{warpSigncustnum}</if>
+		<if test="warpWillcustnum != null">and t.warp_willcustnum = #{warpWillcustnum}</if>
+		<if test="warpMoney != null">and t.warp_money = #{warpMoney}</if>
+		<if test="warpDesc != null">and t.warp_desc = #{warpDesc}</if>
+		<if test="planMoneyState != null">and t.plan_money_state = #{planMoneyState}</if>
+		<if test="planSigncustnumState != null">and t.plan_signcustnum_state = #{planSigncustnumState}</if>
+		<if test="planWillcustnumState != null">and t.plan_willcustnum_state = #{planWillcustnumState}</if>
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="authUserid != null">and t.auth_userid = #{authUserid}</if>
+		<if test="authUsername != null">and t.auth_username = #{authUsername}</if>
+		<if test="authTime != null">and t.auth_time = #{authTime}</if>
+		<if test="lastCommontId != null">and t.last_commont_id = #{lastCommontId}</if>
+		<if test="authDesc != null">and t.auth_desc = #{authDesc}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="planStatus != null">and t.plan_status = #{planStatus}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_groupmonth
+		<set>
+		<if test="planMoney != null">plan_money = #{planMoney},</if>
+		<if test="planSigncustnum != null">plan_signcustnum = #{planSigncustnum},</if>
+		<if test="planWillcustnum != null">plan_willcustnum = #{planWillcustnum},</if>
+		<if test="factMoney != null">fact_money = #{factMoney},</if>
+		<if test="factSigncustnum != null">fact_signcustnum = #{factSigncustnum},</if>
+		<if test="factWillcustnum != null">fact_willcustnum = #{factWillcustnum},</if>
+		<if test="planDesc != null">plan_desc = #{planDesc},</if>
+		<if test="warpSigncustnum != null">warp_signcustnum = #{warpSigncustnum},</if>
+		<if test="warpWillcustnum != null">warp_willcustnum = #{warpWillcustnum},</if>
+		<if test="warpMoney != null">warp_money = #{warpMoney},</if>
+		<if test="warpDesc != null">warp_desc = #{warpDesc},</if>
+		<if test="planMoneyState != null">plan_money_state = #{planMoneyState},</if>
+		<if test="planSigncustnumState != null">plan_signcustnum_state = #{planSigncustnumState},</if>
+		<if test="planWillcustnumState != null">plan_willcustnum_state = #{planWillcustnumState},</if>
+		<if test="authState != null">auth_state = #{authState},</if>
+		<if test="authUserid != null">auth_userid = #{authUserid},</if>
+		<if test="authUsername != null">auth_username = #{authUsername},</if>
+		<if test="authTime != null">auth_time = #{authTime},</if>
+		<if test="lastCommontId != null">last_commont_id = #{lastCommontId},</if>
+		<if test="authDesc != null">auth_desc = #{authDesc},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="planStatus != null">plan_status = #{planStatus},</if>
+		<if test="context != null">context = #{context},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		and org_id=#{orgId}
+		<if test="id != null">and id = #{id}</if>
+		<if test="ids!=null and ids.length >0">
+			<foreach collection="ids" item="item"  open="and ("  separator="or" close=")">
+				id=#{item}
+			</foreach>
+		</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.group.month.bean.PlanGroupmonthBean">
+	insert into plan_groupmonth(id,org_id,group_id,group_type,plan_month,plan_year,plan_money,plan_signcustnum,plan_willcustnum,fact_money,fact_signcustnum,fact_willcustnum,plan_desc,warp_signcustnum,warp_willcustnum,warp_money,warp_desc,plan_money_state,plan_signcustnum_state,plan_willcustnum_state,auth_state,auth_userid,auth_username,auth_time,last_commont_id,auth_desc,status,plan_status,context,updatetime,inputtime,is_del)
+	values(#{id},#{orgId},#{groupId},#{groupType},#{planMonth},#{planYear},#{planMoney},#{planSigncustnum},#{planWillcustnum},#{factMoney},#{factSigncustnum},#{factWillcustnum},#{planDesc},#{warpSigncustnum},#{warpWillcustnum},#{warpMoney},#{warpDesc},#{planMoneyState},#{planSigncustnumState},#{planWillcustnumState},#{authState},#{authUserid},#{authUsername},#{authTime},#{lastCommontId},#{authDesc},#{status},#{planStatus},#{context},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_groupmonth(id,org_id,group_id,group_type,plan_month,plan_year,plan_money,plan_signcustnum,plan_willcustnum,fact_money,fact_signcustnum,fact_willcustnum,plan_desc,warp_signcustnum,warp_willcustnum,warp_money,warp_desc,plan_money_state,plan_signcustnum_state,plan_willcustnum_state,auth_state,auth_userid,auth_username,auth_time,last_commont_id,auth_desc,status,plan_status,context,updatetime,inputtime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.groupId},#{bean.groupType},#{bean.planMonth},#{bean.planYear},#{bean.planMoney},#{bean.planSigncustnum},#{bean.planWillcustnum},#{bean.factMoney},#{bean.factSigncustnum},#{bean.factWillcustnum},#{bean.planDesc},#{bean.warpSigncustnum},#{bean.warpWillcustnum},#{bean.warpMoney},#{bean.warpDesc},#{bean.planMoneyState},#{bean.planSigncustnumState},#{bean.planWillcustnumState},#{bean.authState},#{bean.authUserid},#{bean.authUsername},#{bean.authTime},#{bean.lastCommontId},#{bean.authDesc},#{bean.status},#{bean.planStatus},#{bean.context},#{bean.updatetime},#{bean.inputtime},#{bean.isDel})
+    </foreach>
+    </insert>
+	
+	<select id="queryShareTeamMonthPlan" parameterType="map" resultMap="ReportDtoMap">
+		 select t.id,
+				t.org_id,
+				t.group_id,
+				t.plan_month,
+				t.plan_year,
+				t.plan_money,
+				t.plan_signcustnum,
+				t.plan_willcustnum,
+				t.fact_money,
+				t.fact_signcustnum,
+				t.fact_willcustnum,
+				t.plan_desc,
+				t.warp_signcustnum,
+				t.warp_willcustnum,
+				t.warp_money,
+				t.warp_desc,
+				t.plan_money_state,
+				t.plan_signcustnum_state,
+				t.plan_willcustnum_state,
+				t.auth_state,
+				t.auth_userid,
+				t.auth_username,
+				t.auth_desc,
+				t.status,
+				t.plan_status,
+				t.context,
+				t.updatetime,
+				t.inputtime,
+				t.is_del,
+				ttg.group_name
+				from plan_groupmonth t 
+				left join tsm_team_group ttg on t.group_id = ttg.group_id 
+				where t.org_id = #{orgId} 
+					and auth_state = 2 
+					and plan_year=#{planYear} 
+					and plan_month = #{planMonth} 
+					<if test="groupIds != null and groupIds.size() > 0">
+						and t.group_id in 
+						<foreach collection="groupIds" item="item" open="(" separator="," close=")">
+							#{item} 
+						</foreach>
+					</if>
+				<if test="orderKey !=null "> order by ${orderKey}</if>
+	</select>
+</mapper>

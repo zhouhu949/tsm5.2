@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.report.dao.TsmReportCallInfoMapper">
+	<sql id="cols">
+	t.ID,t.ORG_ID,t.ACCOUNT,t.call_out_num,t.call_in_num,t.call_res,t.in_call_all_num,t.in_call_answer_num,t.in_call_time,t.all_call_time,t.valid_call_out,t.charge_time,t.call_time,t.INPUTTIME,t.UPDATE_DATE
+	</sql>
+
+	<resultMap type="com.qftx.tsm.report.bean.TsmReportCallInfoBean" id="TsmReportCallInfoMap">
+		<result column="ID" property="id"/>
+		<result column="ORG_ID" property="orgId"/>
+		<result column="ACCOUNT" property="account"/>
+		<result column="call_out_num" property="callOutNum"/>
+		<result column="call_in_num" property="callInNum"/>
+		<result column="call_res" property="callRes"/>
+		<result column="in_call_all_num" property="inCallAllNum"/>
+		<result column="in_call_answer_num" property="inCallAnswerNum"/>
+		<result column="in_call_time" property="inCallTime"/>
+		<result column="all_call_time" property="allCallTime"/>
+		<result column="valid_call_out" property="validCallOut"/>
+		<result column="charge_time" property="chargeTime"/>
+		<result column="call_time" property="callTime"/>
+		<result column="INPUTTIME" property="inputtime"/>
+		<result column="UPDATE_DATE" property="updateDate"/>
+		
+		<result column="dateFmt" property="dateFmt"/>
+		<result column="will_num" property="willNum"/>
+		<result column="sign_num" property="signNum"/>
+		<result column="sign_money" property="signMoney"/>
+		<result column="sale_chance_money" property="saleChanceMoney"/>
+		<result column="sale_money" property="saleMoney"/>
+		<result column="group_id" property="groupId"/>
+		
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="TsmReportCallInfoMap">
+		select t1.ACCOUNT,t1.user_id,
+		(t1.res_cust_num+t1.will_cust_num) as will_num,
+		(t1.will_sign_num+t1.res_sign_num)as sign_num,
+		ifnull(t1.sign_money,0)as sign_money,
+		ifnull(t1.sale_chance_money,0)as sale_chance_money,
+		ifnull(t1.sale_money,0)as sale_money,
+		t1.report_date  as INPUTTIME,
+		ifnull(t.call_out_num,0)as call_out_num,
+		ifnull(t.call_in_num,0) as call_in_num,
+		ifnull(t.call_res,0)as call_res,
+		ifnull(t.valid_call_out,0)as valid_call_out,
+		ifnull(t.charge_time,0) as charge_time,
+		ifnull(t.call_time,0) as call_time,
+		ifnull(t.in_call_time,0) as in_call_time
+		from tsm_report_plan t1
+		
+		left join tsm_report_call_info t on 1=1
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="fromDate != null">and t.INPUTTIME <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.INPUTTIME <![CDATA[ <= ]]> #{toDate}</if>
+		and t.ACCOUNT = t1.ACCOUNT
+		and date_format(t1.report_date,'%Y-%m-%d')  = date_format(t.INPUTTIME,'%Y-%m-%d')
+		<if test="groupId != null or (groupIds!=null and groupIds.length>0)">
+		join tsm_team_group_member t2 on 1 = 1 and t2.ORG_ID = #{orgId} and t2.user_id = t1.user_id
+		</if>
+		
+		where 1=1
+		<if test="orgId != null">and t1.ORG_ID = #{orgId}</if>
+		<if test="groupId != null">and t2.group_ID = #{groupId}</if>
+		<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and t2.GROUP_ID in (" close=")" separator=",">#{gid}</foreach>
+		</if>
+		<if test="account != null">and t1.ACCOUNT = #{account}</if>
+		<if test="fromDate != null">and t1.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t1.report_date <![CDATA[<=]]> #{toDate}</if>
+		
+		<if test="orderKey != null">order by  ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByCondtion" resultMap="TsmReportCallInfoMap">
+		select t1.ACCOUNT,t1.user_id,date_format(t1.report_date,#{dateFmtStr}) as dateFmt,
+		<if test="groupIds!=null and groupIds.length>0">
+		t2.group_id,
+		</if>
+		sum(t1.res_cust_num+t1.will_cust_num) as will_num,
+		sum(t1.will_sign_num+t1.res_sign_num)as sign_num,
+		sum(t1.sign_money)as sign_money,
+		sum(t1.sale_chance_money)as sale_chance_money,
+		sum(t1.sale_money)as sale_money,
+		ifnull(sum(t.call_out_num),0)as call_out_num,
+		ifnull(sum(t.call_in_num),0)as call_in_num,
+		ifnull(sum(t.call_res),0)as call_res,
+		ifnull(sum(t.valid_call_out),0)as valid_call_out,
+		ifnull(sum(t.charge_time),0)as charge_time,
+		ifnull(sum(t.call_time),0)as call_time,
+		ifnull(sum(t.in_call_time),0) as in_call_time
+		
+		from tsm_report_plan t1
+		left join tsm_report_call_info t on 1=1
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="fromDate != null">and t.INPUTTIME <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.INPUTTIME <![CDATA[ <= ]]> #{toDate}</if>
+		and t.ACCOUNT = t1.ACCOUNT
+		and date_format(t1.report_date,'%Y-%m-%d')  = date_format(t.INPUTTIME,'%Y-%m-%d')
+		<if test="groupIds!=null and groupIds.length>0">
+			join tsm_team_group_member t2 on 1 = 1 and t2.ORG_ID = #{orgId} and t2.user_id = t1.user_id
+			<foreach collection="groupIds" item="gid" open="and t2.GROUP_ID in(" close=")" separator=",">#{gid}</foreach>
+		</if>
+		where 1=1
+		<if test="orgId != null">and t1.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t1.ACCOUNT = #{account}</if>
+		<if test="groupId != null">and t2.group_ID = #{groupId}</if>
+		<if test="userIds!=null and userIds.length>0">
+			<foreach collection="userIds" item="uid" open="and t1.user_id in(" close=")" separator=",">#{uid}</foreach>
+		</if>
+		<if test="fromDate != null">and t1.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t1.report_date <![CDATA[<=]]> #{toDate}</if>
+		
+		<if test="groupKey != null">group by  ${groupKey}</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+	</select>
+	
+	<select id="findMonthSaleChance" resultMap="TsmReportCallInfoMap">
+		select t1.ACCOUNT,t1.user_id,sum(t1.sale_chance_money) as sale_chance_money
+		
+		<if test="groupIds!=null and groupIds.length>0">
+			,t2.GROUP_ID
+		</if>
+		
+		<if test="dateFmtStr!=null and dateFmtStr!=''">
+			,date_format(t1.report_date,#{dateFmtStr}) as dateFmt
+		</if>
+		from tsm_report_plan_sale_chance t1
+		<if test="groupIds!=null and groupIds.length>0">
+			join tsm_team_group_member t2 on 1 = 1 and t2.ORG_ID = #{orgId} and t2.user_id = t1.user_id
+			<foreach collection="groupIds" item="gid" open="and t2.GROUP_ID in(" close=")" separator=",">#{gid}</foreach>
+		</if>
+		
+		where 1=1
+		<if test="orgId != null">and t1.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t1.ACCOUNT = #{account}</if>
+		<if test="userIds!=null and userIds.length>0">
+			<foreach collection="userIds" item="uid" open="and t1.user_id in(" close=")" separator=",">#{uid}</foreach>
+		</if>
+		
+		<if test="fromDate != null">and t1.report_date <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t1.report_date <![CDATA[ <= ]]> #{toDate}</if>
+		
+		<if test="groupKey != null">group by  ${groupKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByGroup" resultMap="TsmReportCallInfoMap">
+		select sum(t1.res_cust_num+t1.will_cust_num) as will_num,
+		sum(t1.will_sign_num+t1.res_sign_num)as sign_num,
+		sum(t1.sign_money)as sign_money,
+		sum(t1.sale_chance_money)as sale_chance_money,
+		sum(t1.sale_money)as sale_money,
+		ifnull(sum(t.call_out_num),0)as call_out_num,
+		ifnull(sum(t.call_in_num),0)as call_in_num,
+		ifnull(sum(t.call_res),0)as call_res,
+		ifnull(sum(t.valid_call_out),0)as valid_call_out,
+		ifnull(sum(t.charge_time),0)as charge_time,
+		ifnull(sum(t.call_time),0)as call_time,
+		ifnull(sum(t.in_call_time),0) as in_call_time,
+		t2.group_id
+		from tsm_report_plan t1
+		left join tsm_report_call_info t on 1=1
+		and t.ORG_ID = #{orgId}
+		<if test="fromDate != null">and t.INPUTTIME <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.INPUTTIME <![CDATA[ <= ]]> #{toDate}</if>
+		and t.ACCOUNT = t1.ACCOUNT
+		and date_format(t1.report_date,'%Y-%m-%d')  = date_format(t.INPUTTIME,'%Y-%m-%d')
+		join tsm_team_group_member t2 on 1 = 1 and t2.ORG_ID = #{orgId} and t2.user_id = t1.user_id
+		<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and t2.GROUP_ID in (" close=")" separator=",">#{gid}</foreach>
+		</if>
+		
+		where 1=1
+		and t1.ORG_ID = #{orgId}
+		<if test="fromDate != null">and t1.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t1.report_date <![CDATA[<=]]> #{toDate}</if>
+		<if test="groupKey != null">group by  ${groupKey}</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findSumByDate" resultMap="TsmReportCallInfoMap">
+		select sum(t1.res_cust_num+t1.will_cust_num) as will_num,
+		sum(t1.will_sign_num+t1.res_sign_num)as sign_num,
+		sum(t1.sign_money)as sign_money,
+		sum(t1.sale_chance_money)as sale_chance_money,
+		sum(t1.sale_money)as sale_money,
+		ifnull(sum(t.call_out_num),0)as call_out_num,
+		ifnull(sum(t.call_in_num),0)as call_in_num,
+		ifnull(sum(t.call_res),0)as call_res,
+		ifnull(sum(t.valid_call_out),0)as valid_call_out,
+		ifnull(sum(t.charge_time),0)as charge_time,
+		ifnull(sum(t.call_time),0)as call_time,
+		ifnull(sum(t.in_call_time),0) as in_call_time,
+		date_format(t1.report_date,#{dateFmtStr}) as dateFmt
+		from tsm_report_plan t1
+		left join tsm_report_call_info t on 1=1
+		and t.ORG_ID = #{orgId}
+		<if test="fromDate != null">and t.INPUTTIME <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.INPUTTIME <![CDATA[ <= ]]> #{toDate}</if>
+		and date_format(t1.report_date,'%Y-%m-%d')  = date_format(t.INPUTTIME,'%Y-%m-%d') and t.ACCOUNT = t1.ACCOUNT
+		<if test="groupIds!=null and groupIds.length>0">
+		join tsm_team_group_member t2 on 1 = 1 and t2.ORG_ID = #{orgId} and t2.user_id = t1.user_id
+		</if>
+		where 1=1
+		and t1.ORG_ID = #{orgId}
+		<if test="fromDate != null">and t1.report_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t1.report_date <![CDATA[<=]]> #{toDate}</if>
+		<if test="userIds!=null and userIds.length>0">
+			<foreach collection="userIds" item="uid" open="and t1.user_id in(" close=")" separator=",">#{uid}</foreach>
+		</if>
+		<if test="groupIds!=null and groupIds.length>0">
+			<foreach collection="groupIds" item="gid" open="and t2.GROUP_ID in(" close=")" separator=",">#{gid}</foreach>
+		</if>
+		<if test="groupKey != null">group by  ${groupKey}</if>
+		<if test="orderKey != null">order by  ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="TsmReportCallInfoMap">
+		select
+		<include refid="cols" />
+		from tsm_report_call_info t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.ORG_ID = #{orgId}</if>
+		<if test="account != null">and t.ACCOUNT = #{account}</if>
+		<if test="callOutNum != null">and t.call_out_num = #{callOutNum}</if>
+		<if test="callInNum != null">and t.call_in_num = #{callInNum}</if>
+		<if test="callRes != null">and t.call_res = #{callRes}</if>
+		<if test="validCallOut != null">and t.valid_call_out = #{validCallOut}</if>
+		<if test="chargeTime != null">and t.charge_time = #{chargeTime}</if>
+		<if test="callTime != null">and t.call_time = #{callTime}</if>
+		<if test="inputtime != null">and t.INPUTTIME = #{inputtime}</if>
+		<if test="updateDate != null">and t.UPDATE_DATE = #{updateDate}</if>
+		
+		<if test="fromDate != null">and t.INPUTTIME <![CDATA[ >= ]]> #{fromDate}</if>
+		<if test="toDate != null">and t.INPUTTIME <![CDATA[ <= ]]> #{toDate}</if>
+	</select>
+	
+	<!-- 累加更新 -->
+	<update id="updateNum">
+		update tsm_report_call_info
+		<set>
+		<if test="callOutNum != null">call_out_num = call_out_num + #{callOutNum},</if>
+		<if test="callInNum != null">call_in_num = call_in_num + #{callInNum},</if>
+		<if test="callRes != null">call_res = call_res + #{callRes},</if>
+		<if test="validCallOut != null">valid_call_out = valid_call_out + #{validCallOut},</if>
+		<if test="chargeTime != null">charge_time = charge_time + #{chargeTime},</if>
+		<if test="callTime != null">call_time = call_time + #{callTime},</if>
+		<if test="updateDate != null">UPDATE_DATE = #{updateDate},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and ID = #{id}</if>
+		<if test="orgId != null">and ORG_ID = #{orgId}</if>
+		<if test="account != null">and ACCOUNT = #{account}</if>
+	</update>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update tsm_report_call_info
+		<set>
+		<if test="id != null">ID = #{id},</if>
+		<if test="account != null">ACCOUNT = #{account},</if>
+		<if test="callOutNum != null">call_out_num = #{callOutNum},</if>
+		<if test="callInNum != null">call_in_num = #{callInNum},</if>
+		<if test="callRes != null">call_res = #{callRes},</if>
+		<if test="validCallOut != null">valid_call_out = #{validCallOut},</if>
+		<if test="chargeTime != null">charge_time = #{chargeTime},</if>
+		<if test="callTime != null">call_time = #{callTime},</if>
+		<if test="inputtime != null">INPUTTIME = #{inputtime},</if>
+		<if test="updateDate != null">UPDATE_DATE = #{updateDate},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and ID = #{id}</if>
+		<if test="orgId != null">and ORG_ID = #{orgId}</if>
+		<if test="account != null">and ACCOUNT = #{account}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.report.bean.TsmReportCallInfoBean">
+	insert into tsm_report_call_info(ID,ORG_ID,ACCOUNT,call_out_num,call_in_num,call_res,in_call_all_num,in_call_answer_num,in_call_time,all_call_time,valid_call_out,charge_time,call_time,INPUTTIME,UPDATE_DATE)
+	values(#{id},#{orgId},#{account},#{callOutNum},#{callInNum},#{callRes},#{inCallAllNum},#{inCallAnswerNum},#{inCallTime},#{allCallTime},#{validCallOut},#{chargeTime},#{callTime},#{inputtime},#{updateDate})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into tsm_report_call_info(ID,ORG_ID,ACCOUNT,call_out_num,call_in_num,call_res,in_call_all_num,in_call_answer_num,in_call_time,all_call_time,valid_call_out,charge_time,call_time,INPUTTIME,UPDATE_DATE)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.account},#{bean.callOutNum},#{bean.callInNum},#{bean.callRes},#{bean.inCallAllNum},#{bean.inCallAnswerNum},#{bean.inCallTime},#{bean.allCallTime},#{bean.validCallOut},#{bean.chargeTime},#{bean.callTime},#{bean.inputtime},#{bean.updateDate})
+    </foreach>
+    </insert>
+
+</mapper>

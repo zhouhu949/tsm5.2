@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.log.dao.LogBatchInfoMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.cust.dto.LogBatchInfoDto">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="TYPE" property="type" jdbcType="VARCHAR" /> <!-- 操作类型 -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 描述 -->
+		<result column="OPERATE_ACC" property="operateAcc" jdbcType="VARCHAR" /> <!-- 操作人 -->
+		<result column="OPERATE_NAME" property="operateName" jdbcType="VARCHAR" /> <!-- 操作人姓名 -->
+		<result column="OPERATE_DATE" property="operateDate" jdbcType="TIMESTAMP" /> <!-- 操作时间 -->
+		<result column="DATA" property="data" jdbcType="VARCHAR" /> <!-- 数据 -->
+		<result column="OPERATE_NUM" property="size" jdbcType="VARCHAR" /> <!-- 操作資源數量 -->
+		<result column="OWNER_ACC" property="ownerAcc" jdbcType="VARCHAR" /> <!-- 資源持有人賬號 -->
+		<result column="member_name" property="ownerName" jdbcType="VARCHAR" /> <!-- 持有人姓名 -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">LOG_RES_OPERATE_BATCH</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND ID = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="type != null and type !=''">
+		    AND TYPE = #{type,jdbcType=VARCHAR} 
+		</if>
+		<if test="operateAcc != null and operateAcc !=''">
+		    AND OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR} 
+		</if>
+		<if test="operateDate != null and operateDate !=''">
+		    AND OPERATE_DATE = #{operateDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="data != null and data !=''">
+		    AND DATA = #{data,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND CONTEXT = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="ownerAcc != null and ownerAcc !=''">
+		    AND OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR} 
+		</if>
+		<if test="size != null and size !=''">
+		    AND OPERATE_NUM = #{size,jdbcType=VARCHAR} 
+		</if>
+		<if test="operateName != null and operateName !=''">
+		    AND OPERATE_NAME = #{operateName,jdbcType=VARCHAR} 
+		</if>
+		<!-- <if test="ownerName != null and ownerName !=''">
+		    AND OWNER_NAME = #{ownerName,jdbcType=VARCHAR} 
+		</if> -->
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    ID = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    ORG_ID = #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="operateAcc != null">
+			    OPERATE_ACC = #{operateAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="operateDate != null">
+			    OPERATE_DATE = #{operateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="data != null">
+			    DATA = #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    CONTEXT = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="ownerAcc != null">
+			    OWNER_ACC = #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="size != null">
+			    OPERATE_NUM = #{size,jdbcType=VARCHAR},
+			</if>
+			<if test="operateName != null">
+			    OPERATE_NAME = #{operateName,jdbcType=VARCHAR},
+			</if>
+			<!-- <if test="ownerName != null">
+			    OWNER_NAME = #{ownerName,jdbcType=VARCHAR},
+			</if> -->
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    ID,
+			</if>
+			<if test="orgId != null" >
+			    ORG_ID,
+			</if>
+			<if test="type != null" >
+			    TYPE,
+			</if>
+			<if test="operateAcc != null" >
+			    OPERATE_ACC,
+			</if>
+			<if test="operateDate != null" >
+			    OPERATE_DATE,
+			</if>
+			<if test="data != null" >
+			    DATA,
+			</if>
+			<if test="context != null" >
+			    CONTEXT,
+			</if>
+			<if test="ownerAcc != null" >
+			    OWNER_ACC,
+			</if>
+			<if test="size != null" >
+			    OPERATE_NUM,
+			</if>
+			<if test="operateName != null" >
+			    OPERATE_NAME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+			    #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="operateAcc != null">
+			    #{operateAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="operateDate != null">
+			    #{operateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="data != null">
+			    #{data,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="ownerAcc != null">
+			    #{ownerAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="size != null">
+			    #{size,jdbcType=VARCHAR},
+			</if>
+			<if test="operateName != null">
+			    #{operateName,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,ORG_ID,TYPE,OPERATE_ACC,OPERATE_DATE,DATA,CONTEXT,OWNER_ACC,OPERATE_NUM,OPERATE_NAME
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.log.bean.LogBatchInfoBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.log.bean.LogBatchInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.log.bean.LogBatchInfoBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<!-- <select id="findLogResOperateListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.cust.dto.LogBatchInfoDto">
+		 SELECT lcd.*,au.user_name
+	     FROM LOG_CUST_DATA lcd,auth_user au
+	     WHERE lcd.ORG_ID = #{orgId}
+	            AND lcd.TYPE IN ('3002','3003','3004','3005')
+			    <if test="type != null and type !=''" >
+			       AND lcd.TYPE = #{type,jdbcType=DECIMAL}
+			    </if>
+				<if test="startDate!=null and startDate!=''">
+		           AND STR_TO_DATE(DATE_FORMAT(lcd.OPERATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{startDate}, '%Y-%m-%d') 	       
+				</if>
+				<if test="endDate!=null and endDate!=''">
+				   AND STR_TO_DATE(DATE_FORMAT(lcd.OPERATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d') 
+				</if>
+				<if test="accounts != null">
+				    AND lcd.OWNER_ACC IN 
+				    <foreach collection="accounts" item="account" open="(" separator="," close=")" index="index">
+				    	#{account} 
+				    </foreach> 
+				</if>
+				<if test="queryText != null and queryText != ''">
+					AND lcd.OPERATE_NAME LIKE CONCAT('%',#{queryText },'%') 
+				</if>
+				and lcd.owner_acc = au.user_account
+				ORDER BY lcd.OPERATE_DATE DESC
+	 </select> -->
+	 <select id="findLogResOperateListPage" resultMap="BaseResultMap" parameterType="com.qftx.tsm.cust.dto.LogBatchInfoDto">
+		 SELECT lrob.*,ttgm.MEMBER_NAME
+	     FROM LOG_RES_OPERATE_BATCH lrob
+	     left JOIN tsm_team_group_member ttgm
+		 on lrob.owner_acc = ttgm.member_acc and ttgm.org_id = #{orgId}
+	     WHERE lrob.ORG_ID = #{orgId}
+	            AND lrob.TYPE IN ('3002','3003','3004','3005')
+	            AND lrob.OPERATE_ACC IN 
+	            <foreach collection="shareAccList" item="acc" open="(" separator="," close=")" index="index">
+				    	#{acc} 
+				</foreach> 
+			    <if test="type != null and type !=''" >
+			       AND lrob.TYPE = #{type,jdbcType=DECIMAL}
+			    </if>
+				<if test="startDate!=null and startDate!=''">
+		           AND STR_TO_DATE(DATE_FORMAT(lrob.OPERATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') >= STR_TO_DATE(#{startDate}, '%Y-%m-%d') 	       
+				</if>
+				<if test="endDate!=null and endDate!=''">
+				   AND STR_TO_DATE(DATE_FORMAT(lrob.OPERATE_DATE,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{endDate}, '%Y-%m-%d') 
+				</if>
+				<if test="accounts != null">
+				    AND lrob.OWNER_ACC IN 
+				    <foreach collection="accounts" item="account" open="(" separator="," close=")" index="index">
+				    	#{account} 
+				    </foreach> 
+				</if>
+				<if test="queryText != null and queryText != ''">
+					AND lrob.OPERATE_NAME LIKE CONCAT('%',#{queryText },'%') 
+				</if>
+				ORDER BY lrob.OPERATE_DATE DESC
+	 </select>
+</mapper>

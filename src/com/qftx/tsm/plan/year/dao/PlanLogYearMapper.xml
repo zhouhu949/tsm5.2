@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.year.dao.PlanLogYearMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.user_id,t.plan_money,t.plan_year,t.data,t.dcontext,t.reason,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.year.bean.PlanLogYearBean" id="PlanLogYearMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="user_id" property="userId"/>
+		<result column="plan_money" property="planMoney"/>
+		<result column="plan_year" property="planYear"/>
+		<result column="data" property="data"/>
+		<result column="dcontext" property="dcontext"/>
+		<result column="reason" property="reason"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+    </resultMap>
+
+    <select id="queryPlanLogYear" resultMap="PlanLogYearMap">
+		select <include refid="cols"/> from plan_log_year t
+		where 1=1
+		<if test="orgId != null">and t.org_id=#{orgId}</if>
+		<if test="planYear != null">and t.plan_year=#{planYear}</if>
+		order by inputtime 
+	</select>
+	
+	<!-- 每天最后一天记录-->
+	<select id="findChartData" resultMap="PlanLogYearMap">
+		select <include refid="cols" />
+		from plan_log_year t,(
+		select t2.org_id,max(t2.inputtime) as inputtime1 from plan_log_year t2 
+		where 1=1
+		<if test="orgId != null">and t2.org_id = #{orgId}</if>
+		<if test="planYear != null">and t2.plan_year = #{planYear}</if>
+		<if test="isDel != null">and t2.is_del = #{isDel}</if>
+		
+		group by t2.org_id,date_format(t2.inputtime,'%Y-%m-%d')
+		)t1
+		where 1=1 
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="planMoney != null">and t.plan_money = #{planMoney}</if>
+		<if test="planYear != null">and t.plan_year = #{planYear}</if>
+		<if test="data != null">and t.data = #{data}</if>
+		<if test="dcontext != null">and t.dcontext = #{dcontext}</if>
+		<if test="reason != null">and t.reason = #{reason}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="isHaveDcontext != null">and t.dcontext is not null</if>
+		and t.inputtime = t1.inputtime1
+		<if test="orderKey != null">order by ${orderKey}</if>
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanLogYearMap">
+		select
+		<include refid="cols" />
+		from plan_log_year t
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="userId != null">and user_id = #{userId}</if>
+		<if test="planMoney != null">and plan_money = #{planMoney}</if>
+		<if test="planYear != null">and plan_year = #{planYear}</if>
+		<if test="data != null">and data = #{data}</if>
+		<if test="dcontext != null">and dcontext = #{dcontext}</if>
+		<if test="reason != null">and reason = #{reason}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+		
+		<if test="isHaveDcontext != null">and dcontext is not null</if>
+		<if test="orderKey != null">order by ${orderKey}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanLogYearMap">
+		select
+		<include refid="cols" />
+		from plan_log_year t
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="userId != null">and user_id = #{userId}</if>
+		<if test="planMoney != null">and plan_money = #{planMoney}</if>
+		<if test="planYear != null">and plan_year = #{planYear}</if>
+		<if test="data != null">and data = #{data}</if>
+		<if test="dcontext != null">and dcontext = #{dcontext}</if>
+		<if test="reason != null">and reason = #{reason}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+		
+		<if test="inputtimeBegin != null">and inputtime <![CDATA[ >= ]]> #{inputtimeBegin}</if>
+		<if test="inputtimeEnd != null">and inputtime <![CDATA[ <= ]]> #{inputtimeEnd}</if>
+		
+		<if test="isHaveDcontext != null">and dcontext is not null</if>
+		<if test="orderKey != null">order by ${orderKey}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_log_year
+		<set>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="planMoney != null">plan_money = #{planMoney},</if>
+		<if test="dcontext != null">dcontext = #{dcontext},</if>
+		<if test="reason != null">reason = #{reason},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="id != null">and id = #{id}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.year.bean.PlanLogYearBean">
+	insert into plan_log_year(id,org_id,user_id,plan_money,plan_year,data,dcontext,reason,updatetime,inputtime,is_del)
+	values(#{id},#{orgId},#{userId},#{planMoney},#{planYear},#{data},#{dcontext},#{reason},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_log_year(id,org_id,user_id,plan_money,plan_year,data,dcontext,reason,updatetime,inputtime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.userId},#{bean.planMoney},#{bean.planYear},#{bean.data},#{bean.dcontext},#{bean.reason},#{bean.updatetime},#{bean.inputtime},#{bean.isDel})
+    </foreach>
+    </insert>
+
+    
+</mapper>

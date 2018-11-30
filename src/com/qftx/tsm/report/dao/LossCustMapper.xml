@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.LossCustMapper">
+    <resultMap type="com.qftx.tsm.report.dto.LossCustDto" id="LossCustListMap">
+    	<result column="currDate" property="currDate" jdbcType="TIMESTAMP" />
+		<result column="signTotal" property="signTotal" jdbcType="NUMERIC"/>
+		<result column="lossTotal" property="lossTotal" jdbcType="NUMERIC"/>
+		<result column="expireCustTotal" property="expireCustTotal" jdbcType="NUMERIC"/>
+		<result column="addLossTotal" property="addLossTotal" jdbcType="NUMERIC"/>
+		<result column="lossRate" property="lossRate" jdbcType="NUMERIC"/>
+		<result column="account" property="account" jdbcType="VARCHAR"/>
+   		<result column="deptId" property="deptId" jdbcType="VARCHAR"/>
+		<result column="deptName" property="deptName" jdbcType="VARCHAR"/>		
+    </resultMap>
+</mapper>

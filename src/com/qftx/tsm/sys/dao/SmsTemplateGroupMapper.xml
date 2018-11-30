@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.SmsTemplateGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.SmsTemplateGroup" >
+   <result column="TSG_ID" property="tsgId" jdbcType="VARCHAR" />
+    <result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" />
+    <result column="GROUP_INDEX" property="groupIndex" jdbcType="DECIMAL" />
+    <result column="INPUT_ACC" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="INPUTDATE" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="MODIFYDATE" property="modifydate" jdbcType="TIMESTAMP" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="DtoResultMap" type="com.qftx.tsm.sys.dto.SmsTemplateGroupDto" extends="BaseResultMap">
+  	<result column="TEMP_COUNT" property="counts" jdbcType="DECIMAL" />  
+  </resultMap>
+   <!-- 实体表名 -->
+   <sql id="table_name">tsm_sms_template_group</sql>
+   <!-- 实体条件查询组装 -->
+   	<sql id="entity_condition_orderby">
+		<if test="tsgId != null" >
+		  AND TSG_ID = #{tsgId,jdbcType=VARCHAR}
+		</if>
+		<if test="groupName != null" >
+		  AND GROUP_NAME = #{groupName,jdbcType=VARCHAR}
+		</if>
+		<if test="groupIndex != null" >
+		  AND GROUP_INDEX = #{groupIndex,jdbcType=DECIMAL}
+		</if>
+		<if test="inputAcc != null" >
+		  AND INPUT_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null" >
+		  AND INPUTDATE = #{inputdate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifierAcc != null" >
+		  AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null" >
+		  AND MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null" >
+		  AND IS_DEL = #{isDel}
+		</if>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="tsgId != null" >
+			  	TSG_ID = #{tsgId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupName != null" >
+		   		GROUP_NAME = #{groupName,jdbcType=VARCHAR},
+			</if>
+			<if test="groupIndex != null" >
+		   		GROUP_INDEX = #{groupIndex,jdbcType=DECIMAL},
+			</if>
+			<if test="inputAcc != null" >
+			   INPUT_ACC = #{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			   MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			   MODIFYDATE = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL = #{isDel,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="tsgId != null" >
+			  TSG_ID,
+			</if>
+			<if test="groupName != null" >
+		   		GROUP_NAME,
+			</if>
+			<if test="groupIndex != null" >
+		   		GROUP_INDEX,
+			</if>
+			<if test="inputAcc != null" >
+			   INPUT_ACC,
+			</if>
+			<if test="inputdate != null" >
+			  INPUTDATE,
+			</if>
+			<if test="modifierAcc != null" >
+			   MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null" >
+			   MODIFYDATE,
+			</if>
+			<if test="orgId != null" >
+			 ORG_ID,
+			</if>
+			<if test="isDel != null" >
+			  IS_DEL,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="tsgId != null" >
+			  #{tsgId},
+			</if>
+			<if test="groupName != null" >
+		   		#{groupName},
+			</if>
+			<if test="groupIndex != null" >
+		   		#{groupIndex},
+			</if>
+			<if test="inputAcc != null" >
+			   	#{inputAcc},
+			</if>
+			<if test="inputdate != null" >
+			  	#{inputdate},
+			</if>
+			<if test="modifierAcc != null" >
+			   	#{modifierAcc},
+			</if>
+			<if test="modifydate != null" >
+			   	#{modifydate},
+			</if>
+			<if test="orgId != null" >
+			   #{orgId},
+			</if>
+			<if test="isDel != null" >
+				 #{isDel},
+			</if>
+		</trim>
+	</sql>
+  	
+  	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  TSG_ID, GROUP_NAME,GROUP_INDEX,INPUT_ACC, INPUTDATE, MODIFIER_ACC, 
+	  MODIFYDATE, ORG_ID,IS_DEL
+	</sql>
+	<sql id="batch_insert_into_value">
+		SELECT
+			#{item.tsgId,jdbcType=VARCHAR},#{item.groupName,jdbcType=VARCHAR},#{item.groupIndex,jdbcType=DECIMAL},
+			#{item.inputAcc,jdbcType=VARCHAR},#{item.inputdate,jdbcType=TIMESTAMP},#{item.modifierAcc,jdbcType=VARCHAR},
+			#{item.modifydate,jdbcType=TIMESTAMP},#{item.orgId,jdbcType=VARCHAR},#{item.isDel,jdbcType=DECIMAL}
+		FROM DUAL
+	</sql>
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/>
+	</select>
+    
+    <!--  ***************************【慧营销4.0 开始】******************************************-->
+    		<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByMapPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId} and TSG_ID = #{tsgId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.SmsTemplateGroup">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		<foreach collection="list" item="item" index="index" separator="union all">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.SmsTemplateGroup">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and TSG_ID = #{tsgId}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.SmsTemplateGroup">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and TSG_ID = #{tsgId}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="deleteBy" parameterType="Map">
+		update <include refid="table_name"/> set IS_DEL = 1 where ORG_ID = #{orgId} and TSG_ID = #{tsgId}
+	</delete>
+
+    <!-- 查询单位下的所有模板分类 -->
+    <select id="getTemplateGroupList" parameterType="string" resultMap="DtoResultMap" >
+    	SELECT t.*, IFNULL(s.TEMP_COUNT,0) TEMP_COUNT  FROM  tsm_sms_template_group  t 
+		left join 
+		(SELECT max(TSG_ID)  as tsg_id1 ,count(TSG_ID) as TEMP_COUNT FROM TSM_SMS_TEMPLATE WHERE ORG_ID = #{orgId} group by tsg_id) s
+		on t.org_id= #{orgId} and t.tsg_id=s.tsg_id1
+		WHERE t.org_id=#{orgId} AND t.is_del = 0 ORDER BY t.INPUTDATE ASC        
+    </select>
+
+	<!--  查询最大顺序值  -->
+	<select id="getMaxByIndex" parameterType="Map" resultType="Integer">
+		select ifnull(max(GROUP_INDEX),0) from <include refid="table_name"/> where ORG_ID = #{orgId}
+	</select>
+	<!--  ***************************【慧营销4.0 结束】******************************************-->
+</mapper>

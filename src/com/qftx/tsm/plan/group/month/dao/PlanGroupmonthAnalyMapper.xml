@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.group.month.dao.PlanGroupmonthAnalyMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.group_id,t.group_type,t.res_num,t.will_num,t.sign_num,t.silence_cust_num,t.lost_cust_num,t.new_cust_sign_num,t.old_cust_sign_num,t.new_cust_sign_Money,t.old_cust_sign_Money,t.sign_Money,t.context,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.group.month.bean.PlanGroupmonthAnalyBean" id="PlanGroupmonthAnalyMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="group_id" property="groupId"/>
+		<result column="group_type" property="groupType"/>
+		<result column="res_num" property="resNum"/>
+		<result column="will_num" property="willNum"/>
+		<result column="sign_num" property="signNum"/>
+		<result column="silence_cust_num" property="silenceCustNum"/>
+		<result column="lost_cust_num" property="lostCustNum"/>
+		<result column="new_cust_sign_num" property="newCustSignNum"/>
+		<result column="old_cust_sign_num" property="oldCustSignNum"/>
+		<result column="new_cust_sign_Money" property="newCustSignMoney"/>
+		<result column="old_cust_sign_Money" property="oldCustSignMoney"/>
+		<result column="sign_Money" property="signMoney"/>
+		<result column="context" property="context"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		
+		<result column="call_time" property="callTime"/>
+		<result column="charge_time" property="chargTime"/>
+		<result column="group_name" property="groupName"/>
+	</resultMap>
+	
+	<select id="findErroData" resultMap="PlanGroupmonthAnalyMap">
+		select org_id,group_id,inputtime from plan_groupmonth_analy
+		group by org_id,group_id,inputtime
+		having count(1)>1
+	</select>
+	
+	<select id="getErroId" resultType="String">
+		select id from plan_groupmonth_analy
+		where 1=1
+		and org_id =#{orgId}
+		and group_id = #{groupId}
+		and inputtime = #{inputtime}
+	</select>
+	
+	<update id="removeErroData">
+		delete from plan_groupmonth_analy where org_id =#{orgId} and id=#{id}
+	</update>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanGroupmonthAnalyMap">
+		select
+		<include refid="cols" />,t1.group_name,t4.call_time,t4.charge_time
+		from tsm_team_group t1
+		left join 
+		plan_groupmonth_analy t
+		on 1=1 
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="groupIds != null and groupIds.size()>0">
+			<foreach collection="groupIds" open="and (" close=")" item="gid" separator="or"> t.GROUP_ID = #{gid}</foreach>
+		</if> 
+		and t1.group_id = t.group_id
+
+		left join (
+		select sum(t2.call_time)as call_time,sum(t2.charge_time)as charge_time ,t3.GROUP_ID as GROUP_ID from 
+		tsm_report_call_info t2
+		join tsm_team_group_member t3 on 1=1 <if test="orgId != null">and t3.org_id = #{orgId}</if> and t2.ACCOUNT = t3.MEMBER_ACC
+		where 1=1 <if test="orgId != null">and t2.org_id = #{orgId}</if> 
+		<if test="groupIds != null and groupIds.size()>0">
+			<foreach collection="groupIds" open="and (" close=")" item="gid" separator="or"> t3.GROUP_ID = #{gid}</foreach>
+		</if> 
+		<if test="fromDate != null">and t2.INPUTTIME <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t2.INPUTTIME <![CDATA[<=]]> #{toDate}</if>
+		)t4 on 1=1 and t4.GROUP_ID = t.group_id
+		where 1=1
+		<if test="orgId != null">and t1.org_id = #{orgId}</if>
+		<if test="groupIds != null and groupIds.size()>0">
+			<foreach collection="groupIds" open="and (" close=")" item="gid" separator="or"> t1.GROUP_ID = #{gid}</foreach>
+		</if> 
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanGroupmonthAnalyMap">
+		select
+		<include refid="cols" />,t1.group_name,t4.call_time,t4.charge_time
+		from plan_groupmonth_analy t
+		left join tsm_team_group t1
+		on 1=1 
+		<if test="orgId != null">and t1.org_id = #{orgId}</if>
+		<if test="groupId != null">and t1.group_id = #{groupId}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		
+		left join (
+		select sum(t2.call_time)as call_time,sum(t2.charge_time)as charge_time from 
+		tsm_report_call_info t2
+		join tsm_team_group_member t3 on 1=1 <if test="orgId != null">and t3.org_id = #{orgId}</if> and t2.ACCOUNT = t3.MEMBER_ACC
+		where 1=1 <if test="orgId != null">and t2.org_id = #{orgId}</if> 
+		<if test="groupIds != null and groupIds.size()>0">
+		<foreach collection="groupIds" open="and (" close=")" item="gid" separator="or">
+			t3.GROUP_ID = #{gid}
+		</foreach>
+		</if> 
+		<if test="fromDate != null">and t2.INPUTTIME <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t2.INPUTTIME <![CDATA[<=]]> #{toDate}</if>
+		)t4 on 1=1
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="groupType != null">and t.group_type = #{groupType}</if>
+		<if test="resNum != null">and t.res_num = #{resNum}</if>
+		<if test="willNum != null">and t.will_num = #{willNum}</if>
+		<if test="signNum != null">and t.sign_num = #{signNum}</if>
+		<if test="silenceCustNum != null">and t.silence_cust_num = #{silenceCustNum}</if>
+		<if test="lostCustNum != null">and t.lost_cust_num = #{lostCustNum}</if>
+		<if test="newCustSignNum != null">and t.new_cust_sign_num = #{newCustSignNum}</if>
+		<if test="oldCustSignNum != null">and t.old_cust_sign_num = #{oldCustSignNum}</if>
+		<if test="newCustSignMoney != null">and t.new_cust_sign_Money = #{newCustSignMoney}</if>
+		<if test="oldCustSignMoney != null">and t.old_cust_sign_Money = #{oldCustSignMoney}</if>
+		<if test="signMoney != null">and t.sign_Money = #{signMoney}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion1" resultMap="PlanGroupmonthAnalyMap">
+		select
+		<include refid="cols" />
+		from plan_groupmonth_analy t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="groupType != null">and t.group_type = #{groupType}</if>
+		<if test="resNum != null">and t.res_num = #{resNum}</if>
+		<if test="willNum != null">and t.will_num = #{willNum}</if>
+		<if test="signNum != null">and t.sign_num = #{signNum}</if>
+		<if test="silenceCustNum != null">and t.silence_cust_num = #{silenceCustNum}</if>
+		<if test="lostCustNum != null">and t.lost_cust_num = #{lostCustNum}</if>
+		<if test="newCustSignNum != null">and t.new_cust_sign_num = #{newCustSignNum}</if>
+		<if test="oldCustSignNum != null">and t.old_cust_sign_num = #{oldCustSignNum}</if>
+		<if test="newCustSignMoney != null">and t.new_cust_sign_Money = #{newCustSignMoney}</if>
+		<if test="oldCustSignMoney != null">and t.old_cust_sign_Money = #{oldCustSignMoney}</if>
+		<if test="signMoney != null">and t.sign_Money = #{signMoney}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		
+		order by id desc
+	</select>
+	
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_groupmonth_analy
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="groupId != null">group_id = #{groupId},</if>
+		<if test="groupType != null">group_type = #{groupType},</if>
+		<if test="resNum != null">res_num = #{resNum},</if>
+		<if test="willNum != null">will_num = #{willNum},</if>
+		<if test="signNum != null">sign_num = #{signNum},</if>
+		<if test="silenceCustNum != null">silence_cust_num = #{silenceCustNum},</if>
+		<if test="lostCustNum != null">lost_cust_num = #{lostCustNum},</if>
+		<if test="newCustSignNum != null">new_cust_sign_num = #{newCustSignNum},</if>
+		<if test="oldCustSignNum != null">old_cust_sign_num = #{oldCustSignNum},</if>
+		<if test="newCustSignMoney != null">new_cust_sign_Money = #{newCustSignMoney},</if>
+		<if test="oldCustSignMoney != null">old_cust_sign_Money = #{oldCustSignMoney},</if>
+		<if test="signMoney != null">sign_Money = #{signMoney},</if>
+		<if test="context != null">context = #{context},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="id != null">and id = #{id}</if>
+		<if test="groupId != null">and group_id = #{groupId}</if>
+		<if test="groupType != null">and group_type = #{groupType}</if>
+		<if test="resNum != null">and res_num = #{resNum}</if>
+		<if test="willNum != null">and will_num = #{willNum}</if>
+		<if test="signNum != null">and sign_num = #{signNum}</if>
+		<if test="silenceCustNum != null">and silence_cust_num = #{silenceCustNum}</if>
+		<if test="lostCustNum != null">and lost_cust_num = #{lostCustNum}</if>
+		<if test="newCustSignNum != null">and new_cust_sign_num = #{newCustSignNum}</if>
+		<if test="oldCustSignNum != null">and old_cust_sign_num = #{oldCustSignNum}</if>
+		<if test="newCustSignMoney != null">and new_cust_sign_Money = #{newCustSignMoney}</if>
+		<if test="oldCustSignMoney != null">and old_cust_sign_Money = #{oldCustSignMoney}</if>
+		<if test="signMoney != null">and sign_Money = #{signMoney}</if>
+		<if test="context != null">and context = #{context}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</update>
+	
+	<!-- 动态更新 -->
+	<update id="updateFactNum">
+		update plan_groupmonth_analy
+		<set>
+		<if test="resNum != null">res_num = res_num + #{resNum},</if>
+		<if test="willNum != null">will_num = will_num + #{willNum},</if>
+		<if test="signNum != null">sign_num = sign_num + #{signNum},</if>
+		<if test="silenceCustNum != null">silence_cust_num = silence_cust_num + #{silenceCustNum},</if>
+		<if test="lostCustNum != null">lost_cust_num = lost_cust_num + #{lostCustNum},</if>
+		<if test="newCustSignNum != null">new_cust_sign_num = new_cust_sign_num + #{newCustSignNum},</if>
+		<if test="oldCustSignNum != null">old_cust_sign_num = old_cust_sign_num + #{oldCustSignNum},</if>
+		<if test="newCustSignMoney != null">new_cust_sign_Money = new_cust_sign_Money + #{newCustSignMoney},</if>
+		<if test="oldCustSignMoney != null">old_cust_sign_Money = old_cust_sign_Money + #{oldCustSignMoney},</if>
+		<if test="signMoney != null">sign_Money = sign_Money + #{signMoney},</if>
+		
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="id != null">and id = #{id}</if>
+		<if test="groupId != null">and group_id = #{groupId}</if>
+		<if test="groupType != null">and group_type = #{groupType}</if>
+		<if test="context != null">and context = #{context}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.group.month.bean.PlanGroupmonthAnalyBean">
+	insert into plan_groupmonth_analy(id,org_id,group_id,group_type,res_num,will_num,sign_num,silence_cust_num,lost_cust_num,new_cust_sign_num,old_cust_sign_num,new_cust_sign_Money,old_cust_sign_Money,sign_Money,context,updatetime,inputtime,is_del)
+	values(#{id},#{orgId},#{groupId},#{groupType},#{resNum},#{willNum},#{signNum},#{silenceCustNum},#{lostCustNum},#{newCustSignNum},#{oldCustSignNum},#{newCustSignMoney},#{oldCustSignMoney},#{signMoney},#{context},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_groupmonth_analy(id,org_id,group_id,group_type,res_num,will_num,sign_num,silence_cust_num,lost_cust_num,new_cust_sign_num,old_cust_sign_num,new_cust_sign_Money,old_cust_sign_Money,sign_Money,context,updatetime,inputtime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.groupId},#{bean.groupType},#{bean.resNum},#{bean.willNum},#{bean.signNum},#{bean.silenceCustNum},#{bean.lostCustNum},#{bean.newCustSignNum},#{bean.oldCustSignNum},#{bean.newCustSignMoney},#{bean.oldCustSignMoney},#{bean.signMoney},#{bean.context},#{bean.updatetime},#{bean.inputtime},#{bean.isDel})
+    </foreach>
+    </insert>
+
+</mapper>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.sys.dao.PointsMapper" >
+  <resultMap id="BaseResultMap" type="com.qftx.tsm.sys.bean.Points" >
+    <result column="points_id" property="pointsId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="DECIMAL" />
+    <result column="level_name" property="levelName" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="DECIMAL" />
+    <result column="start_number" property="startNumber" jdbcType="DECIMAL" />
+    <result column="end_number" property="endNumber" jdbcType="DECIMAL" />
+    <result column="INPUTER_ACC" property="inputAcc" jdbcType="VARCHAR" />
+    <result column="inputtime" property="inputdate" jdbcType="TIMESTAMP" />
+    <result column="MODIFIER_ACC" property="modifierAcc" jdbcType="VARCHAR" />
+    <result column="updatetime" property="modifydate" jdbcType="TIMESTAMP" />
+	<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" />
+  </resultMap>
+  
+   <!-- 实体表名 -->
+   <sql id="table_name">sys_points</sql>
+   <!-- 实体条件查询组装 -->
+   	<sql id="entity_condition_orderby">
+		<if test="pointsId != null" >
+		  AND points_id = #{pointsId,jdbcType=VARCHAR}
+		</if>
+		<if test="iconUrl != null" >
+		  AND icon_url = #{iconUrl,jdbcType=VARCHAR}
+		</if>
+		<if test="level != null" >
+		  AND level = #{level,jdbcType=DECIMAL}
+		</if>
+		<if test="levelName != null" >
+		  AND level_name = #{levelName,jdbcType=VARCHAR}
+		</if>
+		<if test="sort != null" >
+		  AND sort = #{sort,jdbcType=DECIMAL}
+		</if>
+		<if test="startNumber != null" >
+		  AND start_number = #{startNumber,jdbcType=DECIMAL}
+		</if>
+		<if test="endNumber != null" >
+		  AND end_number = #{endNumber,jdbcType=DECIMAL}
+		</if>
+		<if test="inputAcc != null" >
+		  AND INPUTER_ACC = #{inputAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="inputdate != null" >
+		  AND inputtime = #{inputdate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="modifierAcc != null" >
+		  AND MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR}
+		</if>
+		<if test="modifydate != null" >
+		  AND updatetime = #{modifydate,jdbcType=TIMESTAMP}
+		</if>
+		<if test="isDel != null" >
+		  AND IS_DEL = #{isDel}
+		</if>
+	</sql>
+	
+	<!-- 动态修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="iconUrl != null" >
+			  icon_url = #{iconUrl,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null" >
+			   level = #{level,jdbcType=DECIMAL},
+			</if>
+			<if test="levelName != null" >
+			  level_name = #{levelName,jdbcType=VARCHAR},
+			</if>
+			<if test="sort != null" >
+			   sort = #{sort,jdbcType=DECIMAL},
+			</if>
+			<if test="startNumber != null" >
+			   start_number = #{startNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="endNumber != null" >
+			   end_number = #{endNumber,jdbcType=DECIMAL},
+			</if>
+			<if test="inputAcc != null" >
+			  INPUTER_ACC = #{inputAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="inputdate != null" >
+			   inputtime = #{inputdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC = #{modifierAcc,jdbcType=VARCHAR},
+			</if>
+			<if test="modifydate != null" >
+			  updatetime = #{modifydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null" >
+			  	IS_DEL = #{isDel,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</sql>
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List" >
+	  points_id, ORG_ID,icon_url,level,level_name,sort,start_number,end_number, INPUTER_ACC, inputtime, MODIFIER_ACC, 
+	  updatetime,IS_DEL
+	</sql>
+	<sql id="batch_insert_into_value">
+		(
+			#{item.pointsId,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.iconUrl,jdbcType=VARCHAR},
+			#{item.level,jdbcType=DECIMAL},#{item.levelName,jdbcType=VARCHAR},#{item.sort,jdbcType=DECIMAL},
+			#{item.startNumber,jdbcType=DECIMAL},#{item.endNumber,jdbcType=DECIMAL},
+			#{item.inputAcc,jdbcType=VARCHAR},#{item.inputdate,jdbcType=TIMESTAMP},
+			#{item.modifierAcc,jdbcType=VARCHAR},
+			#{item.modifydate,jdbcType=TIMESTAMP},#{item.isDel,jdbcType=DECIMAL}
+		)
+	</sql>
+	
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pointsId != null" >
+			  points_id,
+			</if>
+			<if test="orgId != null" >
+		 		ORG_ID,
+			</if>
+			<if test="iconUrl != null" >
+			  icon_url,
+			</if>
+			<if test="level != null" >
+			   level,
+			</if>
+			<if test="levelName != null" >
+			  level_name,
+			</if>
+			<if test="sort != null" >
+			   sort,
+			</if>
+			<if test="startNumber != null" >
+			   start_number,
+			</if>
+			<if test="endNumber != null" >
+			   end_number,
+			</if>
+			<if test="inputAcc != null" >
+			  INPUTER_ACC,
+			</if>
+			<if test="inputdate != null" >
+			   inputtime,
+			</if>
+			<if test="modifierAcc != null" >
+			  MODIFIER_ACC,
+			</if>
+			<if test="modifydate != null" >
+			  updatetime,
+			</if>
+			<if test="isDel != null" >
+			  	IS_DEL,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pointsId != null" >
+			  #{pointsId},
+			</if>
+			<if test="orgId != null" >
+		 		#{orgId},
+			</if>
+			<if test="iconUrl != null" >
+			  #{iconUrl},
+			</if>
+			<if test="level != null" >
+			   #{level},
+			</if>
+			<if test="levelName != null" >
+			  #{levelName},
+			</if>
+			<if test="sort != null" >
+			   #{sort},
+			</if>
+			<if test="startNumber != null" >
+			  #{startNumber},
+			</if>
+			<if test="endNumber != null" >
+			   #{endNumber},
+			</if>
+			<if test="inputAcc != null" >
+			   #{inputAcc},
+			</if>
+			<if test="inputdate != null" >
+			    #{inputdate},
+			</if>
+			<if test="modifierAcc != null" >
+			   #{modifierAcc},
+			</if>
+			<if test="modifydate != null" >
+			 	#{modifydate},
+			</if>
+			<if test="isDel != null" >
+			   #{isDel},
+			</if>
+		</trim>
+	</sql>
+  	
+  	
+	
+	<!-- 
+	############################################################################################
+	#########################基础定义配置     通用脚本（无需修改，单resultType需要替换）#############
+	###########################################################################################
+	-->
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/>
+		from <include refid="table_name"/> 
+	</select>
+	
+	<!-- 根据条件分页查询所有实体信息 ，对于接口中的findListPage方法-->
+	<select id="findListPage" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>	
+	
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> where points_id = #{pointsId}
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion"  resultMap="BaseResultMap">
+		select <include refid="Base_Column_List"/> from <include refid="table_name"/> 
+		where ORG_ID = #{orgId}
+		<include refid="entity_condition_orderby"/>
+	</select>
+		
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.sys.bean.Points">
+		insert into <include refid="table_name"/> 
+		<include refid="insert_into_field"/>
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.sys.bean.Points">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and points_id = #{pointsId}
+	</update>
+	
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.sys.bean.Points">
+		update <include refid="table_name"/> 
+		<include refid="trents_update_set_sql"/>
+		where ORG_ID = #{orgId} and points_id = #{pointsId}
+	</update>
+	
+	<!-- 删除实体 -->
+	<delete id="delete" parameterType="string">
+		delete from <include refid="table_name"/> where points_id = #{pointsId}
+	</delete>
+	
+	<!-- 删除实体 -->
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where org_id = #{orgId}
+	</delete>
+	
+	<!-- 批量删除实体 -->
+	<delete id="deleteBatch" parameterType="list">
+		delete from <include refid="table_name"/> where points_id in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+
+	<!-- 获得原始定义的选项数据 -->
+	 <select id="getOldPointsList" resultMap="BaseResultMap">
+	 	SELECT
+	 		<include refid="Base_Column_List"/>
+	 	FROM <include refid="table_name"/> T
+	 	WHERE T.ORG_ID IS NULL
+	 	AND T.points_id IN
+	 	('P40001','P40002','P40003','P40004','P40005')
+	 </select>
+</mapper>

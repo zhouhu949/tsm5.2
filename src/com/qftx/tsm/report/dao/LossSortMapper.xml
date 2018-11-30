@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.LossSortMapper">
+	<resultMap type="com.qftx.tsm.report.dto.GroupDto" id="groupDtoMap">
+		<result column="dept_Id" property="deptId" jdbcType="VARCHAR" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="total" property="total" jdbcType="DECIMAL" />
+		<result column="option_id" property="optionId" jdbcType="VARCHAR" />
+	</resultMap>
+ 	<resultMap type="com.qftx.tsm.report.dto.LossSortDetial" id="lossDeatilDtoMap">
+		<result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="link_Name" property="linkName" jdbcType="DECIMAL" />
+		<result column="sign_Date" property="signDate" jdbcType="VARCHAR" />
+		<result column="money" property="money" jdbcType="VARCHAR" />
+		<result column="day_Diff" property="dayDiff" jdbcType="VARCHAR" />
+		<result column="action_Date" property="actionDate" jdbcType="DECIMAL" />
+		<result column="invalid_Date" property="invalidDate" jdbcType="VARCHAR" />
+		<result column="owner_Acc" property="ownerAcc" jdbcType="VARCHAR" />
+	</resultMap>
+    <!-- 获取分组 -->
+    <select id="findGroupList" parameterType="map" resultMap="groupDtoMap">
+			SELECT
+				g.GROUP_ID as dept_Id,g.GROUP_NAME as dept_name
+			FROM
+				tsm_team_group g
+			WHERE
+		    g.ORG_ID = #{orgId}
+		    AND g.IS_DEL = 0
+			AND g.GROUP_ID IN (
+				SELECT
+					s.GROUP_ID
+				FROM
+					tsm_group_shareinfo s
+				WHERE s.org_id = #{orgId} and
+					s.share_acc = #{account}
+			)
+			GROUP BY
+				g.GROUP_ID,
+				g.GROUP_NAME    
+    </select>
+
+    <select id="findOptionByGroupId" parameterType="map" resultMap="groupDtoMap">
+
+			SELECT
+				sum(IF (a.losing_id is not null, 1, 0)) total, p.OPTIONLIST_ID as option_Id
+			FROM
+				tsm_data_optionlist p
+			LEFT JOIN (
+				SELECT
+					t.RES_CUST_ID,
+					t.losing_id,
+		            t.last_loss_date
+				FROM
+					tsm_res_cust_info t
+				WHERE
+					t.OWNER_ACC IN (
+						SELECT
+							m.MEMBER_ACC
+						FROM
+							tsm_team_group g,
+							tsm_team_group_member m
+						WHERE
+							g.org_id = #{orgId}
+							AND g.is_del = 0
+							AND m.org_id = #{orgId}
+							AND g.GROUP_ID = m.GROUP_ID
+							AND g.group_id = #{deptId}
+		            )
+							<if test="startTime!=null and startTime!='' ">
+						       <![CDATA[
+					            AND str_to_date(t.last_Loss_Date,'%Y-%m')>=str_to_date(#{startTime}, '%Y-%m') 	       				   	       
+							   ]]>
+							</if>
+							<if test="endTime!=null and endTime!=''">
+							   <![CDATA[
+					           AND str_to_date(t.last_Loss_Date,'%Y-%m')<=str_to_date(#{endTime}, '%Y-%m') 	       				   
+							   ]]>
+							</if>
+
+			    AND T.STATUS=8
+				AND t.IS_DEL = 0
+				AND t.ORG_ID = #{orgId}
+			) a ON p.OPTIONLIST_ID = a.losing_id
+			WHERE
+				p.ITEM_CODE = 'SALES_40001'
+				and p.org_id=#{orgId}
+			GROUP BY
+				p.OPTIONLIST_ID
+			ORDER BY
+				p.SORT DESC,p.OPTIONLIST_ID DESC
+    </select>
+    <select id="findOptionTotal" parameterType="map" resultMap="groupDtoMap">
+			SELECT
+				sum(IF (a.losing_id is not null, 1, 0)) total, p.OPTIONLIST_ID as option_Id
+			FROM
+				tsm_data_optionlist p
+			LEFT JOIN (
+				SELECT
+					t.RES_CUST_ID,
+					t.losing_id,
+		            t.last_loss_date
+				FROM
+					tsm_res_cust_info t
+				WHERE
+					t.OWNER_ACC IN (
+						SELECT
+							m.MEMBER_ACC
+						FROM
+							tsm_team_group g,
+							tsm_team_group_member m
+						WHERE
+							g.org_id = #{orgId}
+							AND g.is_del = 0
+							AND m.org_id = #{orgId}
+							AND g.GROUP_ID = m.GROUP_ID
+					)
+				<if test="startTime!=null and startTime!='' ">
+			       <![CDATA[
+		            AND str_to_date(t.last_Loss_Date,'%Y-%m')>=str_to_date(#{startTime}, '%Y-%m') 	       				   	       
+				   ]]>
+				</if>
+				<if test="endTime!=null and endTime!=''">
+				   <![CDATA[
+		           AND str_to_date(t.last_Loss_Date,'%Y-%m')<=str_to_date(#{endTime}, '%Y-%m') 	       				   
+				   ]]>
+				</if>
+				 AND T.STATUS=8
+				AND t.IS_DEL = 0
+				AND t.ORG_ID = #{orgId}
+			) a ON p.OPTIONLIST_ID = a.losing_id
+			WHERE
+				p.ITEM_CODE = 'SALES_40001'
+				and p.org_id=#{orgId}
+			GROUP BY
+				p.OPTIONLIST_ID
+			ORDER BY
+				p.SORT DESC,p.OPTIONLIST_ID DESC
+    </select>
+
+    <!-- 查询流失客户原因明细 -->
+    <select id="findDetailList" parameterType="map" resultMap="lossDeatilDtoMap">
+		SELECT
+			g.GROUP_NAME dept_name,
+
+		IF (
+			t.state = 1,
+			t.main_linkman,
+			t. NAME
+
+		) link_Name,
+		t.name,
+		 t.SIGN_DATE as sign_Date,
+		 t.ACTION_DATE as action_Date,
+		 ifnull(datediff(now(), t.ACTION_DATE),0) AS day_Diff,
+		 c.invalid_date as invalid_Date,
+		 ifnull(m.money,0) as money,
+		IF (
+			u.USER_NAME IS NULL,
+			t.OWNER_ACC,
+			u.USER_NAME
+		) AS owner_Acc
+		FROM
+			tsm_res_cust_info t
+		LEFT JOIN (
+			SELECT
+				c.cust_id,
+				max(c.invalid_date) AS invalid_date
+			FROM
+				contract c
+			WHERE
+				c.is_del = 0
+			AND c.org_id = #{orgId}
+			GROUP BY
+				c.cust_id
+		) c ON t.res_cust_id = c.cust_id
+		 LEFT JOIN contract_money m on
+		 m.is_del = 0
+		AND m.org_id = #{orgId}
+		AND m.cust_id = t.RES_CUST_ID,
+		 tsm_team_group g,
+		 tsm_team_group_member ttgm,
+		 auth_user u
+		WHERE
+			u.USER_ACCOUNT = t.OWNER_ACC
+			and t.losing_id=#{optionId}
+		AND t.IS_DEL = 0
+		and t.status=8
+		AND t.ORG_ID =#{orgId}
+		AND g.IS_DEL = 0
+		AND g.ORG_ID = #{orgId}
+		AND ttgm.org_id = #{orgId}
+		AND ttgm.GROUP_ID = g.GROUP_ID
+		AND t.OWNER_ACC = ttgm.MEMBER_ACC
+		AND str_to_date(date_format(t.last_Loss_Date, '%Y-%m'),'%Y-%m') >= str_to_date(#{startTime},'%Y-%m')
+		AND str_to_date(date_format(t.last_Loss_Date, '%Y-%m'),'%Y-%m')  <![CDATA[ <= ]]> str_to_date(#{endTime},'%Y-%m')
+		AND g.GROUP_ID IN (
+			SELECT
+				s.GROUP_ID
+			FROM
+				tsm_group_shareinfo s
+			WHERE
+				s.org_id =#{orgId}
+			AND s.SHARE_ACC = #{account}
+			<if test="deptId!=null and deptId!=''">
+			    and s.group_id=#{deptId}
+			</if>
+		)
+    </select>
+</mapper>

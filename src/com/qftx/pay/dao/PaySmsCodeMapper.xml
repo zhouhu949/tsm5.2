@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.pay.dao.PaySmsCodeMapper">
+	<sql id="cols">
+	t.ID,t.org_id,t.account,t.req_id,t.mobile,t.code,t.status,t.inputtime,t.updatetime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.pay.bean.PaySmsCodeBean" id="PaySmsCodeMap">
+		<result column="ID" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="account" property="account"/>
+		<result column="req_id" property="reqId"/>
+		<result column="mobile" property="mobile"/>
+		<result column="code" property="code"/>
+		<result column="status" property="status"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PaySmsCodeMap">
+		select
+		<include refid="cols" />
+		from pay_sms_code t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="account != null">and t.account = #{account}</if>
+		<if test="reqId != null">and t.req_id = #{reqId}</if>
+		<if test="mobile != null">and t.mobile = #{mobile}</if>
+		<if test="code != null">and t.code = #{code}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findListPage" resultMap="PaySmsCodeMap">
+		select
+		<include refid="cols" />
+		from pay_sms_code t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="account != null">and t.account = #{account}</if>
+		<if test="reqId != null">and t.req_id = #{reqId}</if>
+		<if test="mobile != null">and t.mobile = #{mobile}</if>
+		<if test="code != null">and t.code = #{code}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PaySmsCodeMap">
+		select
+		<include refid="cols" />
+		from pay_sms_code t
+		where 1=1
+		<if test="id != null">and t.ID = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="account != null">and t.account = #{account}</if>
+		<if test="reqId != null">and t.req_id = #{reqId}</if>
+		<if test="mobile != null">and t.mobile = #{mobile}</if>
+		<if test="code != null">and t.code = #{code}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		
+		
+		<if test="orderKey != null">order by ${orderKey}</if>
+		<if test="limitKey != null">limit ${limitKey}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update pay_sms_code
+		<set>
+		<if test="reqId != null">req_id = #{reqId},</if>
+		<if test="mobile != null">mobile = #{mobile},</if>
+		<if test="code != null">code = #{code},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and ID = #{id}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.pay.bean.PaySmsCodeBean">
+	insert into pay_sms_code(ID,org_id,account,req_id,mobile,code,status,inputtime,updatetime,is_del)
+	values(#{id},#{orgId},#{account},#{reqId},#{mobile},#{code},#{status},#{inputtime},#{updatetime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into pay_sms_code(ID,org_id,account,req_id,mobile,code,status,inputtime,updatetime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.account},#{bean.reqId},#{bean.mobile},#{bean.code},#{bean.status},#{bean.inputtime},#{bean.updatetime},#{bean.isDel})
+    </foreach>
+    </insert>
+
+</mapper>

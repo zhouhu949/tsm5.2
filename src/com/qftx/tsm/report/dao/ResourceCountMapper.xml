@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.report.dao.ResourceCountMapper">
+    <resultMap type="com.qftx.tsm.report.bean.ResourceCountBean" id="BaseMap">
+		<result column="pid" property="pid" jdbcType="VARCHAR"/>
+		<result column="PID_GROUP_NAME" property="pidGroupName" jdbcType="VARCHAR"/>
+		<result column="RES_GROUP_ID" property="resGroupId" jdbcType="VARCHAR"/>
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+		<result column="resCount" property="resCount" jdbcType="DECIMAL"/>
+		<result column="signCount" property="willCount" jdbcType="DECIMAL"/>
+		<result column="signCount" property="signCount" jdbcType="DECIMAL"/>
+		<result column="callCount" property="callCount" jdbcType="DECIMAL"/>
+		<result column="vaild_callCount" property="vaildCallCount" jdbcType="DECIMAL"/>
+		<result column="errorCount" property="errorCount" jdbcType="DECIMAL"/>
+    </resultMap>   
+  
+
+
+	      <select id="selectResource" parameterType="com.qftx.tsm.report.bean.ResourceCountBean" resultMap="BaseMap">
+			SELECT
+			trg.pid,
+			gg.GROUP_NAME PID_GROUP_NAME,
+			trg.RES_GROUP_ID,
+			trg.GROUP_NAME,
+			COUNT(t.RES_CUST_ID) resCount,
+			COUNT(will.RES_CUST_ID) willCount,
+			COUNT(sign.RES_CUST_ID) signCount,
+			COUNT(trr.CALLED)  callCount ,
+			COUNT(trr2.CALL_LENGTH)  vaild_callCount,
+			COUNT(trr.INFORMATION_ERROR) errorCount 
+			FROM
+			 tsm_res_group trg 
+			LEFT JOIN tsm_res_cust_info t  ON trg.ORG_ID = t.ORG_ID AND trg.RES_GROUP_ID = t.RES_GROUP_ID
+			<if test="startDate!=null and startDate!=''">
+		       <![CDATA[
+	             AND str_to_date(date_format(t.INPUT_DATE,'%Y-%m-%d'),'%Y-%m-%d')>=str_to_date(#{startDate}, '%Y-%m-%d') 	       
+			   ]]>
+			</if>
+			<if test="endDate!=null and endDate!=''">
+			   <![CDATA[
+			     AND str_to_date(date_format(t.INPUT_DATE,'%Y-%m-%d'),'%Y-%m-%d')<=str_to_date(#{endDate}, '%Y-%m-%d') 
+			   ]]>
+			</if>
+			LEFT JOIN  tsm_res_cust_info will ON will.ORG_ID=t.ORG_ID  AND will.RES_CUST_ID=t.RES_CUST_ID AND will.TYPE='2' AND will.`STATUS` in('2','3')
+			LEFT JOIN  tsm_res_cust_info sign on sign.ORG_ID=t.ORG_ID  AND sign.RES_CUST_ID=t.RES_CUST_ID AND sign.TYPE='2' AND sign.`STATUS`='6'
+			LEFT JOIN  tsm_report_resource trr ON t.ORG_ID =trr.org_id AND trr.RES_CUST_ID=t.RES_CUST_ID
+			LEFT JOIN  tsm_report_resource trr2 ON t.ORG_ID =trr2.org_id AND trr2.RES_CUST_ID=t.RES_CUST_ID 
+			<if test="errorValue != null"> 
+			AND trr2.CALL_LENGTH &gt;#{errorValue}
+			</if>
+			LEFT JOIN  tsm_res_group gg on gg.ORG_ID=t.ORG_ID AND gg.RES_GROUP_ID=trg.pid  AND gg.IS_DEL='0' AND gg.`LEVEL`='0'
+			WHERE
+				trg.ORG_ID = #{orgId}
+			AND trg.IS_DEL='0'
+			AND trg.`LEVEL`='1'
+			<if test="groupList != null">                			
+              AND  trg.RES_GROUP_ID in 
+              <foreach collection="groupList" index="index"   item="groupList" open="(" separator="," close=")">
+			 #{groupList}
+			</foreach>
+			</if>
+			
+			GROUP BY trg.RES_GROUP_ID
+			ORDER BY  CONVERT( trg.GROUP_NAME USING gbk) DESC
+	      </select>
+
+	</mapper>

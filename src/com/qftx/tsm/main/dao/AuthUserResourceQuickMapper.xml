@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.main.dao.AuthUserResourceQuickMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.main.bean.AuthUserResourceQuickBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" /> <!-- 用户ID -->
+		<result column="RESOURCE_ID" property="resourceId" jdbcType="VARCHAR" /> <!-- 资源ID -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">AUTH_USER_RESOURCE_QUICK</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId != null and userId !=''">
+		    AND user_id = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="resourceId != null and resourceId !=''">
+		    AND resource_id = #{resourceId,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceId != null">
+			    resource_id = #{resourceId,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    id,
+			</if>
+			<if test="userId != null" >
+			    user_id,
+			</if>
+			<if test="resourceId != null" >
+			    resource_id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+			    #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="resourceId != null">
+			    #{resourceId,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+	    ID,USER_ID,RESOURCE_ID,ORG_ID 
+	</sql>
+
+	<sql id="batch_insert_into_value">
+		 ( #{item.id},#{item.userId},#{item.resourceId},#{item.orgId} )
+	</sql>
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.main.bean.AuthUserResourceQuickBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> )
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+		
+	</insert>
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.main.bean.AuthUserResourceQuickBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.main.bean.AuthUserResourceQuickBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from 
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByUserId" parameterType="string">
+		delete from
+		<include refid="table_name"  />
+		where user_id = #{userId} 
+	</delete>
+	
+	<!-- 根据单位ID，资源ID 批量删除 -->
+	<delete id="deleteByBatch" parameterType="map">
+		delete from <include refid="table_name"/> where org_id = #{orgId} and RESOURCE_ID in
+		<foreach collection="list" item="ids" open="(" separator="," close=")">
+			#{ids}
+		</foreach>
+	</delete>
+	
+	<!-- 根据单位ID，用户ID 批量删除 -->
+	<delete id="deleteByUserIdBatch" parameterType="map">
+		delete from <include refid="table_name"/> where org_id = #{orgId} and USER_ID in
+		<foreach collection="ids" index="index" item="item" open="("
+											separator="," close=")">
+											#{item}
+			</foreach>
+	</delete>
+	
+	<!-- 根据单位ID，用户ID 删除 -->
+	<delete id="deleteByUserIdOrgId" parameterType="map">
+		delete from <include refid="table_name"/> where org_id = #{orgId} and USER_ID = #{userId}
+	</delete>
+	
+	<delete id="deleteByOrgId" parameterType="string">
+		delete from <include refid="table_name"/> where ORG_ID = #{orgId}
+	</delete>
+	
+	<!-- 查询某一单位下，所有资源 根据资源ID分组 -->
+	<select id="findResourceByList" resultMap="BaseResultMap" parameterType="String">
+		 	select
+				<include refid="Base_Column_List" />
+			from
+			<include refid="table_name" />
+			where org_id = #{orgId} 
+			group by RESOURCE_ID
+	</select>
+	</mapper>

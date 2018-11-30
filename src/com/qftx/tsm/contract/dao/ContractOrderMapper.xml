@@ -1,0 +1,1354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qftx.tsm.contract.dao.ContractOrderMapper">
+	<resultMap id="BaseResultMap" type="com.qftx.tsm.contract.bean.ContractOrderBean">
+		<id column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 机构ID -->
+		<result column="SALE_ACC" property="saleAcc" jdbcType="VARCHAR" /> <!-- 订单所有者帐号 -->
+		<result column="USER_ID" property="userId" jdbcType="VARCHAR" /> <!-- 提交人 -->
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" /> <!-- 部门 -->
+		<result column="CA_ID" property="caId" jdbcType="VARCHAR" /> <!-- 合同ID -->
+		<result column="CUST_NAME" property="custName" jdbcType="VARCHAR" /> <!-- 客户名称 -->
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" /> <!-- 客户ID -->
+		<result column="CODE" property="code" jdbcType="VARCHAR" /> <!-- 订单编号 -->
+		<result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" /> <!-- 支付方式[0、1、2、3] -->
+		<result column="MONEY" property="money" jdbcType="DECIMAL" /> <!-- 订单金额 -->
+		<result column="TRADE_DATE" property="tradeDate" jdbcType="TIMESTAMP"/><!-- 交易日期 -->
+		<result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP" /> <!-- 生效时间 -->
+		<result column="INVALID_DATE" property="invalidDate" jdbcType="TIMESTAMP" /> <!-- 失效时间(服务类型的有，单产品没有) -->
+		<result column="STATUS" property="status" jdbcType="VARCHAR" /> <!-- 订单状态（1未执行，2执行中，0执行完毕） -->
+		<result column="CONTEXT" property="context" jdbcType="VARCHAR" /> <!-- 订单说明 -->
+		<result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" /> <!-- 修改时间 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- 录入时间 -->
+		<result column="IS_DEL" property="isDel" jdbcType="DECIMAL" /> <!-- 册除状态1-删除，0-未删除 -->
+		<result column="AUTH_STATE" property="authState" jdbcType="DECIMAL" /> <!-- 审核状态(0未上报，1未审核，2通过，3驳回) -->
+		<result column="AUTH_DESC" property="authDesc" jdbcType="VARCHAR" /> <!-- 审核意见 -->
+		<!-- 5.1新增 -->
+		<result column="link_name" property="linkName" jdbcType="VARCHAR" /> <!-- 联系人 5.1新增 -->
+		<result column="company" property="company" jdbcType="VARCHAR" /> <!-- 单位名称 5.1新增 -->
+		<result column="link_phone" property="linkPhone" jdbcType="VARCHAR" /> <!-- 联系电话 5.1新增 -->
+		<result column="link_address" property="linkAddress" jdbcType="VARCHAR" /> <!-- 联系地址 5.1新增 -->
+		<result column="courier_number" property="courierNumber" jdbcType="VARCHAR" /> <!-- 物流单号 5.1新增 -->
+		<result column="courier_status" property="courierStatus" jdbcType="DECIMAL" /> <!-- 物流状态 1 暂无记录 2 在途中 3 派送中 4 已签收 5 用户拒签 6 疑难件 7 无效单8 超时单 9 签收失败 10 退回 -->
+		<result column="sales_opp_id" property="salesOppId" jdbcType="VARCHAR" /> <!-- 销售机会ID 5.1新增 -->
+		<result column="product_names" property="productNames" jdbcType="VARCHAR" /> <!-- 订单包含产品名称#分割 5.1新增 用于订单导出 -->
+		<result column="product_ids" property="productIds" jdbcType="VARCHAR" /> <!-- 订单包含产品ID#分割 5.1新增 用于订单导出 -->
+		<result column="report_date" property="reportDate" jdbcType="TIMESTAMP" /> <!-- 上报日期 5.1新增-->
+	</resultMap>
+	
+	<resultMap id="DtoResultMap" type="com.qftx.tsm.contract.dto.ContractOrderDto" extends="BaseResultMap">
+		<result column="CUST_NAME" property="custName" jdbcType="VARCHAR"/>
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+		<result column="ORDER_NUM" property="orderNum" jdbcType="DECIMAL"/>
+		<result column="SIGN_NUM" property="signNum" jdbcType="DECIMAL"/>
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR"/>
+		<result column="COMPANY" property="company" jdbcType="VARCHAR"/>
+		<result column="COMPANY_ADDR" property="companyAddr" jdbcType="VARCHAR"/>
+		<result column="TELPHONE" property="telphone" jdbcType="VARCHAR"/>
+		<result column="MOBILEPHONE" property="mobilephone" jdbcType="VARCHAR"/>
+		<result column="CONTRACT_CODE" property="contractCode" jdbcType="VARCHAR"/>
+		<result column="SIGN_USER_ID" property="signUserId" jdbcType="VARCHAR"/>
+		<result column="SIGN_USER_ACC" property="signUserAcc" jdbcType="VARCHAR"/>
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR"/>
+		<result column="COMMON_ACC" property="commonAcc" jdbcType="VARCHAR"/>
+		<result column="SIGN_MONEY" property="signMoney" jdbcType="DECIMAL"/>
+		<result column="WILL_SIGN_MONEY" property="willSignMoney" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<resultMap id="DetailMap" type="com.qftx.tsm.contract.dto.ContractOrderDto" extends="DtoResultMap">
+		<collection column="{orderId=ID,orgId=ORG_ID}" property="detailDtos"  javaType="List"  ofType="com.qftx.tsm.contract.dto.ContractOrderDetailDto" select="geItemsById"/>
+	</resultMap>
+	<!-- 实体表名 -->
+	<sql id="table_name">CONTRACT_ORDER</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="saleAcc != null and saleAcc !=''">
+		    AND SALE_ACC = #{saleAcc,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId != null and userId !=''">
+		    AND user_id = #{userId,jdbcType=VARCHAR} 
+		</if>
+		<if test="groupId != null and groupId !=''">
+		    AND group_id = #{groupId,jdbcType=VARCHAR} 
+		</if>
+		<if test="caId != null and caId !=''">
+		    AND ca_id = #{caId,jdbcType=VARCHAR} 
+		</if>
+		<if test="custName != null and custName !=''">
+		    AND cust_name = #{custName,jdbcType=VARCHAR} 
+		</if>
+		<if test="custId != null and custId !=''">
+		    AND cust_id = #{custId,jdbcType=VARCHAR} 
+		</if>
+		<if test="code != null and code !=''">
+		    AND code = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="payType != null and payType !=''">
+		    AND pay_type = #{payType,jdbcType=VARCHAR} 
+		</if>
+		<if test="money != null">
+		    AND money = #{money,jdbcType=DECIMAL} 
+		</if>
+		<if test="tradeDate != null">
+		    AND TRADE_DATE = #{tradeDate,jdbcType=DECIMAL} 
+		</if>
+		<if test="effectiveDate != null">
+		    AND effective_date = #{effectiveDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="invalidDate != null">
+		    AND invalid_date = #{invalidDate,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="status != null and status !=''">
+		    AND status = #{status,jdbcType=VARCHAR} 
+		</if>
+		<if test="context != null and context !=''">
+		    AND context = #{context,jdbcType=VARCHAR} 
+		</if>
+		<if test="updatetime != null and updatetime !=''">
+		    AND updatetime = #{updatetime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="inputtime != null and inputtime !=''">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="isDel != null">
+		    AND is_del = #{isDel,jdbcType=DECIMAL} 
+		</if>
+		<if test="authState != null">
+		    AND auth_state = #{authState,jdbcType=DECIMAL} 
+		</if>
+		<if test="authDesc != null and authDesc !=''">
+		    AND auth_desc = #{authDesc,jdbcType=VARCHAR} 
+		</if>
+		<if test="linkName != null and linkName !=''">
+		    AND link_name = #{linkName,jdbcType=VARCHAR} 
+		</if>
+		<if test="company != null and company !=''">
+		    AND company = #{company,jdbcType=VARCHAR} 
+		</if>
+		<if test="linkPhone != null and linkPhone !=''">
+		    AND link_phone = #{linkPhone,jdbcType=VARCHAR} 
+		</if>
+		<if test="linkAddress != null and linkAddress !=''">
+		    AND link_address = #{linkAddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="courierNumber != null and courierNumber !=''">
+		    AND courier_number = #{courierNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="courierStatus != null">
+		    AND courier_status = #{courierStatus,jdbcType=DECIMAL} 
+		</if>
+		<if test="salesOppId != null and salesOppId !=''">
+		    AND sales_opp_id = #{salesOppId,jdbcType=VARCHAR} 
+		</if>
+		<if test="productNames != null and productNames !=''">
+		    AND product_names = #{productNames,jdbcType=VARCHAR} 
+		</if>
+		<if test="productIds != null and productIds !=''">
+		    AND product_ids = #{productIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderKey != null and orderKey != ''">
+			ORDER BY ${orderKey} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="saleAcc != null">
+			    SALE_ACC = #{saleAcc,jdbcType=VARCHAR}, 
+			</if>
+			<if test="userId != null">
+			    user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+			    group_id = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="caId != null">
+			    ca_id = #{caId,jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null">
+			    cust_name = #{custName,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    cust_id = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+			    code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="payType != null">
+			    pay_type = #{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+			    money = #{money,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeDate != null">
+			   TRADE_DATE = #{tradeDate,jdbcType=DECIMAL},
+			</if>
+			<if test="effectiveDate != null">
+			    effective_date = #{effectiveDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="invalidDate != null">
+			    invalid_date = #{invalidDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+			    status = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    context = #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+			    updatetime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    is_del = #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="authState != null">
+			    auth_state = #{authState,jdbcType=DECIMAL},
+			</if>
+			<if test="authDesc != null">
+			    auth_desc = #{authDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="linkName != null">
+			    link_name = #{linkName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+			    company = #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="linkPhone != null">
+			    link_phone = #{linkPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="linkAddress != null">
+			    link_address = #{linkAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="courierNumber != null">
+			    courier_number = #{courierNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="courierStatus != null">
+			    courier_status = #{courierStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="salesOppId != null">
+			    sales_opp_id = #{salesOppId,jdbcType=VARCHAR},
+			</if>
+			<if test="productNames != null">
+			    product_names = #{productNames,jdbcType=VARCHAR},
+			</if>
+			<if test="productIds != null">
+			    product_ids = #{productIds,jdbcType=VARCHAR},
+			</if>
+			<if test="reportDate != null">
+			    report_date = #{reportDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="saleAcc != null">
+			    sale_acc, 
+			</if>
+			<if test="userId != null" >
+			    user_id,
+			</if>
+			<if test="groupId != null" >
+			    group_id,
+			</if>
+			<if test="caId != null" >
+			    ca_id,
+			</if>
+			<if test="custName != null" >
+			    cust_name,
+			</if>
+			<if test="custId != null" >
+			    cust_id,
+			</if>
+			<if test="code != null" >
+			    code,
+			</if>
+			<if test="payType != null" >
+			    pay_type,
+			</if>
+			<if test="money != null" >
+			    money,
+			</if>
+			<if test="tradeDate != null">
+			   trade_date,
+			</if>
+			<if test="effectiveDate != null" >
+			    effective_date,
+			</if>
+			<if test="invalidDate != null" >
+			    invalid_date,
+			</if>
+			<if test="status != null" >
+			    status,
+			</if>
+			<if test="context != null" >
+			    context,
+			</if>
+			<if test="updatetime != null" >
+			    updatetime,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+			<if test="isDel != null" >
+			    is_del,
+			</if>
+			<if test="authState != null">
+			    auth_state,
+			</if>
+			<if test="authDesc != null">
+			    auth_desc,
+			</if>
+			<if test="linkName != null">
+			    link_name,
+			</if>
+			<if test="company != null">
+			    company,
+			</if>
+			<if test="linkPhone != null">
+			    link_phone,
+			</if>
+			<if test="linkAddress != null">
+			    link_address,
+			</if>
+			<if test="courierNumber != null">
+			    courier_number,
+			</if>
+			<if test="courierStatus != null">
+			    courier_status,
+			</if>
+			<if test="salesOppId != null">
+			    sales_opp_id,
+			</if>
+			<if test="productNames != null">
+			    product_names,
+			</if>
+			<if test="productIds != null">
+			    product_ids,
+			</if>
+			<if test="reportDate != null">
+			    report_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="saleAcc != null">
+			    #{saleAcc,jdbcType=VARCHAR}, 
+			</if>
+			<if test="userId != null">
+			    #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+			    #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="caId != null">
+			    #{caId,jdbcType=VARCHAR},
+			</if>
+			<if test="custName != null">
+			    #{custName,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+			    #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+			    #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="payType != null">
+			    #{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="money != null">
+			    #{money,jdbcType=DECIMAL},
+			</if>
+			<if test="tradeDate != null">
+			   #{tradeDate,jdbcType=DECIMAL},
+			</if>
+			<if test="effectiveDate != null">
+			    #{effectiveDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="invalidDate != null">
+			    #{invalidDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+			    #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="context != null">
+			    #{context,jdbcType=VARCHAR},
+			</if>
+			<if test="updatetime != null">
+			    #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isDel != null">
+			    #{isDel,jdbcType=DECIMAL},
+			</if>
+			<if test="authState != null">
+			    #{authState,jdbcType=DECIMAL},
+			</if>
+			<if test="authDesc != null">
+			    #{authDesc,jdbcType=VARCHAR},
+			</if>
+			<if test="linkName != null">
+			    #{linkName,jdbcType=VARCHAR},
+			</if>
+			<if test="company != null">
+			    #{company,jdbcType=VARCHAR},
+			</if>
+			<if test="linkPhone != null">
+			    #{linkPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="linkAddress != null">
+			    #{linkAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="courierNumber != null">
+			    #{courierNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="courierStatus != null">
+			    #{courierStatus,jdbcType=DECIMAL},
+			</if>
+			<if test="salesOppId != null">
+			    #{salesOppId,jdbcType=VARCHAR},
+			</if>
+			<if test="productNames != null">
+			    #{productNames,jdbcType=VARCHAR},
+			</if>
+			<if test="productIds != null">
+			    #{productIds,jdbcType=VARCHAR},
+			</if>
+			<if test="reportDate != null">
+			   #{reportDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,SALE_ACC,USER_ID,GROUP_ID,CA_ID,CUST_NAME,CUST_ID,CODE,PAY_TYPE,MONEY,TRADE_DATE,
+		EFFECTIVE_DATE,INVALID_DATE,STATUS,CONTEXT,UPDATETIME,INPUTTIME,IS_DEL,AUTH_STATE,AUTH_DESC,
+		link_name,company,link_phone,link_address,courier_number,courier_status,sales_opp_id,product_names,product_ids,report_date  
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<select id="findViewContractOrders" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" /> 
+		WHERE ORG_ID = #{orgId} 
+			AND IS_DEL = 0 
+			AND CA_ID = #{caId} 
+			AND AUTH_STATE &lt;&gt; 4 
+	</select>
+	
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getOrderInfoByIdAndOrg" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ORG_ID=#{orgId} AND ID = #{orderId,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getOrderInfoByIdSAndOrg" parameterType="map" resultMap="DtoResultMap">
+		select
+			T.ID,T.ORG_ID,RCI.OWNER_ACC SALE_ACC,T.USER_ID,T.GROUP_ID,T.CA_ID,T.CUST_NAME,T.CUST_ID,T.CODE,T.PAY_TYPE,T.MONEY,T.TRADE_DATE,
+		T.EFFECTIVE_DATE,T.INVALID_DATE,T.STATUS,T.CONTEXT,T.UPDATETIME,T.INPUTTIME,T.IS_DEL,T.AUTH_STATE,T.AUTH_DESC,AU.USER_NAME  
+		from
+		CONTRACT_ORDER T 
+		LEFT JOIN (
+			SELECT RT.RES_CUST_ID,RT.OWNER_ACC FROM TSM_RES_CUST_INFO RT WHERE RT.ORG_ID = #{orgId} 
+				AND RT.RES_CUST_ID IN 
+				(SELECT CO.CUST_ID FROM CONTRACT_ORDER CO WHERE CO.ORG_ID=#{orgId} AND CO.ID IN 
+			<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+				#{orderId,jdbcType=VARCHAR}
+			</foreach>
+			)
+		) RCI ON T.CUST_ID = RCI.RES_CUST_ID 
+		LEFT JOIN AUTH_USER AU ON T.USER_ID = AU.USER_ACCOUNT
+		where T.ORG_ID=#{orgId} AND T.ID IN 
+			<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+				#{orderId,jdbcType=VARCHAR}
+			</foreach>
+	</select>
+	
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractOrderBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractOrderBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractOrderBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND CUST_ID = #{custId,jdbcType=VARCHAR} AND IS_DEL = 0 
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	
+	<select id="findCardListPage" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultMap="DtoResultMap">
+		SELECT
+			W.ID,
+			W.INPUTTIME,
+			W. CODE,
+			W.MONEY,
+			W.PAY_TYPE,
+			W.USER_ID,
+			N.CONTRACT_CODE FROM 
+		(
+				SELECT
+					T.ID,
+					T.CUST_ID,
+					T.INPUTTIME,
+					T. CODE,
+					T.MONEY,
+					T.PAY_TYPE,
+					T.USER_ID,
+					T.CA_ID
+				FROM
+					CONTRACT_ORDER T
+				WHERE
+					T.ORG_ID = #{orgId} 
+				AND T.CUST_ID = #{custId} 
+				AND T.IS_DEL = 0
+				AND T.AUTH_STATE = 2
+			) W
+		LEFT JOIN (
+			SELECT
+				C.ID,
+				C.CODE AS CONTRACT_CODE
+			FROM
+				CONTRACT C
+			WHERE
+				C.ORG_ID = #{orgId} 
+			AND C.IS_DEL = 0
+			AND C.CUST_ID = #{custId}
+		) N ON W.CA_ID = N.ID ORDER BY W.INPUTTIME DESC
+	</select>
+	
+	<sql id="findOrderSql">
+		select 
+				t1.cust_name,
+				t1.org_id,
+				t1.code,
+				t1.money,
+				t1.inputtime,
+				t1.id,
+				t1.auth_state,
+				t1.auth_desc,
+				t1.effective_date,
+				t1.invalid_date,
+				t1.trade_date,
+				t1.context,
+				t1.cust_id,
+				t1.user_id,
+				t1.sale_acc,
+				t1.company,
+				t1.link_name,
+				t1.link_address,
+				t1.courier_number,
+				t1.courier_status,
+				t1.product_names,
+				t1.product_ids   
+		from contract_order t1 
+			where t1.org_id = #{orgId,jdbcType=VARCHAR} 
+			and t1.is_del = 0 
+			<if test='showCheck == "2"'>
+				and t1.auth_state &lt;&gt; 0 
+			</if>
+			<if test='courierStatus != null'>
+				and t1.courier_status = #{courierStatus } 
+			</if>
+			<if test="userIds != null">
+				and t1.user_id in 
+				<foreach collection="userIds" item="uid" open="(" separator="," close=")">
+					#{uid} 
+				</foreach>
+			</if>
+			<if test="startDate != null and startDate != ''">
+				and t1.trade_date >= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and t1.trade_date &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="startEffecDate != null and startEffecDate != ''">
+			 	and t1.effective_date >= STR_TO_DATE(CONCAT(#{startEffecDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endEffecDate != null and endEffecDate != ''">
+			 	and t1.effective_date &lt;= STR_TO_DATE(CONCAT(#{endEffecDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="startInvalidDate != null and startInvalidDate != ''">
+			 	and t1.invalid_date >= STR_TO_DATE(CONCAT(#{startInvalidDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endInvalidDate != null and endInvalidDate != ''">
+			 	and t1.invalid_date &lt;= STR_TO_DATE(CONCAT(#{endInvalidDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="queryText != null and queryText != ''">
+				<choose>
+					<when test='queryType != null and queryType == "2"'>
+						and t1.code like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+					</when>
+					<when test='queryType != null and queryType == "1"'>
+						and t1.cust_name like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+					</when>
+					<when test='queryType != null and queryType == "3"'>
+						and t1.courier_number like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+					</when>
+					<when test='queryType != null and queryType == "4"'>
+						and t1.company like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+					</when>
+				</choose>
+			</if>
+			<choose>
+				<when test="custId!=null and custId!=''">
+				   and T1.cust_id=#{custId}
+				</when>
+				<otherwise>
+				   and T1.cust_id in 
+				   (
+				   	 select 
+				   	 	res_cust_id 
+				   	 from tsm_res_cust_info 
+				   	where org_id = #{orgId} 
+				   		and is_del = 0 
+				   		and status in (6,7,8) 
+				   	 	<if test='noteType == "1"'>
+				   			<choose>
+				   				<when test="ownerAccs != null and ownerAccs.size() > 0">
+				   					and owner_acc in 
+								 		<foreach collection="ownerAccs" item="acc" open="(" separator="," close=")">
+								 			#{acc} 
+								 		</foreach>
+				   				</when>
+				   				<otherwise>
+				   					and owner_acc = #{ownerAcc} 
+				   				</otherwise>
+				   			</choose>
+					  </if>
+					  <if test='noteType == "2"'>
+					  	and common_acc = #{commonAcc} 
+					  </if>
+				   )
+				</otherwise>
+			</choose>
+	</sql>
+	
+	<select id="findContractOrderListPage" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultMap="DtoResultMap">
+			<choose>
+				<when test="authState != null and authState == 2">
+					select 
+						w1.cust_name,
+						w1.org_id,
+						w1.code,
+						w1.money,
+						w1.inputtime,
+						w1.id,
+						w1.auth_state,
+						w1.auth_desc,
+						w1.effective_date,
+						w1.invalid_date,
+						w1.trade_date,
+						w1.context,
+						w1.cust_id,
+						w1.user_id,
+						w1.sale_acc,
+						w1.company,
+						w1.link_name,
+						w1.link_address,
+						w1.courier_number,
+						w1.courier_status,
+						w1.product_names,
+						w1.product_ids   
+					from (
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 2 
+					and t1.invalid_date is null 
+					union 
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 2 
+					and t1.invalid_date is not null 
+					and t1.invalid_date >= date(now())
+					) w1 order by w1.inputtime desc 
+				</when>
+				<when test="authState != null and authState == 5">
+					select 
+						w1.cust_name,
+						w1.org_id,
+						w1.code,
+						w1.money,
+						w1.inputtime,
+						w1.id,
+						w1.auth_state,
+						w1.auth_desc,
+						w1.effective_date,
+						w1.invalid_date,
+						w1.trade_date,
+						w1.context,
+						w1.cust_id,
+						w1.user_id,
+						w1.sale_acc,
+						w1.company,
+						w1.link_name,
+						w1.link_address,
+						w1.courier_number,
+						w1.courier_status,
+						w1.product_names,
+						w1.product_ids   
+					from (
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 2 
+					and t1.invalid_date is not null 
+					and t1.invalid_date &lt; date(now()) 
+					union 
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 5) w1 
+					order by w1.inputtime desc 
+				</when>
+				<otherwise>
+					<include refid="findOrderSql" /> 
+					<if test="authState != null">
+						and t1.auth_state = ${authState} 
+					</if>
+					order by t1.inputtime desc
+				</otherwise>
+			</choose>
+	</select>
+	
+	<select id="findContractOrderList" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultMap="DtoResultMap">
+			<choose>
+				<when test="authState != null and authState == 2">
+					select 
+						w1.cust_name,
+						w1.org_id,
+						w1.code,
+						w1.money,
+						w1.inputtime,
+						w1.id,
+						w1.auth_state,
+						w1.auth_desc,
+						w1.effective_date,
+						w1.invalid_date,
+						w1.trade_date,
+						w1.context,
+						w1.cust_id,
+						w1.user_id,
+						w1.sale_acc,
+						w1.company,
+						w1.link_name,
+						w1.link_address,
+						w1.courier_number,
+						w1.courier_status,
+						w1.product_names,
+						w1.product_ids   
+					from (
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 2 
+					and t1.invalid_date is null 
+					union 
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 2 
+					and t1.invalid_date is not null 
+					and t1.invalid_date >= date(now())
+					) w1 order by w1.inputtime desc 
+				</when>
+				<when test="authState != null and authState == 5">
+					select 
+						w1.cust_name,
+						w1.org_id,
+						w1.code,
+						w1.money,
+						w1.inputtime,
+						w1.id,
+						w1.auth_state,
+						w1.auth_desc,
+						w1.effective_date,
+						w1.invalid_date,
+						w1.trade_date,
+						w1.context,
+						w1.cust_id,
+						w1.user_id,
+						w1.sale_acc,
+						w1.company,
+						w1.link_name,
+						w1.link_address,
+						w1.courier_number,
+						w1.courier_status,
+						w1.product_names,
+						w1.product_ids   
+					from (
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 2 
+					and t1.invalid_date is not null 
+					and t1.invalid_date &lt; date(now()) 
+					union 
+					<include refid="findOrderSql" /> 
+					and t1.auth_state = 5) w1 
+					order by w1.inputtime desc 
+				</when>
+				<otherwise>
+					<include refid="findOrderSql" /> 
+					<if test="authState != null">
+						and t1.auth_state = ${authState} 
+					</if>
+					order by t1.inputtime desc
+				</otherwise>
+			</choose>
+	</select>
+	
+	<resultMap id="DetailInfoMap" type="com.qftx.tsm.contract.dto.ContractOrderDetailDto">
+		<result column="PRODUCT_NAME" property="productName" jdbcType="VARCHAR" /> <!-- 产品名称 -->
+		<result column="PRODUCT_TYPE" property="productType" jdbcType="VARCHAR" /> <!-- 产品规格 -->
+		<result column="PRODUCT_PRICE" property="productPrice" jdbcType="DECIMAL" /> <!-- 产品原价 -->
+		<result column="BUY_PRICE" property="buyPrice" jdbcType="DECIMAL" /> <!-- 购买交易价 -->
+		<result column="BUY_NUM" property="buyNum" jdbcType="DECIMAL" /> <!-- 购买数量 -->
+	</resultMap>
+	
+	<select id="geItemsById" parameterType="map" resultMap="DetailInfoMap">
+	 SELECT 
+			T.PRODUCT_NAME,
+			T.PRODUCT_PRICE,
+			T.BUY_PRICE,
+			T.BUY_NUM,
+			T.BUY_MONEY,
+			T.CONTEXT,
+			T.INPUTTIME,
+			T.ORDER_ID
+	FROM CONTRACT_ORDER_DETAIL T
+		WHERE T.ORG_ID=#{orgId}
+			AND T.IS_DEL = 0
+			AND T.ORDER_ID = #{orderId} 
+	</select>
+	
+	<select id="findContractOrderCountData" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultMap="DtoResultMap">
+			select 
+				t1.auth_state,
+				sum(t1.money) money 
+		from contract_order t1 
+			where t1.org_id = #{orgId,jdbcType=VARCHAR} 
+			and t1.is_del = 0 
+			<if test='showCheck == "2"'>
+				and t1.auth_state &lt;&gt; 0 
+			</if>
+			<if test="userIds != null">
+				and t1.user_id in 
+				<foreach collection="userIds" item="uid" open="(" separator="," close=")">
+					#{uid} 
+				</foreach>
+			</if>
+			<if test="authState != null">
+				and t1.auth_state = ${authState} 
+			</if>
+			<if test="startDate != null and startDate != ''">
+				and t1.trade_date >= STR_TO_DATE(CONCAT(#{startDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endDate != null and endDate != ''">
+				and t1.trade_date &lt;= STR_TO_DATE(CONCAT(#{endDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="startEffecDate != null and startEffecDate != ''">
+			 	and t1.effective_date >= STR_TO_DATE(CONCAT(#{startEffecDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endEffecDate != null and endEffecDate != ''">
+			 	and t1.effective_date &lt;= STR_TO_DATE(CONCAT(#{endEffecDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="startInvalidDate != null and startInvalidDate != ''">
+			 	and t1.invalid_date >= STR_TO_DATE(CONCAT(#{startInvalidDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="endInvalidDate != null and endInvalidDate != ''">
+			 	and t1.invalid_date &lt;= STR_TO_DATE(CONCAT(#{endInvalidDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s') 
+			</if>
+			<if test="queryText != null and queryText != ''">
+				<choose>
+					<when test='queryType != null and queryType == "2"'>
+						and t1.code like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+					</when>
+				</choose>
+			</if>
+			<choose>
+				<when test="custId!=null and custId!=''">
+				   and T1.cust_id=#{custId}
+				</when>
+				<otherwise>
+				   and T1.cust_id in 
+				   (
+				   	 select 
+				   	 	res_cust_id 
+				   	 from tsm_res_cust_info 
+				   	where org_id = #{orgId} 
+				   		and is_del = 0 
+				   		and status in (6,7,8) 
+				   	 	<if test='noteType == "1"'>
+				   			<choose>
+				   				<when test="ownerAccs != null and ownerAccs.size() > 0">
+				   					and owner_acc in 
+								 		<foreach collection="ownerAccs" item="acc" open="(" separator="," close=")">
+								 			#{acc} 
+								 		</foreach>
+				   				</when>
+				   				<otherwise>
+				   					and owner_acc = #{ownerAcc} 
+				   				</otherwise>
+				   			</choose>
+					  </if>
+					  <if test='noteType == "2"'>
+					  	and common_acc = #{commonAcc} 
+					  </if>
+					  <if test="queryText != null and queryText != ''">
+							<choose>
+								<when test='queryType != null and queryType == "1"'>
+									and name like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+								</when>
+								<when test='queryType != null and queryType == "3"'>
+									and company like concat('%',#{queryText,jdbcType=VARCHAR},'%')
+								</when>
+							</choose>
+						</if>
+				   )
+				</otherwise>
+			</choose>
+			group by t1.auth_state
+	</select>
+	
+	<select id="findCheckIds" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultType="java.lang.String">
+		SELECT T.ID FROM CONTRACT_ORDER T WHERE T.ORG_ID = #{orgId} AND T.IS_DEL = 0 AND T.AUTH_STATE = 1 
+		AND T.ID IN 
+			<foreach collection="ids" item="item" open="(" separator="," close=")" index="index">
+				#{item}
+			</foreach>
+	</select>
+	
+	<update id="checkContractOrder" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto">
+		UPDATE CONTRACT_ORDER T
+			SET T.AUTH_STATE = ${authState}, 
+				T.AUTH_DESC = #{authDesc,jdbcType=VARCHAR},
+				T.UPDATETIME = NOW() 
+			WHERE T.ORG_ID = #{orgId} AND 
+				T.ID IN 
+				<foreach collection="ids" item="item" open="(" separator="," close=")" index="index">
+					#{item}
+				</foreach>
+	</update>
+	
+	<update id="reportOrder" parameterType="map">
+		UPDATE CONTRACT_ORDER T SET T.AUTH_STATE = 1,T.UPDATETIME = NOW(),REPORT_DATE=NOW() WHERE T.ORG_ID = #{orgId} AND T.ID = #{orderId} 
+	</update>
+	
+	<update id="rebackOrder" parameterType="map">
+		UPDATE CONTRACT_ORDER T SET T.AUTH_STATE = 0,T.UPDATETIME = NOW(),REPORT_DATE=NULL WHERE T.ORG_ID = #{orgId} AND T.ID = #{orderId} 
+	</update>
+	
+	<update id="cancelledOrder" parameterType="map">
+		UPDATE CONTRACT_ORDER T SET T.AUTH_STATE = 4,T.UPDATETIME = NOW() WHERE T.ORG_ID = #{orgId} AND T.ID = #{orderId} 
+	</update>
+	<update id="cancelledOrderBatch" parameterType="map">
+		UPDATE CONTRACT_ORDER T SET T.AUTH_STATE = 4,T.UPDATETIME = NOW() WHERE
+		 T.ORG_ID = #{orgId} 
+		<if test="ids != null">
+			AND T.ID IN 
+			<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+				#{orderId}
+			</foreach>
+		</if>
+		<if test="caIds != null">
+			AND T.CA_ID IN 
+			<foreach collection="caIds" item="caId" open="(" separator="," close=")">
+				#{caId} 
+			</foreach>
+		</if>
+	</update>
+	
+	<update id="deleteOrderBatch" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto">
+		UPDATE CONTRACT_ORDER T SET T.IS_DEL = 1,T.UPDATETIME = NOW() WHERE T.ORG_ID = #{orgId} 
+		<if test="ids != null">
+			AND T.ID IN 
+			<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+				#{orderId}
+			</foreach>
+		</if>
+		<if test="caIds != null">
+			AND T.CA_ID IN 
+			<foreach collection="caIds" item="caId" open="(" separator="," close=")">
+				#{caId} 
+			</foreach>
+		</if>
+	</update>
+	
+	<select id="findOrderMoney" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultType="java.math.BigDecimal">
+		select ifnull(sum(t.money),0) from contract_order t 
+		WHERE t.org_id = #{orgId} 
+		AND t.auth_state = 2 
+		AND t.is_del = 0 
+		<if test="ids != null">
+			AND t.id IN 
+			<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+				#{orderId}
+			</foreach>
+		</if>
+		<if test="caIds != null">
+			AND t.ca_id IN 
+			<foreach collection="caIds" item="caId" open="(" separator="," close=")">
+				#{caId} 
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="findContractOrders" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultMap="DtoResultMap">
+		select w.id,w.ca_id,w.sale_acc,w.cust_id,w.updatetime,w.money,au.user_account sign_user_acc,au.user_id sign_user_id,z.group_id from 
+		(select 
+			t.id,
+			t.ca_id,
+			t.cust_id,
+			t.updatetime,
+			t.sale_acc,
+			t.money  
+		 from contract_order t WHERE t.org_id = #{orgId} 
+		AND t.auth_state = 2 
+		AND t.is_del = 0 
+		<if test="ids != null">
+			AND t.id IN 
+			<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+				#{orderId}
+			</foreach>
+		</if>
+		<if test="caIds != null">
+			AND t.ca_id IN 
+			<foreach collection="caIds" item="caId" open="(" separator="," close=")">
+				#{caId} 
+			</foreach>
+		</if>) w left join (select user_id,user_account from auth_user where org_id = #{orgId} ) au 
+		on w.sale_acc = au.user_account 
+			left join (select group_id,member_acc from tsm_team_group_member where org_id = #{orgId}) z 
+		on au.user_account = z.member_acc 
+	</select>
+	
+	<update id="deleteOrderDetailBatch" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto">
+		UPDATE CONTRACT_ORDER_DETAIL COD SET IS_DEL = 1,COD.UPDATETIME=NOW()
+		 WHERE COD.ORG_ID = #{orgId} 
+		  AND COD.ORDER_ID IN (
+			  SELECT T.ID FROM CONTRACT_ORDER T WHERE T.ORG_ID = #{orgId} 
+			<if test="ids != null">
+				AND T.ID IN 
+				<foreach collection="ids" item="orderId" open="(" separator="," close=")">
+					#{orderId} 
+				</foreach>
+			</if>
+			<if test="caIds != null">
+				AND T.CA_ID IN 
+				<foreach collection="caIds" item="caId" open="(" separator="," close=")">
+					#{caId} 
+				</foreach>
+			</if>
+		 )
+	</update>
+	
+	<select id="findTodayReport" parameterType="map" resultMap="DtoResultMap">
+		SELECT
+			ifnull(sum((case t.auth_state when 2 then 1 else 0 end)),0) order_num,
+			ifnull(sum((case t.auth_state when 2 then t.money else 0 end)), 0) money,
+			ifnull(sum((case when date(t.trade_date) = date(now()) then t.money else 0 end )), 0) sign_money 
+		FROM
+			contract_order t 
+		WHERE
+			t.org_id = #{orgId} 
+<!-- 		AND t.sale_acc = #{userId} -->
+		AND t.cust_id in (
+			select res_cust_id from tsm_res_cust_info 
+			where org_id = #{orgId} and is_del = 0 and status in (6,7,8) 
+			and owner_acc = #{userId} 
+		)
+		AND t.auth_state in (1,2) 
+		AND t.is_del = 0
+		AND DATE_FORMAT(ifnull(t.updatetime,t.inputtime), '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+	</select>
+	
+	<select id="findTeamTodayReport" parameterType="map" resultMap="DtoResultMap">
+		SELECT
+			W.MEMBER_ACC USER_ID,
+			W.USER_NAME,
+			W.GROUP_NAME,
+			IFNULL(Z.ORDER_NUM, 0) ORDER_NUM,
+			IFNULL(Z.MONEY, 0) MONEY,
+			IFNULL(Z.SIGN_MONEY, 0) SIGN_MONEY,
+			IFNULL(M.WILL_SIGN_MONEY, 0) WILL_SIGN_MONEY,
+			IFNULL(G.SIGN_NUM, 0) SIGN_NUM
+		FROM
+			(
+				SELECT
+					TTGM.MEMBER_ACC,
+					IFNULL(
+						AU.USER_NAME,
+						AU.USER_ACCOUNT
+					) USER_NAME,
+					TTG.GROUP_ID,
+					TTG.GROUP_NAME
+				FROM
+					TSM_GROUP_SHAREINFO TGS
+				RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID= #{orgId} and  TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+				LEFT JOIN AUTH_USER AU ON TTGM.MEMBER_ACC = AU.USER_ACCOUNT
+				LEFT JOIN TSM_TEAM_GROUP TTG ON TGS.GROUP_ID = TTG.GROUP_ID
+				WHERE
+					SHARE_ACC = #{userId} 
+				<if test="groupIds != null and groupIds.size() > 0">
+					<foreach collection="groupIds" item="gid" open="AND TGS.GROUP_ID IN (" separator="," close=")">
+						#{gid} 
+					</foreach>
+				</if>
+				AND AU.USER_ACCOUNT IS NOT NULL
+			) W
+		LEFT JOIN (
+			SELECT
+				S.OWNER_ACC USER_ID,
+				IFNULL(SUM((CASE O.AUTH_STATE WHEN 2 THEN 1 ELSE 0 END)),0) ORDER_NUM,
+				IFNULL(SUM((CASE O.AUTH_STATE WHEN 2 THEN O.MONEY ELSE 0 END)), 0) MONEY,
+				IFNULL(SUM((CASE WHEN DATE(O.TRADE_DATE) = DATE(NOW()) THEN O.MONEY ELSE 0 END )), 0) SIGN_MONEY 
+			FROM
+				CONTRACT_ORDER O 
+			RIGHT JOIN (SELECT
+					ci.res_cust_id,
+					ci.owner_acc 
+				FROM
+					tsm_res_cust_info ci
+				WHERE
+					ci.org_id = #{orgId}
+				AND ci.is_del = 0
+				AND ci. STATUS IN (6, 7, 8)) S 
+				ON O.ORG_ID = #{orgId} AND O.CUST_ID = S.RES_CUST_ID 
+			WHERE
+				O.ORG_ID = #{orgId} 
+			AND O.AUTH_STATE IN (1,2)  
+			AND O.IS_DEL = 0 
+			AND DATE_FORMAT(IFNULL(O.UPDATETIME,O.INPUTTIME), '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+			GROUP BY
+				S.OWNER_ACC
+		) Z ON W.MEMBER_ACC = Z.USER_ID
+		LEFT JOIN (
+			SELECT
+				T.OWNER_ACC ACCOUNT,
+				IFNULL(SUM((CASE T.STATUS WHEN 6 THEN 1 ELSE 0 END)),0) SIGN_NUM
+			FROM
+				LOG_CONTACT_DAY_DATA T
+			WHERE
+				T.ORG_ID = #{orgId}  
+			AND T.CURR_DATE = DATE(NOW())  
+			GROUP BY T.OWNER_ACC  
+		) G ON W.MEMBER_ACC = G.ACCOUNT 
+		LEFT JOIN (
+				SELECT
+					C.INPUT_ACC OWNER_ACC,
+					IFNULL(SUM(C.THEORY_SIGN_MONEY),0) WILL_SIGN_MONEY
+				FROM
+					TSM_SALE_CHANCE C 
+				WHERE 
+				 C.ORG_ID = #{orgId}
+				AND C.THEORY_SIGN_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+				AND C.THEORY_SIGN_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+				AND C.INPUT_ACC IS NOT NULL 
+				GROUP BY C.INPUT_ACC  
+			) M ON W.MEMBER_ACC = M.OWNER_ACC
+		ORDER BY W.MEMBER_ACC ASC 
+	</select>
+	
+	<select id="findTeamTodayReportListPage" parameterType="com.qftx.tsm.contract.dto.ContractOrderDto" resultMap="DtoResultMap">
+		SELECT
+			W.MEMBER_ACC USER_ID,
+			W.USER_NAME,
+			W.GROUP_NAME,
+			IFNULL(Z.ORDER_NUM, 0) ORDER_NUM,
+			IFNULL(Z.MONEY, 0) MONEY,
+			IFNULL(Z.SIGN_MONEY, 0) SIGN_MONEY,
+			IFNULL(M.WILL_SIGN_MONEY, 0) WILL_SIGN_MONEY,
+			IFNULL(G.SIGN_NUM, 0) SIGN_NUM
+		FROM
+			(
+				SELECT
+					TTGM.MEMBER_ACC,
+					IFNULL(
+						AU.USER_NAME,
+						AU.USER_ACCOUNT
+					) USER_NAME,
+					TTG.GROUP_ID,
+					TTG.GROUP_NAME
+				FROM
+					TSM_GROUP_SHAREINFO TGS
+				RIGHT JOIN TSM_TEAM_GROUP_MEMBER TTGM ON TGS.ORG_ID= #{orgId} and  TTGM.ORG_ID= #{orgId} and TTGM.GROUP_ID = TGS.GROUP_ID
+				LEFT JOIN AUTH_USER AU ON TTGM.MEMBER_ACC = AU.USER_ACCOUNT
+				LEFT JOIN TSM_TEAM_GROUP TTG ON TGS.GROUP_ID = TTG.GROUP_ID
+				WHERE
+					SHARE_ACC = #{userId} 
+				<if test="groupIds != null and groupIds.size() > 0">
+					<foreach collection="groupIds" item="gid" open="AND TGS.GROUP_ID IN (" separator="," close=")">
+						#{gid} 
+					</foreach>
+				</if>
+				AND AU.USER_ACCOUNT IS NOT NULL
+			) W
+		LEFT JOIN (
+			SELECT
+				S.OWNER_ACC USER_ID,
+				IFNULL(SUM((CASE O.AUTH_STATE WHEN 2 THEN 1 ELSE 0 END)),0) ORDER_NUM,
+				IFNULL(SUM((CASE O.AUTH_STATE WHEN 2 THEN O.MONEY ELSE 0 END)), 0) MONEY,
+				IFNULL(SUM(O.MONEY), 0) SIGN_MONEY 
+			FROM
+				CONTRACT_ORDER O
+			RIGHT JOIN (SELECT
+					ci.res_cust_id,
+					ci.owner_acc 
+				FROM
+					tsm_res_cust_info ci
+				WHERE
+					ci.org_id = #{orgId}
+				AND ci.is_del = 0
+				AND ci. STATUS IN (6, 7, 8)) S 
+				ON O.ORG_ID = #{orgId} AND O.CUST_ID = S.RES_CUST_ID 
+			WHERE
+				O.ORG_ID = #{orgId} 
+			AND O.AUTH_STATE IN (1,2)  
+			AND O.IS_DEL = 0 
+			AND DATE_FORMAT(IFNULL(O.UPDATETIME,O.INPUTTIME), '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')
+			GROUP BY
+				S.OWNER_ACC
+		) Z ON W.MEMBER_ACC = Z.USER_ID
+		LEFT JOIN (
+			SELECT
+				T.OWNER_ACC ACCOUNT,
+				IFNULL(SUM((CASE T.STATUS WHEN 6 THEN 1 ELSE 0 END)),0) SIGN_NUM
+			FROM
+				LOG_CONTACT_DAY_DATA T
+			WHERE
+				T.ORG_ID = #{orgId}  
+			AND T.CURR_DATE = DATE(NOW())  
+			GROUP BY T.OWNER_ACC  
+		) G ON W.MEMBER_ACC = G.ACCOUNT 
+		LEFT JOIN (
+				SELECT
+					C.INPUT_ACC OWNER_ACC,
+					IFNULL(SUM(C.THEORY_SIGN_MONEY),0) WILL_SIGN_MONEY
+				FROM
+					TSM_SALE_CHANCE C 
+				WHERE 
+				 C.ORG_ID = #{orgId}
+				AND C.THEORY_SIGN_DATE >= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+				AND C.THEORY_SIGN_DATE &lt;= STR_TO_DATE(CONCAT(DATE_FORMAT(now(),'%Y-%m-%d'),' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+				AND C.INPUT_ACC IS NOT NULL 
+				GROUP BY C.INPUT_ACC  
+			) M ON W.MEMBER_ACC = M.OWNER_ACC 
+		ORDER BY ${orderKey } 
+	</select>
+	
+	<select id="findTotalMoneyByCustIds" parameterType="map" resultMap="BaseResultMap">
+		select o.cust_id,ifnull(sum(o.money),0) money from contract_order o where o.org_id = #{orgId} and o.is_del = 0 and o.auth_state in (1,2) and o.cust_id in 
+			<foreach collection="custIds" item="custId" open="(" separator="," close=")">#{custId}</foreach> group by o.cust_id 
+	</select>
+	
+	<select id="findOrderExpireCustIds" parameterType="map" resultType="java.lang.String">
+		SELECT
+			cust_id
+		FROM
+			(
+				SELECT
+					cust_id,
+					max(invalid_date) invalid_date
+				FROM
+					contract_order
+				WHERE
+					org_id = #{orgId}
+				AND auth_state = 2
+				AND invalid_date IS NOT NULL
+				and SALE_ACC = #{ownerAcc}
+				GROUP BY
+					cust_id
+			) w
+		WHERE
+			w.invalid_date &lt; str_to_date(#{expireDate},'%Y-%m-%d %H:%i:%s')
+	</select>
+</mapper>

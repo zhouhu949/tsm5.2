@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qftx.tsm.report.dao.LayoutCustStateMapper">
+    <resultMap type="com.qftx.tsm.report.bean.LayoutCustStateBean" id="BaseResultMap">
+		<result column="ID" property="id" jdbcType="VARCHAR" /> <!-- id -->
+		<result column="ORG_ID" property="orgId" jdbcType="VARCHAR" /> <!-- 单位ID -->
+		<result column="GROUP_ID" property="groupId" jdbcType="VARCHAR" /> <!-- 分组ID -->
+		<result column="GROUP_NAME" property="groupName" jdbcType="VARCHAR" /> <!-- 分组名称 -->
+		<result column="USER_ACCOUNT" property="userAccount" jdbcType="VARCHAR" /> <!-- 用户账号 -->
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" /> <!-- 用户姓名 -->
+		<result column="RES_NUM" property="resNum" jdbcType="DECIMAL" /> <!-- 资源数量 -->
+		<result column="CUST_NUM" property="custNum" jdbcType="DECIMAL" /> <!-- 意向客户数量 -->
+		<result column="SIGN_NUM" property="signNum" jdbcType="DECIMAL" /> <!-- 签约客户数量 -->
+		<result column="SILENT_NUM" property="silentNum" jdbcType="DECIMAL" /> <!-- 沉默客户数量 -->
+		<result column="LOSING_NUM" property="losingNum" jdbcType="DECIMAL" /> <!-- 流失客户数量 -->
+		<result column="ALL_NUM" property="allNum" jdbcType="DECIMAL"/><!-- 全部数量 -->
+		<result column="INPUTTIME" property="inputtime" jdbcType="TIMESTAMP" /> <!-- inputtime -->
+    </resultMap>
+  	<!-- 实体表名 -->
+	<sql id="table_name">LAYOUT_CUST_STATE</sql>
+
+	<!-- 实体条件查询组装 -->
+	<sql id="entity_condition_orderby">
+		<if test="id != null and id !=''">
+		    AND id = #{id,jdbcType=VARCHAR} 
+		</if>
+		<if test="orgId != null and orgId !=''">
+		    AND org_id = #{orgId,jdbcType=VARCHAR} 
+		</if>
+		<if test="groupId != null and groupId !=''">
+		    AND group_id = #{groupId,jdbcType=VARCHAR} 
+		</if>
+		<if test="userAccount != null and userAccount !=''">
+		    AND user_account = #{userAccount,jdbcType=VARCHAR} 
+		</if>
+		<if test="userName != null and userName !=''">
+		    AND user_name = #{userName,jdbcType=VARCHAR} 
+		</if>
+		<if test="resNum != null">
+		    AND res_num = #{resNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="custNum != null">
+		    AND cust_num = #{custNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="signNum != null">
+		    AND sign_num = #{signNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="silentNum != null">
+		    AND silent_num = #{silentNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="losingNum != null">
+		    AND losing_num = #{losingNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="allNum != null">
+		    AND all_num = #{allNum,jdbcType=DECIMAL} 
+		</if>
+		<if test="inputtime != null">
+		    AND inputtime = #{inputtime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 修改实体对应set语句 -->
+	<sql id="trents_update_set_sql">
+		<trim prefix="set" suffixOverrides=",">
+			<if test="id != null">
+			    id = #{id,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgId != null"> -->
+<!-- 			    org_id = #{orgId,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="groupId != null">
+			    group_id = #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="userAccount != null">
+			    user_account = #{userAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+			    user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="resNum != null">
+			    res_num = #{resNum,jdbcType=DECIMAL},
+			</if>
+			<if test="custNum != null">
+			    cust_num = #{custNum,jdbcType=DECIMAL},
+			</if>
+			<if test="signNum != null">
+			    sign_num = #{signNum,jdbcType=DECIMAL},
+			</if>
+			<if test="silentNum != null">
+			    silent_num = #{silentNum,jdbcType=DECIMAL},
+			</if>
+			<if test="losingNum != null">
+			    losing_num = #{losingNum,jdbcType=DECIMAL},
+			</if>
+			<if test="allNum != null">
+			    all_num = #{allNum,jdbcType=DECIMAL},
+			</if>
+			<if test="inputtime != null">
+			    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 插入实体对应的字段语句 -->
+	<sql id="insert_into_field">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >
+			    id,
+			</if>
+			<if test="orgId != null" >
+			    org_id,
+			</if>
+			<if test="groupId != null" >
+			    group_id,
+			</if>
+			<if test="userAccount != null" >
+			    user_account,
+			</if>
+			<if test="userName != null" >
+			    user_name,
+			</if>
+			<if test="resNum != null" >
+			    res_num,
+			</if>
+			<if test="custNum != null" >
+			    cust_num,
+			</if>
+			<if test="signNum != null" >
+			    sign_num,
+			</if>
+			<if test="silentNum != null" >
+			    silent_num,
+			</if>
+			<if test="losingNum != null" >
+			    losing_num,
+			</if>
+			<if test="allNum != null">
+			    all_num,
+			</if>
+			<if test="inputtime != null" >
+			    inputtime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null">
+			    #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="orgId != null">
+			    #{orgId,jdbcType=VARCHAR},
+			</if>
+			<if test="groupId != null">
+			    #{groupId,jdbcType=VARCHAR},
+			</if>
+			<if test="userAccount != null">
+			    #{userAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+			    #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="resNum != null">
+			    #{resNum,jdbcType=DECIMAL},
+			</if>
+			<if test="custNum != null">
+			    #{custNum,jdbcType=DECIMAL},
+			</if>
+			<if test="signNum != null">
+			    #{signNum,jdbcType=DECIMAL},
+			</if>
+			<if test="silentNum != null">
+			    #{silentNum,jdbcType=DECIMAL},
+			</if>
+			<if test="losingNum != null">
+			    #{losingNum,jdbcType=DECIMAL},
+			</if>
+			<if test="allNum != null">
+			    #{allNum,jdbcType=DECIMAL},
+			</if>
+			<if test="inputtime != null">
+			    #{inputtime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</sql>
+
+	<!-- 批量插入实体对应的字段语句 -->
+	<sql id="Base_Column_List">
+		ID,ORG_ID,GROUP_ID,USER_ACCOUNT,USER_NAME,RES_NUM,CUST_NUM,SIGN_NUM,SILENT_NUM,LOSING_NUM,ALL_NUM,INPUTTIME
+	</sql>
+
+
+
+	<!-- ################################################################################################## 
+		#########################基础定义配置 通用脚本（无需修改，单resultType需要替换）############# ################################################################################################## -->
+
+	<!-- 查询所有实体信息，对应接口中的find方法 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+	</select>
+
+	<select id="findListPage" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 根据条件查询所有实体信息，对应接口中的findByCondtion方法 -->
+	<select id="findByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 按编号获取实体信息，对应接口中的getByPrimaryKey方法 -->
+	<select id="getByPrimaryKey" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 按条件查询获取实体信息，对应接口中的getByCondtion方法 -->
+	<select id="getByCondtion" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		<include refid="table_name" />
+		where 1=1
+		<include refid="entity_condition_orderby" />
+	</select>
+
+	<!-- 添加实体 -->
+	<insert id="insert" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		insert into
+		<include refid="table_name" />
+		<include refid="insert_into_field" />
+	</insert>
+	
+	<sql id="batch_insert_into_value">
+		( #{item.id,jdbcType=VARCHAR},#{item.orgId,jdbcType=VARCHAR},#{item.groupId,jdbcType=VARCHAR},#{item.userAccount,jdbcType=VARCHAR},#{item.userName,jdbcType=VARCHAR},
+		#{item.resNum,jdbcType=DECIMAL},#{item.custNum,jdbcType=DECIMAL},#{item.signNum,jdbcType=DECIMAL},#{item.silentNum,jdbcType=DECIMAL},#{item.losingNum,jdbcType=DECIMAL},
+		#{item.allNum,jdbcType=DECIMAL},#{item.inputtime,jdbcType=TIMESTAMP})
+	</sql>
+	
+	<!-- 批量添加实体 -->
+	<insert id="insertBatch" parameterType="list">
+		insert into <include refid="table_name"/> ( <include refid="Base_Column_List" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+        	<include refid="batch_insert_into_value"/>
+    	</foreach>
+	</insert>
+	
+	<!-- 修改实体 -->
+	<update id="update" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ORG_ID=#{orgId} AND ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 动态修改实体 -->
+	<update id="updateTrends" parameterType="com.qftx.tsm.contract.bean.ContractFileBean">
+		update
+		<include refid="table_name" />
+		<include refid="trents_update_set_sql" />
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="string">
+		delete from 
+		<include refid="table_name" />
+		where ORG_ID = #{id,jdbcType=VARCHAR} 
+	</delete>
+	
+	<select id="findReportData" parameterType="string" resultMap="BaseResultMap">
+		SELECT 
+			AU.USER_ACCOUNT,
+			AU.USER_NAME,
+			T.GROUP_ID,
+			IFNULL(W.resNum,0) RES_NUM,
+			IFNULL(W.intNum,0) CUST_NUM,
+			IFNULL(W.signNum,0) SIGN_NUM,
+			IFNULL(W.silentNum,0) SILENT_NUM,
+			IFNULL(W.losingNum,0) LOSING_NUM,
+			IFNULL(W.allNum,0) ALL_NUM  
+		 FROM 
+		(SELECT * FROM AUTH_USER WHERE ORG_ID = #{orgId} AND ENABLED = 1) AU LEFT JOIN
+		(
+		SELECT 
+		  T.OWNER_ACC,
+		  IFNULL(SUM((CASE WHEN T.STATUS IN (2,3) AND T.TYPE IN (1,3) THEN 1 ELSE 0 END)),0) resNum,
+		  IFNULL(SUM((CASE WHEN T.STATUS IN (2,3) AND T.TYPE = 2 THEN 1 ELSE 0 END)),0) intNum,
+		  IFNULL(SUM((CASE WHEN T.STATUS = 6 THEN 1 ELSE 0 END )),0) signNum,
+		  IFNULL(SUM((CASE WHEN T.STATUS = 7 THEN 1 ELSE 0 END )),0) silentNum,
+		  IFNULL(SUM((CASE WHEN T.STATUS = 8 THEN 1 ELSE 0 END )),0) losingNum,
+		  IFNULL(SUM((CASE WHEN T.STATUS IN (2,3,6,7,8) THEN 1 ELSE 0 END)),0) allNum
+		FROM
+			TSM_RES_CUST_INFO T
+		WHERE
+			T.ORG_ID = #{orgId}  
+			AND T.IS_DEL = 0 
+			AND T.TYPE IN (1,2,3) 
+			AND T.STATUS IN (2,3,6,7,8)
+			GROUP BY T.OWNER_ACC ) W ON AU.USER_ACCOUNT = W.OWNER_ACC
+		 LEFT JOIN (SELECT * FROM TSM_TEAM_GROUP_MEMBER TTGM WHERE TTGM.ORG_ID = #{orgId}) T ON AU.USER_ACCOUNT = T.MEMBER_ACC
+		WHERE T.GROUP_ID IS NOT NULL 
+	</select>
+	
+	<select id="findCustStateLayoutForGroup" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+			Z.GROUP_ID,
+			TG.GROUP_NAME,
+			IFNULL(W.RES_NUM,0) AS RES_NUM,
+			IFNULL(W.CUST_NUM,0) AS CUST_NUM,
+			IFNULL(W.SIGN_NUM,0) AS SIGN_NUM,
+			IFNULL(W.SILENT_NUM,0) AS SILENT_NUM,
+			IFNULL(W.LOSING_NUM,0) AS LOSING_NUM,
+			IFNULL(W.ALL_NUM,0) AS ALL_NUM
+			 FROM
+		(SELECT T.GROUP_ID,
+					 SUM(T.RES_NUM) AS RES_NUM,
+					 SUM(T.CUST_NUM) AS CUST_NUM,
+					 SUM(T.SIGN_NUM) AS SIGN_NUM,
+					 SUM(T.SILENT_NUM) AS SILENT_NUM,
+					 SUM(T.LOSING_NUM) AS LOSING_NUM,
+					 SUM(T.ALL_NUM) AS ALL_NUM 
+				 FROM 
+				LAYOUT_CUST_STATE T WHERE T.ORG_ID = #{orgId} AND T.GROUP_ID IN (
+					SELECT GROUP_ID FROM TSM_GROUP_SHAREINFO TGS WHERE TGS.ORG_ID=#{orgId} AND TGS.SHARE_ACC= #{adminAcc} 
+					<if test="groupIds != null and groupIds.size() > 0">
+						<foreach collection="groupIds" item="groupId" open="AND TGS.GROUP_ID IN (" separator="," close=")">
+							#{groupId}
+						</foreach>
+					</if>
+				) GROUP BY T.GROUP_ID) W RIGHT JOIN (
+				SELECT GROUP_ID FROM TSM_GROUP_SHAREINFO TGS WHERE TGS.ORG_ID=#{orgId} AND TGS.SHARE_ACC= #{adminAcc} 
+				<if test="groupIds != null and groupIds.size() > 0">
+					<foreach collection="groupIds" item="groupId" open="AND TGS.GROUP_ID IN (" separator="," close=")">
+						#{groupId}
+					</foreach>
+				</if>
+		) Z ON W.GROUP_ID = Z.GROUP_ID LEFT JOIN (SELECT * FROM TSM_TEAM_GROUP WHERE ORG_ID = #{orgId} AND IS_DEL='0') TG ON Z.GROUP_ID = TG.GROUP_ID 
+	</select>
+	
+	<select id="findCustStateLayoutForPGroup" parameterType="map" resultMap="BaseResultMap">
+				SELECT 
+					 IFNULL(SUM(T.RES_NUM),0) AS RES_NUM,
+					 IFNULL(SUM(T.CUST_NUM),0) AS CUST_NUM,
+					 IFNULL(SUM(T.SIGN_NUM),0) AS SIGN_NUM,
+					 IFNULL(SUM(T.SILENT_NUM),0) AS SILENT_NUM,
+					 IFNULL(SUM(T.LOSING_NUM),0) AS LOSING_NUM,
+					 IFNULL(SUM(T.ALL_NUM),0) AS ALL_NUM
+				 FROM 
+				LAYOUT_CUST_STATE T WHERE T.ORG_ID = #{orgId}
+				<if test="groupIds != null and groupIds.size() > 0">
+					<foreach collection="groupIds" item="groupId" open="AND T.GROUP_ID IN (" separator="," close=")">
+						#{groupId}
+					</foreach>
+				</if>
+	</select>
+	
+	<select id="findCustStateLayoutForMember" parameterType="map" resultMap="BaseResultMap">
+		SELECT 	T.USER_ACCOUNT,
+				T.USER_NAME,
+				T.RES_NUM,
+				T.CUST_NUM,
+				T.SIGN_NUM,
+				T.SILENT_NUM,
+				T.LOSING_NUM,
+				T.ALL_NUM 
+			FROM LAYOUT_CUST_STATE T WHERE T.ORG_ID = #{orgId} 
+			<if test="groupIds != null and groupIds.size() > 0">
+				<foreach collection="groupIds" item="groupId" open="AND T.GROUP_ID IN (" separator="," close=")">
+					#{groupId}
+				</foreach>
+			</if> 
+			ORDER BY T.USER_ACCOUNT ASC 
+	</select>
+	
+	<select id="findCustStateLayoutChart" parameterType="map" resultMap="BaseResultMap">
+		SELECT 	
+				IFNULL(SUM(T.RES_NUM),0) RES_NUM,
+				IFNULL(SUM(T.CUST_NUM),0) CUST_NUM,
+				IFNULL(SUM(T.SIGN_NUM),0) SIGN_NUM,
+				IFNULL(SUM(T.SILENT_NUM),0) SILENT_NUM,
+				IFNULL(SUM(T.LOSING_NUM),0) LOSING_NUM,
+				IFNULL(SUM(T.ALL_NUM),0) ALL_NUM
+			FROM LAYOUT_CUST_STATE T WHERE T.ORG_ID = #{orgId} 
+			<choose>
+				<when test="account != null and account != ''">
+					AND T.USER_ACCOUNT = #{account} 
+				</when>
+				<otherwise>
+					<choose>
+						<when test="groupIds != null and groupIds.size() > 0">
+							<foreach collection="groupIds" item="groupId" open="AND T.GROUP_ID IN (" separator="," close=")">
+								#{groupId}
+							</foreach>
+						</when>
+						<otherwise>
+							AND T.GROUP_ID IN (
+							SELECT TGS.GROUP_ID 
+					          FROM TSM_GROUP_SHAREINFO TGS 
+					         WHERE SHARE_ACC = #{adminAcc } 
+							)
+						</otherwise>
+					</choose>
+				</otherwise>
+			</choose>
+	</select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.group.month.dao.PlanGroupmonthCommontMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.group_id,t.commont_user_id,t.plan_groupmonth_id,t.context,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.group.month.bean.PlanGroupmonthCommontBean" id="PlanGroupmonthCommontMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="group_id" property="groupId"/>
+		<result column="commont_user_id" property="commontUserId"/>
+		<result column="plan_groupmonth_id" property="planGroupmonthId"/>
+		<result column="context" property="context"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		
+		<result column="commont_user_name" property="commontUserName"/>
+	</resultMap>
+
+	<select id="queryByPlanId" resultMap="PlanGroupmonthCommontMap">
+		select
+		<include refid="cols" />,t1.user_name as commont_user_name
+		from plan_groupmonth_commont t 
+		left join auth_user t1 on t1.org_id = #{orgId} and t1.user_id = t.commont_user_id
+		
+		where 1=1
+		and t.org_id=#{orgId}
+		and t.plan_groupmonth_id=#{planGroupmonthId}
+		and t.is_del = 0
+		order by inputtime desc
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.group.month.bean.PlanGroupmonthCommontBean">
+	insert into plan_groupmonth_commont(id,org_id,group_id,commont_user_id,plan_groupmonth_id,context,updatetime,inputtime,is_del)values(#{id},#{orgId},#{groupId},#{commontUserId},#{planGroupmonthId},#{context},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+
+</mapper>

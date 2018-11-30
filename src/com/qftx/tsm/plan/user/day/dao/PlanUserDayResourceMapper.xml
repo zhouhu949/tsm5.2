@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.user.day.dao.PlanUserDayResourceMapper">
+    <sql id="cols">
+	t.id,t.org_id,t.sud_id,t.cust_id,t.cust_name,t.company,t.cust_user,t.group_name,t.cust_sex,t.cust_inputtime,t.cust_tel,t.cust_desc,t.cust_context,t.SOURCE,t.status,t.state,t.context,t.updatetime,t.inputtime,t.is_del,t.contact_result
+    </sql>
+    
+    <resultMap type="com.qftx.tsm.plan.user.day.bean.PlanUserDayResourceBean" id="PlanUserDayResourceMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="sud_id" property="sudId"/>
+		<result column="cust_level" property="custLevel"/>
+		<result column="cust_id" property="custId"/>
+		<result column="cust_name" property="custName"/>
+		<result column="company" property="company"/>
+		<result column="cust_user" property="custUser"/>
+		<result column="group_name" property="groupName"/>
+		<result column="cust_sex" property="custSex"/>
+		<result column="cust_inputtime" property="custInputtime"/>
+		<result column="cust_tel" property="custTel"/>
+		<result column="cust_desc" property="custDesc"/>
+		<result column="cust_context" property="custContext"/>
+		<result column="SOURCE" property="source"/>
+		<result column="status" property="status"/>
+		<result column="state" property="state"/>
+		<result column="context" property="context"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="contact_result" property="contactResult"/>
+		
+		<result column="ACTION_DATE" property="actionDate"/>
+		<result column="RES_GROUP_ID" property="groupId"/>
+		<result column="last_log_id" property="lastLogId"/>
+		
+		<result column="cust_ownerAcc" property="cust_ownerAcc"/>
+		<result column="cust_custId" property="cust_custId"/>
+		<result column="cust_type" property="cust_type"/>
+		<result column="cust_status" property="cust_status"/>
+		
+    </resultMap>
+    
+    <resultMap type="com.qftx.tsm.plan.user.day.bean.DataLableDTO" id="DataLableDTOMap">
+		<result column="planCount" property="planCount"/>
+		<result column="tempPlanCount" property="tempPlanCount"/>
+		<result column="signCount" property="signCount"/>
+		<result column="willCount" property="willCount"/>
+		<result column="toHighSeas" property="toHighSeas"/>
+		<result column="noChange" property="noChange"/>
+		<result column="noContact" property="noContact"/>
+		<result column="alreadyContact" property="alreadyContact"/>
+		<result column="silenceCount" property="silenceCount"/>
+    </resultMap>
+	
+	<sql id="query">
+		select <include refid="cols"/>
+		 from plan_userday_resource t
+			where 1=1 
+			and t.org_id=#{orgId} 
+			and t.sud_id=#{sudId} 
+			<if test="state != null">and t.state =#{state}</if>
+			<if test="status != null">and t.status = #{status}</if>
+			<if test="contactResult != null">and t.contact_result =#{contactResult}</if>
+			<if test="queryStr != null and queryStr != ''">
+	       		<choose>
+	       			<when test='queryType != null and queryType == "1"'>
+	       				AND T.cust_name LIKE CONCAT('%',#{queryStr},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "2"'>
+	       				AND T.cust_user LIKE CONCAT('%',#{queryStr},'%') 
+	       			</when>
+	       			<when test='queryType != null and queryType == "4"'>
+	       				AND T.company LIKE CONCAT('%',#{queryStr},'%') 
+	       			</when>
+	       			<otherwise>
+	       				AND T.cust_tel = #{queryStr}
+	       			</otherwise>
+	       		</choose>
+	       </if>
+			and t.is_del =0
+	</sql>
+	
+	<!-- 分页获取日计划签约客户信息 -->
+	<select id="processList" resultMap="PlanUserDayResourceMap">
+		select t1.RES_CUST_ID as cust_id,
+		t1.IS_PRECEDENCE as cust_level ,t1.TYPE as cust_type,t1.STATUS as cust_status,t1.RES_CUST_ID as cust_custId,t1.OWNER_ACC as cust_ownerAcc
+		from tsm_res_cust_info t1 
+		where 1=1
+		and t1.org_id=#{orgId} 
+		<foreach collection="custIds" item="cuid" open="and t1.RES_CUST_ID in (" close=")" separator=",">
+		 #{cuid}
+		</foreach>
+		 
+		and t1.IS_DEL = 0
+	</select>
+	
+	<!-- 分页获取日计划资源信息 -->
+	<select id="findListPage" resultMap="PlanUserDayResourceMap">
+	   <include refid="query"></include>
+	</select>
+	
+	<select id="findByCondtion" resultMap="PlanUserDayResourceMap">
+	   <include refid="query"></include>
+	</select>
+	
+	<sql id="findFromResSql">
+		select t.RES_CUST_ID as cust_id,t.NAME as cust_name,t.company,t.main_linkman as cust_user,
+		(case when t.MOBILEPHONE is not null then t.MOBILEPHONE else t.TELPHONE end)as cust_tel,
+		t.owner_start_date as cust_inputtime,
+		t.ACTION_DATE,t.IS_PRECEDENCE as cust_level,t.RES_GROUP_ID,t.last_log_id,t.SOURCE
+		from tsm_res_cust_info t
+	    where 1=1 and t.org_id=#{orgId} AND t.TYPE IN (1,3) AND t.STATUS IN (2,3) AND t.IS_DEL = 0 AND t.OWNER_ACC = #{userAcc}	     
+	    
+	    <if test="queryStr !=null and queryStr!=''">
+		    <choose>
+		   	<when test="queryType ==null or queryType==1"> and t.NAME like  CONCAT('%',#{queryStr},'%')</when> 
+		   	<when test="queryType == 2">and t.main_linkman like  CONCAT('%',#{queryStr},'%')</when> 
+		   	<when test="queryType == 4">and t.company like  CONCAT('%',#{queryStr},'%')</when> 
+		   	<when test="queryType == 3">and (t.MOBILEPHONE like  CONCAT('%',#{queryStr},'%') or t.TELPHONE like CONCAT('%',#{queryStr},'%'))</when> 
+		    </choose>
+	    </if>
+	    
+	    <if test="custIds != null and custIds.length>0 ">
+			<foreach collection="custIds" open="and t.RES_CUST_ID in (" close=")" item="custId" separator=",">
+				#{custId}
+			</foreach>
+		</if>
+		
+		<if test="rejectCustIds != null and rejectCustIds.length>0 ">
+			<foreach collection="rejectCustIds" open="and t.RES_CUST_ID not in (" close=")" item="custId" separator=",">
+				#{custId}
+			</foreach>
+		</if>
+	    
+	    <if test="groupId != null">
+			and t.RES_GROUP_ID = #{groupId}
+		</if>
+		<if test="pstartDate != null and pstartDate != ''">
+       		AND t.OWNER_START_DATE <![CDATA[   >=  ]]> STR_TO_DATE(CONCAT(#{pstartDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+       	</if>
+       	<if test="pendDate != null and pendDate != ''">
+       		AND t.OWNER_START_DATE <![CDATA[   <=  ]]> STR_TO_DATE(CONCAT(#{pendDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       	</if>
+       	<if test="startActionDate != null and startActionDate != ''">
+       		AND t.ACTION_DATE <![CDATA[   >=  ]]> STR_TO_DATE(CONCAT(#{startActionDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+      	 </if>
+       	<if test="endActionDate != null and endActionDate != ''">
+       		AND t.ACTION_DATE <![CDATA[   <=  ]]> STR_TO_DATE(CONCAT(#{endActionDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+       	</if>
+	    
+	    <if test="isHaveResRemark != null and isHaveResRemark==1 ">
+     		AND t.LAST_LOG_ID IS NOT NULL
+     	</if>
+     	
+     	 <if test="custLevel != null and custLevel != ''">
+     		AND t.IS_PRECEDENCE = #{custLevel}
+     	</if>
+	    
+	    <if test="planDateFrom != null">
+			and t.NEXTFOLLOW_DATE <![CDATA[   >=  ]]> #{planDateFrom}
+		</if>
+		
+		<if test="planDateTo != null ">
+			and t.NEXTFOLLOW_DATE <![CDATA[   <=  ]]> #{planDateTo}
+		</if>
+		
+		<if test="planDate != null ">
+			and (t.NEXTFOLLOW_DATE is null or 
+			t.NEXTFOLLOW_DATE not between  
+			STR_TO_DATE(CONCAT(DATE_FORMAT(#{planDate},'%Y-%m-%d'),'00:00:00'),'%Y-%m-%d %H:%i:%s')
+			and 
+			STR_TO_DATE(CONCAT(DATE_FORMAT(#{planDate},'%Y-%m-%d'),'23:59:59'),'%Y-%m-%d %H:%i:%s')
+			)
+		</if>
+	</sql>
+	
+	<select id="findFromRes" resultMap="PlanUserDayResourceMap">
+    	<include refid="findFromResSql"></include>
+	</select>
+	
+	<select id="findFromResListPage" resultMap="PlanUserDayResourceMap">
+    	<include refid="findFromResSql"></include>
+	</select>
+	
+	<!-- 根据计划id获取资源 -->
+	<select id="queryCustIdByPlanIds" resultType="String">
+		select t.cust_id from plan_userday_resource t
+		<if test="planQuery == null">   <!-- 查询已经审核的资源或者未审核的临时计划资源 -->
+			join plan_userday t1 on t1.org_id=#{orgId}
+			and (t1.auth_state=1 or(t1.auth_state!=1 and t.state=1))
+			and t.sud_id =t1.id and t1.is_del = 0
+			<if test="planIds !=null and planIds.size()>0">
+				<foreach collection="planIds" open="and (" close=")" item="sudId" separator="or">
+					t1.id = #{sudId}
+				</foreach>
+			</if>
+		</if>
+		where t.org_id=#{orgId}
+		and t.is_del = 0
+		<if test="status!=null and status!=''">
+			and t.status = #{status}
+		</if>
+		<if test="planIds !=null and planIds.size()>0">
+			<foreach collection="planIds" open="and (" close=")" item="sudId" separator="or">
+				t.sud_id = #{sudId}
+			</foreach>
+		</if>
+	</select>
+	
+	<select id="queryDataLable" resultMap="DataLableDTOMap">
+		select 
+		sum(case when (t.state !=1 and t.state!=3) then 1 else 0 end) as planCount,
+		sum(case when (t.state=1 or t.state=3) then 1 else 0 end) as tempPlanCount,
+		sum(case when  t.contact_result='转签约' and t.status=1 then 1 else 0 end) as signCount,
+		sum(case when  t.contact_result='转意向' and t.status=1 then 1 else 0 end) as willCount,
+		sum(case when  t.contact_result='转公海' and t.status=1 then 1 else 0 end) as toHighSeas,
+		sum(case when  t.contact_result='无进展' and t.status=1 then 1 else 0 end) as noChange,
+		sum(case when  t.contact_result='未联系' and t.status=0 then 1 else 0 end) as noContact,
+		sum(case when  t.status=1 then 1 else 0 end) as alreadyContact 
+		
+		from plan_userday_resource t
+		where t.org_id=#{orgId} and t.is_del=0
+		
+		<if test="planIds != null and planIds.size()>0">
+			<foreach collection="planIds" open="and sud_id in (" close=")" item="var" separator=",">
+				#{var}
+			</foreach>
+		</if>
+		
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="sudId != null">and t.sud_id = #{sudId}</if>
+		<if test="custId != null">and t.cust_id = #{custId}</if>
+		<if test="custName != null">and t.cust_name = #{custName}</if>
+		<if test="custUser != null">and t.cust_user = #{custUser}</if>
+		<if test="custTel != null">and t.cust_tel = #{custTel}</if>
+		<if test="custStatus != null">and t.cust_status = #{custStatus}</if>
+		<if test="custInputtime != null">and t.cust_inputtime = #{custInputtime}</if>
+		<if test="custNexttime != null">and t.cust_nexttime = #{custNexttime}</if>
+		<if test="custResult != null">and t.cust_result = #{custResult}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="contactResult != null">and t.contact_result = #{contactResult}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="state != null">and t.state = #{state}</if>
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanUserDayResourceMap">
+		select
+		<include refid="cols" />
+		from plan_userday_resource t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="sudId != null">and t.sud_id = #{sudId}</if>
+		<if test="custLevel != null">and t.cust_level = #{custLevel}</if>
+		<if test="custId != null">and t.cust_id = #{custId}</if>
+		<if test="custName != null">and t.cust_name = #{custName}</if>
+		<if test="custUser != null">and t.cust_user = #{custUser}</if>
+		<if test="groupName != null">and t.group_name = #{groupName}</if>
+		<if test="custSex != null">and t.cust_sex = #{custSex}</if>
+		<if test="custInputtime != null">and t.cust_inputtime = #{custInputtime}</if>
+		<if test="custTel != null">and t.cust_tel = #{custTel}</if>
+		<if test="custDesc != null">and t.cust_desc = #{custDesc}</if>
+		<if test="custContext != null">and t.cust_context = #{custContext}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="state != null">and t.state = #{state}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="contactResult != null">and t.contact_result = #{contactResult}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_userday_resource
+		<set>
+		<if test="custLevel != null">cust_level = #{custLevel},</if>
+		<if test="custName != null">cust_name = #{custName},</if>
+		<if test="custUser != null">cust_user = #{custUser},</if>
+		<if test="groupName != null">group_name = #{groupName},</if>
+		<if test="custSex != null">cust_sex = #{custSex},</if>
+		<if test="custInputtime != null">cust_inputtime = #{custInputtime},</if>
+		<if test="custTel != null">cust_tel = #{custTel},</if>
+		<if test="custDesc != null">cust_desc = #{custDesc},</if>
+		<if test="custContext != null">cust_context = #{custContext},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="state != null">state = #{state},</if>
+		<if test="context != null">context = #{context},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="contactResult != null">contact_result = #{contactResult},</if>
+		</set>
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="id != null">and id = #{id}</if>
+		<if test="ids != null and ids.length>0 ">
+			<foreach collection="ids" open="and (" close=")" item="var" separator="or">
+				id = #{var}
+			</foreach>
+		</if>
+		<if test="sudId != null">and sud_id = #{sudId}</if>
+		<if test="custId != null">and cust_id = #{custId}</if>
+	</update>
+	
+	<!-- 更新资源是否删除-->
+	<update id="updateStateToTomorrow" >
+		update plan_userday_resource
+		set state = (case when state =0 then 2  
+		when state =1 then 3 end)
+		where 1=1
+		and org_id=#{orgId}
+		<if test="id!=null"> and id = #{id} </if>
+		<if test="sudId != null">and sud_id = #{sudId}</if>
+		<if test="ids != null and ids.length>0 ">
+			<foreach collection="ids" open="and (" close=")" item="var" separator="or">
+				id = #{var}
+			</foreach>
+		</if>
+	</update>
+	
+	<update id="updatePlanDate">
+		UPDATE TSM_RES_CUST_INFO SET NEXTFOLLOW_DATE =
+		CASE WHEN NEXTFOLLOW_DATE IS NULL THEN #{planDate}
+		ELSE STR_TO_DATE(CONCAT(DATE_FORMAT(#{planDate}, '%Y-%m-%d'),DATE_FORMAT(NEXTFOLLOW_DATE, ' %H:%i:%s')),'%Y-%m-%d %H:%i:%s')
+		END 
+		WHERE ORG_ID = #{orgId,jdbcType=VARCHAR} AND RES_CUST_ID in (
+		<foreach collection="custIds" item="custId" separator=",">
+		#{custId}
+		</foreach>
+		)
+	</update>
+	
+	<update id="updateMoveDate">
+		UPDATE ${table} SET contact_result ='计划调整'
+		WHERE ORG_ID = #{orgId,jdbcType=VARCHAR} 
+		<if test="sudId != null">and sud_id = #{sudId}</if>
+		AND cust_id in (
+		<foreach collection="custIds" item="custId" separator=",">
+		#{custId}
+		</foreach>
+		)
+		and status ='0'
+	</update>
+	
+ 	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.user.day.bean.PlanUserDayResourceBean">
+	insert into plan_userday_resource(id,org_id,sud_id,cust_level,cust_id,cust_name,company,cust_user,group_name,cust_sex,cust_inputtime,cust_tel,cust_desc,cust_context,SOURCE,status,state,context,updatetime,inputtime,is_del,contact_result)
+	values(#{id},#{orgId},#{sudId},#{custLevel},#{custId},#{custName},#{company},#{custUser},#{groupName},#{custSex},#{custInputtime},#{custTel},#{custDesc},#{custContext},#{source},#{status},#{state},#{context},#{updatetime},#{inputtime},#{isDel},#{contactResult})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_userday_resource(id,org_id,sud_id,cust_level,cust_id,cust_name,company,cust_user,group_name,cust_sex,cust_inputtime,cust_tel,cust_desc,cust_context,SOURCE,status,state,context,updatetime,inputtime,is_del,contact_result)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.sudId},#{bean.custLevel},#{bean.custId},#{bean.custName},#{bean.company},#{bean.custUser},#{bean.groupName},#{bean.custSex},#{bean.custInputtime},#{bean.custTel},#{bean.custDesc},#{bean.custContext},#{bean.source},#{bean.status},#{bean.state},#{bean.context},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.contactResult})
+    </foreach>
+    </insert>
+
+</mapper>

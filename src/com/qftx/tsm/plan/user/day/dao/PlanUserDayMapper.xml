@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.user.day.dao.PlanUserDayMapper">
+    <sql id="cols">
+    t.id,t.org_id,t.group_id,t.user_id,t.context,t.status,t.plan_date,t.auth_state,t.updatetime,t.inputtime,t.is_del,t.auth_desc
+    </sql>
+     
+    <resultMap type="com.qftx.tsm.plan.user.day.bean.PlanUserDayBean" id="PlanUserDayMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="group_id" property="groupId"/>
+		<result column="user_id" property="userId"/>
+		<result column="context" property="context"/>
+		<result column="status" property="status"/>
+		<result column="plan_date" property="planDate"/>
+		<result column="auth_state" property="authState"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+		<result column="auth_desc" property="authDesc"/>
+		
+		<result column="user_name" property="userName"/>
+		<result column="group_name" property="groupName"/>
+		<result column="resourceCount" property="resourceCount"/>
+		<result column="signcustCount" property="signcustCount"/>
+		<result column="willcustCount" property="willcustCount"/>
+		<result column="resourceContactCount" property="resourceContactCount"/>
+		<result column="signcustContactCount" property="signcustContactCount"/>
+		<result column="willcustContactCount" property="willcustContactCount"/>
+    </resultMap>
+	
+	<sql id="query">
+		select <include refid="cols"/> ,
+		ifnull(t2.resourceCount,0)as resourceCount,
+		ifnull(t2.resourceContactCount,0)as resourceContactCount,
+       	ifnull(t4.willcustCount,0)as willcustCount,
+       	ifnull(t4.willcustContactCount,0)as willcustContactCount,
+       	ifnull(t6.signcustCount,0)as signcustCount,
+       	ifnull(t6.signcustContactCount,0)as signcustContactCount
+			from plan_userday t
+			left join (select t1.sud_id ,
+				sum(case when t1.state !=1 and t1.state!=3 then 1 else 0 end) as resourceCount, 
+				sum(case when t1.status=1 then 1 else 0 end) as resourceContactCount 
+				from  plan_userday_resource t1  where t1.org_id=#{orgId} and t1.is_del=0  
+				<if test="id !=null"> and t1.sud_id =#{id}</if>
+				group by t1.sud_id)t2 on t.id = t2.sud_id
+			
+			left join  (select t3.sud_id ,
+				sum(1) as willcustCount, 
+				sum(case when t3.status=1 then 1 else 0 end) as willcustContactCount 
+				from  plan_userday_willcust t3  where t3.org_id=#{orgId} and t3.is_del=0  
+				<if test="id !=null"> and t3.sud_id =#{id}</if>
+				group by t3.sud_id)t4 on t.id = t4.sud_id
+			
+			left join (select t5.sud_id ,
+				sum(1) as signcustCount, 
+				sum(case when t5.status=1 then 1 else 0 end) as signcustContactCount 
+				from  plan_userday_signcust t5  where t5.org_id=#{orgId} and t5.is_del=0  
+				<if test="id !=null"> and t5.sud_id =#{id}</if>
+				group by t5.sud_id)t6 on t.id = t6.sud_id
+				
+			where t.org_id=#{orgId} and t.is_del = 0
+			<if test="fromDate != null">and t.plan_date <![CDATA[>=]]> #{fromDate}</if>
+			<if test="toDate != null">and t.plan_date <![CDATA[<=]]> #{toDate}</if>
+			<if test="id !=null"> and t.id =#{id}</if>
+			<if test="userId != null">and t.user_id=#{userId}</if>
+	</sql>
+	
+	<select id="findFromRes" resultMap="PlanUserDayMap">
+		select 
+		sum(case when t.TYPE IN (1,3) AND t.STATUS IN (2,3) then 1 else 0 end) as resourceCount,
+		sum(case when t.TYPE =2  AND t.STATUS IN (2,3) then 1 else 0 end) as willcustCount,
+		sum(case when t.TYPE =2  AND t.STATUS =6 then 1 else 0 end) as signcustCount,
+		0 as resourceContactCount,
+		0 as willcustContactCount,
+		0 as signcustContactCount,date(NEXTFOLLOW_DATE) as plan_date
+		
+		from tsm_res_cust_info t where  1= 1 
+		and t.org_id=#{orgId} and t.OWNER_ACC=#{userAcc} 
+		and  t.TYPE IN (1,2,3) and t.STATUS IN (2,3,6)
+				
+		<if test="fromDate != null">
+			and t.NEXTFOLLOW_DATE <![CDATA[   >=  ]]> #{fromDate}
+		</if>
+		
+		<if test="toDate != null ">
+			and t.NEXTFOLLOW_DATE <![CDATA[   <=  ]]> #{toDate}
+		</if>
+		and t.is_del = 0
+		group by t.OWNER_ACC,date(t.NEXTFOLLOW_DATE)
+	</select>
+	
+	<select id="findCustIdFromRes" resultType="String">
+		select t.RES_CUST_ID from tsm_res_cust_info t where  1= 1 
+		and t.org_id=#{orgId} and t.OWNER_ACC=#{userAcc} and t.is_del = 0
+		<choose>
+			<when test="type=='res'.toString()">AND t.TYPE IN (1,3) AND t.STATUS IN (2,3)</when>
+			<when test="type=='will'.toString()">AND t.TYPE =2  AND t.STATUS IN (2,3)</when>
+			<otherwise>AND t.TYPE =2  AND t.STATUS =6</otherwise>
+		</choose>
+		and t.NEXTFOLLOW_DATE <![CDATA[   >=  ]]> #{fromDate}
+		and t.NEXTFOLLOW_DATE <![CDATA[   <=  ]]> #{toDate}
+	</select>
+	
+	<select id="findCustIdFromPlan" resultType="String" >
+		select t.cust_id from 
+		<choose>
+			<when test="type=='res'.toString()">plan_userday_resource</when>
+			<when test="type=='will'.toString()">plan_userday_willcust</when>
+			<otherwise>plan_userday_signcust</otherwise>
+		</choose>
+		t  where  1= 1 
+		and t.org_id=#{orgId} and t.is_del = 0 and t.sud_id =  #{id}
+	</select>
+	
+	<select id="queryByUserAndDate" parameterType="map" resultMap="PlanUserDayMap">
+		select <include refid="cols"/> from plan_userday t
+		where 1=1
+		and t.org_id=#{orgId}
+		<if test="userId != null">and t.user_id=#{userId}</if>
+		<if test="id != null">and t.id=#{id}</if>
+		<if test="fromDate != null">and t.plan_date <![CDATA[>=]]> #{fromDate}</if>
+		<if test="toDate != null">and t.plan_date <![CDATA[<=]]> #{toDate}</if>
+		and t.is_del = 0
+	</select>
+	
+	<select id="findById" resultMap="PlanUserDayMap">
+		<include refid="query"></include>
+	</select>
+	
+	<select id="findFromPlan" resultMap="PlanUserDayMap">
+		<include refid="query"></include>
+	</select>
+	
+	<select id="findAuthListPage" resultMap="PlanUserDayMap">
+		select t.id,t.auth_state,t.plan_date,t.group_id,t.user_id,
+		count(distinct t1.id) as resourceCount,count(distinct t2.id) as signcustCount,count(distinct t3.id) as willcustCount
+		from plan_userday t
+		left join plan_userday_resource t1 on t1.org_id=#{orgId} and t1.is_del=0 and t1.sud_id=t.id and t1.state in(0,1)
+		left join plan_userday_signcust t2 on t2.org_id=#{orgId} and t2.is_del=0 and t2.sud_id=t.id and t2.state=0
+		left join plan_userday_willcust t3 on t3.org_id=#{orgId} and t3.is_del=0 and t3.sud_id=t.id and t3.state=0
+		where t.org_id= #{orgId}
+		and t.is_del = 0
+		and t.status = 1 
+		<if test="authState != null">and t.auth_state=#{authState}</if>
+		<if test="userIds !=null and userIds.size()>0">
+			<foreach collection="userIds" item="id" open="and (" close=")" separator="or">
+				t.user_id=#{id}
+			</foreach>
+		</if>
+		
+		<if test="pstartDate != null and pstartDate != ''">
+       		AND STR_TO_DATE(DATE_FORMAT(T.plan_date,'%Y-%m-%d'),'%Y-%m-%d') &gt;= STR_TO_DATE(#{pstartDate},'%Y-%m-%d')
+       </if>
+       <if test="pendDate != null and pendDate != ''">
+       		AND STR_TO_DATE(DATE_FORMAT(T.plan_date,'%Y-%m-%d'),'%Y-%m-%d') &lt;= STR_TO_DATE(#{pendDate},'%Y-%m-%d')
+       </if>
+		
+		group by t.id,t.auth_state,t.plan_date
+		order by t.plan_date desc 
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanUserDayMap">
+		select
+		<include refid="cols" />
+		from plan_userday t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="planDate != null">and t.plan_date = #{planDate}</if>
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="authDesc != null">and t.auth_desc = #{authDesc}</if>
+		<if test="fromDate!=null">and t.plan_date <![CDATA[   >=  ]]> #{fromDate}</if>
+		<if test="toDate!=null">and t.plan_date <![CDATA[   <=  ]]> #{toDate}</if>
+		
+		
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanUserDayMap">
+		select
+		<include refid="cols" />
+		from plan_userday t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="context != null">and t.context = #{context}</if>
+		<if test="status != null">and t.status = #{status}</if>
+		<if test="planDate != null">and t.plan_date = #{planDate}</if>
+		<if test="authState != null">and t.auth_state = #{authState}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="authDesc != null">and t.auth_desc = #{authDesc}</if>
+		<if test="fromDate!=null">and t.plan_date <![CDATA[   >=  ]]> #{fromDate}</if>
+		<if test="toDate!=null">and t.plan_date <![CDATA[   <=  ]]> #{toDate}</if>
+	</select>
+	
+	<select id="findUsersPlanId" parameterType="map" resultType="string">
+		SELECT
+				id 
+			FROM
+				plan_userday
+			WHERE
+				org_id = #{orgId}
+				<if test="userIds != null and userIds.size()>0">
+					AND user_id in 
+					<foreach collection="userIds" item="item" index="index" open="(" separator="," close=")">
+						#{item}
+					</foreach> 
+				</if>
+				
+				<if test="fromDate!=null">and plan_date <![CDATA[   >=  ]]> #{fromDate}</if>
+				<if test="toDate!=null">and plan_date <![CDATA[   <=  ]]> #{toDate}</if>
+				<if test="authState != null and authState != ''">
+					AND auth_state = #{authState} 
+				</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_userday
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="groupId != null">group_id = #{groupId},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="context != null">context = #{context},</if>
+		<if test="status != null">status = #{status},</if>
+		<if test="planDate != null">plan_date = #{planDate},</if>
+		<if test="authState != null">auth_state = #{authState},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		<if test="authDesc != null">auth_desc = #{authDesc},</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<select id="queryPlanUserAccs" resultType="String">
+		select t.USER_ACCOUNT from auth_user t
+		where 1=1
+		and t.org_id=#{orgId}
+		<if test="userIds !=null and userIds.size()>0">
+			<foreach collection="userIds" item="userId" open="and (" close=")" separator="or">
+				t.user_id =#{userId}
+			</foreach>
+		</if>
+		and t.user_id not in (
+		select t1.user_id from plan_userday t1 
+		where 1=1
+		and t1.org_id=#{orgId}
+		and t1.is_del = 0
+		and t1.plan_date <![CDATA[   >=  ]]> #{fromDate}
+		and t1.plan_date <![CDATA[   <=  ]]> #{toDate}
+		<if test="status != null">and t1.status=#{status}</if>
+		<if test="authState != null">and t1.auth_state=#{authState}</if>
+		)
+	</select>
+	
+	<!-- 更新计划是否删除-->
+	<update id="updateIsDel" >
+		update plan_userday set is_del=#{isDel} ,updatetime =#{time}
+		where 1=1
+		and org_id=#{orgId}
+		and id=#{id}
+	</update>
+	<!-- 更新上报状态-->
+	<update id="updateStatus" >
+		update plan_userday set status=#{status}, auth_state=#{authState},updatetime =#{time}
+		where 1=1
+		and org_id=#{orgId}
+		and id=#{id}
+	</update>
+	<!-- 更新审核状态-->
+	<update id="updateAuthState" >
+		update plan_userday set auth_state=#{authState} ,auth_desc = #{authDesc},updatetime =#{time}
+		where 1=1
+		and org_id=#{orgId}
+		and id in 
+		<foreach collection="ids" item="id"  open="(" separator="," close=")">  
+        #{id}  
+     	</foreach>  
+		
+	</update>
+	
+	<update id="sysAuth" >
+		update plan_userday set auth_state=1 ,updatetime =#{updatetime}
+		where 1=1
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		and status = 1 and auth_state = 0
+		and plan_date <![CDATA[   >=  ]]> #{fromDate}
+		and plan_date <![CDATA[   <=  ]]> #{toDate}
+	</update>
+	
+	 <!-- 插入 -->
+	<insert id="insert"  parameterType="com.qftx.tsm.plan.user.day.bean.PlanUserDayBean">
+	insert into plan_userday(id,org_id,group_id,user_id,context,status,plan_date,auth_state,updatetime,inputtime,is_del,auth_desc)
+	values(#{id},#{orgId},#{groupId},#{userId},#{context},#{status},#{planDate},#{authState},#{updatetime},#{inputtime},#{isDel},#{authDesc})
+ 	</insert>
+    
+   	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_userday(id,org_id,group_id,user_id,context,status,plan_date,auth_state,updatetime,inputtime,is_del,auth_desc)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.groupId},#{bean.userId},#{bean.context},#{bean.status},#{bean.planDate},#{bean.authState},#{bean.updatetime},#{bean.inputtime},#{bean.isDel},#{bean.authDesc})
+    </foreach>
+    </insert>
+    
+    <resultMap type="com.qftx.tsm.plan.user.day.dto.TeamDayPlanReportDto" id="ReportMap">
+    	<result column="group_id" property="groupId" jdbcType="VARCHAR"/>
+    	<result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+    	<result column="not_report" property="notReport" jdbcType="DECIMAL"/>
+    	<result column="checked_plan" property="checkedPlan" jdbcType="DECIMAL"/>
+    	<result column="unchecked_plan" property="uncheckedPlan" jdbcType="DECIMAL"/>
+    </resultMap>
+	
+	<select id="delPlanCust" resultType="String">
+		update
+		<choose>
+			<when test="type =='res'.toString()">plan_userday_resource</when>
+			<when test="type =='will'.toString()">plan_userday_willcust</when>
+			<otherwise>plan_userday_signcust</otherwise>
+		</choose> t
+		set is_del =1 ,updatetime =#{updatetime}
+		where t.org_id=#{orgId} and t.is_del=0 and t.sud_id = #{sudId} and t.cust_id = #{custId}
+	</select>
+    
+    <select id="findTeamTomorrowPlans" parameterType="map" resultMap="ReportMap">
+    	 SELECT Z.group_id,
+	    		Z.GROUP_NAME,
+	    		IFNULL(W.not_report,0) not_report,
+	    		IFNULL(W.checked_plan,0) checked_plan,
+	    		IFNULL(W.unchecked_plan,0) unchecked_plan 
+	    		FROM (SELECT
+							t.group_id,
+							SUM((CASE t.status WHEN 0 THEN 1 ELSE 0 END)) not_report,
+							SUM((CASE WHEN t.status = 1 AND t.auth_state in (1,2) THEN 1 ELSE 0 END)) checked_plan,
+							SUM((CASE WHEN T.status = 1 AND t.auth_state = 0 THEN 1 ELSE 0 END)) unchecked_plan
+						FROM
+							plan_userday t 
+						WHERE t.org_id = #{orgId}  
+						AND DATE_FORMAT(t.plan_date,'%Y-%m-%d') = #{planDate}
+						AND t.group_id IN (
+								SELECT
+									tgs.GROUP_ID
+								FROM
+									tsm_group_shareinfo tgs 
+									LEFT JOIN tsm_team_group ttg on ttg.org_id = #{orgId} and tgs.group_id = ttg.group_id 
+								WHERE tgs.org_id=#{orgId} and ttg.is_del = 0 and 
+									tgs.share_acc = #{shareAcc}  
+							) GROUP BY t.group_id) W RIGHT JOIN
+						 		(SELECT
+									tgs.GROUP_ID,
+									ttg.GROUP_NAME 
+								FROM
+									tsm_group_shareinfo tgs 
+								LEFT JOIN tsm_team_group ttg on  tgs.org_id=#{orgId} AND ttg.org_id=#{orgId} AND tgs.GROUP_ID = ttg.GROUP_ID
+								WHERE tgs.org_id=#{orgId} and ttg.is_del = 0 AND
+									tgs.share_acc = #{shareAcc}) Z 
+					ON W.group_id = Z.GROUP_ID 
+    </select>
+    
+    <select id="findTeamNotReportNums" parameterType="map" resultMap="ReportMap">
+    	SELECT
+			ttgm.group_id,
+			count(1) not_report 
+		FROM
+			tsm_group_shareinfo tgs
+		LEFT JOIN tsm_team_group_member ttgm ON  TGS.ORG_ID= #{orgId} and TTGM.ORG_ID= #{orgId} and  tgs.group_id = ttgm.group_id
+		LEFT JOIN auth_user au ON ttgm.member_acc = au.user_account 
+		LEFT JOIN tsm_team_group ttg on ttg.org_id = #{orgId} and tgs.group_id = ttg.group_id 
+		WHERE 	tgs.org_id = #{orgId} 
+		AND ttg.is_del = 0 
+		AND tgs.share_acc = #{shareAcc} 
+		AND au.user_id NOT IN (
+			SELECT
+				t.user_id
+			FROM
+				plan_userday t
+			WHERE
+				t.org_id = #{orgId} 
+			AND DATE_FORMAT(t.plan_date, '%Y-%m-%d') = #{planDate} 
+			AND t.group_id IN (
+				SELECT
+					tgs.GROUP_ID
+				FROM
+					tsm_group_shareinfo tgs
+				WHERE
+					tgs.org_id = #{orgId} 
+				AND tgs.share_acc = #{shareAcc} 
+			)
+		)
+		GROUP BY
+			ttgm.group_id
+    </select>
+</mapper>

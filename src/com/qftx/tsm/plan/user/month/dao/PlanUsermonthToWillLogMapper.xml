@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qftx.tsm.plan.user.month.dao.PlanUsermonthToWillLogMapper">
+	<sql id="cols">
+	t.id,t.org_id,t.group_id,t.user_id,t.will_num,t.updatetime,t.inputtime,t.is_del
+	</sql>
+
+	<resultMap type="com.qftx.tsm.plan.user.month.bean.PlanUsermonthToWillLogBean" id="PlanUsermonthToWillLogMap">
+		<result column="id" property="id"/>
+		<result column="org_id" property="orgId"/>
+		<result column="group_id" property="groupId"/>
+		<result column="user_id" property="userId"/>
+		<result column="will_num" property="willNum"/>
+		<result column="updatetime" property="updatetime"/>
+		<result column="inputtime" property="inputtime"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<!-- 查询-->
+	<select id="findSumFact" resultMap="PlanUsermonthToWillLogMap">
+		select ifnull(sum(t.will_num),0)as will_num  from plan_usermonth_to_will_log t
+		where 1=1
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="willNum != null">and t.will_num = #{willNum}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+		<if test="userIds!=null and userIds.length>0">
+		<foreach collection="userIds" item="uid"  open="and ("  separator="or" close=")">
+			t.user_id = #{uid}
+		</foreach>
+		</if>
+		<if test="fromDate != null">AND t.INPUTTIME <![CDATA[ >=]]> #{fromDate,jdbcType=TIMESTAMP} </if>
+		<if test="toDate != null">AND t.INPUTTIME <![CDATA[ <=]]> #{toDate,jdbcType=TIMESTAMP} </if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findByCondtion" resultMap="PlanUsermonthToWillLogMap">
+		select
+		<include refid="cols" />
+		from plan_usermonth_to_will_log t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="willNum != null">and t.will_num = #{willNum}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="findListPage" resultMap="PlanUsermonthToWillLogMap">
+		select
+		<include refid="cols" />
+		from plan_usermonth_to_will_log t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="willNum != null">and t.will_num = #{willNum}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 查询-->
+	<select id="getByCondtion" resultMap="PlanUsermonthToWillLogMap">
+		select
+		<include refid="cols" />
+		from plan_usermonth_to_will_log t
+		where 1=1
+		<if test="id != null">and t.id = #{id}</if>
+		<if test="orgId != null">and t.org_id = #{orgId}</if>
+		<if test="groupId != null">and t.group_id = #{groupId}</if>
+		<if test="userId != null">and t.user_id = #{userId}</if>
+		<if test="willNum != null">and t.will_num = #{willNum}</if>
+		<if test="updatetime != null">and t.updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and t.inputtime = #{inputtime}</if>
+		<if test="isDel != null">and t.is_del = #{isDel}</if>
+	</select>
+	
+	<!-- 动态更新 -->
+	<update id="updateTrends">
+		update plan_usermonth_to_will_log
+		<set>
+		<if test="id != null">id = #{id},</if>
+		<if test="orgId != null">org_id = #{orgId},</if>
+		<if test="groupId != null">group_id = #{groupId},</if>
+		<if test="userId != null">user_id = #{userId},</if>
+		<if test="willNum != null">will_num = #{willNum},</if>
+		<if test="updatetime != null">updatetime = #{updatetime},</if>
+		<if test="inputtime != null">inputtime = #{inputtime},</if>
+		<if test="isDel != null">is_del = #{isDel},</if>
+		</set>
+		where 1=1
+		<if test="id != null">and id = #{id}</if>
+		<if test="orgId != null">and org_id = #{orgId}</if>
+		<if test="groupId != null">and group_id = #{groupId}</if>
+		<if test="userId != null">and user_id = #{userId}</if>
+		<if test="willNum != null">and will_num = #{willNum}</if>
+		<if test="updatetime != null">and updatetime = #{updatetime}</if>
+		<if test="inputtime != null">and inputtime = #{inputtime}</if>
+		<if test="isDel != null">and is_del = #{isDel}</if>
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="com.qftx.tsm.plan.user.month.bean.PlanUsermonthToWillLogBean">
+	insert into plan_usermonth_to_will_log(id,org_id,group_id,user_id,will_num,updatetime,inputtime,is_del)
+	values(#{id},#{orgId},#{groupId},#{userId},#{willNum},#{updatetime},#{inputtime},#{isDel})
+	</insert>
+	
+	<insert id="insertBatch" parameterType="ArrayList">  
+    insert into plan_usermonth_to_will_log(id,org_id,group_id,user_id,will_num,updatetime,inputtime,is_del)
+    values
+    <foreach collection="list" item="bean" separator=",">
+    	(#{bean.id},#{bean.orgId},#{bean.groupId},#{bean.userId},#{bean.willNum},#{bean.updatetime},#{bean.inputtime},#{bean.isDel})
+    </foreach>
+    </insert>
+
+</mapper>

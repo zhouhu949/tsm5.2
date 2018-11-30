@@ -1,0 +1,29 @@
+.sign-in-track-box{
+	padding:10px;
+}
+.sign-in-track-head{
+	height:50px;
+}
+.sign-in-track-body-map-box{
+	height:400px;
+}
+.sign-in-track-foot-table-box{
+	margin-top:20px;
+}
+.sign-in-track-head label.fl_l{
+	line-height:25px;
+	height:25px;
+}
+audio{
+	width:100px;
+}
+.play-record,
+.img-details{
+	font-size:16px;
+	color:#0f5aac;
+	cursor:pointer;
+}
+.color_grey.silent-week,
+.color_grey.silent-month{
+	color:#000;
+}
